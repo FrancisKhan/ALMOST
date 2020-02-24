@@ -1,0 +1,45 @@
+% URRb-H20a(l)-2-0-SL
+
+geometry  slab
+albedo    0.0
+energies  2
+
+mesh 50 1.126152 M2 50 13.393604 M1 50 1.126152 M2
+
+material M1
+
+ni(1) 2.50
+ni(2) 2.50
+
+chi(1) 1.0
+chi(2) 0.0
+
+fission(1) 0.000836
+fission(2) 0.029564
+
+total(1) 0.88721
+total(2) 2.9727
+
+scattMatrix(1, 1) 0.83892
+scattMatrix(1, 2) 0.04635
+scattMatrix(2, 1) 0.000767
+scattMatrix(2, 2) 2.9183
+
+material M2
+
+ni(1) 0.0
+ni(2) 0.0
+
+chi(1) 0.0
+chi(2) 0.0
+
+fission(1) 0.002817
+fission(2) 0.097
+
+total(1) 0.88798
+total(2) 2.9865
+
+scattMatrix(1, 1) 0.83975
+scattMatrix(1, 2) 0.04749
+scattMatrix(2, 1) 0.000336
+scattMatrix(2, 2) 2.9676

@@ -1,0 +1,23 @@
+% PUa-H20(0.5)-l-0-SL
+
+geometry  slab
+albedo    0.0
+energies  1
+
+mesh 10 1.531863 M2 12 2.63566 M1 10 1.531863 M2
+
+material M1
+
+ni(1) 3.24
+chi(1) 1.0
+fission(1) 0.081600
+total(1) 0.32640
+scattMatrix(1, 1) 0.225216
+
+material M2
+
+ni(1) 0.0
+chi(1) 0.0
+fission(1) 0.0
+total(1) 0.32640
+scattMatrix(1, 1) 0.293760

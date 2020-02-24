@@ -1,0 +1,15 @@
+% Pub-l-0-SL
+
+geometry  slab
+albedo    0.0
+energies  1
+
+mesh 9 4.513502 M1
+
+material M1
+
+ni(1) 2.84
+chi(1) 1.0
+fission(1) 0.081600
+total(1) 0.32640
+scattMatrix(1, 1) 0.225216

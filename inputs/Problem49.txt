@@ -1,0 +1,26 @@
+% U-2-o-SP
+
+geometry  sphere
+albedo    0.0
+energies  2
+
+mesh 10 7.909444 M1
+
+material M1
+
+ni(1) 2.70
+ni(2) 2.50
+
+chi(1) 0.575
+chi(2) 0.425
+
+fission(1) 0.06192
+fission(2) 0.06912
+
+total(1) 0.2160
+total(2) 0.3456
+
+scattMatrix(1, 1) 0.078240
+scattMatrix(1, 2) 0.0720
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 0.26304

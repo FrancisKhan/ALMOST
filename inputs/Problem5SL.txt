@@ -1,0 +1,15 @@
+% PUb-l-O-IN
+
+geometry  slab
+albedo    1.0
+energies  1
+
+mesh 10 10.0 M1
+
+material M1
+
+ni(1) 2.84
+chi(1) 1.0
+fission(1) 0.081600
+total(1) 0.32640
+scattMatrix(1, 1) 0.225216

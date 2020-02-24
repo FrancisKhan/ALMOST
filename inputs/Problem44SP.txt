@@ -1,0 +1,27 @@
+% PU-2-O-IN
+
+geometry  sphere
+albedo    1.0
+energies  2
+
+mesh 10 10.0 M1
+
+material M1
+
+ni(1) 3.10
+ni(2) 2.93
+
+chi(1) 0.575
+chi(2) 0.425
+
+fission(1) 0.0936
+fission(2) 0.08544
+
+total(1) 0.2208
+total(2) 0.3360
+
+scattMatrix(1, 1) 0.0792
+scattMatrix(1, 2) 0.0432
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 0.23616
+

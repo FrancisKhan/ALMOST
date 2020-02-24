@@ -1,0 +1,23 @@
+% Ub-H20(1)-l-0-SP
+
+geometry  sphere
+albedo    0.0
+energies  1
+
+mesh 12 6.12745 M1 10 3.063725 M2
+
+material M1
+
+ni(1) 2.797101
+chi(1) 1.0
+fission(1) 0.065280
+total(1) 0.32640
+scattMatrix(1, 1) 0.248064
+
+material M2
+
+ni(1) 0.0
+chi(1) 0.0
+fission(1) 0.0
+total(1) 0.32640
+scattMatrix(1, 1) 0.293760

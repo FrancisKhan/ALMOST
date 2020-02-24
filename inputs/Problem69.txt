@@ -1,0 +1,26 @@
+% UD20-2-O-SP
+
+geometry  sphere
+albedo    0.0
+energies  2
+
+mesh 20 1695.337621 M1
+
+material M1
+
+ni(1) 2.50
+ni(2) 2.50
+
+chi(1) 1.0
+chi(2) 0.0
+
+fission(1) 0.002817
+fission(2) 0.097
+
+total(1) 0.33588
+total(2) 0.54628
+
+scattMatrix(1, 1) 0.31980
+scattMatrix(1, 2) 0.004555
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 0.42410

@@ -1,0 +1,24 @@
+% Pub-H20(1)-I-0-CY
+
+geometry  cylinder
+albedo    0.0
+energies  1
+
+mesh 6 3.39761 M1 7 3.063725 M2
+
+material M1
+
+ni(1) 2.84
+chi(1) 1.0
+fission(1) 0.081600
+total(1) 0.32640
+scattMatrix(1, 1) 0.225216
+
+material M2
+
+ni(1) 0.0
+chi(1) 0.0
+fission(1) 0.0
+total(1) 0.32640
+scattMatrix(1, 1) 0.293760
+

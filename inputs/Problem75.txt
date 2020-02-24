@@ -1,0 +1,75 @@
+% URR-3-O-IN
+
+geometry  cylinder
+albedo    1.0
+energies  6
+
+mesh 10 10.0 M1
+
+material M1
+
+ni(1) 3.00
+ni(2) 2.50
+ni(3) 2.00
+ni(4) 2.00
+ni(5) 2.50
+ni(6) 3.00
+
+chi(1) 0.48
+chi(2) 0.02
+chi(3) 0.00
+chi(4) 0.00
+chi(5) 0.02
+chi(6) 0.48
+
+fission(1) 0.006
+fission(2) 0.060
+fission(3) 0.900
+fission(4) 0.900
+fission(5) 0.060
+fission(6) 0.006
+
+total(1) 0.240
+total(2) 0.975
+total(3) 3.100
+total(4) 3.100
+total(5) 0.975
+total(6) 0.240
+
+scattMatrix(1, 1) 0.024
+scattMatrix(1, 2) 0.171
+scattMatrix(1, 3) 0.033
+scattMatrix(1, 4) 0.0
+scattMatrix(1, 5) 0.0
+scattMatrix(1, 6) 0.0
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 0.60
+scattMatrix(2, 3) 0.275
+scattMatrix(2, 4) 0.0
+scattMatrix(2, 5) 0.0
+scattMatrix(2, 6) 0.0
+scattMatrix(3, 1) 0.0
+scattMatrix(3, 2) 0.0
+scattMatrix(3, 3) 2.0
+scattMatrix(3, 4) 0.0
+scattMatrix(3, 5) 0.0
+scattMatrix(3, 6) 0.0
+scattMatrix(4, 1) 0.0
+scattMatrix(4, 2) 0.0
+scattMatrix(4, 3) 0.0
+scattMatrix(4, 4) 2.0
+scattMatrix(4, 5) 0.0
+scattMatrix(4, 6) 0.0
+scattMatrix(5, 1) 0.0
+scattMatrix(5, 2) 0.0
+scattMatrix(5, 3) 0.0
+scattMatrix(5, 4) 0.275
+scattMatrix(5, 5) 0.60
+scattMatrix(5, 6) 0.0
+scattMatrix(6, 1) 0.0
+scattMatrix(6, 2) 0.0
+scattMatrix(6, 3) 0.0
+scattMatrix(6, 4) 0.033
+scattMatrix(6, 5) 0.171
+scattMatrix(6, 6) 0.024
+
