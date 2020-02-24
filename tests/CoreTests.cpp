@@ -94,7 +94,7 @@ TEST_F(KineticsTests, coreTest2)
 
   Kinetics kin(lambda, beta, alpha, power);
 
-  double betaT = std::accumulate (beta.begin(), beta.end(), 0.0);
+  double betaT = std::accumulate(beta.begin(), beta.end(), 0.0);
   double rho;
 
   for (unsigned i = 0; i < 25; i++)
@@ -121,7 +121,7 @@ TEST_F(KineticsTests, coreTest3)
 
   Kinetics kin(lambda, beta, alpha, power);
 
-  double betaT = std::accumulate (beta.begin(), beta.end(), 0.0);
+  double betaT = std::accumulate(beta.begin(), beta.end(), 0.0);
   double rho;
 
   for (unsigned i = 0; i < 55; i++)
@@ -142,7 +142,7 @@ TEST_F(KineticsTests, coreTest4)
 
   std::vector<double> lambda = {0.405249};
   std::vector<double> beta6g = {0.000215, 0.001424, 0.001274, 0.002568, 0.000748, 0.000273};
-  double betaDouble = std::accumulate (beta6g.begin(), beta6g.end(), 0.0);
+  double betaDouble = std::accumulate(beta6g.begin(), beta6g.end(), 0.0);
   std::vector<double> beta = {betaDouble};
 
   double alpha  = 0.0005;
@@ -171,7 +171,7 @@ TEST_F(KineticsTests, coreTest5)
 
   std::vector<double> lambda = {0.076690};
   std::vector<double> beta6g = {0.000215, 0.001424, 0.001274, 0.002568, 0.000748, 0.000273};
-  double betaDouble = std::accumulate (beta6g.begin(), beta6g.end(), 0.0);
+  double betaDouble = std::accumulate(beta6g.begin(), beta6g.end(), 0.0);
   std::vector<double> beta = {betaDouble};
 
   double alpha  = 0.0005;
@@ -203,7 +203,7 @@ TEST_F(KineticsTests, coreTest6)
 
   Kinetics kin(lambda, beta, alpha, power);
 
-  double betaT = std::accumulate (beta.begin(), beta.end(), 0.0);
+  double betaT = std::accumulate(beta.begin(), beta.end(), 0.0);
   double rho;
 
   for (unsigned i = 0; i < 21; i++)
@@ -227,7 +227,7 @@ TEST_F(KineticsTests, coreTest7)
 
   Kinetics kin(lambda, beta, alpha, power);
 
-  double betaT = std::accumulate (beta.begin(), beta.end(), 0.0);
+  double betaT = std::accumulate(beta.begin(), beta.end(), 0.0);
   double rho;
 
   for (unsigned i = 0; i < 201; i++)
