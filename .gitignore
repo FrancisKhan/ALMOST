@@ -42,3 +42,7 @@ _deps
 *.exe
 *.out
 *.app
+
+DartConfiguration.tcl
+app/app
+tests/test_cpm
