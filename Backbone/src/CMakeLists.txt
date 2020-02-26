@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.10)
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(backbone_library numeric_tools.cpp  AbstractMaterial.cpp
-			Mesh.cpp Output.cpp Input.cpp Uranium.cpp
+			Mesh.cpp Output.cpp Input.cpp Uranium.cpp KineticsSet.cpp
 			AbstractGeometry.cpp Cylinder.cpp Sphere.cpp Slab.cpp
 			AbstractSolver.cpp Library.cpp CrossSectionSet.cpp)
 

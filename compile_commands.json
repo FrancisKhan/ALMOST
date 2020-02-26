@@ -31,6 +31,11 @@
 },
 {
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/KineticsSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/KineticsSet.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/src/KineticsSet.cpp"
+},
+{
+  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
   "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/AbstractGeometry.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/AbstractGeometry.cpp",
   "file": "/mnt/c/C++/ALMOST/Backbone/src/AbstractGeometry.cpp"
 },
