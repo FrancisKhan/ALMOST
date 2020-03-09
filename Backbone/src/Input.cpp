@@ -2,7 +2,7 @@
 #include "Mesh.h"
 #include "Output.h"
 #include "GeomKind.h"
-#include "numeric_tools.h"
+#include "KineticsSet.h"
 #include "CrossSectionSet.h"
 #include "MaterialKind.h"
 
@@ -73,9 +73,10 @@ void Input::readData()
 	
 	setGeometryKind();
 	setMesh();
-	setEnergies();
+    setEnergies();
 	setAlbedo();
 	setMaterials();
+	//setKineticsParameters();
 	
 	inFile.close();
 }
@@ -165,42 +166,43 @@ std::vector<std::string> Input::splitLine(std::string line)
 
 void Input::setGeometryKind()
 { 
-   std::vector<std::string> words = splitLine(findKeyword("geometry"));
+   std::string geometry = getOneParameter("geometry");
    
-   if(words.size() == 1)
-   {
-	   out.getLogger()->error("{} is missing its parameter!", words[0]);
+   if(geometry == "cylinder") 
+	{
+	   m_problem.setMeshKind(GeomKind::CYLINDER);
+	   out.getLogger()->info("Geometry: Cylindrical \n");
+	}
+	else if(geometry == "sphere") 
+	{
+	   m_problem.setMeshKind(GeomKind::SPHERE);
+	   out.getLogger()->info("Geometry: Spherical \n");
+	}
+	else if(geometry == "slab") 
+	{
+	   m_problem.setMeshKind(GeomKind::SLAB);
+	   out.getLogger()->info("Geometry: Cartesian \n");
+	}
+	else
+	{
+	   out.getLogger()->error("Geometry: {} not recognized!", geometry);
 	   exit(-1);
-   }
-   else if(words.size() == 2)
-   {
-	   if(words[1] == "cylinder") 
-	   {
-		   m_problem.setMeshKind(GeomKind::CYLINDER);
-	   	   out.getLogger()->info("Geometry: Cylindrical \n");
-	   }
-	   else if(words[1] == "sphere") 
-	   {
-		   m_problem.setMeshKind(GeomKind::SPHERE);
-	   	   out.getLogger()->info("Geometry: Spherical \n");
-	   }
-	   else if(words[1] == "slab") 
-	   {
-		   m_problem.setMeshKind(GeomKind::SLAB);
-	   	   out.getLogger()->info("Geometry: Cartesian \n");
-	   }
-	   else
-	   {
-	   	   out.getLogger()->error("Geometry: {} not recognized!", words[1]);
-		   exit(-1);
-	   }
-   }
-   else
-   {
-	   out.getLogger()->error("{}  has too many parameters!", words[0]);
-	   exit(-1);
-   }
+	}
 } 
+
+void Input::setEnergies()
+{
+	std::string energies = getOneParameter("energies");
+	m_problem.setEnergyGroupsNumber(std::stoi(energies));
+	out.getLogger()->info("{} value: {} \n", "energies", energies);
+}
+
+void Input::setAlbedo()
+{
+	std::string albedo = getOneParameter("albedo");
+	m_problem.setAlbedo(std::stod(albedo));
+	out.getLogger()->info("{} value: {} \n", "albedo", albedo);
+}
 
 bool Input::isFloat(const std::string& s)
 {
@@ -268,228 +270,247 @@ bool Input::isString(const std::string& s)
 
 void Input::setMesh()
 { 
-   std::vector<std::string> words = splitLine(findKeyword("mesh"));
+    std::vector<std::string> values = getManyParameter("mesh");
    
-   if(words.size() == 1)
-   {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
-	   exit(-1);
-   }
-   else
-   {
-      int maxNumberMeshes = 0;
-      
-	  for(auto i : words)
+    std::vector<unsigned> regionNumber = {0};
+	std::vector<double> regionDistance = {0.0};
+	std::vector<std::string> regionMaterial;
+
+	for(size_t i = 0; i < values.size(); i++)
+	{
+      switch (i % 3)
 	  {
-		  if(isInteger(i)) maxNumberMeshes += std::stoi(i); 
+		  case 0:
+		  	if(isInteger(values[i])) regionNumber.push_back(std::stoi(values[i]));
+		  	break;
+		  case 1:
+		  	if(isFloat(values[i])) regionDistance.push_back(std::stod(values[i]));
+		  	break;
+		  case 2:
+		  	if(isString(values[i]))  regionMaterial.push_back(values[i]);
+		  	break;
 	  }
+	}
 
-      std::vector<unsigned> regionNumber = {0};
-	  std::vector<double> regionDistance = {0.0};
-	  std::vector<std::string> regionMaterial;
+	int maxNumberMeshes = std::accumulate(regionNumber.begin(), regionNumber.end(), 0);
+	Eigen::VectorXd boundaries = Eigen::VectorXd::Zero(maxNumberMeshes + 1);
 
-	  for(size_t i = 1; i < words.size(); i++)
-	  {
-		  if(isInteger(words[i])) regionNumber.push_back(std::stoi(words[i]));
-		  if(isFloat(words[i]))  regionDistance.push_back(std::stod(words[i]));
-		  if(isString(words[i])) regionMaterial.push_back(words[i]);
-	  }
+    double distanceSum  = 0.0;
+	size_t indexCounter = 0;
 
-	  Eigen::VectorXd boundaries = Eigen::VectorXd::Zero(maxNumberMeshes + 1);
+	for(size_t i = 1; i < regionNumber.size(); i++)
+	{
+      size_t lastValue = 1 ? i == regionNumber.size() - 1 : 0;
 
-      double distanceSum  = 0.0;
-	  size_t indexCounter = 0;
+		for(size_t j = 0; j < regionNumber[i] + lastValue; j++)
+		{
+		  boundaries(indexCounter) = j * regionDistance[i] / regionNumber[i] + distanceSum;
+		  indexCounter++;
+		}
+		  
+		distanceSum += regionDistance[i];
+	}
 
-	  for(size_t i = 1; i < regionNumber.size(); i++)
-	  {
-          size_t lastValue = 1 ? i == regionNumber.size() - 1 : 0;
+	out.getLogger()->info("Boundaries:");
+	printVector(boundaries, out, TraceLevel::INFO);
+	m_problem.setBoundaries(boundaries);
 
-		  for(size_t j = 0; j < regionNumber[i] + lastValue; j++)
-		  {
-			  boundaries(indexCounter) = j * regionDistance[i] / regionNumber[i] + distanceSum;
-			  indexCounter++;
-		  }
+    Eigen::VectorXd volumes = m_problem.getVolumes();
+	out.getLogger()->info("Volumes:");
+    printVector(volumes, out, TraceLevel::INFO);
 
-		  distanceSum += regionDistance[i];
-	  }
+	for(size_t i = 1; i < regionNumber.size(); i++)
+	{
+		for(size_t j = 0; j < regionNumber[i]; j++)
+	    {
+		  m_materialMap.push_back(regionMaterial[i - 1]);
+		}
+	}
 
-	  out.getLogger()->info("Boundaries:");
-	  printVector(boundaries, out, TraceLevel::INFO);
-	  m_problem.setBoundaries(boundaries);
+	out.getLogger()->info("Meshes:");
+	printVector(m_materialMap, out, TraceLevel::INFO);
 
-      Eigen::VectorXd volumes = m_problem.getVolumes();
-	  out.getLogger()->info("Volumes:");
-      printVector(volumes, out, TraceLevel::INFO);
+	std::sort(regionMaterial.begin(), regionMaterial.end());
+    regionMaterial.erase(std::unique(regionMaterial.begin(), 
+                         regionMaterial.end()), regionMaterial.end());
 
-	  for(size_t i = 1; i < regionNumber.size(); i++)
-	  {
-		  for(size_t j = 0; j < regionNumber[i]; j++)
-	      {
-		      m_materialMap.push_back(regionMaterial[i - 1]);
-		  }
-	  }
-
-	  out.getLogger()->info("Meshes:");
-	  printVector(m_materialMap, out, TraceLevel::INFO);
-
-	  std::sort(regionMaterial.begin(), regionMaterial.end());
-      regionMaterial.erase(std::unique(regionMaterial.begin(), 
-	                       regionMaterial.end()), regionMaterial.end());
-
-	  m_materialList = regionMaterial;
-   }
-} 
-
-void Input::setEnergies()
-{ 
-   std::vector<std::string> words = splitLine(findKeyword("energies"));
-   
-   if(words.size() == 1)
-   {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
-	   exit(-1);
-   }
-   else if(words.size() == 2)
-   {
-       unsigned energies = std::stoi(words[1]);
-	   m_problem.setEnergyGroupsNumber(energies);
-	   out.getLogger()->info("Energy groups: {} \n", energies);
-   }
-   else
-   {
-	   out.getLogger()->error("{}  has too many parameters!", words[0]);
-	   exit(-1);
-   }
-} 
-
-void Input::setAlbedo()
-{ 
-   std::vector<std::string> words = splitLine(findKeyword("albedo"));
-   
-   if(words.size() == 1)
-   {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
-	   exit(-1);
-   }
-   else if(words.size() == 2)
-   {
-	   double albedo = std::stod(words[1]);
-	   m_problem.setAlbedo(std::stod(words[1]));
-	   out.getLogger()->info("Albedo factor: {} \n", albedo);
-   }
-   else
-   {
-	   out.getLogger()->error("{}  has too many parameters!", words[0]);
-	   exit(-1);
-   }
-} 
+	m_materialList = regionMaterial;
+}  
 
 void Input::setMaterials()
 { 
-   unsigned energies = m_problem.getEnergyGroupsNumber();
-   unsigned cells    = m_problem.getCellsNumber();
-   
-   CrossSectionSet XSSet;
-   
-   MatrixXd ni      = MatrixXd::Zero(energies, cells);
-   MatrixXd chi     = MatrixXd::Zero(energies, cells);
-   MatrixXd fission = MatrixXd::Zero(energies, cells);
-   MatrixXd total   = MatrixXd::Zero(energies, cells);
+   m_energies = m_problem.getEnergyGroupsNumber();
+   m_cells    = m_problem.getCellsNumber();
+
+   // getBlock lines and pass them to the methods
+
+   MatrixXd ni      = getXS("ni");
+   MatrixXd chi     = getXS("chi");
+   MatrixXd fission = getXS("fission");
+   MatrixXd total   = getXS("total");	
+
+   Tensor3d scattMatrix = getMatrixXS("scattMatrix");
 
    std::vector<MaterialKind> matProperties;
-   
-   Tensor3d scattMatrix = Tensor3d(energies, energies, cells);
-   scattMatrix.setZero();
-   
-   std::vector<std::string> words;
 
-   for (auto matListItem : m_materialList)
-   {
-	   std::string matStr = "material";
-	   words = splitLine(findKeyword(matStr + " " + matListItem));
-       std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+//    for (auto matListItem : m_materialList)
+//    {
+//        for(unsigned m = 0; m < m_cells; m++)
+//        {
+//             if (m_materialMap[m] != matListItem) continue;
+// 			getMatProperties(matBlock, matProperties);			
+//        }    
+//    }
+   
+   CrossSectionSet XSSet;
 
-       if(words.size() == 2)
-       {
-		  // out.getLogger()->info("Material: {} found", words[1]);
-       }
-       else
-       {
-		   out.getLogger()->error("{} has too many parameters!", words[0]);
-	       exit(-1);
-       }
-   
-       for(unsigned m = 0; m < cells; m++)
-       {
-            if (m_materialMap[m] != matListItem) continue;
-
-			std::string propertiesStr = "properties";
-	        std::vector<std::string> propertiess = splitLine(findKeyword(propertiesStr, matBlock.first, matBlock.second));
-
-            if (propertiess[1] == "u")
-			{
-				matProperties.push_back(MaterialKind::U);
-			}
-			else
-			{
-				out.getLogger()->error("There are no material properties for {}!", propertiess[1]);
-	            exit(-1);
-			}
-   
-            for (unsigned i = 1; i <= energies; i++)
-            {
-	            std::string niStr = "ni(" + std::to_string(i) + ")";
-	            std::vector<std::string> nis = splitLine(findKeyword(niStr, matBlock.first, matBlock.second));
-	            ni(i - 1, m) = std::stod(nis[1]);
-	   
-	            std::string chiStr = "chi(" + std::to_string(i) + ")";
-	            std::vector<std::string> chis = splitLine(findKeyword(chiStr, matBlock.first, matBlock.second));
-	            chi(i - 1, m) = std::stod(chis[1]);
-	   
-	            std::string fissionStr = "fission(" + std::to_string(i) + ")";
-	            std::vector<std::string> fissions = splitLine(findKeyword(fissionStr, matBlock.first, matBlock.second));
-	            fission(i - 1, m) = std::stod(fissions[1]);
-	   
-	            std::string totalStr = "total(" + std::to_string(i) + ")";
-	            std::vector<std::string> totals = splitLine(findKeyword(totalStr, matBlock.first, matBlock.second));
-	            total(i - 1, m) = std::stod(totals[1]);
-	        }
-
-			for (unsigned i = 1; i <= energies; i++)
-            {
-	            for (unsigned j = 1; j <= energies; j++)
-	            {	
-	                std::string scattStr = "scattMatrix(" + std::to_string(i) + ", " + std::to_string(j) + ")";
-	                std::vector<std::string> scatts = splitLine(findKeyword(scattStr, matBlock.first, matBlock.second));
-
-					scattMatrix(i - 1, j - 1, m) = std::stod(scatts[2]);			
-	            }
-            }
-       }    
-   }
-   
-   out.getLogger()->info("Ni");
-   printMatrix(ni, out, TraceLevel::INFO);
-   
-   out.getLogger()->info("Chi");
-   printMatrix(chi, out, TraceLevel::INFO);
-	
-   out.getLogger()->info("Fission");
-   printMatrix(fission, out, TraceLevel::INFO);
-	
-   out.getLogger()->info("Total");
-   printMatrix(total, out, TraceLevel::INFO);
-   
-   out.getLogger()->info("Scattering Matrix");
-   printMatrix(scattMatrix, out, TraceLevel::INFO, "Mesh");
-   
    XSSet.setNi(ni);
    XSSet.setChi(chi);
    XSSet.setFission(fission);
    XSSet.setTotal(total);
    XSSet.setScattMatrix(scattMatrix);
-	
    m_library.setCrossSectionSet(XSSet);
 
-   m_library.setMatProperties(matProperties);
+   //m_library.setMatProperties(matProperties);
 }
+
+MatrixXd Input::getXS(std::string name)
+{
+    MatrixXd xs = MatrixXd::Zero(m_energies, m_cells);
+
+	for (auto matListItem : m_materialList)
+    {
+        std::string matStr = "material";
+	    getOneParameter(matStr + " " + matListItem);
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+		for(unsigned m = 0; m < m_cells; m++)
+    	{
+			if (m_materialMap[m] != matListItem) continue;
+
+			for (unsigned i = 1; i <= m_energies; i++)
+   			{
+				std::string str = name + "(" + std::to_string(i) + ")";
+				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+				xs(i - 1, m) = std::stod(values[1]);
+			}
+		}
+	}
+
+    out.getLogger()->info(name);
+    printMatrix(xs, out, TraceLevel::INFO);
+
+	return xs;
+}
+
+Tensor3d Input::getMatrixXS(std::string name)
+{
+    Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
+    matrix.setZero();
+
+	for (auto matListItem : m_materialList)
+    {
+       std::string matStr = "material";
+	   getOneParameter(matStr + " " + matListItem);
+	   std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+		for(unsigned m = 0; m < m_cells; m++)
+    	{
+        	if (m_materialMap[m] != matListItem) continue;
+
+			for (unsigned i = 1; i <= m_energies; i++)
+    		{
+	    		for (unsigned j = 1; j <= m_energies; j++)
+	    		{
+					std::string str = name + "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
+					std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+					matrix(i - 1, j - 1, m) = std::stod(values[2]);
+				}
+			}
+		}
+	}
+
+	out.getLogger()->info(name);
+    printMatrix(matrix, out, TraceLevel::INFO, "Mesh");
+
+	return matrix;
+}
+
+std::string Input::getOneParameter(std::string name)
+{
+   std::string result = "";
+   std::vector<std::string> words = splitLine(findKeyword(name));
+   
+   if(words.size() == 1)
+   {
+	   out.getLogger()->error("{} is missing its parameters!", words[0]);
+	   exit(-1);
+   }
+   else if(words.size() == 2)
+   {
+	   return words[1];
+   }
+   else
+   {
+	   out.getLogger()->error("{}  has too many parameters!", words[0]);
+	   exit(-1);
+   }
+
+   return result;
+}
+
+std::vector<std::string> Input::getManyParameter(std::string name)
+{
+   std::vector<std::string> result;
+   std::vector<std::string> words = splitLine(findKeyword(name));
+   
+   if(words.size() == 1)
+   {
+	   out.getLogger()->error("{} is missing its parameters!", words[0]);
+	   exit(-1);
+   }
+   else
+   {
+	   result = std::vector<std::string>(words.begin() + 1, words.end());
+   }
+
+   return result;
+}
+
+void Input::getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matProperties)
+{ 
+   std::string propertiesStr = "properties";
+   std::vector<std::string> propertiess = splitLine(findKeyword(propertiesStr, matBlock.first, matBlock.second));
+
+   if(propertiess[1] == "u") 
+	{
+	   matProperties.push_back(MaterialKind::U);
+	}
+	else
+	{
+	   out.getLogger()->error("There are no material properties for {}!", propertiess[1]);
+	    exit(-1);
+	}
+} 
+
+void Input::setKineticsParameters()
+{ 
+   std::vector<std::string> words = splitLine(findKeyword("alpha"));
+   
+   if(words.size() == 1)
+   {
+	   out.getLogger()->error("{} is missing its parameters!", words[0]);
+	   exit(-1);
+   }
+   else if(words.size() == 2)
+   {
+	   double alpha = std::stod(words[1]);
+	   //m_problem.setAlbedo(std::stod(words[1]));
+	   out.getLogger()->info("Alpha: {} \n", alpha);
+   }
+   else
+   {
+	   out.getLogger()->error("{}  has too many parameters!", words[0]);
+	   exit(-1);
+   }
+} 

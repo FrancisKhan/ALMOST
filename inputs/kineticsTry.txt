@@ -8,10 +8,13 @@ mesh 10 3.707444 M1
 
 material M1
 
-% properties U
+properties U
 
 ni(1) 3.24
 chi(1) 1.0
 fission(1) 0.081600
 total(1) 0.32640
 scattMatrix(1, 1) 0.225216
+
+power 1.0
+alpha 0.00002
