@@ -40,10 +40,6 @@ private:
     Eigen::MatrixXd getXS(std::string name);
 	Tensor3d getMatrixXS(std::string name);
 
-    bool isFloat(const std::string& s);
-    bool isInteger(const std::string& s);
-	bool isString(const std::string& s);
-
  	Mesh &m_problem;
 	Library &m_library;
 	unsigned m_energies;

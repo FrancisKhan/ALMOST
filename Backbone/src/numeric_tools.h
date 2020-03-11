@@ -24,6 +24,7 @@ void printMatrix(Tensor3d A, Output output, TraceLevel level, std::string str);
 void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level);
 void printVector(Eigen::VectorXd vec, Output output, TraceLevel level);
 void printVector(std::vector<std::string> vec, Output output, TraceLevel level);
+void printVector(std::vector<double> vec, Output output, TraceLevel level);
 void diagonalDominanceCheck(Eigen::MatrixXd &matrix);
 void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                      int max_iter_number, double accuracy);
@@ -166,5 +167,9 @@ inline std::vector<T>& operator/=(std::vector<T> &a, const T d)
 
     return a;
 }
+
+bool isFloat(const std::string& s);
+bool isInteger(const std::string& s);
+bool isString(const std::string& s);
 
 #endif

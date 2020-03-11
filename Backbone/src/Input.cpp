@@ -76,7 +76,7 @@ void Input::readData()
     setEnergies();
 	setAlbedo();
 	setMaterials();
-	//setKineticsParameters();
+	setKineticsParameters();
 	
 	inFile.close();
 }
@@ -204,70 +204,6 @@ void Input::setAlbedo()
 	out.getLogger()->info("{} value: {} \n", "albedo", albedo);
 }
 
-bool Input::isFloat(const std::string& s)
-{
-	bool result = false;
-
-	if (s.empty()) return result;
-
-	auto dotFound = std::find_if(s.begin(), s.end(), [](char c) {return c == '.';});
-
-	if(dotFound != s.end()) 
-	{
-		std::string beforeDot = std::string(s.begin(), dotFound);
-		std::string afterDot  = std::string(dotFound + 2, s.end());
-
-		auto isDigitLambda = [](char c){return std::isdigit(c);};
-		if (std::all_of(beforeDot.begin(), beforeDot.end(), isDigitLambda) &&
-		    std::all_of(afterDot.begin(), afterDot.end(), isDigitLambda))
-		{
-			result = true;
-		}
-	}
-	else
-	{
-		result = false;
-	}
-
-	return result;
-}
-
-bool Input::isInteger(const std::string& s)
-{
-	bool result = false;
-
-	if (s.empty()) return result;
-
-	if (std::all_of(s.begin(), s.end(), [](char c){return std::isdigit(c);}))
-	{
-		result = true;
-	}
-	else
-	{
-		result = false;
-	}
-
-	return result;
-}
-
-bool Input::isString(const std::string& s)
-{
-	bool result = false;
-
-	if (s.empty()) return result;
-
-	if (isalpha(s.front()))
-	{
-		result = true;
-	}
-	else
-	{
-		result = false;
-	}
-
-	return result;
-}
-
 void Input::setMesh()
 { 
     std::vector<std::string> values = getManyParameter("mesh");
@@ -281,13 +217,13 @@ void Input::setMesh()
       switch (i % 3)
 	  {
 		  case 0:
-		  	if(isInteger(values[i])) regionNumber.push_back(std::stoi(values[i]));
+		  	regionNumber.push_back(std::stoi(values[i]));
 		  	break;
 		  case 1:
-		  	if(isFloat(values[i])) regionDistance.push_back(std::stod(values[i]));
+		  	regionDistance.push_back(std::stod(values[i]));
 		  	break;
 		  case 2:
-		  	if(isString(values[i]))  regionMaterial.push_back(values[i]);
+		  	regionMaterial.push_back(values[i]);
 		  	break;
 	  }
 	}
@@ -495,22 +431,23 @@ void Input::getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matPro
 
 void Input::setKineticsParameters()
 { 
-   std::vector<std::string> words = splitLine(findKeyword("alpha"));
-   
-   if(words.size() == 1)
-   {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
-	   exit(-1);
-   }
-   else if(words.size() == 2)
-   {
-	   double alpha = std::stod(words[1]);
-	   //m_problem.setAlbedo(std::stod(words[1]));
-	   out.getLogger()->info("Alpha: {} \n", alpha);
-   }
-   else
-   {
-	   out.getLogger()->error("{}  has too many parameters!", words[0]);
-	   exit(-1);
-   }
+   double alpha = std::stod(getOneParameter("alpha"));
+   out.getLogger()->info("alpha: {}", alpha);
+
+   double power = std::stod(getOneParameter("power"));
+   out.getLogger()->debug("power: {}", power);
+
+   std::vector<std::string> lambdaStr = getManyParameter("lambda");
+   std::vector<double> lambda(lambdaStr.size());
+   std::transform(lambdaStr.begin(), lambdaStr.end(), lambda.begin(), 
+                   [](std::string &i){return std::stod(i);});
+   out.getLogger()->debug("lambda: ");
+   printVector(lambda, out, TraceLevel::DEBUG);
+
+   std::vector<std::string> betaStr = getManyParameter("beta");
+   std::vector<double> beta(lambdaStr.size());
+   std::transform(betaStr.begin(), betaStr.end(), beta.begin(), 
+                   [](std::string &i){return std::stod(i);});
+	out.getLogger()->debug("beta: ");
+	printVector(beta, out, TraceLevel::DEBUG);
 } 

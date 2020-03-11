@@ -236,6 +236,46 @@ void printVector(std::vector<std::string> vec, Output output, TraceLevel level)
 	else {}
 }
 
+void printVector(std::vector<double> vec, Output output, TraceLevel level)
+{	
+    if(output.getLogger() == nullptr) 
+	{
+		std::cout << "PrintMatrix::Vector nullptr!" << std::endl;
+		return;
+	}
+
+	for(unsigned i = 0; i < vec.size(); i++)
+	{
+		if (level == TraceLevel::CRITICAL)
+			output.getLogger()->critical("{}: {}", i + 1, vec[i]);
+	    else if (level == TraceLevel::ERROR)
+			output.getLogger()->error("{}: {}", i + 1, vec[i]);
+		else if (level == TraceLevel::WARN)
+			output.getLogger()->warn("{}: {}", i + 1, vec[i]);
+		else if (level == TraceLevel::INFO)
+			output.getLogger()->info("{}: {}", i + 1, vec[i]);
+		else if(level == TraceLevel::DEBUG)
+			output.getLogger()->debug("{}: {}", i + 1, vec[i]);
+		else if(level == TraceLevel::TRACE)
+			output.getLogger()->trace("{}: {}", i + 1, vec[i]);
+		else {}
+	}
+
+	if (level == TraceLevel::CRITICAL)
+		output.getLogger()->critical(" ");	
+	else if (level == TraceLevel::ERROR)
+		output.getLogger()->error(" ");
+	else if (level == TraceLevel::WARN)
+		output.getLogger()->warn(" ");
+	else if (level == TraceLevel::INFO)
+		output.getLogger()->info(" ");
+	else if(level == TraceLevel::DEBUG)
+		output.getLogger()->debug(" ");
+	else if(level == TraceLevel::TRACE)
+		output.getLogger()->trace(" ");
+	else {}
+}
+
 void diagonalDominanceCheck(Eigen::MatrixXd &matrix)
 {
 	Eigen::VectorXd rowSum = Eigen::VectorXd::Zero(matrix.rows());
@@ -397,6 +437,70 @@ std::vector<double> poly_roots(std::vector<double> &p)
 
 	for(unsigned i = 0; i < r.rows(); i++)
 		result.push_back(r[i].real());
+
+	return result;
+}
+
+bool isFloat(const std::string& s)
+{
+	bool result = false;
+
+	if (s.empty()) return result;
+
+	auto dotFound = std::find_if(s.begin(), s.end(), [](char c) {return c == '.';});
+
+	if(dotFound != s.end()) 
+	{
+		std::string beforeDot = std::string(s.begin(), dotFound);
+		std::string afterDot  = std::string(dotFound + 2, s.end());
+
+		auto isDigitLambda = [](char c){return std::isdigit(c);};
+		if (std::all_of(beforeDot.begin(), beforeDot.end(), isDigitLambda) &&
+		    std::all_of(afterDot.begin(), afterDot.end(), isDigitLambda))
+		{
+			result = true;
+		}
+	}
+	else
+	{
+		result = false;
+	}
+
+	return result;
+}
+
+bool isInteger(const std::string& s)
+{
+	bool result = false;
+
+	if (s.empty()) return result;
+
+	if (std::all_of(s.begin(), s.end(), [](char c){return std::isdigit(c);}))
+	{
+		result = true;
+	}
+	else
+	{
+		result = false;
+	}
+
+	return result;
+}
+
+bool isString(const std::string& s)
+{
+	bool result = false;
+
+	if (s.empty()) return result;
+
+	if (isalpha(s.front()))
+	{
+		result = true;
+	}
+	else
+	{
+		result = false;
+	}
 
 	return result;
 }
