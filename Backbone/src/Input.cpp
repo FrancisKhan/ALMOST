@@ -45,7 +45,7 @@ void Input::printData()
 	out.getLogger()->debug("Output file: {} \n", out.getOutputName());
 }
 
-void Input::readData()
+std::string Input::readData()
 {
 	out.getLogger()->info("Reading the input \n");
 
@@ -71,14 +71,24 @@ void Input::readData()
         //std::cout << noExtraSpacesline << std::endl;
     }
 	
-	setGeometryKind();
-	setMesh();
-    setEnergies();
-	setAlbedo();
-	setMaterials();
-	setKineticsParameters();
+    std::string calculation = getCalculation();
+
+    if(calculation == "neutronics")
+	{
+		setGeometryKind();
+		setMesh();
+    	setEnergies();
+		setAlbedo();
+		setMaterials();
+	}
+	else if(calculation == "kinetics")
+	{
+		setKineticsParameters();
+	}
 	
 	inFile.close();
+	
+	return calculation;
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -163,6 +173,13 @@ std::vector<std::string> Input::splitLine(std::string line)
 	
 	return words;
 } 
+
+std::string Input::getCalculation()
+{
+	std::string calculation = getOneParameter("calculation");
+	out.getLogger()->info("Calculation: {}", calculation);
+	return calculation;
+}
 
 void Input::setGeometryKind()
 { 
@@ -287,7 +304,7 @@ void Input::setMaterials()
 
    Tensor3d scattMatrix = getMatrixXS("scattMatrix");
 
-   std::vector<MaterialKind> matProperties;
+//   std::vector<MaterialKind> matProperties;
 
 //    for (auto matListItem : m_materialList)
 //    {
@@ -431,23 +448,93 @@ void Input::getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matPro
 
 void Input::setKineticsParameters()
 { 
-   double alpha = std::stod(getOneParameter("alpha"));
-   out.getLogger()->info("alpha: {}", alpha);
+    double alpha = std::stod(getOneParameter("alpha"));
+    out.getLogger()->info("alpha: {}", alpha);
 
-   double power = std::stod(getOneParameter("power"));
-   out.getLogger()->debug("power: {}", power);
+    double power = std::stod(getOneParameter("power"));
+    out.getLogger()->debug("power: {}", power);
 
-   std::vector<std::string> lambdaStr = getManyParameter("lambda");
-   std::vector<double> lambda(lambdaStr.size());
-   std::transform(lambdaStr.begin(), lambdaStr.end(), lambda.begin(), 
+    std::vector<std::string> lambdaStr = getManyParameter("lambda");
+    std::vector<double> lambda(lambdaStr.size());
+    std::transform(lambdaStr.begin(), lambdaStr.end(), lambda.begin(), 
                    [](std::string &i){return std::stod(i);});
-   out.getLogger()->debug("lambda: ");
-   printVector(lambda, out, TraceLevel::DEBUG);
+    out.getLogger()->debug("lambda: ");
+    printVector(lambda, out, TraceLevel::DEBUG);
 
-   std::vector<std::string> betaStr = getManyParameter("beta");
-   std::vector<double> beta(lambdaStr.size());
-   std::transform(betaStr.begin(), betaStr.end(), beta.begin(), 
+    std::vector<std::string> betaStr = getManyParameter("beta");
+    std::vector<double> beta(lambdaStr.size());
+    std::transform(betaStr.begin(), betaStr.end(), beta.begin(), 
                    [](std::string &i){return std::stod(i);});
 	out.getLogger()->debug("beta: ");
-	printVector(beta, out, TraceLevel::DEBUG);
+	printVector(beta, out, TraceLevel::DEBUG);	
+
+	std::vector<double> times = getTimes();
+
+	std::vector<std::string> reactStr = getManyParameter("reactivities");
+    std::vector<double> reacts(reactStr.size());
+    std::transform(reactStr.begin(), reactStr.end(), reacts.begin(), 
+                   [](std::string &i){return std::stod(i);});
+    out.getLogger()->debug("Reactivities: ");
+    printVector(reacts, out, TraceLevel::DEBUG);
+
+	if (times.size() != reacts.size()) 
+	{
+		out.getLogger()->debug("times and reactivities must have equal sizes!"); 
+		out.getLogger()->debug("times: {} reativities: {}" , times.size(), reacts.size());
+		exit(-1);
+	}
+
+	KineticsSet kinSet;
+	kinSet.setAlpha(alpha);
+	kinSet.setPower(power);
+	kinSet.setLambda(lambda);
+	kinSet.setBeta(beta);
+	kinSet.setTimes(times);
+	kinSet.setReactivities(reacts);
+	m_library.setKineticsSet(kinSet);
 } 
+
+std::vector<double> Input::getTimes()
+{ 
+    std::vector<std::string> values = getManyParameter("times");
+   
+    std::vector<unsigned> submeshes = {0};
+	std::vector<double> submeshTimes = {0.0};
+
+	for(size_t i = 0; i < values.size(); i++)
+	{
+      switch (i % 2)
+	  {
+		  case 0:
+		  	submeshes.push_back(std::stoi(values[i]));
+		  	break;
+		  case 1:
+		  	submeshTimes.push_back(std::stod(values[i]));
+		  	break;
+	  }
+	}
+
+	int totSubmeshes = std::accumulate(submeshes.begin(), submeshes.end(), 0);
+	std::vector<double> times(totSubmeshes + 1, 0.0);
+
+    double timeSum = 0.0;
+	size_t indexCounter = 0;
+
+	for(size_t i = 1; i < submeshes.size(); i++)
+	{
+      size_t lastValue = 1 ? i == submeshes.size() - 1 : 0;
+
+		for(size_t j = 0; j < submeshes[i] + lastValue; j++)
+		{
+		  times[indexCounter] = j * submeshTimes[i] / submeshes[i] + timeSum;
+		  indexCounter++;
+		}
+		  
+		timeSum += submeshTimes[i];
+	}
+
+	out.getLogger()->debug("Times:");
+	printVector(times, out, TraceLevel::DEBUG);
+
+	return times;
+}

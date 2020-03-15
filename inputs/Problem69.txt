@@ -1,5 +1,7 @@
 % UD20-2-O-SP
 
+calculation neutronics
+
 geometry  sphere
 albedo    0.0
 energies  2

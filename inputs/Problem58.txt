@@ -1,5 +1,7 @@
 % URRb-H20a(l)-2-0-SL
 
+calculation neutronics
+
 geometry  slab
 albedo    0.0
 energies  2

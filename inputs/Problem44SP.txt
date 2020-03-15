@@ -1,5 +1,7 @@
 % PU-2-O-IN
 
+calculation neutronics
+
 geometry  sphere
 albedo    1.0
 energies  2

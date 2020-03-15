@@ -1,5 +1,7 @@
 % Pub-H20(10)-l-O-CY
 
+calculation neutronics
+
 geometry  cylinder
 albedo    0.0
 energies  1

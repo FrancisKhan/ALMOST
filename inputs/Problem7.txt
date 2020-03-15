@@ -1,5 +1,7 @@
 % Pub-l-0-CY
 
+calculation neutronics
+
 geometry  cylinder
 albedo    0.0
 energies  1

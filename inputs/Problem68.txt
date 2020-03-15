@@ -1,5 +1,6 @@
-
 % UD20-2-O-SP
+
+calculation neutronics
 
 geometry  slab
 albedo    0.0

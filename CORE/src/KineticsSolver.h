@@ -10,7 +10,7 @@ public:
 	AbstractSolver(mesh, library), 
 	m_library(library), m_mesh(mesh){}
 	
-	void solve();
+	void solve(int max_iter_number = 0, double accuracy = 0.0);
 	
 private:
     Library &m_library;

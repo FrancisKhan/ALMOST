@@ -1,4 +1,5 @@
 #include "SpectrumSolver.h"
+#include "KineticsSolver.h"
 #include "Output.h"
 #include "Input.h"
 #include "try.h"
@@ -13,8 +14,19 @@ int main(int argc, char** argv)
 	input.getArguments(argc, argv);
 	out.printStart();
 	input.printData();
-	input.readData();
-	SpectrumSolver spectrum(mesh, library);
-	spectrum.solve();
+
+	std::string calculation = input.readData();
+
+	if(calculation == "neutronics")
+	{
+		SpectrumSolver spectrum(mesh, library);
+	    spectrum.solve();
+	}
+	else if(calculation == "kinetics")
+	{
+		KineticsSolver kinetics(mesh, library);
+	    kinetics.solve();
+	}
+
 	out.printEnd();
 }

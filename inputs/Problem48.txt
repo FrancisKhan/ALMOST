@@ -1,5 +1,7 @@
 % U-2-o-SL
 
+calculation neutronics
+
 geometry  slab
 albedo    0.0
 energies  2

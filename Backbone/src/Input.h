@@ -13,7 +13,7 @@ public:
     Input(Mesh &problem, Library &library) : 
 	m_problem(problem), m_library(library), m_energies(0),
 	m_cells(0), m_inputPath(""){}
-	void readData();
+	std::string readData();
 	void printData();
 	void getArguments(int argc, char** argv);
 	
@@ -33,6 +33,11 @@ private:
 	void getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matProperties);
 	void setKineticsParameters();
 	void setsetKineticsParameters();
+	void setReactivity();
+
+    std::string getCalculation();
+
+	std::vector<double> getTimes();
 	
     std::string getOneParameter(std::string name);
 	std::vector<std::string> getManyParameter(std::string name);

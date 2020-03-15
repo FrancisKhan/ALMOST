@@ -1,5 +1,7 @@
 % PUb-l-O-IN
 
+calculation neutronics
+
 geometry  sphere
 albedo    1.0
 energies  1

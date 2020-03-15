@@ -1,5 +1,7 @@
 % PUa-l-O-IN
 
+calculation neutronics
+
 geometry  slab
 albedo    1.0
 energies  1

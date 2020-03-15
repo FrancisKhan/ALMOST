@@ -1,5 +1,7 @@
 % PUa-H20(0.5)-l-0-SL
 
+calculation neutronics
+
 geometry  slab
 albedo    0.0
 energies  1

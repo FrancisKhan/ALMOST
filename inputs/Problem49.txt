@@ -1,5 +1,7 @@
 % U-2-o-SP
 
+calculation neutronics
+
 geometry  sphere
 albedo    0.0
 energies  2

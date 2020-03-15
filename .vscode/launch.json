@@ -29,7 +29,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/app",
-            "args": ["inputs/Problem2.txt", "outputs/Out_Problem2.txt", "DEBUG"],
+            "args": ["inputs/kineticsTry.txt", "outputs/Out_kineticsTry.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
