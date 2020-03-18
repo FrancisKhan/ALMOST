@@ -107,6 +107,34 @@ public:
         return result;
     }
    
+std::vector<double> getVector(std::string keyword)
+{
+    unsigned keywordLineNumber = std::numeric_limits<unsigned>::max();
+
+    std::vector<double> result;
+
+    if (!m_isFileOpened) return result;
+
+    for(size_t i = 0; i < m_outputLines.size(); i++)
+    {
+	    size_t pos = m_outputLines[i].find(keyword);
+
+	    if(pos != std::string::npos) 
+        {
+            keywordLineNumber = i;
+        }
+
+        if(i > keywordLineNumber)
+        {
+            if(m_outputLines[i] == " ") break;
+            std::vector<std::string> words = splitLine(m_outputLines[i]);
+            result.push_back(std::stod(words[0]));
+        }
+	}
+
+    return result;
+}
+
 private:
     const std::string &m_codePath; 
     const std::string &m_inputPath; 

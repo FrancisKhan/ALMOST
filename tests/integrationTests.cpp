@@ -687,3 +687,18 @@ TEST_F(IntegrationTests, Problem58)
   EXPECT_TRUE(areEqual);
   EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
 }
+
+TEST_F(IntegrationTests, Kinetics1)
+{	
+  const std::string codePath   = "./app/app";
+  const std::string inputPath  = "inputs/kinetics1.txt";
+  const std::string outputPath = "outputs/Out_kinetics1.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double powerRef = 1.339142691;
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  
+  EXPECT_DOUBLE_EQ(test.getVector("Output power").back(),  powerRef);
+}

@@ -22,7 +22,7 @@ public:
 
 	std::vector<double> inHourEqRoots(double rho);
     double power(double rho, double deltaT);
-    std::vector<double> power(std::vector<double> &rhos, std::vector<double> &deltaTs);
+    std::vector<double> power(std::vector<double> &rhos, std::vector<double> &times);
     double getCumTime() {return m_cumTime;}
 
 private: 

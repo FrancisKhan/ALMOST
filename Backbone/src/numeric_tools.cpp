@@ -207,17 +207,17 @@ void printVector(std::vector<std::string> vec, Output output, TraceLevel level)
 	for(unsigned i = 0; i < vec.size(); i++)
 	{
 		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical("{}: {}", i + 1, vec[i]);
+			output.getLogger()->critical("{}", vec[i]);
 	    else if (level == TraceLevel::ERROR)
-			output.getLogger()->error("{}: {}", i + 1, vec[i]);
+			output.getLogger()->error("{}", vec[i]);
 		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn("{}: {}", i + 1, vec[i]);
+			output.getLogger()->warn("{}", vec[i]);
 		else if (level == TraceLevel::INFO)
-			output.getLogger()->info("{}: {}", i + 1, vec[i]);
+			output.getLogger()->info("{}", vec[i]);
 		else if(level == TraceLevel::DEBUG)
-			output.getLogger()->debug("{}: {}", i + 1, vec[i]);
+			output.getLogger()->debug("{}", vec[i]);
 		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace("{}: {}", i + 1, vec[i]);
+			output.getLogger()->trace("{}", vec[i]);
 		else {}
 	}
 
@@ -247,17 +247,17 @@ void printVector(std::vector<double> vec, Output output, TraceLevel level)
 	for(unsigned i = 0; i < vec.size(); i++)
 	{
 		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical("{}: {}", i + 1, vec[i]);
+			output.getLogger()->critical("{:8.9f}", vec[i]);
 	    else if (level == TraceLevel::ERROR)
-			output.getLogger()->error("{}: {}", i + 1, vec[i]);
+			output.getLogger()->error("{:8.9f}", vec[i]);
 		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn("{}: {}", i + 1, vec[i]);
+			output.getLogger()->warn("{:8.9f}", vec[i]);
 		else if (level == TraceLevel::INFO)
-			output.getLogger()->info("{}: {}", i + 1, vec[i]);
+			output.getLogger()->info("{:8.9f}", vec[i]);
 		else if(level == TraceLevel::DEBUG)
-			output.getLogger()->debug("{}: {}", i + 1, vec[i]);
+			output.getLogger()->debug("{:8.9f}", vec[i]);
 		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace("{}: {}", i + 1, vec[i]);
+			output.getLogger()->trace("{:8.9f}", vec[i]);
 		else {}
 	}
 

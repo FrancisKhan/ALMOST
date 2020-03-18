@@ -84,16 +84,18 @@ double Kinetics::power(double rho, double deltaT)
     return m_power;
 }
 
-std::vector<double> Kinetics::power(std::vector<double> &rhos, std::vector<double> &deltaTs)
+std::vector<double> Kinetics::power(std::vector<double> &rhos, std::vector<double> &times)
 {
     std::vector<double> results;
+    double deltaT = 0.0;
 
     for(size_t i = 0; i < rhos.size(); i++)
     {
-        results.push_back(power(rhos[i], deltaTs[i]));
+        deltaT = i > 0 ? times[i] - times[i - 1] : times[i];
+        results.push_back(power(rhos[i], deltaT));
     }
 
-    out.getLogger()->debug("Power: ");
+    out.getLogger()->info("Output power: ");
     printVector(results, out, TraceLevel::INFO);
 
     return results;

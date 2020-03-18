@@ -449,23 +449,23 @@ void Input::getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matPro
 void Input::setKineticsParameters()
 { 
     double alpha = std::stod(getOneParameter("alpha"));
-    out.getLogger()->info("alpha: {}", alpha);
+    out.getLogger()->info("Alpha: {}", alpha);
 
     double power = std::stod(getOneParameter("power"));
-    out.getLogger()->debug("power: {}", power);
+    out.getLogger()->debug("Initial power: {}", power);
 
     std::vector<std::string> lambdaStr = getManyParameter("lambda");
     std::vector<double> lambda(lambdaStr.size());
     std::transform(lambdaStr.begin(), lambdaStr.end(), lambda.begin(), 
                    [](std::string &i){return std::stod(i);});
-    out.getLogger()->debug("lambda: ");
+    out.getLogger()->debug("Lambda: ");
     printVector(lambda, out, TraceLevel::DEBUG);
 
     std::vector<std::string> betaStr = getManyParameter("beta");
     std::vector<double> beta(lambdaStr.size());
     std::transform(betaStr.begin(), betaStr.end(), beta.begin(), 
                    [](std::string &i){return std::stod(i);});
-	out.getLogger()->debug("beta: ");
+	out.getLogger()->debug("Beta: ");
 	printVector(beta, out, TraceLevel::DEBUG);	
 
 	std::vector<double> times = getTimes();
