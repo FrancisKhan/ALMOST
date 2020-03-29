@@ -6,9 +6,8 @@ add_library(cpm_library BaseSpectrumCode.cpp SpectrumCodeFactory.cpp
 
 # We need this directory, and users of our library will need it too
 target_include_directories(cpm_library PUBLIC .)
-target_include_directories(cpm_library PUBLIC ../../external)
 target_include_directories(cpm_library PUBLIC ../../Backbone/src/)
-target_include_directories(cpm_library PUBLIC ../../external/spdlog/include/)
+target_include_directories(cpm_library PUBLIC ../../external/spdlog-lib/src/spdlog/include/)
 target_include_directories(cpm_library PUBLIC ../../external/eigen-lib/src/eigen)
 target_include_directories(cpm_library PUBLIC ../../external/boost-lib/src/boost)
 

@@ -51,3 +51,4 @@ tests/testLog.txt
 tests/tests/
 external/eigen-lib
 external/boost-lib
+external/spdlog-lib
