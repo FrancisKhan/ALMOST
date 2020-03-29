@@ -5,7 +5,7 @@ add_library(core_library Kinetics.cpp KineticsSolver.cpp)
 # We need this directory, and users of our library will need it too
 target_include_directories(core_library PUBLIC .)
 target_include_directories(core_library PUBLIC ../../Backbone/src/)
-target_include_directories(core_library PUBLIC ../../external)
+target_include_directories(core_library PUBLIC ../../external/eigen-lib/src/eigen)
 target_include_directories(core_library PUBLIC ../../external/spdlog/include/)
 
 # This depends on (header only) boost

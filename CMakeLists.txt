@@ -11,6 +11,9 @@ set(CMAKE_CXX_FLAGS "-Wall")
 include(CTest)
 
 # The compiled library code is here
+add_subdirectory(external)
+
+# The compiled library code is here
 add_subdirectory(Backbone)
 
 # The executable code is here

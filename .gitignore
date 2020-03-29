@@ -48,3 +48,4 @@ app/app
 tests/test_cpm
 outputs/*
 tests/testLog.txt
+tests/tests/
