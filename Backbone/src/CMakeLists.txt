@@ -8,6 +8,7 @@ add_library(backbone_library numeric_tools.cpp  AbstractMaterial.cpp
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC .)
 target_include_directories(backbone_library PUBLIC ../../external)
+target_include_directories(backbone_library PUBLIC ../../external/boost-lib/src/boost)
 target_include_directories(backbone_library PUBLIC ../../external/eigen-lib/src/eigen)
 target_include_directories(backbone_library PUBLIC ../../external/spdlog/include/)
 

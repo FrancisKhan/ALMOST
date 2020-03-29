@@ -49,3 +49,5 @@ tests/test_cpm
 outputs/*
 tests/testLog.txt
 tests/tests/
+external/eigen-lib
+external/boost-lib
