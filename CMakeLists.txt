@@ -30,6 +30,8 @@ if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND 
     add_subdirectory(tests)
 endif()
 
+# experimental stuff
+
 #install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
 #    DESTINATION ${CMAKE_SOURCE_DIR}/include
 #    FILES_MATCHING PATTERN "*.h*")
