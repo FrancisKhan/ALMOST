@@ -4,8 +4,11 @@ compiler: gcc
 os: linux
 addons:
   apt:
+  sources:
+      - ubuntu-toolchain-r-test
     packages:
       - gcc-7
+      - g++-7
 
 script:
   - export CC=gcc-7
