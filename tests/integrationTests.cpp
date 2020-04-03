@@ -49,7 +49,7 @@ TEST_F(IntegrationTests, Problem5CY)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-	EXPECT_DOUBLE_EQ(test.getKEff(), kEffRef);
+	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem7)
@@ -71,7 +71,7 @@ TEST_F(IntegrationTests, Problem7)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem9)
@@ -93,7 +93,7 @@ TEST_F(IntegrationTests, Problem9)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem10)
@@ -120,7 +120,7 @@ TEST_F(IntegrationTests, Problem10)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem44CY)
@@ -144,7 +144,7 @@ TEST_F(IntegrationTests, Problem44CY)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem74)
@@ -171,7 +171,7 @@ TEST_F(IntegrationTests, Problem74)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem75)
@@ -205,7 +205,7 @@ TEST_F(IntegrationTests, Problem75)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 // SPHERE TESTS //
@@ -249,7 +249,7 @@ TEST_F(IntegrationTests, Problem5SP)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-	EXPECT_DOUBLE_EQ(test.getKEff(), kEffRef);
+	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem8)
@@ -271,7 +271,7 @@ TEST_F(IntegrationTests, Problem8)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem16)
@@ -296,7 +296,7 @@ TEST_F(IntegrationTests, Problem16)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem44SP)
@@ -320,7 +320,7 @@ TEST_F(IntegrationTests, Problem44SP)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem49)
@@ -344,7 +344,7 @@ TEST_F(IntegrationTests, Problem49)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem69)
@@ -373,7 +373,7 @@ TEST_F(IntegrationTests, Problem69)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 // SLAB TESTS //
@@ -417,7 +417,7 @@ TEST_F(IntegrationTests, Problem5SL)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-	EXPECT_DOUBLE_EQ(test.getKEff(), kEffRef);
+	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem2)
@@ -439,7 +439,7 @@ TEST_F(IntegrationTests, Problem2)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem3)
@@ -465,7 +465,7 @@ TEST_F(IntegrationTests, Problem3)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem4)
@@ -492,7 +492,7 @@ TEST_F(IntegrationTests, Problem4)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem6)
@@ -514,7 +514,7 @@ TEST_F(IntegrationTests, Problem6)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem44SL)
@@ -538,7 +538,7 @@ TEST_F(IntegrationTests, Problem44SL)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem48)
@@ -562,7 +562,7 @@ TEST_F(IntegrationTests, Problem48)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem68)
@@ -591,7 +591,7 @@ TEST_F(IntegrationTests, Problem68)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Problem58)
@@ -685,7 +685,7 @@ TEST_F(IntegrationTests, Problem58)
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_DOUBLE_EQ(test.getKEff(),  kEffRef);
+  EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
 TEST_F(IntegrationTests, Kinetics1)
