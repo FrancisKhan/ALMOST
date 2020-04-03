@@ -22,7 +22,6 @@ public:
 	std::string getInputPath() {return m_inputPath;}
 	std::string getInputName() {return m_inputName;}
 	std::string getOutputName() {return m_outputName;}
-	static std::string GetCurrentWorkingDir();
 
 private: 
 	void removeOldOutputFile();

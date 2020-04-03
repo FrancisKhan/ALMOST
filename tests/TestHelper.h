@@ -6,6 +6,7 @@
 #include <limits>
 #include <fstream>
 #include <stdlib.h>
+#include <unistd.h>
 #include <algorithm>
 
 class TestHelper
@@ -13,28 +14,37 @@ class TestHelper
 public:
     TestHelper(const std::string &codePath, const std::string &inputPath, 
                const std::string &outputPath, const std::string &traceLevel) :
-               m_codePath(codePath), m_inputPath(inputPath), m_outputPath(outputPath),
-               m_traceLevel(traceLevel), m_isFileOpened(false) {}
+               m_codePath(codePath), m_inputPath(inputPath), 
+               m_outputPath(outputPath), m_traceLevel(traceLevel) {}
 
 	void runCode()
     {
-        const std::string finalStr = "./" + m_codePath + " " 
-        + m_inputPath + " " + m_outputPath + " " + m_traceLevel;
+        const std::string prePath = getPrePath();
 
-        system(finalStr.c_str());
+        const std::string finalStr = prePath + m_codePath + " " +
+        prePath + m_inputPath + " " + prePath +
+        m_outputPath + " " + m_traceLevel;
 
-        m_isFileOpened = readOutput();
+        if(!system(finalStr.c_str()))
+        {
+            readOutput(prePath + m_outputPath);
+        }
+        else
+        {
+            std::cout << "Error: run code command not successful!" << std::endl;
+            std::cout << "Command: " << finalStr << std::endl;
+            exit(-1);
+        }
     }
 
-    bool readOutput()
+    void readOutput(std:: string filename)
     {
-        std::ifstream inFile;
-	    inFile.open(m_outputPath);
-	    if (!inFile) 
+        std::ifstream inFile(filename);
+
+	    if (!inFile.is_open()) 
 	    {
 		    std::cout << "Unable to open file: " << m_outputPath << std::endl; 
-            m_isFileOpened = false;
-            return false;
+            exit(-1);
 	    }
 
         std::string line; 
@@ -43,9 +53,7 @@ public:
             m_outputLines.push_back(line);	
         }
 
-        m_isFileOpened = true;
         inFile.close();
-        return true;
     }
 
     std::vector<std::string> splitLine(std::string line)
@@ -60,8 +68,6 @@ public:
     double getKEff()
     {
         const std::string pattern = "K-factor";
-
-        if (!m_isFileOpened) return -1.0;
 
         for(auto itemLine : m_outputLines)
 	    {
@@ -84,8 +90,6 @@ public:
         unsigned keywordLineNumber = std::numeric_limits<unsigned>::max();
 
         std::vector<double> result;
-
-        if (!m_isFileOpened) return result;
 
         for(size_t i = 0; i < m_outputLines.size(); i++)
 	    {
@@ -113,8 +117,6 @@ std::vector<double> getVector(std::string keyword)
 
     std::vector<double> result;
 
-    if (!m_isFileOpened) return result;
-
     for(size_t i = 0; i < m_outputLines.size(); i++)
     {
 	    size_t pos = m_outputLines[i].find(keyword);
@@ -134,6 +136,30 @@ std::vector<double> getVector(std::string keyword)
 
     return result;
 }
+    std::string getCurrentWorkingDir() 
+    {
+	    char buff[FILENAME_MAX];
+	    getcwd(buff, FILENAME_MAX);
+	    std::string current_working_dir(buff);
+	    return current_working_dir;
+    }
+  
+    // This method is needed because Visual Studio Code runs the tests from 
+    // the ALMOST folder, while make or ctest run from from the tests folder.
+    // Absolute path seem not to work with WLS
+    std::string getPrePath() 
+    {
+        std::string path = getCurrentWorkingDir();
+
+        if(path.substr(path.size() -5, path.size()) == "tests")
+        {
+            return "./../";
+        }
+        else
+        {
+            return "./";
+        }
+    }
 
 private:
     const std::string &m_codePath; 
@@ -141,7 +167,6 @@ private:
     const std::string &m_outputPath; 
     const std::string &m_traceLevel;
     std::vector<std::string> m_outputLines;
-    bool m_isFileOpened;
 };
 
 

@@ -1,6 +1,5 @@
 #include "Output.h"
 
-#include <unistd.h>
 #include <stdio.h>
 #include <iostream>
 #include <experimental/filesystem>
@@ -79,18 +78,8 @@ void Output::createLogger(std::string loggerName)
 	mp_logger->flush_on(spdlog::level::info);
 }
 
-std::string Output::GetCurrentWorkingDir() 
-{
-	char buff[FILENAME_MAX];
-	getcwd(buff, FILENAME_MAX);
-	std::string current_working_dir(buff);
-	return current_working_dir;
-}
-
 void Output::removeOldOutputFile()
 {
-	//std::string outputPath = GetCurrentWorkingDir() + "/" + m_outputName;
-	
 	if (fs::exists(m_outputFullName))
 	{
 		std::remove(m_outputFullName.c_str());

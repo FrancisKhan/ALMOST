@@ -46,6 +46,7 @@ _deps
 DartConfiguration.tcl
 app/app
 tests/test_cpm
+tests/outputs
 outputs/*
 tests/testLog.txt
 tests/tests/
