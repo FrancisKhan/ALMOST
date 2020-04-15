@@ -85,6 +85,10 @@ std::string Input::readData()
 	{
 		setKineticsParameters();
 	}
+	else if(calculation == "heat")
+	{
+		
+	}
 	
 	inFile.close();
 	

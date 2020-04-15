@@ -10,17 +10,20 @@ set(CMAKE_CXX_FLAGS "-Wall")
 
 include(CTest)
 
-# The compiled library code is here
+# External library directory
 add_subdirectory(external)
 
-# The compiled library code is here
+# Backbone directory
 add_subdirectory(Backbone)
 
-# The executable code is here
+# Neutronics directory
 add_subdirectory(CPM)
 
-# The executable code is here
+# Point kinetics directory
 add_subdirectory(CORE)
+
+# Heat transfer directory
+add_subdirectory(Heat)
 
 # The executable code is here
 add_subdirectory(app)
