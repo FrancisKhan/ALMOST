@@ -1,0 +1,11 @@
+% heat tranfer simple test
+
+calculation heat
+
+geometry  slab
+albedo    0.0
+
+mesh 10 10.0 M1
+
+material M1
+properties u

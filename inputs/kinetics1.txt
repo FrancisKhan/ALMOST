@@ -1,4 +1,4 @@
-% PUa-l-O-SL
+% kinetics simple test
 
 calculation kinetics
 

@@ -200,7 +200,7 @@ void printVector(std::vector<std::string> vec, Output output, TraceLevel level)
 {	
     if(output.getLogger() == nullptr) 
 	{
-		std::cout << "PrintMatrix::Vector nullptr!" << std::endl;
+		std::cout << "PrintVector::Vector nullptr!" << std::endl;
 		return;
 	}
 
@@ -236,11 +236,54 @@ void printVector(std::vector<std::string> vec, Output output, TraceLevel level)
 	else {}
 }
 
+void printVector(std::vector<MaterialKind> vec, Output output, TraceLevel level)
+{	
+    if(output.getLogger() == nullptr) 
+	{
+		std::cout << "PrintVector::Vector nullptr!" << std::endl;
+		return;
+	}
+
+	for(auto i : vec)
+	{
+        std::ostringstream stream;
+		stream << i;
+
+		if (level == TraceLevel::CRITICAL)
+			output.getLogger()->critical("{}", stream.str());
+	    else if (level == TraceLevel::ERROR)
+			output.getLogger()->error("{}", stream.str());
+		else if (level == TraceLevel::WARN)
+			output.getLogger()->warn("{}", stream.str());
+		else if (level == TraceLevel::INFO)
+			output.getLogger()->info("{}", stream.str());
+		else if(level == TraceLevel::DEBUG)
+			output.getLogger()->debug("{}", stream.str());
+		else if(level == TraceLevel::TRACE)
+			output.getLogger()->trace("{}", stream.str());
+		else {}
+	}
+
+	if (level == TraceLevel::CRITICAL)
+		output.getLogger()->critical(" ");	
+	else if (level == TraceLevel::ERROR)
+		output.getLogger()->error(" ");
+	else if (level == TraceLevel::WARN)
+		output.getLogger()->warn(" ");
+	else if (level == TraceLevel::INFO)
+		output.getLogger()->info(" ");
+	else if(level == TraceLevel::DEBUG)
+		output.getLogger()->debug(" ");
+	else if(level == TraceLevel::TRACE)
+		output.getLogger()->trace(" ");
+	else {}
+}
+
 void printVector(std::vector<double> vec, Output output, TraceLevel level)
 {	
     if(output.getLogger() == nullptr) 
 	{
-		std::cout << "PrintMatrix::Vector nullptr!" << std::endl;
+		std::cout << "PrintVector::Vector nullptr!" << std::endl;
 		return;
 	}
 

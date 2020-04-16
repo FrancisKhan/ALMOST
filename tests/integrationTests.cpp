@@ -702,3 +702,16 @@ TEST_F(IntegrationTests, Kinetics1)
   
   EXPECT_DOUBLE_EQ(test.getVector("Output power").back(),  powerRef);
 }
+
+TEST_F(IntegrationTests, Heat1)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat1.txt";
+  const std::string outputPath = "outputs/Out_heat1.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  
+  EXPECT_TRUE(true);
+}

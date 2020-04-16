@@ -1,6 +1,7 @@
 #ifndef NUMERIC_TOOLS_H
 #define NUMERIC_TOOLS_H
 
+#include "MaterialKind.h"
 #include "Output.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
@@ -25,6 +26,7 @@ void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level);
 void printVector(Eigen::VectorXd vec, Output output, TraceLevel level);
 void printVector(std::vector<std::string> vec, Output output, TraceLevel level);
 void printVector(std::vector<double> vec, Output output, TraceLevel level);
+void printVector(std::vector<MaterialKind> vec, Output output, TraceLevel level);
 void diagonalDominanceCheck(Eigen::MatrixXd &matrix);
 void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                      int max_iter_number, double accuracy);

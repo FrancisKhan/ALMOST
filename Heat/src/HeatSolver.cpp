@@ -9,5 +9,5 @@
 
 void HeatSolver::solve(int max_iter_number, double accuracy)
 {
-	
+    std::cout << "I am in heat solver" << std::endl;	
 }

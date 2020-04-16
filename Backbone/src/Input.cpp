@@ -70,10 +70,10 @@ std::string Input::readData()
 		m_inputLines.push_back(noExtraSpacesline);	
         //std::cout << noExtraSpacesline << std::endl;
     }
-	
-    std::string calculation = getCalculation();
 
-    if(calculation == "neutronics")
+	m_calculation = getCalculation();
+
+    if(m_calculation == "neutronics")
 	{
 		setGeometryKind();
 		setMesh();
@@ -81,18 +81,21 @@ std::string Input::readData()
 		setAlbedo();
 		setMaterials();
 	}
-	else if(calculation == "kinetics")
+	else if(m_calculation == "kinetics")
 	{
 		setKineticsParameters();
 	}
-	else if(calculation == "heat")
+	else if(m_calculation == "heat")
 	{
-		
+		setGeometryKind();
+		setMesh();
+		setAlbedo();
+		setMaterials();
 	}
 	
 	inFile.close();
 	
-	return calculation;
+	return m_calculation;
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -181,7 +184,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 std::string Input::getCalculation()
 {
 	std::string calculation = getOneParameter("calculation");
-	out.getLogger()->info("Calculation: {}", calculation);
+	out.getLogger()->info("Calculation: {}\n", calculation);
 	return calculation;
 }
 
@@ -296,40 +299,69 @@ void Input::setMesh()
 
 void Input::setMaterials()
 { 
-   m_energies = m_problem.getEnergyGroupsNumber();
-   m_cells    = m_problem.getCellsNumber();
+   m_cells = m_problem.getCellsNumber();
 
-   // getBlock lines and pass them to the methods
+   if(m_calculation == "neutronics")
+   {
+		m_energies = m_problem.getEnergyGroupsNumber();
 
-   MatrixXd ni      = getXS("ni");
-   MatrixXd chi     = getXS("chi");
-   MatrixXd fission = getXS("fission");
-   MatrixXd total   = getXS("total");	
+		MatrixXd ni      = getXS("ni");
+   		MatrixXd chi     = getXS("chi");
+   		MatrixXd fission = getXS("fission");
+   		MatrixXd total   = getXS("total");	
 
-   Tensor3d scattMatrix = getMatrixXS("scattMatrix");
+		Tensor3d scattMatrix = getMatrixXS("scattMatrix");
+		CrossSectionSet XSSet;
 
-//   std::vector<MaterialKind> matProperties;
-
-//    for (auto matListItem : m_materialList)
-//    {
-//        for(unsigned m = 0; m < m_cells; m++)
-//        {
-//             if (m_materialMap[m] != matListItem) continue;
-// 			getMatProperties(matBlock, matProperties);			
-//        }    
-//    }
-   
-   CrossSectionSet XSSet;
-
-   XSSet.setNi(ni);
-   XSSet.setChi(chi);
-   XSSet.setFission(fission);
-   XSSet.setTotal(total);
-   XSSet.setScattMatrix(scattMatrix);
-   m_library.setCrossSectionSet(XSSet);
-
-   //m_library.setMatProperties(matProperties);
+		XSSet.setNi(ni);
+   		XSSet.setChi(chi);
+   		XSSet.setFission(fission);
+   		XSSet.setTotal(total);
+   		XSSet.setScattMatrix(scattMatrix);
+   		m_library.setCrossSectionSet(XSSet);
+   }
+   else if(m_calculation == "heat")
+   {
+		std::vector<MaterialKind> matProperties = getMatProperties();			
+		m_library.setMatProperties(matProperties);
+   }
 }
+
+std::vector<MaterialKind> Input::getMatProperties()
+{
+    std::vector<MaterialKind> result;
+
+	for (auto matListItem : m_materialList)
+    {
+        std::string matStr = "material";
+	    getOneParameter(matStr + " " + matListItem);
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+		for(unsigned m = 0; m < m_cells; m++)
+    	{
+			if (m_materialMap[m] != matListItem) continue;
+
+			std::string str = "properties";
+			std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+
+			if(values[1] == "u") 
+			{
+	   			result.push_back(MaterialKind::U);
+			}
+			else
+			{
+	   			out.getLogger()->error("There are no material properties for {}!", values[1]);
+	    		exit(-1);
+			}
+		}
+	}
+
+    out.getLogger()->info("Material properties");
+    printVector(result, out, TraceLevel::INFO);
+
+	return result;
+}
+
 
 MatrixXd Input::getXS(std::string name)
 {
@@ -433,22 +465,6 @@ std::vector<std::string> Input::getManyParameter(std::string name)
 
    return result;
 }
-
-void Input::getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matProperties)
-{ 
-   std::string propertiesStr = "properties";
-   std::vector<std::string> propertiess = splitLine(findKeyword(propertiesStr, matBlock.first, matBlock.second));
-
-   if(propertiess[1] == "u") 
-	{
-	   matProperties.push_back(MaterialKind::U);
-	}
-	else
-	{
-	   out.getLogger()->error("There are no material properties for {}!", propertiess[1]);
-	    exit(-1);
-	}
-} 
 
 void Input::setKineticsParameters()
 { 

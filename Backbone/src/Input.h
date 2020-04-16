@@ -30,7 +30,7 @@ private:
 	void setAlbedo();
 	void setMesh();
 	void setMaterials();
-	void getMatProperties(us_pair matBlock, std::vector<MaterialKind> &matProperties);
+	std::vector<MaterialKind> getMatProperties();
 	void setKineticsParameters();
 	void setsetKineticsParameters();
 	void setReactivity();
@@ -50,6 +50,7 @@ private:
 	unsigned m_energies;
 	unsigned m_cells;
 	std::string m_inputPath;
+	std::string m_calculation;
 	std::vector<std::string> m_inputLines;
 	std::vector<std::string> m_materialMap;
 	std::vector<std::string> m_materialList;
