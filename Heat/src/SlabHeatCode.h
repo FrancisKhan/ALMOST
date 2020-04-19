@@ -1,20 +1,16 @@
-#ifndef HEATCODE_H
-#define HEATCODE_H
+#ifndef SLABHEATCODE_H
+#define SLABHEATCODE_H
 
-#include "Mesh.h"
-#include "Library.h"
+#include "BaseHeatCode.h"
 
-class HeatCode
+class SlabHeatCode : public BaseHeatCode
 {
 public:
-    HeatCode(Mesh &mesh, Library &library) : 
+    SlabHeatCode(Mesh &mesh, Library &library) : 
+	BaseHeatCode(mesh, library), 
 	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries()),
 	m_volumes(m_mesh.getVolumes()),
 	m_cells(m_mesh.getCellsNumber()) {}
-	
-	~HeatCode(){}
-
-	std::vector<double> exactSolution();
 	
 private:
 	Library &m_library;

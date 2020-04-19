@@ -24,6 +24,9 @@ public:
 	void setAlbedo(double albedo){m_albedo = albedo;}
 	double getAlbedo(){return m_albedo;}
 	void setMaterials(){};
+
+	void setTemperatures(std::vector<double> &temperatures);
+	std::vector<double> getTemperatures(){return m_temperatures;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -32,6 +35,7 @@ private:
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;
 	double m_albedo;
+	std::vector<double> m_temperatures;
 };
 
 #endif

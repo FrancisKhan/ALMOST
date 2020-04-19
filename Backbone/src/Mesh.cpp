@@ -55,3 +55,8 @@ double Mesh::getSurface()
 		return 0.0;
 	}
 }
+
+void Mesh::setTemperatures(std::vector<double> &temperatures)
+{
+	m_temperatures = temperatures;
+}

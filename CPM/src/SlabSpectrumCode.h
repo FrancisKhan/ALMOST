@@ -20,7 +20,6 @@ public:
 	Tensor3d calcCPs(std::pair<Tensor3d, Tensor4d> &pair) override;
 	
 private:
-
 	Library &m_library;
 	Mesh &m_mesh;
 	Eigen::VectorXd m_radii;

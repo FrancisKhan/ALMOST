@@ -497,7 +497,10 @@ bool isFloat(const std::string& s)
 		std::string beforeDot = std::string(s.begin(), dotFound);
 		std::string afterDot  = std::string(dotFound + 2, s.end());
 
-		auto isDigitLambda = [](char c){return std::isdigit(c);};
+        // It includes E e + - to account for scientific notation numbers
+		auto isDigitLambda = [](char c){return (std::isdigit(c) 
+		|| c =='E' || c =='e' || c =='+' || c == '-');};
+
 		if (std::all_of(beforeDot.begin(), beforeDot.end(), isDigitLambda) &&
 		    std::all_of(afterDot.begin(), afterDot.end(), isDigitLambda))
 		{

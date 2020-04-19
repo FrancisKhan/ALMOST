@@ -117,6 +117,9 @@
         "hash_map": "cpp",
         "hash_set": "cpp",
         "any": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "superlusupport": "cpp",
+        "*.evaluator": "cpp",
+        "*.traits": "cpp"
     }
 }

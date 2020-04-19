@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
@@ -29,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/app",
-            "args": ["inputs/kineticsTry.txt", "outputs/Out_kineticsTry.txt", "DEBUG"],
+            "args": ["inputs/heat1.txt", "outputs/Out_heat1.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -30,20 +30,18 @@ private:
 	void setAlbedo();
 	void setMesh();
 	void setMaterials();
-	std::vector<MaterialKind> getMatProperties();
+	std::vector<MaterialKind> setProperties();
 	void setKineticsParameters();
 	void setsetKineticsParameters();
 	void setReactivity();
+    std::string setCalculation();
 
-    std::string getCalculation();
+    std::string readOneParameter(std::string name);
+	std::vector<std::string> readManyParameters(std::string name);
+	std::vector<double> setManyParameters(std::string name);
 
-	std::vector<double> getTimes();
-	
-    std::string getOneParameter(std::string name);
-	std::vector<std::string> getManyParameter(std::string name);
-
-    Eigen::MatrixXd getXS(std::string name);
-	Tensor3d getMatrixXS(std::string name);
+    Eigen::MatrixXd setXS(std::string name);
+	Tensor3d setMatrixXS(std::string name);
 
  	Mesh &m_problem;
 	Library &m_library;
