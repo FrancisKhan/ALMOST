@@ -3,13 +3,13 @@
 
 #include <cmath>
 
-// Global static pointer used to ensure a single instance of the class.
-Uranium* Uranium::m_pInstance = NULL; 
+// Global static pointer used to ensure a single instance of the class. 
+std::shared_ptr<Uranium> Uranium::m_pInstance = std::shared_ptr<Uranium>(nullptr);
    
-Uranium* Uranium::instance()
+std::shared_ptr<Uranium> Uranium::instance()
 {
    if (!m_pInstance)   // Only allow one instance of class to be generated.
-      m_pInstance = new Uranium;
+      m_pInstance.reset(new Uranium());
 
    return m_pInstance;
 }

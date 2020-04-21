@@ -145,7 +145,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC3E4)
 	problem.setBoundaries(cellSide, cells); 
 	problem.setEnergyGroupsNumber(energies);
 	
-	BaseSpectrumCode * spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	
   EXPECT_DOUBLE_EQ(MMatrix(0,  0), 9.9);
@@ -336,7 +336,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC4E1)
 	problem.setBoundaries(cellSide, cells); 
 	problem.setEnergyGroupsNumber(energies);
 	
-	BaseSpectrumCode * spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
 	MatrixXd MMatrix =spectrumCode->calcMMatrix(cpm);
 
 	out.getLogger()->debug("MMatrix2"); //

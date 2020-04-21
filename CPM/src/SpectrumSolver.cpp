@@ -8,7 +8,7 @@ using namespace Eigen;
 
 void SpectrumSolver::solve(int max_iter_number, double accuracy)
 {
-	BaseSpectrumCode * spectrumCode = SpectrumCodeFactory::setSpectrumCode(m_mesh, m_library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(m_mesh, m_library);
 	std::pair<Tensor3d, Tensor4d> trackData = spectrumCode->calcTracks();
 	Tensor3d gcpm = spectrumCode->calcCPs(trackData);
 	spectrumCode->applyBoundaryConditions(gcpm);

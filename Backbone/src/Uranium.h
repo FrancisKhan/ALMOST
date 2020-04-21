@@ -6,7 +6,7 @@
 class Uranium : public AbstractMaterial
 {
 public:
-    static Uranium* instance();
+    static std::shared_ptr<Uranium> instance();
 	std::string whatAmI() override;
 	double density(double T) override;
 	double heatCapacity(double T) override;
@@ -14,7 +14,7 @@ public:
 
 private:
 	Uranium(){};
-    static Uranium* m_pInstance;
+    static std::shared_ptr<Uranium> m_pInstance;
 
 };
 

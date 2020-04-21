@@ -6,6 +6,6 @@
 
 void HeatSolver::solve(int max_iter_number, double accuracy)
 {
-    BaseHeatCode * heatCode = HeatCodeFactory::setHeatCode(m_mesh, m_library);
+   std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_mesh, m_library);
     heatCode->setupMatrix();	
 }

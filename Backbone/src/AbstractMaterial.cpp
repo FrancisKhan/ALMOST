@@ -3,14 +3,14 @@
 
 #include <iostream>
 
-AbstractMaterial *AbstractMaterial::setMaterial(MaterialKind choice)
+std::shared_ptr<AbstractMaterial> AbstractMaterial::setMaterial(MaterialKind choice)
 {
   if (choice == MaterialKind::U)
   {
-      return Uranium::instance();
+      return std::shared_ptr<AbstractMaterial>(Uranium::instance());
   }
   else
   {
-	return nullptr;
+	return std::shared_ptr<AbstractMaterial>(nullptr);
   }
 }

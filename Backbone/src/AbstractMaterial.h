@@ -3,12 +3,13 @@
 
 #include "MaterialKind.h"
 
+#include <memory>
 #include <string>
 
 class AbstractMaterial
 {
 public:
-    static AbstractMaterial *setMaterial(MaterialKind choice);
+    static std::shared_ptr<AbstractMaterial> setMaterial(MaterialKind choice);
 	virtual ~AbstractMaterial(){}
 	virtual double density(double T) = 0;
 	virtual double heatCapacity(double T) = 0;

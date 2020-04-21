@@ -3,22 +3,22 @@
 #include "Sphere.h"
 #include "Slab.h"
 
-AbstractGeometry *AbstractGeometry::setGeometry(GeomKind choice)
+std::shared_ptr<AbstractGeometry> AbstractGeometry::setGeometry(GeomKind choice)
 {
   if (choice == GeomKind::CYLINDER)
   {
-    return new Cylinder;
+    return std::make_shared<Cylinder>();
   }
   else if (choice == GeomKind::SPHERE)
   {
-    return new Sphere;
+    return std::make_shared<Sphere>();
   }
   else if (choice == GeomKind::SLAB)
   {
-    return new Slab;
+    return std::make_shared<Slab>();
   }
   else
   {
-	  return nullptr;
+	  return std::shared_ptr<AbstractGeometry>(nullptr);
   }
 }

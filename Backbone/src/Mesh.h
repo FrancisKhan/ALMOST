@@ -30,7 +30,7 @@ public:
 	
 private:
 	Eigen::VectorXd m_boundaries;
-	AbstractGeometry *pm_abGeom;
+	std::shared_ptr<AbstractGeometry> pm_abGeom;
 	GeomKind m_mode;
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;

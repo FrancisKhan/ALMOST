@@ -3,7 +3,7 @@
 void BaseHeatCode::setupMatrix()
 {
     std::vector<double> t_i = m_mesh.getTemperatures(); // initial temperatures
-    std::vector<AbstractMaterial*> matProperties = m_library.getMatProperties();
+    std::vector< std::shared_ptr<AbstractMaterial> > matProperties = m_library.getMatProperties();
 
     std::vector<double> lambda; // thermal conductivities
     

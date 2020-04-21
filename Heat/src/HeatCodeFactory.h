@@ -6,7 +6,7 @@
 class HeatCodeFactory
 {
 public:
-	static BaseHeatCode *setHeatCode(Mesh &mesh, Library &library);
+	static std::shared_ptr<BaseHeatCode> setHeatCode(Mesh &mesh, Library &library);
 };
 
 #endif
