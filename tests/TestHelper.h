@@ -14,18 +14,29 @@ class TestHelper
 public:
     TestHelper(const std::string &codePath, const std::string &inputPath, 
                const std::string &outputPath, const std::string &traceLevel) :
-               m_codePath(codePath), m_inputPath(inputPath), 
-               m_outputPath(outputPath), m_traceLevel(traceLevel) {}
+               m_linuxCommand(""), m_codePath(codePath), 
+               m_inputPath(inputPath), m_outputPath(outputPath), 
+               m_traceLevel(traceLevel) {}
 
-	void runCode()
+    TestHelper(const std::string &linuxCommand, const std::string &codePath, 
+               const std::string &inputPath, const std::string &outputPath, 
+               const std::string &traceLevel) :
+               m_linuxCommand(linuxCommand), m_codePath(codePath), 
+               m_inputPath(inputPath), m_outputPath(outputPath), 
+               m_traceLevel(traceLevel) {}
+
+	int runCode()
     {
         const std::string prePath = getPrePath();
 
-        const std::string finalStr = prePath + m_codePath + " " +
+        const std::string finalStr = m_linuxCommand + " " 
+        + prePath + m_codePath + " " +
         prePath + m_inputPath + " " + prePath +
         m_outputPath + " " + m_traceLevel;
 
-        if(!system(finalStr.c_str()))
+        int result = system(finalStr.c_str());
+
+        if(!result)
         {
             readOutput(prePath + m_outputPath);
         }
@@ -33,8 +44,9 @@ public:
         {
             std::cout << "Error: run code command not successful!" << std::endl;
             std::cout << "Command: " << finalStr << std::endl;
-            exit(-1);
         }
+
+        return result;
     }
 
     void readOutput(std:: string filename)
@@ -83,34 +95,6 @@ public:
         return -1.0;
     }
 
-    std::vector<double> getNeutronFlux()
-    {
-        const std::string pattern = "Neutron Flux";
-
-        unsigned keywordLineNumber = std::numeric_limits<unsigned>::max();
-
-        std::vector<double> result;
-
-        for(size_t i = 0; i < m_outputLines.size(); i++)
-	    {
-		    size_t pos = m_outputLines[i].find(pattern);
-
-		    if(pos != std::string::npos) 
-            {
-                keywordLineNumber = i;
-            }
-
-            if(i > keywordLineNumber)
-            {
-                 if(m_outputLines[i] == " ") break;
-                 std::vector<std::string> words = splitLine(m_outputLines[i]);
-                 result.push_back(std::stod(words[0]));
-            }
-	    }
-
-        return result;
-    }
-   
 std::vector<double> getVector(std::string keyword)
 {
     unsigned keywordLineNumber = std::numeric_limits<unsigned>::max();
@@ -162,6 +146,7 @@ std::vector<double> getVector(std::string keyword)
     }
 
 private:
+    const std::string &m_linuxCommand;
     const std::string &m_codePath; 
     const std::string &m_inputPath; 
     const std::string &m_outputPath; 

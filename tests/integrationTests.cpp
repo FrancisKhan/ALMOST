@@ -24,7 +24,7 @@ TEST_F(IntegrationTests, Problem1CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -45,7 +45,7 @@ TEST_F(IntegrationTests, Problem5CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -67,7 +67,7 @@ TEST_F(IntegrationTests, Problem7)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -89,7 +89,7 @@ TEST_F(IntegrationTests, Problem9)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -116,7 +116,7 @@ TEST_F(IntegrationTests, Problem10)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -140,7 +140,7 @@ TEST_F(IntegrationTests, Problem44CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -167,7 +167,7 @@ TEST_F(IntegrationTests, Problem74)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -201,7 +201,7 @@ TEST_F(IntegrationTests, Problem75)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -224,7 +224,7 @@ TEST_F(IntegrationTests, Problem1SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -245,7 +245,7 @@ TEST_F(IntegrationTests, Problem5SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -267,7 +267,7 @@ TEST_F(IntegrationTests, Problem8)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -292,7 +292,7 @@ TEST_F(IntegrationTests, Problem16)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -316,7 +316,7 @@ TEST_F(IntegrationTests, Problem44SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -340,7 +340,7 @@ TEST_F(IntegrationTests, Problem49)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -369,7 +369,7 @@ TEST_F(IntegrationTests, Problem69)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -392,7 +392,7 @@ TEST_F(IntegrationTests, Problem1SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -413,7 +413,7 @@ TEST_F(IntegrationTests, Problem5SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -435,7 +435,7 @@ TEST_F(IntegrationTests, Problem2)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -461,7 +461,7 @@ TEST_F(IntegrationTests, Problem3)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -488,7 +488,7 @@ TEST_F(IntegrationTests, Problem4)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -510,7 +510,7 @@ TEST_F(IntegrationTests, Problem6)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -534,7 +534,7 @@ TEST_F(IntegrationTests, Problem44SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -558,7 +558,7 @@ TEST_F(IntegrationTests, Problem48)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -587,7 +587,7 @@ TEST_F(IntegrationTests, Problem68)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -681,7 +681,7 @@ TEST_F(IntegrationTests, Problem58)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getNeutronFlux();
+  std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -715,3 +715,69 @@ TEST_F(IntegrationTests, Heat1)
   
   EXPECT_TRUE(true);
 }
+
+TEST_F(IntegrationTests, memTestCPMslab)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/Problem1SL.txt";
+  const std::string outputPath = "outputs/Out_Problem1SL.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+TEST_F(IntegrationTests, memTestCPMcyl)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/Problem1CY.txt";
+  const std::string outputPath = "outputs/Out_Problem1CY.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+TEST_F(IntegrationTests, memTestCPMsph)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/Problem1CY.txt";
+  const std::string outputPath = "outputs/Out_Problem1CY.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+TEST_F(IntegrationTests, memTestCORE)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/kinetics1.txt";
+  const std::string outputPath = "outputs/Out_kinetics1.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+TEST_F(IntegrationTests, memTestHEAT)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat1.txt";
+  const std::string outputPath = "outputs/Out_heat1.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
