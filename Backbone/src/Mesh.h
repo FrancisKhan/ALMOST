@@ -26,7 +26,13 @@ public:
 	void setMaterials(){};
 
 	void setTemperatures(std::vector<double> &temperatures);
-	std::vector<double> getTemperatures(){return m_temperatures;}
+	Eigen::VectorXd getTemperatures(){return m_temperatures;}
+
+	void setHeatSources(std::vector<double> &sources);
+	Eigen::VectorXd getHeatSources(){return m_heatSources;}
+
+	void setHeatBoundaries(std::vector<double> &boundaries);
+	Eigen::VectorXd getHeatBoundaries(){return m_heatBoundaries;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -35,7 +41,9 @@ private:
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;
 	double m_albedo;
-	std::vector<double> m_temperatures;
+	Eigen::VectorXd m_temperatures;
+	Eigen::VectorXd m_heatSources;
+	Eigen::VectorXd m_heatBoundaries;
 };
 
 #endif

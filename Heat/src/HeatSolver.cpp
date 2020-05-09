@@ -4,8 +4,13 @@
 
 #include <iostream>
 
+using namespace Eigen;
+
 void HeatSolver::solve(int max_iter_number, double accuracy)
 {
    std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_mesh, m_library);
-    heatCode->setupMatrix();	
+    auto [T, source]   = heatCode->setupSystem();	
+    auto [Tb, sourceb] = heatCode->applyBoundaryConditions(T, source);
+    heatCode->solveSystem(Tb, sourceb);
+
 }

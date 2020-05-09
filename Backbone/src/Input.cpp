@@ -87,8 +87,14 @@ std::string Input::readData()
 	{
 		setGeometryKind();
 		setMesh();
-		setAlbedo();
 		setMaterials();
+		setHeatBoundaryConditions();
+
+		std::vector<double> temperatures = setManyParameters("temperatures");
+		m_problem.setTemperatures(temperatures);
+
+		std::vector<double> heatSources = setManyParameters("sources");
+		m_problem.setHeatSources(heatSources);	
 	}
 	
 	inFile.close();
@@ -112,6 +118,8 @@ std::pair<unsigned, unsigned> Input::findBlock(std::string keyOne, std::string k
 	size_t pos = 0;
 	for(auto itemLine : m_inputLines)
 	{
+        if(itemLine.front() == '%') continue; // remove comments
+
 	    std::transform(itemLine.begin(), itemLine.end(), itemLine.begin(), ::tolower);
 	    std::transform(keyOne.begin(), keyOne.end(), keyOne.begin(), ::tolower);
 		std::transform(keyTwo.begin(), keyTwo.end(), keyTwo.begin(), ::tolower);
@@ -321,9 +329,6 @@ void Input::setMaterials()
    {
 		std::vector<MaterialKind> matProperties = setProperties();	
 		m_library.setMatProperties(matProperties);
-
-		std::vector<double> temperatures = setManyParameters("temperatures");
-		m_problem.setTemperatures(temperatures);	
    }
 }
 
@@ -512,9 +517,9 @@ std::vector<double> Input::setManyParameters(std::string name)
 	    printVector(result, out, TraceLevel::DEBUG);
 		return result;
 	}
-   
-    std::vector<unsigned> submeshes = {0};
-	std::vector<double> submeshValues = {0.0};
+
+    std::vector<unsigned> submeshes;
+	std::vector<double> submeshValues;
 
     if(isFloat(values.front()))
 	{
@@ -533,7 +538,7 @@ std::vector<double> Input::setManyParameters(std::string name)
 
 		int totSubmeshes = std::accumulate(submeshes.begin(), submeshes.end(), 0);
 	
-		result.resize(totSubmeshes + 1);
+		result.resize(totSubmeshes);
 
 		size_t indexCounter = 0;
 
@@ -550,6 +555,9 @@ std::vector<double> Input::setManyParameters(std::string name)
 	}
 	else
 	{
+        submeshes.push_back(0);
+		submeshValues.push_back(0.0);
+
 		for(size_t i = 0; i < values.size(); i++)
 		{
       		switch (i % 2)
@@ -589,4 +597,25 @@ std::vector<double> Input::setManyParameters(std::string name)
 
 	return result;
 }
+
+void Input::setHeatBoundaryConditions()
+{ 
+	const std::string name = "heat_boundaries";
+	std::vector<double> boundaries = setManyParameters(name);
+  
+    if(boundaries.size() < 6)
+    {
+		out.getLogger()->error("{} is missing one or more of its 6 parameters!", name);
+		exit(-1);
+    }
+    else if(boundaries.size() == 6)
+    {
+		m_problem.setHeatBoundaries(boundaries);
+    }
+	else
+    {
+		out.getLogger()->error("{} has more than 6 parameters!", name);
+		exit(-1);
+    }
+} 
 

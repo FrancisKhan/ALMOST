@@ -35,6 +35,7 @@ private:
 	void setsetKineticsParameters();
 	void setReactivity();
     std::string setCalculation();
+	void setHeatBoundaryConditions();
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);
