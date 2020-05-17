@@ -257,7 +257,7 @@ TEST_F(IntegrationTests, Problem8)
   const std::string codePath   = "app/app";
   const std::string inputPath  = "inputs/Problem8.txt";
   const std::string outputPath = "outputs/Out_Problem8.txt";
-  const std::string traceLevel = "DEBUG";
+  const std::string traceLevel = "TRACE";
 
   const double kEffRef = 0.99507265385648924;
   std::vector<double> refFlux = {0.1180, 0.1162, 0.1128, 0.1078,
@@ -703,24 +703,6 @@ TEST_F(IntegrationTests, Kinetics1)
   EXPECT_DOUBLE_EQ(test.getVector("Output power").back(),  powerRef);
 }
 
-TEST_F(IntegrationTests, steadyStateSL)
-{	
-  const std::string codePath   = "app/app";
-  const std::string inputPath  = "inputs/steady-stateSL.txt";
-  const std::string outputPath = "outputs/Out_steady-stateSL.txt";
-  const std::string traceLevel = "DEBUG";
-
-  TestHelper test(codePath, inputPath, outputPath, traceLevel);
-  test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
-  
-  std::vector<double> refTemp = {12.0000, 16.0000, 20.0000,
-                                 24.0000, 28.0000};
-
-  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
-  EXPECT_TRUE(areEqual);
-}
-
 TEST_F(IntegrationTests, memTestCPMslab)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
@@ -766,19 +748,6 @@ TEST_F(IntegrationTests, memTestCORE)
   const std::string codePath   = "app/app";
   const std::string inputPath  = "inputs/kinetics1.txt";
   const std::string outputPath = "outputs/Out_kinetics1.txt";
-  const std::string traceLevel = "DEBUG";
-
-  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
-  
-  EXPECT_TRUE((test.runCode() == 0));
-}
-
-TEST_F(IntegrationTests, memTestHEAT)
-{	
-  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
-  const std::string inputPath  = "inputs/steady-stateSL.txt";
-  const std::string outputPath = "outputs/Out_steady-stateSL.txt";
   const std::string traceLevel = "DEBUG";
 
   TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);

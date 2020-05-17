@@ -12,12 +12,14 @@ void Mesh::setMeshKind(GeomKind kind)
 	pm_abGeom = AbstractGeometry::setGeometry(kind);
 }
 
+// From cm to m
 void Mesh::setBoundaries(VectorXd &boundaries)
 {
 	m_boundaries = boundaries;
 	m_meshNumber = m_boundaries.size() - 1;
 }
 
+// From cm to m
 void Mesh::setBoundaries(double cellSide, unsigned meshNumber)
 {	
     m_boundaries = VectorXd::Zero(meshNumber + 1);
@@ -30,13 +32,13 @@ void Mesh::setBoundaries(double cellSide, unsigned meshNumber)
 	m_meshNumber = meshNumber;
 }
 
-VectorXd Mesh::getVolumes()
+VectorXd Mesh::getVolumes(std::string dim)
 {
 	VectorXd empty_vec(1); empty_vec << 0.0;
 	
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->volumes(m_boundaries);
+		return pm_abGeom->volumes(m_boundaries, dim);
 	}
 	else
 	{
@@ -44,11 +46,11 @@ VectorXd Mesh::getVolumes()
 	}
 }
 
-double Mesh::getSurface()
+double Mesh::getSurface(std::string dim)
 {
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->surface(m_boundaries);
+		return pm_abGeom->surface(m_boundaries, dim);
 	}
 	else
 	{

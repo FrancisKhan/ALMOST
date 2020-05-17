@@ -5,7 +5,7 @@
 calculation heat
 
 geometry  slab
-mesh 5 5.0 M1
+mesh 5 0.05 M1
 temperatures 30.0 5 
 sources 0.0 5
 heat_boundaries 1.0 0.0 10.0 1.0 0.0 30.0

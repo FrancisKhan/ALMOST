@@ -280,7 +280,7 @@ void Input::setMesh()
 	printVector(boundaries, out, TraceLevel::INFO);
 	m_problem.setBoundaries(boundaries);
 
-    Eigen::VectorXd volumes = m_problem.getVolumes();
+    Eigen::VectorXd volumes = m_problem.getVolumes("m");
 	out.getLogger()->info("Volumes:");
     printVector(volumes, out, TraceLevel::INFO);
 

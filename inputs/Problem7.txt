@@ -6,7 +6,7 @@ geometry  cylinder
 albedo    0.0
 energies  1
 
-mesh 10 4.279960 M1
+mesh 10 0.04279960 M1
 
 material M1
 

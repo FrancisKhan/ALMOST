@@ -170,3 +170,75 @@ Tensor3d CylSpectrumCode::calcCPs(std::pair<Tensor3d, Tensor4d> &trackData)
 
     return gcpm;
 }
+
+void CylSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
+{	
+	for(int h = 0; h < m_energies; h++)
+	{
+		out.getLogger()->debug("Apply boundary conditions Group {}", h + 1);
+		
+		double albedo = m_mesh.getAlbedo();
+		
+		VectorXd Pis   = VectorXd::Zero(m_cells);
+	    VectorXd psi   = VectorXd::Zero(m_cells);
+		
+		Pis.setZero();
+		psi.setZero();
+
+		for(int i = 0; i < m_cells; i++)
+		{
+			for(int j = 0; j < m_cells; j++)
+			{
+				gcpm(i, j, h) /= m_totalXS(h, j);  //reduced
+			}
+		}
+		
+		for(int i = 0; i < m_cells; i++)
+		{
+			for(int j = 0; j < m_cells; j++)
+			{
+				Pis(i) += gcpm(i, j, h) * m_totalXS(h, j);
+			}
+			
+			Pis(i) = 1.0 - Pis(i);
+			psi(i) = (4.0 * m_volumes(i) / m_surface) * Pis(i);
+			
+			out.getLogger()->debug("Cell n: {} Pis: {:5.4f}  psi: {:5.4}", i, Pis(i), psi(i));
+		}
+		
+		double Pss = 0.0;
+		
+		for(int i = 0; i < m_cells; i++)
+        {
+			Pss += psi(i) * m_totalXS(h, i);
+		}
+		
+		Pss = 1.0 - Pss;
+		
+		out.getLogger()->debug("Pss: {:5.4f} \n", Pss);
+		
+		for(int i = 0; i < m_cells; i++)
+		{
+			for(int j = 0; j < m_cells; j++)
+			{
+				gcpm(i, j, h) += Pis(i) * psi(j) * (albedo / (1.0 - Pss * albedo));
+				gcpm(i, j, h) *= m_totalXS(h, j);
+			}
+		}
+				
+	}	
+	
+	out.getLogger()->debug("P matrix (white BC)");
+    printMatrix(gcpm, out, TraceLevel::DEBUG, "Group");
+
+    for(int h = 0; h < m_energies; h++)
+	{
+	    for(int i = 0; i < m_cells; i++)
+		{
+			for(int j = 0; j < m_cells; j++)
+			{
+				gcpm(i, j, h) /= m_totalXS(h, j);
+			}
+		}
+	}	
+}

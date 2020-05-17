@@ -9,7 +9,7 @@ public:
     SlabHeatCode(Mesh &mesh, Library &library) : 
 	BaseHeatCode(mesh, library), 
 	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries()),
-	m_volumes(m_mesh.getVolumes()),
+	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()) {}
 	
 private:

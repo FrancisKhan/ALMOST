@@ -11,8 +11,8 @@ class AbstractGeometry
 public:
     static std::shared_ptr<AbstractGeometry> setGeometry(GeomKind choice);
 	virtual ~AbstractGeometry(){}
-	virtual Eigen::VectorXd volumes(Eigen::VectorXd &boundaries) = 0;
-	virtual double surface(Eigen::VectorXd &boundaries) = 0;
+	virtual Eigen::VectorXd volumes(Eigen::VectorXd &boundaries, std::string dim) = 0;
+	virtual double surface(Eigen::VectorXd &boundaries, std::string dim) = 0;
 };
 
 #endif

@@ -1,5 +1,6 @@
 # Tests need to be added as executables first
-add_executable(test_cpm mathsTests.cpp CoreTests.cpp CPMTests.cpp integrationTests.cpp)
+add_executable(test_cpm mathsTests.cpp CoreTests.cpp CPMTests.cpp 
+               HeatIntegrationTests.cpp integrationTests.cpp)
 
 # I'm using C++17 in the test
 #target_compile_features(test_cpm PRIVATE cxx_std_17)

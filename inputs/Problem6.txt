@@ -6,7 +6,7 @@ geometry  slab
 albedo    0.0
 energies  1
 
-mesh 9 4.513502 M1
+mesh 9 0.04513502 M1
 
 material M1
 

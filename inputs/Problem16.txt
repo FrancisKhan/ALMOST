@@ -6,7 +6,7 @@ geometry  sphere
 albedo    0.0
 energies  1
 
-mesh 12 6.12745 M1 10 3.063725 M2
+mesh 12 0.0612745 M1 10 0.03063725 M2
 
 material M1
 

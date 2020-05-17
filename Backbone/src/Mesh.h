@@ -17,8 +17,8 @@ public:
 	void setBoundaries(double meshes, unsigned meshNumber);
 	Eigen::VectorXd getBoundaries(){return m_boundaries;}
 	unsigned getCellsNumber(){return m_meshNumber;}
-	Eigen::VectorXd getVolumes();
-	double getSurface();
+	Eigen::VectorXd getVolumes(std::string dim);
+	double getSurface(std::string dim);
 	void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 	void setAlbedo(double albedo){m_albedo = albedo;}
