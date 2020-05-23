@@ -15,7 +15,7 @@ public:
 	GeomKind getGeometry() {return m_mode;}
 	void setBoundaries(Eigen::VectorXd &boundaries);
 	void setBoundaries(double meshes, unsigned meshNumber);
-	Eigen::VectorXd getBoundaries(){return m_boundaries;}
+	Eigen::VectorXd getBoundaries(std::string dim);
 	unsigned getCellsNumber(){return m_meshNumber;}
 	Eigen::VectorXd getVolumes(std::string dim);
 	double getSurface(std::string dim);

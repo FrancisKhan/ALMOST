@@ -9,17 +9,12 @@ class BaseSpectrumCode
 {
 public:
     BaseSpectrumCode(Mesh &mesh, Library &library) : 
-	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries()),
+	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_library.getCrossSectionSet().getTotal()),
 	m_cells(m_mesh.getCellsNumber()),
 	m_energies(m_mesh.getEnergyGroupsNumber()),
-	m_rays(sizeof(abscissa) / sizeof(abscissa[0]))
-	{
-		// from m to cm
-		std::transform(m_radii.begin(), m_radii.end(), m_radii.begin(), 
-		[](double j){return j * 100.0;});
-	}
+	m_rays(sizeof(abscissa) / sizeof(abscissa[0])) {}
 	
 	~BaseSpectrumCode(){}
 	

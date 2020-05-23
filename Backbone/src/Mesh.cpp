@@ -75,3 +75,13 @@ void Mesh::setHeatBoundaries(std::vector<double> &boundaries)
     Eigen::Map<Eigen::VectorXd> eigenVec(&boundaries[0], boundaries.size());
 	m_heatBoundaries = eigenVec;
 }
+
+Eigen::VectorXd Mesh::getBoundaries(std::string dim)
+{
+	if(dim == "m")  
+		return m_boundaries;
+	else if(dim == "cm") 
+		return m_boundaries * 100.0;
+	else
+		return m_boundaries * -1.0;
+}
