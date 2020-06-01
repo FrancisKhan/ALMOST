@@ -29,7 +29,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/app",
-            "args": ["inputs/steady-stateSL.txt", "outputs/Out_steady-stateSL.txt", "DEBUG"],
+            "args": ["inputs/steady-state_convSL.txt", "outputs/Out_steady-state_convSL.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -167,17 +167,17 @@ void printVector(Eigen::VectorXd vec, Output output, TraceLevel level)
 	for(int i = 0; i < vec.size(); i++)
 	{
 		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical("{:5.4f}", vec(i));
+			output.getLogger()->critical("{:7.6e}", vec(i));
 	    else if (level == TraceLevel::ERROR)
-			output.getLogger()->error("{:5.4f}", vec(i));
+			output.getLogger()->error("{:7.6e}", vec(i));
 		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn("{:5.4f}", vec(i));
+			output.getLogger()->warn("{:7.6e}", vec(i));
 		else if (level == TraceLevel::INFO)
-			output.getLogger()->info("{:5.4f}", vec(i));
+			output.getLogger()->info("{:7.6e}", vec(i));
 		else if(level == TraceLevel::DEBUG)
-			output.getLogger()->debug("{:5.4f}", vec(i));
+			output.getLogger()->debug("{:7.6e}", vec(i));
 		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace("{:5.4f}", vec(i));
+			output.getLogger()->trace("{:7.6e}", vec(i));
 		else {}
 	}
 
@@ -290,17 +290,17 @@ void printVector(std::vector<double> vec, Output output, TraceLevel level)
 	for(unsigned i = 0; i < vec.size(); i++)
 	{
 		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical("{:8.9f}", vec[i]);
+			output.getLogger()->critical("{:7.6e}", vec[i]);
 	    else if (level == TraceLevel::ERROR)
-			output.getLogger()->error("{:8.9f}", vec[i]);
+			output.getLogger()->error("{:7.6e}", vec[i]);
 		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn("{:8.9f}", vec[i]);
+			output.getLogger()->warn("{:7.6e}", vec[i]);
 		else if (level == TraceLevel::INFO)
-			output.getLogger()->info("{:8.9f}", vec[i]);
+			output.getLogger()->info("{:7.6e}", vec[i]);
 		else if(level == TraceLevel::DEBUG)
-			output.getLogger()->debug("{:8.9f}", vec[i]);
+			output.getLogger()->debug("{:7.6e}", vec[i]);
 		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace("{:8.9f}", vec[i]);
+			output.getLogger()->trace("{:7.6e}", vec[i]);
 		else {}
 	}
 
@@ -549,4 +549,121 @@ bool isString(const std::string& s)
 	}
 
 	return result;
+}
+
+void printMatrix(MatrixXld A, Output output, TraceLevel level)
+{
+	if(output.getLogger() == nullptr) 
+	{
+		std::cout << "PrintMatrix::MatrixXld nullptr!" << std::endl;
+		return;
+	}
+	
+    for(int i = 0; i < A.rows(); i++)
+    {
+		std::string msg;
+		
+	    for(int j = 0; j < A.cols(); j++)
+	    {
+			msg += std::to_string(A(i, j)) + " ";
+	    }
+		
+	    if (level == TraceLevel::CRITICAL)
+		    output.getLogger()->critical(msg);
+	    else if (level == TraceLevel::ERROR)
+			output.getLogger()->error(msg);
+		else if (level == TraceLevel::WARN)
+			output.getLogger()->warn(msg);
+		else if (level == TraceLevel::INFO)
+			output.getLogger()->info(msg);
+		else if(level == TraceLevel::DEBUG)
+			output.getLogger()->debug(msg);
+		else if(level == TraceLevel::TRACE)
+			output.getLogger()->trace(msg);
+		else {}
+    }	
+
+	if (level == TraceLevel::CRITICAL)
+		output.getLogger()->critical(" ");	
+	else if (level == TraceLevel::ERROR)
+		output.getLogger()->error(" ");
+	else if (level == TraceLevel::WARN)
+		output.getLogger()->warn(" ");
+	else if (level == TraceLevel::INFO)
+		output.getLogger()->info(" ");
+	else if(level == TraceLevel::DEBUG)
+		output.getLogger()->debug(" ");
+	else if(level == TraceLevel::TRACE)
+		output.getLogger()->trace(" ");
+	else {}
+}
+
+void printVector(VectorXld vec, Output output, TraceLevel level)
+{	
+    if(output.getLogger() == nullptr) 
+	{
+		std::cout << "PrintMatrix::VectorXd nullptr!" << std::endl;
+		return;
+	}
+
+	for(int i = 0; i < vec.size(); i++)
+	{
+		if (level == TraceLevel::CRITICAL)
+			output.getLogger()->critical("{:7.6e}", vec(i));
+	    else if (level == TraceLevel::ERROR)
+			output.getLogger()->error("{:7.6e}", vec(i));
+		else if (level == TraceLevel::WARN)
+			output.getLogger()->warn("{:7.6e}", vec(i));
+		else if (level == TraceLevel::INFO)
+			output.getLogger()->info("{:7.6e}", vec(i));
+		else if(level == TraceLevel::DEBUG)
+			output.getLogger()->debug("{:7.6e}", vec(i));
+		else if(level == TraceLevel::TRACE)
+			output.getLogger()->trace("{:7.6e}", vec(i));
+		else {}
+	}
+
+	if (level == TraceLevel::CRITICAL)
+		output.getLogger()->critical(" ");	
+	else if (level == TraceLevel::ERROR)
+		output.getLogger()->error(" ");
+	else if (level == TraceLevel::WARN)
+		output.getLogger()->warn(" ");
+	else if (level == TraceLevel::INFO)
+		output.getLogger()->info(" ");
+	else if(level == TraceLevel::DEBUG)
+		output.getLogger()->debug(" ");
+	else if(level == TraceLevel::TRACE)
+		output.getLogger()->trace(" ");
+	else {}
+}
+
+Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 
+                               const Eigen::VectorXd &b, 
+              	               const Eigen::VectorXd &c, 
+							   const Eigen::VectorXd &d)
+{
+   int n = d.size();
+   Eigen::VectorXd result = Eigen::VectorXd::Zero(n); 
+   Eigen::VectorXd P = Eigen::VectorXd::Zero(n);   
+   Eigen::VectorXd Q = Eigen::VectorXd::Zero(n);   
+   result = P;
+
+   // Forward pass
+   P(0) = -c(0) / b(0);
+   Q(0) =  d(0) / b(0);
+
+   for (int i = 1; i < n; i++)
+   {
+      double denominator = b(i) + a(i - 1) * P(i - 1);
+      P(i) = -c(i - 1)                    / denominator;
+      Q(i) = (d(i) - a(i - 1) * Q(i - 1)) / denominator;
+   }
+
+   // Backward pass
+   result(n - 1) = Q(n - 1);
+   for (int i = n - 2; i >= 0; i--) 
+      result(i) = P(i) * result(i + 1) + Q(i);
+
+    return result;
 }

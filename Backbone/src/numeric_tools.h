@@ -12,6 +12,9 @@
 #include <limits>
 #include <vector>
 
+typedef Eigen::Matrix<long double, Eigen::Dynamic, Eigen::Dynamic> MatrixXld;
+typedef Eigen::Vector<long double, Eigen::Dynamic> VectorXld;
+
 typedef Eigen::Tensor<double, 3> Tensor3d;
 typedef Eigen::Tensor<double, 4> Tensor4d;
 
@@ -23,7 +26,9 @@ bool fplt(double x, double y);
 bool fpgt(double x, double y);
 void printMatrix(Tensor3d A, Output output, TraceLevel level, std::string str);
 void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level);
+void printMatrix(MatrixXld A, Output output, TraceLevel level);
 void printVector(Eigen::VectorXd vec, Output output, TraceLevel level);
+void printVector(VectorXld vec, Output output, TraceLevel level);
 void printVector(std::vector<std::string> vec, Output output, TraceLevel level);
 void printVector(std::vector<double> vec, Output output, TraceLevel level);
 void printVector(std::vector<MaterialKind> vec, Output output, TraceLevel level);
@@ -170,8 +175,30 @@ inline std::vector<T>& operator/=(std::vector<T> &a, const T d)
     return a;
 }
 
+template <typename T>
+inline Eigen::VectorXd operator-(const Eigen::VectorXd& a, const T m)
+{
+    Eigen::VectorXd result = Eigen::VectorXd::Zero(a.size());
+    std::transform(a.begin(), a.end(), result.begin(), [m](auto i){return i - m;});
+    return result;
+}
+
+template <typename T>
+inline Eigen::VectorXd operator+(const Eigen::VectorXd& a, const T p)
+{
+    Eigen::VectorXd result = Eigen::VectorXd::Zero(a.size());
+    std::transform(a.begin(), a.end(), result.begin(), [p](auto i){return i + p;});
+    return result;
+}
+
+
 bool isFloat(const std::string& s);
 bool isInteger(const std::string& s);
 bool isString(const std::string& s);
+
+Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 
+                               const Eigen::VectorXd &b, 
+              	               const Eigen::VectorXd &c, 
+                               const Eigen::VectorXd &d);
 
 #endif

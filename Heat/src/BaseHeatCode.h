@@ -14,17 +14,16 @@ public:
 	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries("m")),
 	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()),
-	m_temperatures(m_mesh.getTemperatures()), 
-	m_heatSources(m_mesh.getTemperatures()) {}
+	m_temperatures(m_mesh.getTemperatures("C")),
+	m_heatSources(m_mesh.getHeatSources()) {}
 	
 	~BaseHeatCode(){}
 
 	std::tuple<Eigen::VectorXd, Eigen::VectorXd, Eigen::VectorXd> calcInterTemperatures();
 
-    Eigen::VectorXd calcConductivities(Eigen::VectorXd &t);
+    Eigen::VectorXd calcConductivities(const Eigen::VectorXd &t);
 
-	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> applyBoundaryConditions(Eigen::MatrixXd &T, 
-	Eigen::VectorXd &source);
+	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> applyBoundaryConditions(Eigen::MatrixXd &T, Eigen::VectorXd &source);
 
 	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
 

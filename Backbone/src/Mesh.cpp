@@ -60,23 +60,35 @@ double Mesh::getSurface(std::string dim)
 
 void Mesh::setTemperatures(std::vector<double> &temperatures)
 {
-    Eigen::Map<Eigen::VectorXd> eigenVec(&temperatures[0], temperatures.size());
+    Map<VectorXd> eigenVec(&temperatures[0], temperatures.size());
 	m_temperatures = eigenVec;
+}
+
+VectorXd Mesh::getTemperatures(std::string dim)
+{
+    if(dim == "C")  
+		return m_temperatures;
+	else if(dim == "K")
+	{
+        return m_temperatures + 273.15; 
+	} 
+	else
+		return m_temperatures * -1.0;
 }
 
 void Mesh::setHeatSources(std::vector<double> &sources)
 {
-    Eigen::Map<Eigen::VectorXd> eigenVec(&sources[0], sources.size());
+    Map<VectorXd> eigenVec(&sources[0], sources.size());
 	m_heatSources = eigenVec;
 }
 
-void Mesh::setHeatBoundaries(std::vector<double> &boundaries)
+void Mesh::setHeatBoundaryConditions(std::vector<double> &boundaries)
 {
-    Eigen::Map<Eigen::VectorXd> eigenVec(&boundaries[0], boundaries.size());
-	m_heatBoundaries = eigenVec;
+    Map<VectorXd> eigenVec(&boundaries[0], boundaries.size());
+	m_heatBoundaryConditions = eigenVec;
 }
 
-Eigen::VectorXd Mesh::getBoundaries(std::string dim)
+VectorXd Mesh::getBoundaries(std::string dim)
 {
 	if(dim == "m")  
 		return m_boundaries;

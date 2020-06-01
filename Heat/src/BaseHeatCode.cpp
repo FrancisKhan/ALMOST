@@ -6,7 +6,7 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
-    VectorXd lambda = calcConductivities(m_temperatures);
+    VectorXd lambda = calcConductivities(m_mesh.getTemperatures("K"));
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -34,14 +34,17 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
     out.getLogger()->debug("Source");
     printVector(m_heatSources, out, TraceLevel::DEBUG);
 
+    out.getLogger()->debug("Lambda");
+    printVector(lambda, out, TraceLevel::DEBUG);
+
     return std::make_tuple(T, m_heatSources);
 }
 
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T, VectorXd &source)
 {
-    VectorXd lambda = calcConductivities(m_temperatures);
+    VectorXd lambda = calcConductivities(m_mesh.getTemperatures("K"));
 
-    VectorXd boundaries = m_mesh.getHeatBoundaries();
+    VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
 
     // Left boundary condition
 
@@ -51,8 +54,9 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     double BL = boundaries(1);
     double CL = boundaries(2);
 
-    double alphaL =  AL / ((deltaXL / (2.0 * lambda(0))) * AL - BL);
-    double betaL  = -CL / ((deltaXL / (2.0 * lambda(0))) * AL - BL);
+    double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL - BL;
+    double alphaL =  AL / denominatorL;
+    double betaL  = -CL / denominatorL;
 
     T(0, 0) = T(0, 0) + alphaL / deltaXL;
     source(0) = source(0) - betaL / deltaXL;
@@ -65,8 +69,9 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     double BR = boundaries(4);
     double CR = boundaries(5);
 
-    double alphaR =  AR / ((deltaXR / (2.0 * lambda(m_cells - 1))) * AR - BR);
-    double betaR  = -CR / ((deltaXR / (2.0 * lambda(m_cells - 1))) * AR - BR);
+    double denominatorR = (deltaXR / (2.0 * lambda(m_cells - 1))) * AR - BR;
+    double alphaR =  AR / denominatorR;
+    double betaR  = -CR / denominatorR;
 
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR / deltaXR;
     source(m_cells - 1) = source(m_cells - 1) - betaR / deltaXR;
@@ -77,37 +82,36 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     out.getLogger()->debug("Source2");
     printVector(source, out, TraceLevel::DEBUG);
 
+    out.getLogger()->debug("Lambda2");
+    printVector(lambda, out, TraceLevel::DEBUG);
+
     return std::make_tuple(T, source);
 }
 
 void BaseHeatCode::solveSystem(MatrixXd &T, VectorXd &source)
 {
-    Eigen::ColPivHouseholderQR<Eigen::MatrixXd> CPHQR;
-	CPHQR.compute(T);
-    VectorXd result = CPHQR.solve(source);
+    VectorXd result = tridiag_solver(T.diagonal(-1), T.diagonal(), 
+                                     T.diagonal(+1), source);
 
     out.getLogger()->debug("Temperature:");
     printVector(result, out, TraceLevel::DEBUG);
 }
 
-VectorXd BaseHeatCode::calcConductivities(VectorXd &t)
+VectorXd BaseHeatCode::calcConductivities(const VectorXd &t)
 {
     std::vector< std::shared_ptr<AbstractMaterial> > matProperties = m_library.getMatProperties();
 
     VectorXd lambda = VectorXd::Zero(m_cells); // thermal conductivities
     
     for(int i = 0; i < m_cells; i++)
-    {
-        double t_k = t(i) + 273.15; // from celsius to kelvin
-        lambda[i] = matProperties[i]->thermalConductivity(t_k);
-    }
+        lambda[i] = matProperties[i]->thermalConductivity(t(i));
 
     return lambda;
 }
 
 std::tuple<VectorXd, VectorXd, VectorXd> BaseHeatCode::calcInterTemperatures()
 {
-    VectorXd t_i = m_mesh.getTemperatures(); // initial temperatures
+    VectorXd t_i = m_mesh.getTemperatures("C"); // initial temperatures
     std::vector< std::shared_ptr<AbstractMaterial> > matProperties = m_library.getMatProperties();
 
     VectorXd lambda = VectorXd::Zero(m_cells); // thermal conductivities

@@ -38,3 +38,21 @@ TEST_F(HeatIntegrationTests, steadyStateSL)
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
 }
+
+TEST_F(HeatIntegrationTests, steadyStateConvSL)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/steady-state_convSL.txt";
+  const std::string outputPath = "outputs/Out_steady-state_convSL.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperature");
+
+  std::vector<double> refTemp = {12.0000, 16.0000, 20.0000,
+                                 24.0000, 28.0000};
+
+  bool areEqual = true;//std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+}

@@ -26,13 +26,13 @@ public:
 	void setMaterials(){};
 
 	void setTemperatures(std::vector<double> &temperatures);
-	Eigen::VectorXd getTemperatures(){return m_temperatures;}
+	Eigen::VectorXd getTemperatures(std::string dim);
 
 	void setHeatSources(std::vector<double> &sources);
 	Eigen::VectorXd getHeatSources(){return m_heatSources;}
 
-	void setHeatBoundaries(std::vector<double> &boundaries);
-	Eigen::VectorXd getHeatBoundaries(){return m_heatBoundaries;}
+	void setHeatBoundaryConditions(std::vector<double> &boundaries);
+	Eigen::VectorXd getHeatBoundaryConditions(){return m_heatBoundaryConditions;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -43,7 +43,7 @@ private:
 	double m_albedo;
 	Eigen::VectorXd m_temperatures;
 	Eigen::VectorXd m_heatSources;
-	Eigen::VectorXd m_heatBoundaries;
+	Eigen::VectorXd m_heatBoundaryConditions;
 };
 
 #endif

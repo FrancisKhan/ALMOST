@@ -503,6 +503,7 @@ void Input::setKineticsParameters()
 std::vector<double> Input::setManyParameters(std::string name)
 { 
     std::vector<std::string> values = readManyParameters(name);
+
     std::vector<double> result(values.size(), 0.0);
 
     // If the values read from the input are all floats, then
@@ -537,21 +538,19 @@ std::vector<double> Input::setManyParameters(std::string name)
 		}
 
 		int totSubmeshes = std::accumulate(submeshes.begin(), submeshes.end(), 0);
-	
+
 		result.resize(totSubmeshes);
 
 		size_t indexCounter = 0;
 
-		for(size_t i = 1; i < submeshes.size(); i++)
+		for(size_t i = 0; i < submeshes.size(); i++)
 		{
-      		size_t lastValue = 1 ? i == submeshes.size() - 1 : 0;
-
-			for(size_t j = 0; j < submeshes[i] + lastValue; j++)
+			for(size_t j = 0; j < submeshes[i]; j++)
 			{
 		  		result[indexCounter] = submeshValues[i];
 		  		indexCounter++;
 			}
-		}	
+		}
 	}
 	else
 	{
@@ -610,7 +609,7 @@ void Input::setHeatBoundaryConditions()
     }
     else if(boundaries.size() == 6)
     {
-		m_problem.setHeatBoundaries(boundaries);
+		m_problem.setHeatBoundaryConditions(boundaries);
     }
 	else
     {
