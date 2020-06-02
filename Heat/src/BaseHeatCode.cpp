@@ -54,7 +54,7 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     double BL = boundaries(1);
     double CL = boundaries(2);
 
-    double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL - BL;
+    double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL + BL;
     double alphaL =  AL / denominatorL;
     double betaL  = -CL / denominatorL;
 
@@ -69,7 +69,7 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     double BR = boundaries(4);
     double CR = boundaries(5);
 
-    double denominatorR = (deltaXR / (2.0 * lambda(m_cells - 1))) * AR - BR;
+    double denominatorR = (deltaXR / (2.0 * lambda(m_cells - 1))) * AR + BR;
     double alphaR =  AR / denominatorR;
     double betaR  = -CR / denominatorR;
 
@@ -92,6 +92,9 @@ void BaseHeatCode::solveSystem(MatrixXd &T, VectorXd &source)
 {
     VectorXd result = tridiag_solver(T.diagonal(-1), T.diagonal(), 
                                      T.diagonal(+1), source);
+
+    out.getLogger()->debug("Mesh middle points:");
+    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
 
     out.getLogger()->debug("Temperature:");
     printVector(result, out, TraceLevel::DEBUG);

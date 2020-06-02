@@ -97,3 +97,13 @@ VectorXd Mesh::getBoundaries(std::string dim)
 	else
 		return m_boundaries * -1.0;
 }
+
+VectorXd Mesh::getMeshMiddlePoints()
+{
+	VectorXd result = VectorXd::Zero(m_boundaries.size() - 1);
+
+	for(int i = 0; i < result.size(); i++)
+		result(i) = (m_boundaries(i) + m_boundaries(i + 1)) / 2.0;
+   
+    return result;
+}

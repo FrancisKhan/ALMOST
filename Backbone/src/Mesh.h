@@ -23,6 +23,7 @@ public:
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 	void setAlbedo(double albedo){m_albedo = albedo;}
 	double getAlbedo(){return m_albedo;}
+	Eigen::VectorXd getMeshMiddlePoints();
 	void setMaterials(){};
 
 	void setTemperatures(std::vector<double> &temperatures);
