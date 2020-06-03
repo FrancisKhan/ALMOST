@@ -599,7 +599,7 @@ std::vector<double> Input::setManyParameters(std::string name)
 
 void Input::setHeatBoundaryConditions()
 { 
-	const std::string name = "heat_boundaries";
+	const std::string name = "heat_boundary_conditions";
 	std::vector<double> boundaries = setManyParameters(name);
   
     if(boundaries.size() < 6)

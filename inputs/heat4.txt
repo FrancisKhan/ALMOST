@@ -1,0 +1,15 @@
+% Steady-state, constant parameters, slab geometry
+% Boundary conditions:
+% q(0) = h1(T1 - Tinf1)
+% T(L) = h2(T2 - Tinf2)
+
+calculation heat
+
+geometry  slab
+mesh 25 0.05 M1
+temperatures 30.0 25
+sources 0.0 25
+heat_boundary_conditions 1.0 0.001 30.0 1.0 0.002 20.0
+
+material M1
+properties u

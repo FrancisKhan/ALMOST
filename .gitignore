@@ -43,6 +43,8 @@ _deps
 *.out
 *.app
 
+~$*
+
 DartConfiguration.tcl
 app/app
 tests/test_cpm

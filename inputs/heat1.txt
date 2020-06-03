@@ -1,0 +1,15 @@
+% Steady-state, constant parameters, slab geometry
+% Boundary conditions:
+% T(0) = T1
+% T(L) = T2
+
+calculation heat
+
+geometry  slab
+mesh 5 0.05 M1
+temperatures 30.0 5 
+sources 0.0 5
+heat_boundary_conditions 1.0 0.0 10.0 1.0 0.0 30.0
+
+material M1
+properties u
