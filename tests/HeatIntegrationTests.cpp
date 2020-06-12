@@ -199,3 +199,60 @@ TEST_F(HeatIntegrationTests, heat6)
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
 }
+
+// Steady-state, constant parameters, slab geometry
+// Boundary conditions:
+// T(0) = T1
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat7)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat7.txt";
+  const std::string outputPath = "outputs/Out_heat7.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperature");
+
+  std::vector<double> refTemp = {3.112919e+01, 5.116173e+01, 6.896844e+01,
+                                 8.454930e+01, 9.790433e+01, 1.090335e+02, 
+                                 1.179369e+02, 1.246144e+02, 1.290661e+02,
+                                 1.312919e+02, 1.312919e+02, 1.290661e+02, 
+                                 1.246144e+02, 1.179369e+02, 1.090335e+02, 
+                                 9.790433e+01, 8.454930e+01, 6.896844e+01, 
+                                 5.116173e+01, 3.112919e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+}
+
+// Steady-state, temperature-dependent conductivity, slab geometry
+// with internal generation
+// Boundary conditions:
+// T(0) = T1
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat8)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat8.txt";
+  const std::string outputPath = "outputs/Out_heat8.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperature");
+
+  std::vector<double> refTemp = {3.085607e+01, 4.943671e+01, 6.585663e+01, 
+                                 8.015053e+01, 9.234772e+01, 1.024726e+02, 
+                                 1.105449e+02, 1.165802e+02, 1.205900e+02, 
+                                 1.225818e+02, 1.225593e+02, 1.205225e+02, 
+                                 1.164675e+02, 1.103868e+02, 1.022688e+02,
+                                 9.209787e+01, 7.985411e+01, 6.551304e+01,
+                                 4.904523e+01, 3.041586e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+}

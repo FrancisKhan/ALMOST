@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class MaterialKind {UNDEFINED, U};
+enum class MaterialKind {UNDEFINED, U, NEW};
 
 inline std::ostream& operator << (std::ostream& stm, MaterialKind mat)
 {
@@ -11,6 +11,7 @@ inline std::ostream& operator << (std::ostream& stm, MaterialKind mat)
     {
         case MaterialKind::UNDEFINED : return stm << "UNDEFINED";
         case MaterialKind::U         : return stm << "U";
+        case MaterialKind::NEW       : return stm << "NEW";
         default : return stm << "matProperties{" << int(mat) << "}"; 
     }
 }

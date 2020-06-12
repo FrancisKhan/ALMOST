@@ -6,7 +6,9 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
-    VectorXd lambda = calcConductivities(m_mesh.getTemperatures("K"));
+    m_temperatures  = m_mesh.getTemperatures("C");
+    m_heatSources   = m_mesh.getHeatSources();
+    VectorXd lambda = m_mesh.getThermalConductivities();
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -42,7 +44,7 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
 
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T, VectorXd &source)
 {
-    VectorXd lambda = calcConductivities(m_mesh.getTemperatures("K"));
+    VectorXd lambda = m_mesh.getThermalConductivities();
 
     VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
 
@@ -90,59 +92,16 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
 
 void BaseHeatCode::solveSystem(MatrixXd &T, VectorXd &source)
 {
-    VectorXd result = tridiag_solver(T.diagonal(-1), T.diagonal(), 
+    m_temperatures = tridiag_solver(T.diagonal(-1), T.diagonal(), 
                                      T.diagonal(+1), source);
+
+    m_mesh.setTemperatures(m_temperatures);
 
     out.getLogger()->debug("Mesh middle points:");
     printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
 
     out.getLogger()->debug("Temperature:");
-    printVector(result, out, TraceLevel::DEBUG);
-}
-
-VectorXd BaseHeatCode::calcConductivities(const VectorXd &t)
-{
-    std::vector< std::shared_ptr<AbstractMaterial> > matProperties = m_library.getMatProperties();
-
-    VectorXd lambda = VectorXd::Zero(m_cells); // thermal conductivities
-    
-    for(int i = 0; i < m_cells; i++)
-        lambda[i] = matProperties[i]->thermalConductivity(t(i));
-
-    return lambda;
-}
-
-std::tuple<VectorXd, VectorXd, VectorXd> BaseHeatCode::calcInterTemperatures()
-{
-    VectorXd t_i = m_mesh.getTemperatures("C"); // initial temperatures
-    std::vector< std::shared_ptr<AbstractMaterial> > matProperties = m_library.getMatProperties();
-
-    VectorXd lambda = VectorXd::Zero(m_cells); // thermal conductivities
-    
-    for(int i = 0; i < m_cells; i++)
-    {
-        double t_k = t_i(i) + 273.15; // from celsius to kelvin
-        lambda[i] = matProperties[i]->thermalConductivity(t_k);
-    }
-
-    // for(size_t i = 0; i < m_cells; i++)
-    // {
-    //     std::cout << t_i[i] << " " << lambda[i] << std::endl;
-    // }
-
-    VectorXd t_half_plus  = VectorXd::Zero(m_cells - 1);
-    VectorXd t_half_minus = VectorXd::Zero(m_cells - 1);
-
-    for(int i = 1; i < m_cells - 2; i++)
-    {
-        t_half_minus[i] = (t_i[i] * lambda[i] + t_i[i - 1] * lambda[i - 1]) /
-        (lambda[i] + lambda[i - 1]);
-
-        t_half_plus[i] = (t_i[i] * lambda[i] + t_i[i + 1] * lambda[i + 1]) /
-        (lambda[i] + lambda[i + 1]);
-    }
-
-    return std::make_tuple(lambda, t_half_plus, t_half_minus);
+    printVector(m_temperatures, out, TraceLevel::DEBUG);
 }
 
 std::vector<double> BaseHeatCode::exactSolution()

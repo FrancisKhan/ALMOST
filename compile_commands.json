@@ -6,8 +6,8 @@
 },
 {
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/AbstractMaterial.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/AbstractMaterial.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/AbstractMaterial.cpp"
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Material.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Material.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/src/Material.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
@@ -23,11 +23,6 @@
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
   "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Input.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Input.cpp",
   "file": "/mnt/c/C++/ALMOST/Backbone/src/Input.cpp"
-},
-{
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Uranium.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Uranium.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Uranium.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
@@ -68,6 +63,11 @@
   "directory": "/mnt/c/C++/ALMOST/Backbone/src",
   "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/CrossSectionSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/CrossSectionSet.cpp",
   "file": "/mnt/c/C++/ALMOST/Backbone/src/CrossSectionSet.cpp"
+},
+{
+  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/PolynomialFunction.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/PolynomialFunction.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/src/PolynomialFunction.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/CPM/src",

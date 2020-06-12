@@ -10,8 +10,8 @@ class Input
     typedef std::pair<unsigned, unsigned> us_pair;
 
 public:
-    Input(Mesh &problem, Library &library) : 
-	m_problem(problem), m_library(library), m_energies(0),
+    Input(Mesh &mesh, Library &library) : 
+	m_mesh(mesh), m_library(library), m_energies(0),
 	m_cells(0), m_inputPath(""){}
 	std::string readData();
 	void printData();
@@ -30,21 +30,23 @@ private:
 	void setAlbedo();
 	void setMesh();
 	void setMaterials();
-	std::vector<MaterialKind> setProperties();
 	void setKineticsParameters();
 	void setsetKineticsParameters();
 	void setReactivity();
     std::string setCalculation();
 	void setHeatBoundaryConditions();
+	void setMaterialProperties(std::string name);
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);
-	std::vector<double> setManyParameters(std::string name);
+	
+	std::vector<double> setManyParameters(std::string name, 
+										  std::string prefix = "");
 
     Eigen::MatrixXd setXS(std::string name);
 	Tensor3d setMatrixXS(std::string name);
 
- 	Mesh &m_problem;
+ 	Mesh &m_mesh;
 	Library &m_library;
 	unsigned m_energies;
 	unsigned m_cells;

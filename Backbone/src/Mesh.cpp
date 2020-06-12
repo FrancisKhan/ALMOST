@@ -34,7 +34,7 @@ void Mesh::setBoundaries(double cellSide, unsigned meshNumber)
 
 VectorXd Mesh::getVolumes(std::string dim)
 {
-	VectorXd empty_vec(1); empty_vec << 0.0;
+	VectorXd empty = VectorXd::Zero(1);
 	
 	if(pm_abGeom != nullptr)
 	{
@@ -42,7 +42,7 @@ VectorXd Mesh::getVolumes(std::string dim)
 	}
 	else
 	{
-		return empty_vec;
+		return empty;
 	}
 }
 
@@ -60,26 +60,61 @@ double Mesh::getSurface(std::string dim)
 
 void Mesh::setTemperatures(std::vector<double> &temperatures)
 {
-    Map<VectorXd> eigenVec(&temperatures[0], temperatures.size());
-	m_temperatures = eigenVec;
+    for(size_t i = 0; i < temperatures.size(); i++)
+	{
+		 m_materials[i]->setTemperature(temperatures[i]);
+	}
+}
+
+void Mesh::setTemperatures(VectorXd &temperatures)
+{
+    for(int i = 0; i < temperatures.size(); i++)
+	{
+		m_materials[i]->setTemperature(temperatures[i]);
+	}
 }
 
 VectorXd Mesh::getTemperatures(std::string dim)
 {
-    if(dim == "C")  
-		return m_temperatures;
+    VectorXd result = VectorXd::Zero(m_meshNumber);
+
+    for(size_t i = 0; i < m_meshNumber; i++)
+	{
+		result[i] = m_materials[i]->getTemperature();
+	}
+
+    if(dim == "C")
+	{
+		return result;
+	}
 	else if(dim == "K")
 	{
-        return m_temperatures + 273.15; 
+        return result + 273.15; 
 	} 
 	else
-		return m_temperatures * -1.0;
+	{
+		return result * -1.0;
+	}
 }
 
 void Mesh::setHeatSources(std::vector<double> &sources)
 {
-    Map<VectorXd> eigenVec(&sources[0], sources.size());
-	m_heatSources = eigenVec;
+    for(size_t i = 0; i < sources.size(); i++)
+	{
+		 m_materials[i]->setHeatSource(sources[i]);
+	}
+}
+
+VectorXd Mesh::getHeatSources()
+{
+    VectorXd result = VectorXd::Zero(m_meshNumber);
+
+    for(size_t i = 0; i < m_meshNumber; i++)
+	{
+		result[i] = m_materials[i]->getHeatSource();
+	}
+
+	return result;
 }
 
 void Mesh::setHeatBoundaryConditions(std::vector<double> &boundaries)
@@ -106,4 +141,31 @@ VectorXd Mesh::getMeshMiddlePoints()
 		result(i) = (m_boundaries(i) + m_boundaries(i + 1)) / 2.0;
    
     return result;
+}
+
+void Mesh::createMaterials(std::vector<std::string> materialMap)
+{
+	m_materials.resize(m_meshNumber);
+
+	for(unsigned i = 0; i < m_meshNumber; i++)
+	{
+		m_materials[i] = std::make_shared<Material>(materialMap[i]);
+	}
+}
+
+void Mesh::setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec)
+{
+    m_materials[i]->setThermalConductivityLaw(strVec);
+}
+
+Eigen::VectorXd Mesh::getThermalConductivities()
+{
+	VectorXd result = VectorXd::Zero(m_meshNumber);
+
+    for(size_t i = 0; i < m_meshNumber; i++)
+	{
+		result[i] = m_materials[i]->getThermalConductivity();
+	}
+
+	return result;
 }

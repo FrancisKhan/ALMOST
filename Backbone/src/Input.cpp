@@ -90,11 +90,11 @@ std::string Input::readData()
 		setMaterials();
 		setHeatBoundaryConditions();
 
-		std::vector<double> temperatures = setManyParameters("temperatures");
-		m_problem.setTemperatures(temperatures);
+		std::vector<double> temperatures = setManyParameters("temperatures", "Input");
+		m_mesh.setTemperatures(temperatures);
 
-		std::vector<double> heatSources = setManyParameters("sources");
-		m_problem.setHeatSources(heatSources);	
+		std::vector<double> heatSources = setManyParameters("heat_sources", "Input");
+		m_mesh.setHeatSources(heatSources);	
 	}
 	
 	inFile.close();
@@ -181,7 +181,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 { 
     std::istringstream iss(line);
     std::vector<std::string> words(std::istream_iterator<std::string>{iss},
-                                 std::istream_iterator<std::string>());
+                                   std::istream_iterator<std::string>());
 	
 	return words;
 } 
@@ -199,17 +199,17 @@ void Input::setGeometryKind()
    
    if(geometry == "cylinder") 
 	{
-	   m_problem.setMeshKind(GeomKind::CYLINDER);
+	   m_mesh.setMeshKind(GeomKind::CYLINDER);
 	   out.getLogger()->info("Geometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
-	   m_problem.setMeshKind(GeomKind::SPHERE);
+	   m_mesh.setMeshKind(GeomKind::SPHERE);
 	   out.getLogger()->info("Geometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
-	   m_problem.setMeshKind(GeomKind::SLAB);
+	   m_mesh.setMeshKind(GeomKind::SLAB);
 	   out.getLogger()->info("Geometry: Cartesian \n");
 	}
 	else
@@ -222,14 +222,14 @@ void Input::setGeometryKind()
 void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
-	m_problem.setEnergyGroupsNumber(std::stoi(energies));
+	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
 	out.getLogger()->info("{} value: {} \n", "energies", energies);
 }
 
 void Input::setAlbedo()
 {
 	std::string albedo = readOneParameter("albedo");
-	m_problem.setAlbedo(std::stod(albedo));
+	m_mesh.setAlbedo(std::stod(albedo));
 	out.getLogger()->info("{} value: {} \n", "albedo", albedo);
 }
 
@@ -276,12 +276,12 @@ void Input::setMesh()
 		distanceSum += regionDistance[i];
 	}
 
-	out.getLogger()->info("Boundaries:");
+	out.getLogger()->info("Input boundaries:");
 	printVector(boundaries, out, TraceLevel::INFO);
-	m_problem.setBoundaries(boundaries);
+	m_mesh.setBoundaries(boundaries);
 
-    Eigen::VectorXd volumes = m_problem.getVolumes("m");
-	out.getLogger()->info("Volumes:");
+    Eigen::VectorXd volumes = m_mesh.getVolumes("m");
+	out.getLogger()->info("Input volumes:");
     printVector(volumes, out, TraceLevel::INFO);
 
 	for(size_t i = 1; i < regionNumber.size(); i++)
@@ -292,7 +292,9 @@ void Input::setMesh()
 		}
 	}
 
-	out.getLogger()->info("Meshes:");
+	m_mesh.createMaterials(m_materialMap);
+
+	out.getLogger()->info("Input meshes:");
 	printVector(m_materialMap, out, TraceLevel::INFO);
 
 	std::sort(regionMaterial.begin(), regionMaterial.end());
@@ -304,11 +306,11 @@ void Input::setMesh()
 
 void Input::setMaterials()
 { 
-   m_cells = m_problem.getCellsNumber();
+   m_cells = m_mesh.getCellsNumber();
 
    if(m_calculation == "neutronics")
    {
-		m_energies = m_problem.getEnergyGroupsNumber();
+		m_energies = m_mesh.getEnergyGroupsNumber();
 
 		MatrixXd ni      = setXS("ni");
    		MatrixXd chi     = setXS("chi");
@@ -327,15 +329,12 @@ void Input::setMaterials()
    }
    else if(m_calculation == "heat")
    {
-		std::vector<MaterialKind> matProperties = setProperties();	
-		m_library.setMatProperties(matProperties);
+	   setMaterialProperties("thermal_conductivity");	
    }
 }
 
-std::vector<MaterialKind> Input::setProperties()
+void Input::setMaterialProperties(std::string name)
 {
-    std::vector<MaterialKind> result;
-
 	for (auto matListItem : m_materialList)
     {
         std::string matStr = "material";
@@ -346,25 +345,25 @@ std::vector<MaterialKind> Input::setProperties()
     	{
 			if (m_materialMap[m] != matListItem) continue;
 
-			std::string str = "properties";
-			std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+			std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
 
-			if(values[1] == "u") 
+			if(values.size() < 2) 
 			{
-	   			result.push_back(MaterialKind::U);
+	   			out.getLogger()->error("{} has no parameters!", name);
+	    		exit(-1);
+			}
+			else if(values.size() >= 2 && values.size() < 4) 
+			{
+				std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
+	   			m_mesh.getMaterial(m)->setThermalConductivityLaw(numberVec);
 			}
 			else
 			{
-	   			out.getLogger()->error("There are no material properties for {}!", values[1]);
-	    		exit(-1);
+	   			out.getLogger()->error("{} number of parameters exceeded!", name);
+				exit(-1);
 			}
 		}
 	}
-
-    out.getLogger()->info("Material properties");
-    printVector(result, out, TraceLevel::INFO);
-
-	return result;
 }
 
 MatrixXd Input::setXS(std::string name)
@@ -478,10 +477,10 @@ void Input::setKineticsParameters()
     double power = std::stod(readOneParameter("power"));
     out.getLogger()->debug("Initial power: {}", power);
 
-    std::vector<double> lambda = setManyParameters("lambda");
-    std::vector<double> beta = setManyParameters("beta");
-	std::vector<double> times = setManyParameters("times");
-	std::vector<double> reactivities = setManyParameters("reactivities");
+    std::vector<double> lambda = setManyParameters("lambda", "Input");
+    std::vector<double> beta = setManyParameters("beta", "Input");
+	std::vector<double> times = setManyParameters("times", "Input");
+	std::vector<double> reactivities = setManyParameters("reactivities", "Input");
 
 	if (times.size() != reactivities.size()) 
 	{
@@ -500,8 +499,11 @@ void Input::setKineticsParameters()
 	m_library.setKineticsSet(kinSet);
 } 
 
-std::vector<double> Input::setManyParameters(std::string name)
+std::vector<double> Input::setManyParameters(std::string name, std::string prefix)
 { 
+
+    std::string finalStr = prefix + " " + name;
+
     std::vector<std::string> values = readManyParameters(name);
 
     std::vector<double> result(values.size(), 0.0);
@@ -514,7 +516,7 @@ std::vector<double> Input::setManyParameters(std::string name)
 		std::transform(values.begin(), values.end(), result.begin(), 
                    [](std::string &i){return std::stod(i);});
 
-		out.getLogger()->debug("{}:", name);
+		out.getLogger()->debug("{}:", finalStr);
 	    printVector(result, out, TraceLevel::DEBUG);
 		return result;
 	}
@@ -591,7 +593,7 @@ std::vector<double> Input::setManyParameters(std::string name)
 		}
 	}
 
-	out.getLogger()->debug("{}:", name);
+	out.getLogger()->debug("{}:", finalStr);
 	printVector(result, out, TraceLevel::DEBUG);
 
 	return result;
@@ -600,7 +602,7 @@ std::vector<double> Input::setManyParameters(std::string name)
 void Input::setHeatBoundaryConditions()
 { 
 	const std::string name = "heat_boundary_conditions";
-	std::vector<double> boundaries = setManyParameters(name);
+	std::vector<double> boundaries = setManyParameters(name, "Input");
   
     if(boundaries.size() < 6)
     {
@@ -609,7 +611,7 @@ void Input::setHeatBoundaryConditions()
     }
     else if(boundaries.size() == 6)
     {
-		m_problem.setHeatBoundaryConditions(boundaries);
+		m_mesh.setHeatBoundaryConditions(boundaries);
     }
 	else
     {

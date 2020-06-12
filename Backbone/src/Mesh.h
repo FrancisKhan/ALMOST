@@ -2,6 +2,7 @@
 #define MESH_H
 
 #include "GeomKind.h"
+#include "Material.h"
 #include "AbstractGeometry.h"
 
 #include <Eigen/Dense>
@@ -23,17 +24,24 @@ public:
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 	void setAlbedo(double albedo){m_albedo = albedo;}
 	double getAlbedo(){return m_albedo;}
+
+	void createMaterials(std::vector<std::string> materialMap);
+	std::vector< std::shared_ptr<Material> > getMaterials() {return m_materials;}
+	std::shared_ptr<Material> getMaterial(unsigned i) {return m_materials.at(i);}
 	Eigen::VectorXd getMeshMiddlePoints();
-	void setMaterials(){};
 
 	void setTemperatures(std::vector<double> &temperatures);
+	void setTemperatures(Eigen::VectorXd &temperatures);
 	Eigen::VectorXd getTemperatures(std::string dim);
 
 	void setHeatSources(std::vector<double> &sources);
-	Eigen::VectorXd getHeatSources(){return m_heatSources;}
+	Eigen::VectorXd getHeatSources();
 
 	void setHeatBoundaryConditions(std::vector<double> &boundaries);
 	Eigen::VectorXd getHeatBoundaryConditions(){return m_heatBoundaryConditions;}
+
+	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
+	Eigen::VectorXd getThermalConductivities();
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -42,9 +50,8 @@ private:
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;
 	double m_albedo;
-	Eigen::VectorXd m_temperatures;
-	Eigen::VectorXd m_heatSources;
 	Eigen::VectorXd m_heatBoundaryConditions;
+    std::vector< std::shared_ptr<Material> > m_materials;
 };
 
 #endif

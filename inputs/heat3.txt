@@ -8,8 +8,8 @@ calculation heat
 geometry  slab
 mesh 25 0.05 M1
 temperatures 30.0 25
-sources 0.0 25
+heat_sources 0.0 25
 heat_boundary_conditions 1.0 0.001 30.0 1.0 0.0 10.0
 
 material M1
-properties u
+thermal_conductivity 22.69345

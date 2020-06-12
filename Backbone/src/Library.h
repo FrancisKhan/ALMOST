@@ -3,7 +3,6 @@
 
 #include "KineticsSet.h"
 #include "CrossSectionSet.h"
-#include "AbstractMaterial.h"
 
 class Library
 {
@@ -19,12 +18,12 @@ public:
 
     KineticsSet getKineticsSet() {return m_kineticsSet;}
 
-	void setMatProperties(std::vector<MaterialKind> &matProperties);
-	std::vector< std::shared_ptr<AbstractMaterial> > getMatProperties() {return m_matProperties;};
+	//void setMatProperties(std::vector<MaterialKind> &matProperties);
+	//std::vector< std::shared_ptr<AbstractMaterial> > getMatProperties() {return m_matProperties;};
 	
 private:
 	CrossSectionSet m_crossSectionSet;
-	std::vector< std::shared_ptr<AbstractMaterial> > m_matProperties;
+	//std::vector< std::shared_ptr<AbstractMaterial> > m_matProperties;
 	KineticsSet m_kineticsSet;
 };
 

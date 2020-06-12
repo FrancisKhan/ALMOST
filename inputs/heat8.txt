@@ -1,0 +1,16 @@
+% Steady-state, temperature-dependent conductivity, slab geometry
+% with internal generation
+% Boundary conditions:
+% T(0) = T1
+% T(L) = T2
+
+calculation heat
+
+geometry  slab
+mesh 20 0.1 M1
+temperatures 20.0 20 
+heat_sources 2000000.0 20
+heat_boundary_conditions 1.0 0.0 20.0 1.0 0.0 20.0
+
+material M1
+thermal_conductivity 22.00345 0.023

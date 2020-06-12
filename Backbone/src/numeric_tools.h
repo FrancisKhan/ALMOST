@@ -191,6 +191,14 @@ inline Eigen::VectorXd operator+(const Eigen::VectorXd& a, const T p)
     return result;
 }
 
+template<typename T>
+std::vector<T> slice(std::vector<T> const &v, int m, int n) 
+{
+   auto first = v.begin() + m;
+   auto last = v.begin() + n + 1;
+   std::vector<T> vector(first, last);
+   return vector;
+}
 
 bool isFloat(const std::string& s);
 bool isInteger(const std::string& s);
