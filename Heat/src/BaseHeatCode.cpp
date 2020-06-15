@@ -2,13 +2,29 @@
 
 using namespace Eigen;
 
+VectorXd BaseHeatCode::getInterfaceThermalConductivities()
+{
+    VectorXd materialLambda  = m_mesh.getThermalConductivities();
+    VectorXd interfaceLambda = m_mesh.getThermalConductivities();
+    VectorXd cellSizes       = m_mesh.getCellSizes("m");
+
+    for(int i = 1; i < materialLambda.size() - 1; i++)
+    {
+        interfaceLambda(i) = (materialLambda(i - 1) * cellSizes(i - 1) * 0.5 +
+                              materialLambda(i) * cellSizes(i) * 0.5) / 
+                             (materialLambda(i - 1) + materialLambda(i));
+    }
+
+    return interfaceLambda;
+}
+
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
     m_temperatures  = m_mesh.getTemperatures("C");
     m_heatSources   = m_mesh.getHeatSources();
-    VectorXd lambda = m_mesh.getThermalConductivities();
+    VectorXd lambda = m_mesh.getThermalConductivities(); //getInterfaceThermalConductivities();
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -44,9 +60,8 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::setupSystem()
 
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T, VectorXd &source)
 {
-    VectorXd lambda = m_mesh.getThermalConductivities();
-
     VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
+    VectorXd lambda     = m_mesh.getThermalConductivities();
 
     // Left boundary condition
 
@@ -78,15 +93,6 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR / deltaXR;
     source(m_cells - 1) = source(m_cells - 1) - betaR / deltaXR;
 
-    out.getLogger()->debug("T matrix2");
-    printMatrix(T, out, TraceLevel::DEBUG);
-
-    out.getLogger()->debug("Source2");
-    printVector(source, out, TraceLevel::DEBUG);
-
-    out.getLogger()->debug("Lambda2");
-    printVector(lambda, out, TraceLevel::DEBUG);
-
     return std::make_tuple(T, source);
 }
 
@@ -96,12 +102,6 @@ void BaseHeatCode::solveSystem(MatrixXd &T, VectorXd &source)
                                      T.diagonal(+1), source);
 
     m_mesh.setTemperatures(m_temperatures);
-
-    out.getLogger()->debug("Mesh middle points:");
-    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
-
-    out.getLogger()->debug("Temperature:");
-    printVector(m_temperatures, out, TraceLevel::DEBUG);
 }
 
 std::vector<double> BaseHeatCode::exactSolution()

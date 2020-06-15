@@ -40,7 +40,7 @@ TEST_F(HeatIntegrationTests, heat1)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {12.0000, 16.0000, 20.0000,
                                  24.0000, 28.0000};
@@ -63,7 +63,7 @@ TEST_F(HeatIntegrationTests, heat2)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {1.027513e+01, 1.082538e+01, 1.137564e+01,
                                  1.192590e+01, 1.247615e+01, 1.302641e+01, 
@@ -93,7 +93,7 @@ TEST_F(HeatIntegrationTests, heat3)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {2.348127e+01, 2.293101e+01, 2.238076e+01, 
                                  2.183050e+01, 2.128025e+01, 2.072999e+01, 
@@ -123,7 +123,7 @@ TEST_F(HeatIntegrationTests, heat4)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {2.799345e+01, 2.782407e+01, 2.765469e+01,
                                  2.748532e+01, 2.731594e+01, 2.714657e+01,
@@ -153,7 +153,7 @@ TEST_F(HeatIntegrationTests, heat5)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {3.044066e+01, 3.132197e+01, 3.220328e+01, 
                                  3.308459e+01, 3.396590e+01, 3.484721e+01,
@@ -184,7 +184,7 @@ TEST_F(HeatIntegrationTests, heat6)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {4.159213e+01, 4.071082e+01, 3.982951e+01, 
                                  3.894820e+01, 3.806689e+01, 3.718558e+01, 
@@ -214,7 +214,7 @@ TEST_F(HeatIntegrationTests, heat7)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
   std::vector<double> refTemp = {3.112919e+01, 5.116173e+01, 6.896844e+01,
                                  8.454930e+01, 9.790433e+01, 1.090335e+02, 
@@ -243,15 +243,15 @@ TEST_F(HeatIntegrationTests, heat8)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperature");
+  std::vector<double> temp = test.getVector("Temperatures");
 
-  std::vector<double> refTemp = {3.085607e+01, 4.943671e+01, 6.585663e+01, 
-                                 8.015053e+01, 9.234772e+01, 1.024726e+02, 
-                                 1.105449e+02, 1.165802e+02, 1.205900e+02, 
-                                 1.225818e+02, 1.225593e+02, 1.205225e+02, 
-                                 1.164675e+02, 1.103868e+02, 1.022688e+02,
-                                 9.209787e+01, 7.985411e+01, 6.551304e+01,
-                                 4.904523e+01, 3.041586e+01};
+  std::vector<double> refTemp = {3.085606e+01, 4.943666e+01, 6.585654e+01,
+                                8.015040e+01, 9.234755e+01, 1.024724e+02, 
+                                1.105447e+02, 1.165800e+02, 1.205898e+02, 
+                                1.225815e+02, 1.225590e+02, 1.205222e+02, 
+                                1.164673e+02, 1.103866e+02, 1.022686e+02, 
+                                9.209769e+01, 7.985396e+01, 6.551293e+01, 
+                                4.904516e+01, 3.041584e+01};
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);

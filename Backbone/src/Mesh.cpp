@@ -169,3 +169,15 @@ Eigen::VectorXd Mesh::getThermalConductivities()
 
 	return result;
 }
+
+Eigen::VectorXd Mesh::getCellSizes(std::string dim)
+{
+	VectorXd result = VectorXd::Zero(m_meshNumber);
+
+	for(size_t i = 0; i < m_meshNumber; i++)
+	{
+		result[i] = m_boundaries[i + 1] - m_boundaries[i];
+	}
+
+	return result;
+}

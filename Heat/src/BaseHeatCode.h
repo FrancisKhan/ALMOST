@@ -18,10 +18,9 @@ public:
 	~BaseHeatCode(){}
 
 	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> applyBoundaryConditions(Eigen::MatrixXd &T, Eigen::VectorXd &source);
-
 	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
-
 	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> setupSystem();
+	Eigen::VectorXd getInterfaceThermalConductivities();
 
     // For testing only
 	std::vector<double> exactSolution();

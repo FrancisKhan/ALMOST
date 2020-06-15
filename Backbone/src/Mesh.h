@@ -17,6 +17,7 @@ public:
 	void setBoundaries(Eigen::VectorXd &boundaries);
 	void setBoundaries(double meshes, unsigned meshNumber);
 	Eigen::VectorXd getBoundaries(std::string dim);
+	Eigen::VectorXd getCellSizes(std::string dim);
 	unsigned getCellsNumber(){return m_meshNumber;}
 	Eigen::VectorXd getVolumes(std::string dim);
 	double getSurface(std::string dim);
