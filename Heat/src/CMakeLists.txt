@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.10)
 # Make an automatic library - will be static or dynamic based on user setting
 add_library(heat_library SlabHeatCode.cpp BaseHeatCode.cpp HeatSolver.cpp
-            HeatCodeFactory.cpp)
+            CylHeatCode.cpp HeatCodeFactory.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(heat_library PUBLIC .)
