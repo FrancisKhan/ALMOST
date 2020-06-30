@@ -13,7 +13,7 @@ class HeatIntegrationTests : public ::testing::Test
 // T(0) = T1
 // T(L) = T2
 
-TEST_F(HeatIntegrationTests, memTest)
+TEST_F(HeatIntegrationTests, slabMemTest)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
   const std::string codePath   = "app/app";
@@ -245,13 +245,13 @@ TEST_F(HeatIntegrationTests, heat8)
   test.runCode();
   std::vector<double> temp = test.getVector("Temperatures");
 
-  std::vector<double> refTemp = {3.043541e+01, 4.910391e+01, 6.559055e+01,
-                                 7.993319e+01, 9.216397e+01, 1.023098e+02,
-                                 1.103929e+02, 1.164310e+02, 1.204375e+02,
-                                 1.224219e+02, 1.223899e+02, 1.203433e+02,
-                                 1.162802e+02, 1.101947e+02, 1.020774e+02,
-                                 9.191463e+01, 7.968862e+01, 6.537718e+01,
-                                 4.895342e+01, 3.038528e+01};
+  std::vector<double> refTemp = {3.101004e+01, 5.063603e+01, 6.776638e+01,
+                                 8.252469e+01, 9.501097e+01, 1.053055e+02, 
+                                 1.134715e+02, 1.195576e+02, 1.235989e+02, 
+                                 1.256184e+02, 1.256274e+02, 1.236259e+02, 
+                                 1.196027e+02, 1.135350e+02, 1.053878e+02,
+                                 9.511254e+01, 8.264616e+01, 6.790856e+01, 
+                                 5.079992e+01, 3.100032e+01};
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
@@ -287,8 +287,8 @@ TEST_F(HeatIntegrationTests, heat9)
   EXPECT_TRUE(areEqual);
 }
 
-// Steady-state, temperature-dependent conductivity, slab geometry
-// with internal generation
+// Steady-state, tconstant conductivity, slab geometry
+// 2 materials with the same cell sizes with internal generation
 // Boundary conditions:
 // T(0) = T1
 // T(L) = T2
@@ -304,18 +304,186 @@ TEST_F(HeatIntegrationTests, heat10)
   test.runCode();
   std::vector<double> temp = test.getVector("Temperatures");
 
-  // for(auto i : temp)
-  //   std::cout << i << std::endl;
+  std::vector<double> refTemp = {2.241661e+01, 2.699983e+01, 3.133306e+01, 
+                                 3.541628e+01, 3.924950e+01, 4.283272e+01, 
+                                 4.616594e+01, 4.924917e+01, 5.208239e+01, 
+                                 5.466561e+01, 5.699883e+01, 5.908205e+01, 
+                                 6.091528e+01, 6.249850e+01, 6.383172e+01, 
+                                 6.491494e+01, 6.574817e+01, 6.633139e+01, 
+                                 6.666461e+01, 6.674783e+01, 6.620080e+01, 
+                                 6.553396e+01, 6.446711e+01, 6.300027e+01, 
+                                 6.113342e+01};
 
-  // std::vector<double> refTemp = {3.065884e+01, 4.931322e+01, 6.578621e+01,
-  //                                8.011563e+01, 9.233357e+01, 1.024669e+02, 
-  //                                1.105379e+02, 1.165640e+02, 1.205589e+02, 
-  //                                1.225320e+02, 1.224888e+02, 1.204313e+02, 
-  //                                1.163574e+02, 1.102613e+02, 1.021335e+02, 
-  //                                9.196035e+01, 7.972406e+01, 6.540244e+01, 
-  //                                4.896855e+01, 3.039032e+01};
-
-  // bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
-  // EXPECT_TRUE(areEqual);
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
    EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, cylindrical geometry (memory test)
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, cylMemTest)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat11.txt";
+  const std::string outputPath = "outputs/Out_heat11_mem.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+// Steady-state, constant parameters, cylindrical geometry
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat11)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat11.txt";
+  const std::string outputPath = "outputs/Out_heat11.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {8.681818e+01, 8.653409e+01, 8.596591e+01,
+                                 8.511364e+01, 8.397727e+01, 8.255682e+01,
+                                 8.085227e+01, 7.886364e+01, 7.659091e+01, 
+                                 7.403409e+01, 7.119318e+01, 6.806818e+01, 
+                                 6.465909e+01, 6.096591e+01, 5.698864e+01, 
+                                 5.272727e+01, 4.818182e+01, 4.335227e+01, 
+                                 3.823864e+01, 3.284091e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+   EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, cylindrical geometry
+// Boundary conditions:
+// q(0) = 0.0
+// q dT/dr = h (T(L) -Tf)
+
+TEST_F(HeatIntegrationTests, heat12)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat12.txt";
+  const std::string outputPath = "outputs/Out_heat12.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {8.806818e+01, 8.778409e+01, 8.721591e+01,
+                                 8.636364e+01, 8.522727e+01, 8.380682e+01,
+                                 8.210227e+01, 8.011364e+01, 7.784091e+01, 
+                                 7.528409e+01, 7.244318e+01, 6.931818e+01, 
+                                 6.590909e+01, 6.221591e+01, 5.823864e+01, 
+                                 5.397727e+01, 4.943182e+01, 4.460227e+01, 
+                                 3.948864e+01, 3.409091e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+   EXPECT_TRUE(true);
+}
+
+// Steady-state, tconstant conductivity, cylindrical geometry
+// non-uniform cell sizes with internal generation
+// Boundary conditions:
+// q(0) = 0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat13)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat13.txt";
+  const std::string outputPath = "outputs/Out_heat13.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {9.836374e+01, 9.807965e+01, 9.751147e+01, 
+                                 9.665920e+01, 9.552284e+01, 9.410238e+01, 
+                                 9.239784e+01, 9.040920e+01, 8.813647e+01, 
+                                 8.557965e+01, 8.273874e+01, 7.961374e+01, 
+                                 7.620465e+01, 7.251147e+01, 6.853420e+01, 
+                                 6.427284e+01, 5.972738e+01, 5.489784e+01, 
+                                 4.978420e+01, 4.438647e+01, 4.211374e+01, 
+                                 4.113246e+01, 4.008001e+01, 3.895737e+01, 
+                                 3.776545e+01, 3.650512e+01, 3.517720e+01, 
+                                 3.378246e+01, 3.232165e+01, 3.079545e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+  EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, cylindrical geometry
+// uniform cell sizes with 2 materials and internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat14)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat14.txt";
+  const std::string outputPath = "outputs/Out_heat14.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {2.237500e+02, 2.236250e+02, 2.233750e+02, 
+                                 2.230000e+02, 2.225000e+02, 2.218750e+02, 
+                                 2.211250e+02, 2.202500e+02, 2.192500e+02, 
+                                 2.181250e+02, 2.112500e+02, 1.975000e+02, 
+                                 1.825000e+02, 1.662500e+02, 1.487500e+02, 
+                                 1.300000e+02, 1.100000e+02, 8.875000e+01, 
+                                 6.625000e+01, 4.250000e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+  EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, cylindrical geometry
+// uniform cell sizes with 2 materials and internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat15)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat15.txt";
+  const std::string outputPath = "outputs/Out_heat15.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {7.415498e+01, 7.389133e+01, 7.336384e+01,
+                                 7.257209e+01, 7.151547e+01, 7.019317e+01, 
+                                 6.860416e+01, 6.674720e+01, 6.462082e+01, 
+                                 6.222334e+01, 5.955284e+01, 5.660715e+01, 
+                                 5.338388e+01, 4.988036e+01, 4.609364e+01, 
+                                 4.202050e+01, 3.765743e+01, 3.300059e+01, 
+                                 2.804581e+01, 2.277442e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+  EXPECT_TRUE(true);
 }

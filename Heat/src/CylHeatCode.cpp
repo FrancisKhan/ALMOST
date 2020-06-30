@@ -8,42 +8,34 @@ std::tuple<MatrixXd, VectorXd> CylHeatCode::setupSystem()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
-    m_temperatures  = m_mesh.getTemperatures("C");
-    m_heatSources   = m_mesh.getHeatSources();
-    VectorXd lambda = m_mesh.getThermalConductivities(); //getInterfaceThermalConductivities();
+    m_temperatures     = m_mesh.getTemperatures("C");
+    m_heatSources      = m_mesh.getHeatSources();
+    VectorXd lambda    = getInterfaceThermalConductivities();
+    VectorXd cellSizes = m_mesh.getCellSizes("m");
 
     for(int i = 0; i < m_cells; i++)
     {
-        double deltaX = m_radii(i + 1) - m_radii(i);
-
         if(i == 0)
         {
-            T(i, i)     = + lambda[i] * m_radii(i + 1) / deltaX;
-            T(i, i + 1) = - lambda[i] * m_radii(i + 1) / deltaX;
+            T(i, i)     = + lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
+            T(i, i + 1) = - lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
         }
         else if(i == m_cells - 1)
         {
-            T(i, i)     = + lambda[i] * m_radii(i) / deltaX;
-            T(i, i - 1) = - lambda[i] * m_radii(i) / deltaX;
+            T(i, i)     = + lambda[i] * m_radii(i) / cellSizes(i - 1);
+            T(i, i - 1) = - lambda[i] * m_radii(i) / cellSizes(i - 1);
         }
         else
         {
-            T(i, i)     = + lambda[i] * m_radii(i) / deltaX + lambda[i] * m_radii(i + 1) / deltaX;
-            T(i, i - 1) = - lambda[i] * m_radii(i) / deltaX;
-            T(i, i + 1) = - lambda[i] * m_radii(i + 1) / deltaX;
+            T(i, i)     = + lambda[i] * m_radii(i) / cellSizes(i - 1) + 
+                            lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
+
+            T(i, i - 1) = - lambda[i] * m_radii(i) / cellSizes(i - 1);
+            T(i, i + 1) = - lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
         }
 
-        m_heatSources(i) *= deltaX * (m_radii(i) + 0.5 * deltaX);
+        m_heatSources(i) *= cellSizes(i) * (m_radii(i) + 0.5 * cellSizes(i));
     }
-   
-    // out.getLogger()->debug("T matrix");
-    // printMatrix(T, out, TraceLevel::DEBUG);
-
-    // out.getLogger()->debug("Source");
-    // printVector(m_heatSources, out, TraceLevel::DEBUG);
-
-    // out.getLogger()->debug("Lambda");
-    // printVector(lambda, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, m_heatSources);
 }
@@ -51,7 +43,7 @@ std::tuple<MatrixXd, VectorXd> CylHeatCode::setupSystem()
 std::tuple<MatrixXd, VectorXd> CylHeatCode::applyBoundaryConditions(MatrixXd &T, VectorXd &source)
 {
     VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
-    VectorXd lambda     = m_mesh.getThermalConductivities();
+    VectorXd lambda     = getInterfaceThermalConductivities();
 
     // Right boundary condition
 
@@ -72,10 +64,13 @@ std::tuple<MatrixXd, VectorXd> CylHeatCode::applyBoundaryConditions(MatrixXd &T,
     // T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + factor;
     // source(m_cells - 1) = source(m_cells - 1) + factor * CR;
 
-    out.getLogger()->debug("T matrix2");
+    out.getLogger()->debug("Lambda");
+    printVector(lambda, out, TraceLevel::DEBUG);
+
+    out.getLogger()->debug("T matrix");
     printMatrix(T, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("Source2");
+    out.getLogger()->debug("Source");
     printVector(source, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, source);

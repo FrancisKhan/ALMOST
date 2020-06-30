@@ -1,0 +1,16 @@
+% Steady-state, temperature-dependent conductivity, cylindrical geometry
+% with internal generation
+% Boundary conditions:
+% q0)  = 0.0
+% T(L) = T2
+
+calculation heat
+
+geometry cylinder
+mesh 20 0.1 M1
+temperatures 20.0 20 
+heat_sources 500000.0 20
+heat_boundary_conditions 0.0 1.0 0.0 1.0 0.0 20.0
+
+material M1
+thermal_conductivity 22.00345 0.023

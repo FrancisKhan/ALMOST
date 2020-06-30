@@ -1,15 +1,19 @@
-% Steady-state, constant parameters, cylindrical geometry
+% Steady-state, constant parameters, slab geometry
+% 2 materials with the same cell sizes with internal generation
 % Boundary conditions:
-% q(0) = 0.0
+% T(0) = T1
 % T(L) = T2
 
 calculation heat
 
-geometry cylinder
-mesh 50 0.5 M1
-temperatures 30.0 50 
-heat_sources 20000.0 50
-heat_boundary_conditions 0.0 1.0 0.0 1.0 0.0 30.0
+geometry  slab
+mesh 20 0.1 M1 5 0.1 M2
+temperatures 20.0 25 
+heat_sources 20000.0 25
+heat_boundary_conditions 1.0 0.0 20.0 1.0 0.0 60.0
 
 material M1
-thermal_conductivity 22.0
+thermal_conductivity 2.0
+
+material M2
+thermal_conductivity 20.0

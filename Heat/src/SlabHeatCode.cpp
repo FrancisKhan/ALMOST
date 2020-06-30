@@ -17,32 +17,25 @@ std::tuple<MatrixXd, VectorXd> SlabHeatCode::setupSystem()
     {
         if (i == 0)
         {
-            T(i, i)     = + lambda[i] / cellSizes(i);
-            T(i, i + 1) = - lambda[i] / cellSizes(i + 1);
+            T(i, i)     = + lambda[i + 1] / cellSizes(i + 1);
+            T(i, i + 1) = - lambda[i + 1] / cellSizes(i + 1);
         }
         else if (i == m_cells - 1)
         {
-            T(i, i)     = + lambda[i] / cellSizes(i);
+            T(i, i)     = + lambda[i] / cellSizes(i - 1);
             T(i, i - 1) = - lambda[i] / cellSizes(i - 1);
         }
         else
         {
-            T(i, i)     = + lambda[i] / cellSizes(i - 1) + lambda[i] / cellSizes(i + 1);
+            T(i, i)     = + lambda[i] / cellSizes(i - 1) 
+                          + lambda[i + 1] / cellSizes(i + 1);
+                          
             T(i, i - 1) = - lambda[i] / cellSizes(i - 1);
-            T(i, i + 1) = - lambda[i] / cellSizes(i + 1);
+            T(i, i + 1) = - lambda[i + 1] / cellSizes(i + 1);
         }
 
         m_heatSources(i) *= cellSizes(i);
     }
-   
-    out.getLogger()->debug("T matrix");
-    printMatrix(T, out, TraceLevel::DEBUG);
-
-    out.getLogger()->debug("Source");
-    printVector(m_heatSources, out, TraceLevel::DEBUG);
-
-    out.getLogger()->debug("Lambda");
-    printVector(lambda, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, m_heatSources);
 }
@@ -82,10 +75,13 @@ std::tuple<MatrixXd, VectorXd> SlabHeatCode::applyBoundaryConditions(MatrixXd &T
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR;
     source(m_cells - 1) = source(m_cells - 1) - betaR;
 
-    out.getLogger()->debug("T matrix2");
+    out.getLogger()->debug("Lambda");
+    printVector(lambda, out, TraceLevel::DEBUG);
+
+    out.getLogger()->debug("T matrix");
     printMatrix(T, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("Source2");
+    out.getLogger()->debug("Source");
     printVector(source, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, source);
