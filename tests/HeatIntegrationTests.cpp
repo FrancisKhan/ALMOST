@@ -487,3 +487,81 @@ TEST_F(HeatIntegrationTests, heat15)
   EXPECT_TRUE(areEqual);
   EXPECT_TRUE(true);
 }
+
+// Steady-state, constant parameters, spherical geometry (memory test)
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, csphMemTest)
+{	
+  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat16.txt";
+  const std::string outputPath = "outputs/Out_heat16_mem.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
+  
+  EXPECT_TRUE((test.runCode() == 0));
+}
+
+// Steady-state, constant parameters, spherical geometry
+// with and internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat16)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat16.txt";
+  const std::string outputPath = "outputs/Out_heat16.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {1.708385e+02, 1.702703e+02, 1.688499e+02, 
+                                 1.666403e+02, 1.636573e+02, 1.599073e+02, 
+                                 1.553934e+02, 1.501174e+02, 1.440805e+02, 
+                                 1.372834e+02, 1.297266e+02, 1.214104e+02, 
+                                 1.123353e+02, 1.025014e+02, 9.190887e+01, 
+                                 8.055786e+01, 6.844848e+01, 5.558084e+01, 
+                                 4.195499e+01, 2.757102e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+  EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, spherical geometry
+// with and internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// q dT/dr = h (T(L) -Tf)
+
+TEST_F(HeatIntegrationTests, heat17)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat17.txt";
+  const std::string outputPath = "outputs/Out_heat17.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {1.711716e+02, 1.706034e+02, 1.691830e+02, 
+                                 1.669734e+02, 1.639904e+02, 1.602404e+02, 
+                                 1.557265e+02, 1.504506e+02, 1.444136e+02, 
+                                 1.376165e+02, 1.300597e+02, 1.217436e+02, 
+                                 1.126684e+02, 1.028345e+02, 9.224199e+01, 
+                                 8.089098e+01, 6.878161e+01, 5.591396e+01, 
+                                 4.228812e+01, 2.790415e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+  EXPECT_TRUE(true);
+}
