@@ -75,7 +75,14 @@ void printMatrix(Tensor3d A, Output output, TraceLevel level, std::string str)
 		
 			for(int j = 0; j < dims[0]; j++)
 			{
-				msg += std::to_string(A(i, j, h)) + " ";
+                // These lines are needed to convert a double to a string
+				// in a specific format
+            	char buffer[32];
+    			memset(buffer, 0, sizeof(buffer));
+    			snprintf(buffer, sizeof(buffer), "%7.6e", A(i, j, h));
+    			std::string scientificNumberString(buffer);
+
+				msg += scientificNumberString + " ";
 			}
 		
 			if (level == TraceLevel::CRITICAL)
@@ -123,7 +130,14 @@ void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level)
 		
 	    for(int j = 0; j < A.cols(); j++)
 	    {
-			msg += std::to_string(A(i, j)) + " ";
+			// These lines are needed to convert a double to a string
+			// in a specific format
+            char buffer[32];
+    		memset(buffer, 0, sizeof(buffer));
+    		snprintf(buffer, sizeof(buffer), "%7.6e", A(i, j));
+    		std::string scientificNumberString(buffer);
+
+			msg += scientificNumberString + " ";
 	    }
 		
 	    if (level == TraceLevel::CRITICAL)
@@ -338,62 +352,6 @@ void diagonalDominanceCheck(Eigen::MatrixXd &matrix)
 			out.getLogger()->warn("The convergence is not guaranteed, the matrix is not strictly diagonally dominant");
 		}
 	}
-}
-
-void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                     int max_iter_number, double accuracy)
-{
-	diagonalDominanceCheck(Mmatrix);
-	
-	if(Mmatrix.size() != Fmatrix.size())
-	{
-		out.getLogger()->error(" MMatrix has a different number of elements than FMatrix!");
-		exit(-1);
-	}
-	
-	unsigned size = sqrt(Mmatrix.size());
-	
-	Eigen::VectorXd source1      = Eigen::VectorXd::Zero(size);
-	Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
-	Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
-	Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
-	
-	double kFactor1 = 1.0;
-	double kFactor2 = 0.0;
-	
-	int h;
-	
-	Eigen::ColPivHouseholderQR<Eigen::MatrixXd> CPHQR;
-	CPHQR.compute(Mmatrix);
-	
-	for(h = 0; h < max_iter_number; h++)
-	{
-		neutronFlux2 = CPHQR.solve(source2);
-		
-		source1 = Fmatrix * neutronFlux1;
-		source2 = Fmatrix * neutronFlux2;
-		
-		double sum1 = std::inner_product(source1.begin(), source1.end(), source2.begin(), 0.0);
-		double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
-		
-		kFactor2 = kFactor1 * (sum2 / sum1);
-		
-		source2 /= kFactor2;
-		
-		// exit condition
-		if (fabs((kFactor2 - kFactor1) / kFactor2) < accuracy) break;
-		
-		kFactor1     = kFactor2;
-		neutronFlux1 = neutronFlux2;
-	}
-	
-	Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
-	double kFactor = kFactor2;
-	
-	out.getLogger()->info("K-factor:  {} \n", kFactor);
-	out.getLogger()->info("Number of iterations: {} \n", h + 1);
-	out.getLogger()->info("Neutron Flux:");
-	printVector(neutronFlux, out, TraceLevel::INFO);
 }
 
 double bickley3f_old(const double x)

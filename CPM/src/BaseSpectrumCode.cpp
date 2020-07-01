@@ -32,7 +32,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 				check(i) += gcpm(i, j, h) * m_totalXS(h, j);
 			}
 			
-			out.getLogger()->debug("check: {} {:5.4f}", i + 1, check(i));
+			out.getLogger()->debug("check: {} {:7.6e}", i + 1, check(i));
 		}
 	}
 }
@@ -141,4 +141,61 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    printMatrix(FMatrix, out, TraceLevel::DEBUG);
 
    return FMatrix;
+}
+
+void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix, 
+					   Eigen::MatrixXd &Fmatrix, 
+                       int max_iter_number, double accuracy)
+{
+	diagonalDominanceCheck(Mmatrix);
+	
+	if(Mmatrix.size() != Fmatrix.size())
+	{
+		out.getLogger()->error(" MMatrix has a different number of elements than FMatrix!");
+		exit(-1);
+	}
+	
+	unsigned size = sqrt(Mmatrix.size());
+	
+	Eigen::VectorXd source1      = Eigen::VectorXd::Zero(size);
+	Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
+	Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
+	Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
+	
+	double kFactor1 = 1.0;
+	double kFactor2 = 0.0;
+	
+	int h;
+	
+	Eigen::ColPivHouseholderQR<Eigen::MatrixXd> CPHQR;
+	CPHQR.compute(Mmatrix);
+	
+	for(h = 0; h < max_iter_number; h++)
+	{
+		neutronFlux2 = CPHQR.solve(source2);
+		
+		source1 = Fmatrix * neutronFlux1;
+		source2 = Fmatrix * neutronFlux2;
+		
+		double sum1 = std::inner_product(source1.begin(), source1.end(), source2.begin(), 0.0);
+		double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
+		
+		kFactor2 = kFactor1 * (sum2 / sum1);
+		
+		source2 /= kFactor2;
+		
+		// exit condition
+		if (fabs((kFactor2 - kFactor1) / kFactor2) < accuracy) break;
+		
+		kFactor1     = kFactor2;
+		neutronFlux1 = neutronFlux2;
+	}
+	
+	Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
+	double kFactor = kFactor2;
+	
+	out.getLogger()->info("K-factor:  {:7.6e} \n", kFactor);
+	out.getLogger()->info("Number of iterations: {} \n", h + 1);
+	out.getLogger()->info("Neutron Flux [1/(cm2*s)]:");
+	printVector(neutronFlux, out, TraceLevel::INFO);
 }

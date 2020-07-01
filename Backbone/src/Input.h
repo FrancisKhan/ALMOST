@@ -43,8 +43,8 @@ private:
 	std::vector<double> setManyParameters(std::string name, 
 										  std::string prefix = "");
 
-    Eigen::MatrixXd setXS(std::string name);
-	Tensor3d setMatrixXS(std::string name);
+    Eigen::MatrixXd setXS(std::string name, std::string outputName);
+	Tensor3d setMatrixXS(std::string name, std::string outputName);
 
  	Mesh &m_mesh;
 	Library &m_library;

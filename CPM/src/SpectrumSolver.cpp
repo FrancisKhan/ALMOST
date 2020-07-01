@@ -16,5 +16,5 @@ void SpectrumSolver::solve(int max_iter_number, double accuracy)
 	MatrixXd cpm = spectrumCode->calcCPMMatrix(gcpm);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
-	sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy);
+	spectrumCode->sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy);
 }

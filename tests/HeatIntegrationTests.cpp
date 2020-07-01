@@ -40,7 +40,7 @@ TEST_F(HeatIntegrationTests, heat1)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {12.0000, 16.0000, 20.0000,
                                  24.0000, 28.0000};
@@ -63,7 +63,7 @@ TEST_F(HeatIntegrationTests, heat2)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {1.027513e+01, 1.082538e+01, 1.137564e+01,
                                  1.192590e+01, 1.247615e+01, 1.302641e+01, 
@@ -93,7 +93,7 @@ TEST_F(HeatIntegrationTests, heat3)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {2.348127e+01, 2.293101e+01, 2.238076e+01, 
                                  2.183050e+01, 2.128025e+01, 2.072999e+01, 
@@ -123,7 +123,7 @@ TEST_F(HeatIntegrationTests, heat4)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {2.799345e+01, 2.782407e+01, 2.765469e+01,
                                  2.748532e+01, 2.731594e+01, 2.714657e+01,
@@ -153,7 +153,7 @@ TEST_F(HeatIntegrationTests, heat5)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {3.044066e+01, 3.132197e+01, 3.220328e+01, 
                                  3.308459e+01, 3.396590e+01, 3.484721e+01,
@@ -184,7 +184,7 @@ TEST_F(HeatIntegrationTests, heat6)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {4.159213e+01, 4.071082e+01, 3.982951e+01, 
                                  3.894820e+01, 3.806689e+01, 3.718558e+01, 
@@ -214,7 +214,7 @@ TEST_F(HeatIntegrationTests, heat7)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {3.112919e+01, 5.116173e+01, 6.896844e+01,
                                  8.454930e+01, 9.790433e+01, 1.090335e+02, 
@@ -243,7 +243,7 @@ TEST_F(HeatIntegrationTests, heat8)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {3.101004e+01, 5.063603e+01, 6.776638e+01,
                                  8.252469e+01, 9.501097e+01, 1.053055e+02, 
@@ -271,7 +271,7 @@ TEST_F(HeatIntegrationTests, heat9)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {2.050633e+01, 2.151899e+01, 2.253165e+01, 
                                  2.354430e+01, 2.455696e+01, 2.556962e+01, 
@@ -302,7 +302,7 @@ TEST_F(HeatIntegrationTests, heat10)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {2.241661e+01, 2.699983e+01, 3.133306e+01, 
                                  3.541628e+01, 3.924950e+01, 4.283272e+01, 
@@ -350,7 +350,7 @@ TEST_F(HeatIntegrationTests, heat11)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {8.681818e+01, 8.653409e+01, 8.596591e+01,
                                  8.511364e+01, 8.397727e+01, 8.255682e+01,
@@ -378,7 +378,7 @@ TEST_F(HeatIntegrationTests, heat12)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {8.806818e+01, 8.778409e+01, 8.721591e+01,
                                  8.636364e+01, 8.522727e+01, 8.380682e+01,
@@ -407,7 +407,7 @@ TEST_F(HeatIntegrationTests, heat13)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {9.836374e+01, 9.807965e+01, 9.751147e+01, 
                                  9.665920e+01, 9.552284e+01, 9.410238e+01, 
@@ -439,7 +439,7 @@ TEST_F(HeatIntegrationTests, heat14)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {2.237500e+02, 2.236250e+02, 2.233750e+02, 
                                  2.230000e+02, 2.225000e+02, 2.218750e+02, 
@@ -468,7 +468,7 @@ TEST_F(HeatIntegrationTests, heat15)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {7.415498e+01, 7.389133e+01, 7.336384e+01,
                                  7.257209e+01, 7.151547e+01, 7.019317e+01, 
@@ -515,7 +515,7 @@ TEST_F(HeatIntegrationTests, heat16)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {1.708385e+02, 1.702703e+02, 1.688499e+02, 
                                  1.666403e+02, 1.636573e+02, 1.599073e+02, 
@@ -544,7 +544,7 @@ TEST_F(HeatIntegrationTests, heat17)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {1.711716e+02, 1.706034e+02, 1.691830e+02, 
                                  1.669734e+02, 1.639904e+02, 1.602404e+02, 
@@ -573,7 +573,7 @@ TEST_F(HeatIntegrationTests, heat18)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {6.447657e+02, 6.445384e+02, 6.439702e+02, 
                                  6.430864e+02, 6.418932e+02, 6.403932e+02, 
@@ -602,7 +602,7 @@ TEST_F(HeatIntegrationTests, heat19)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {9.648080e+02, 9.623080e+02, 9.560580e+02, 
                                  9.463358e+02, 9.332108e+02, 9.167108e+02, 
@@ -631,7 +631,7 @@ TEST_F(HeatIntegrationTests, heat20)
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
-  std::vector<double> temp = test.getVector("Temperatures");
+  std::vector<double> temp = test.getVector("Final temperatures");
 
   std::vector<double> refTemp = {5.626304e+01, 5.612889e+01, 5.579346e+01,
                                  5.527145e+01, 5.456630e+01, 5.367914e+01, 

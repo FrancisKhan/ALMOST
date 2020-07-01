@@ -28,7 +28,6 @@ TEST_F(KineticsTests, roots)
 
   for(size_t i = 0; i < ref.size(); i++)
   {
-     //std::cout << result[i] << std::endl;
      EXPECT_FLOAT_EQ(ref[i], result[i]);
   }
 }

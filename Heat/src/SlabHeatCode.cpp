@@ -75,13 +75,13 @@ std::tuple<MatrixXd, VectorXd> SlabHeatCode::applyBoundaryConditions(MatrixXd &T
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR;
     source(m_cells - 1) = source(m_cells - 1) - betaR;
 
-    out.getLogger()->debug("Lambda");
+    out.getLogger()->debug("Thermal conductivities [W/(m*K)]:");
     printVector(lambda, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("T matrix");
+    out.getLogger()->debug("T matrix [W/(m2*K)]:");
     printMatrix(T, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("Source");
+    out.getLogger()->debug("Source [W]:");
     printVector(source, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, source);

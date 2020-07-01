@@ -10,9 +10,6 @@ std::pair<Tensor3d, Tensor4d> SphSpectrumCode::calcTracks()
 {
     Tensor4d tau = Tensor4d(m_cells, m_cells, m_rays, m_energies);
 	tau.setZero();
-
-	out.getLogger()->info("Starting the Calculation \n"); 
-	out.getLogger()->trace("Inside CalcTracks \n");
 	
 	Tensor3d zz(m_cells, m_cells, m_rays);
     zz.setZero();
@@ -60,8 +57,6 @@ std::pair<Tensor3d, Tensor4d> SphSpectrumCode::calcTracks()
 
 Tensor3d SphSpectrumCode::calcCPs(std::pair<Tensor3d, Tensor4d> &trackData)
 {	
-    out.getLogger()->debug("Inside CalcCPs \n");
-
     Tensor3d zz  = trackData.first;
 	Tensor4d tau = trackData.second;
 
@@ -205,7 +200,7 @@ void SphSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 			Pis(i) = 1.0 - Pis(i);
 			psi(i) = (4.0 * m_volumes(i) / m_surface) * Pis(i);
 			
-			out.getLogger()->debug("Cell n: {} Pis: {:5.4f}  psi: {:5.4}", i, Pis(i), psi(i));
+			out.getLogger()->debug("Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
 		}
 		
 		double Pss = 0.0;
@@ -217,7 +212,7 @@ void SphSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 		
 		Pss = 1.0 - Pss;
 		
-		out.getLogger()->debug("Pss: {:5.4f} \n", Pss);
+		out.getLogger()->debug("Pss [cm2]: {:7.6e} \n", Pss);
 		
 		for(int i = 0; i < m_cells; i++)
 		{

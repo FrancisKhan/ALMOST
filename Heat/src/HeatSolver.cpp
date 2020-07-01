@@ -21,6 +21,9 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
         newTemps = m_mesh.getTemperatures("C");
 
+        out.getLogger()->debug("Temperatures [C]:");
+        printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
+
         // max difference between new and old temperatures
         double maxValue = 0.0;
         for(int i = 0; i < newTemps.size(); i++)
@@ -35,9 +38,9 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
         oldTemps = newTemps;
     }
 
-    out.getLogger()->debug("Mesh middle points:");
+    out.getLogger()->debug("Mesh middle points [m]:");
     printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("Temperatures:");
+    out.getLogger()->debug("Final temperatures [C]:");
     printVector(m_mesh.getTemperatures("C"), out, TraceLevel::DEBUG);
 }

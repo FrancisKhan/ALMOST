@@ -40,15 +40,12 @@ void Input::getArguments(int argc, char** argv)
 
 void Input::printData()
 {
-	out.getLogger()->info("Input path: {}",  out.getInputPath());
-	out.getLogger()->info("Input file: {} \n",  out.getInputName());
+	out.getLogger()->info("Input file: {}/{}",  out.getInputPath(), out.getInputName());
 	out.getLogger()->debug("Output file: {} \n", out.getOutputName());
 }
 
 std::string Input::readData()
 {
-	out.getLogger()->info("Reading the input \n");
-
 	std::ifstream inFile;
 	inFile.open(m_inputPath);
 	if (!inFile) 
@@ -90,10 +87,12 @@ std::string Input::readData()
 		setMaterials();
 		setHeatBoundaryConditions();
 
-		std::vector<double> temperatures = setManyParameters("temperatures", "Input");
+		std::vector<double> temperatures = setManyParameters("temperatures", 
+															 "Input temperatures [C]");
 		m_mesh.setTemperatures(temperatures);
 
-		std::vector<double> heatSources = setManyParameters("heat_sources", "Input");
+		std::vector<double> heatSources = setManyParameters("heat_sources", 
+															"Input heat_sources [W/m3]");
 		m_mesh.setHeatSources(heatSources);	
 	}
 	
@@ -223,14 +222,14 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.getLogger()->info("{} value: {} \n", "energies", energies);
+	out.getLogger()->info("{}: {} \n", "energies", energies);
 }
 
 void Input::setAlbedo()
 {
 	std::string albedo = readOneParameter("albedo");
 	m_mesh.setAlbedo(std::stod(albedo));
-	out.getLogger()->info("{} value: {} \n", "albedo", albedo);
+	out.getLogger()->info("{}: {} \n", "albedo", albedo);
 }
 
 void Input::setMesh()
@@ -276,12 +275,12 @@ void Input::setMesh()
 		distanceSum += regionDistance[i];
 	}
 
-	out.getLogger()->info("Input boundaries:");
+	out.getLogger()->info("Input boundaries [m]:");
 	printVector(boundaries, out, TraceLevel::INFO);
 	m_mesh.setBoundaries(boundaries);
 
     Eigen::VectorXd volumes = m_mesh.getVolumes("m");
-	out.getLogger()->info("Input volumes:");
+	out.getLogger()->info("Input volumes [m3]:");
     printVector(volumes, out, TraceLevel::INFO);
 
 	for(size_t i = 1; i < regionNumber.size(); i++)
@@ -312,12 +311,12 @@ void Input::setMaterials()
    {
 		m_energies = m_mesh.getEnergyGroupsNumber();
 
-		MatrixXd ni      = setXS("ni");
-   		MatrixXd chi     = setXS("chi");
-   		MatrixXd fission = setXS("fission");
-   		MatrixXd total   = setXS("total");	
+		MatrixXd ni      = setXS("ni", "Ni");
+   		MatrixXd chi     = setXS("chi", "Chi");
+   		MatrixXd fission = setXS("fission", "Fission XS [1/cm]");
+   		MatrixXd total   = setXS("total", "Total XS [1/cm]");	
 
-		Tensor3d scattMatrix = setMatrixXS("scattMatrix");
+		Tensor3d scattMatrix = setMatrixXS("scattMatrix", "Scattering matrix [1/cm]");
 		CrossSectionSet XSSet;
 
 		XSSet.setNi(ni);
@@ -366,7 +365,7 @@ void Input::setMaterialProperties(std::string name)
 	}
 }
 
-MatrixXd Input::setXS(std::string name)
+MatrixXd Input::setXS(std::string name, std::string outputName)
 {
     MatrixXd xs = MatrixXd::Zero(m_energies, m_cells);
 
@@ -389,13 +388,13 @@ MatrixXd Input::setXS(std::string name)
 		}
 	}
 
-    out.getLogger()->info(name);
+    out.getLogger()->info(outputName);
     printMatrix(xs, out, TraceLevel::INFO);
 
 	return xs;
 }
 
-Tensor3d Input::setMatrixXS(std::string name)
+Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
 {
     Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
     matrix.setZero();
@@ -422,7 +421,7 @@ Tensor3d Input::setMatrixXS(std::string name)
 		}
 	}
 
-	out.getLogger()->info(name);
+	out.getLogger()->info(outputName);
     printMatrix(matrix, out, TraceLevel::INFO, "Mesh");
 
 	return matrix;
@@ -472,15 +471,15 @@ std::vector<std::string> Input::readManyParameters(std::string name)
 void Input::setKineticsParameters()
 { 
     double alpha = std::stod(readOneParameter("alpha"));
-    out.getLogger()->info("Alpha: {}", alpha);
+    out.getLogger()->info("Alpha [s]: {} \n", alpha);
 
     double power = std::stod(readOneParameter("power"));
-    out.getLogger()->debug("Initial power: {}", power);
+    out.getLogger()->debug("Initial power [W]: {} \n", power);
 
-    std::vector<double> lambda = setManyParameters("lambda", "Input");
-    std::vector<double> beta = setManyParameters("beta", "Input");
-	std::vector<double> times = setManyParameters("times", "Input");
-	std::vector<double> reactivities = setManyParameters("reactivities", "Input");
+    std::vector<double> lambda = setManyParameters("lambda", "Input lambdas [1/s]");
+    std::vector<double> beta = setManyParameters("beta", "Input betas");
+	std::vector<double> times = setManyParameters("times", "Input times [s]");
+	std::vector<double> reactivities = setManyParameters("reactivities", "Input reactivities");
 
 	if (times.size() != reactivities.size()) 
 	{
@@ -499,10 +498,8 @@ void Input::setKineticsParameters()
 	m_library.setKineticsSet(kinSet);
 } 
 
-std::vector<double> Input::setManyParameters(std::string name, std::string prefix)
+std::vector<double> Input::setManyParameters(std::string name, std::string outputName)
 { 
-
-    std::string finalStr = prefix + " " + name;
 
     std::vector<std::string> values = readManyParameters(name);
 
@@ -516,7 +513,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string prefi
 		std::transform(values.begin(), values.end(), result.begin(), 
                    [](std::string &i){return std::stod(i);});
 
-		out.getLogger()->debug("{}:", finalStr);
+		out.getLogger()->debug("{}:", outputName);
 	    printVector(result, out, TraceLevel::DEBUG);
 		return result;
 	}
@@ -593,7 +590,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string prefi
 		}
 	}
 
-	out.getLogger()->debug("{}:", finalStr);
+	out.getLogger()->debug("{}:", outputName);
 	printVector(result, out, TraceLevel::DEBUG);
 
 	return result;
@@ -602,7 +599,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string prefi
 void Input::setHeatBoundaryConditions()
 { 
 	const std::string name = "heat_boundary_conditions";
-	std::vector<double> boundaries = setManyParameters(name, "Input");
+	std::vector<double> boundaries = setManyParameters(name, "Input boundary conditions");
   
     if(boundaries.size() < 6)
     {

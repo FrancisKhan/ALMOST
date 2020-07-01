@@ -25,7 +25,8 @@ public:
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &cpm);
 	Eigen::MatrixXd calcFMatrix(Eigen::MatrixXd &cpm);
 	virtual void applyBoundaryConditions(Tensor3d &gcpm) = 0; 
-	void diagonalDominanceCheck();
+	void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+                         int max_iter_number, double accuracy);
 	
 protected:
 	const static double abscissa[8];
