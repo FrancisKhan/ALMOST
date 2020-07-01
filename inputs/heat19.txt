@@ -1,0 +1,19 @@
+% Steady-state, constant conductivity, spherical geometry
+% uniform cell sizes, 2 materials, with internal generation
+% Boundary conditions:
+% q0)  = 0.0
+% T(L) = T2
+
+calculation heat
+
+geometry sphere
+mesh 10 0.1 M1 10 0.5 M2
+temperatures 20.0 20 
+heat_sources 200000.0 20
+heat_boundary_conditions 0.0 1.0 0.0 1.0 0.0 20.0
+
+material M1
+thermal_conductivity 2.0
+
+material M2
+thermal_conductivity 20.0

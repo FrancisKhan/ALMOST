@@ -316,7 +316,6 @@ TEST_F(HeatIntegrationTests, heat10)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-   EXPECT_TRUE(true);
 }
 
 // Steady-state, constant parameters, cylindrical geometry (memory test)
@@ -363,7 +362,6 @@ TEST_F(HeatIntegrationTests, heat11)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-   EXPECT_TRUE(true);
 }
 
 // Steady-state, constant parameters, cylindrical geometry
@@ -392,7 +390,6 @@ TEST_F(HeatIntegrationTests, heat12)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-   EXPECT_TRUE(true);
 }
 
 // Steady-state, tconstant conductivity, cylindrical geometry
@@ -425,11 +422,10 @@ TEST_F(HeatIntegrationTests, heat13)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-  EXPECT_TRUE(true);
 }
 
 // Steady-state, constant parameters, cylindrical geometry
-// uniform cell sizes with 2 materials and internal generation
+// non-uniform cell sizes with internal generation
 // Boundary conditions:
 // q(0) = 0.0
 // T(L) = T2
@@ -455,11 +451,10 @@ TEST_F(HeatIntegrationTests, heat14)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-  EXPECT_TRUE(true);
 }
 
-// Steady-state, constant parameters, cylindrical geometry
-// uniform cell sizes with 2 materials and internal generation
+// Steady-state, temperatiure-dependent parameters, cylindrical geometry
+// uniform cell, internal generation
 // Boundary conditions:
 // q(0) = 0.0
 // T(L) = T2
@@ -485,7 +480,6 @@ TEST_F(HeatIntegrationTests, heat15)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-  EXPECT_TRUE(true);
 }
 
 // Steady-state, constant parameters, spherical geometry (memory test)
@@ -533,7 +527,6 @@ TEST_F(HeatIntegrationTests, heat16)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-  EXPECT_TRUE(true);
 }
 
 // Steady-state, constant parameters, spherical geometry
@@ -563,5 +556,91 @@ TEST_F(HeatIntegrationTests, heat17)
 
   bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
   EXPECT_TRUE(areEqual);
-  EXPECT_TRUE(true);
+}
+
+// Steady-state, constant parameters, spherical geometry
+// non-uniform cell sizes with internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat18)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat18.txt";
+  const std::string outputPath = "outputs/Out_heat18.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {6.447657e+02, 6.445384e+02, 6.439702e+02, 
+                                 6.430864e+02, 6.418932e+02, 6.403932e+02, 
+                                 6.385876e+02, 6.364772e+02, 6.340625e+02, 
+                                 6.313436e+02, 6.162300e+02, 5.668613e+02, 
+                                 5.216908e+02, 4.743727e+02, 4.224156e+02, 
+                                 3.646466e+02, 3.004420e+02, 2.294403e+02, 
+                                 1.514176e+02, 6.622790e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+}
+
+// Steady-state, constant parameters, spherical geometry
+// uniform cell sizes, 2 materials, with internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat19)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat19.txt";
+  const std::string outputPath = "outputs/Out_heat19.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {9.648080e+02, 9.623080e+02, 9.560580e+02, 
+                                 9.463358e+02, 9.332108e+02, 9.167108e+02, 
+                                 8.968497e+02, 8.736354e+02, 8.470729e+02, 
+                                 8.171655e+02, 6.758530e+02, 6.215474e+02, 
+                                 5.718599e+02, 5.198099e+02, 4.626571e+02, 
+                                 3.991112e+02, 3.284862e+02, 2.503844e+02, 
+                                 1.645594e+02, 7.085069e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
+}
+
+// Steady-state, temperatiure-dependent parameters, spherical geometry
+// uniform cell, internal generation
+// Boundary conditions:
+// q(0) = 0.0
+// T(L) = T2
+
+TEST_F(HeatIntegrationTests, heat20)
+{	
+  const std::string codePath   = "app/app";
+  const std::string inputPath  = "inputs/heat20.txt";
+  const std::string outputPath = "outputs/Out_heat20.txt";
+  const std::string traceLevel = "DEBUG";
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  std::vector<double> temp = test.getVector("Temperatures");
+
+  std::vector<double> refTemp = {5.626304e+01, 5.612889e+01, 5.579346e+01,
+                                 5.527145e+01, 5.456630e+01, 5.367914e+01, 
+                                 5.261022e+01, 5.135941e+01, 4.992627e+01, 
+                                 4.831023e+01, 4.651051e+01, 4.452621e+01,
+                                 4.235632e+01, 3.999966e+01, 3.745495e+01, 
+                                 3.472078e+01, 3.179559e+01, 2.867772e+01, 
+                                 2.536534e+01, 2.185020e+01};
+
+  bool areEqual = std::equal(refTemp.begin(), refTemp.end(), temp.begin());
+  EXPECT_TRUE(areEqual);
 }
