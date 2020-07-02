@@ -22,7 +22,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.getLogger()->debug("Particles Balance Check for Group: {}", h + 1);
+		out.getLogger()->info("Particles Balance Check for Group: {}", h + 1);
 		
 		for(int i = 0; i < m_cells; i++)
         {
@@ -32,7 +32,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 				check(i) += gcpm(i, j, h) * m_totalXS(h, j);
 			}
 			
-			out.getLogger()->debug("check: {} {:7.6e}", i + 1, check(i));
+			out.getLogger()->info("check: {} {:7.6e}", i + 1, check(i));
 		}
 	}
 }
@@ -54,7 +54,7 @@ MatrixXd BaseSpectrumCode::calcCPMMatrix(Tensor3d &gcpm)
 	    }
 	}
    
-   out.getLogger()->debug("\nCPM matrix");
+   out.getLogger()->info("\nCPM matrix");
    printMatrix(cpm, out, TraceLevel::DEBUG);
 
    return cpm;
@@ -87,8 +87,8 @@ MatrixXd BaseSpectrumCode::calcMMatrix(MatrixXd &cpm)
 	   MMatrix(i, i) += 1.0;
     }
    
-	out.getLogger()->debug("MMatrix");
-    printMatrix(MMatrix, out, TraceLevel::DEBUG);
+	out.getLogger()->info("MMatrix");
+    printMatrix(MMatrix, out, TraceLevel::INFO);
 
 	return MMatrix;
 }
@@ -137,8 +137,8 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    
    FMatrix = cpm * FMatrix;
    
-   out.getLogger()->debug("FMatrix");
-   printMatrix(FMatrix, out, TraceLevel::DEBUG);
+   out.getLogger()->info("FMatrix");
+   printMatrix(FMatrix, out, TraceLevel::INFO);
 
    return FMatrix;
 }
@@ -151,7 +151,7 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 	
 	if(Mmatrix.size() != Fmatrix.size())
 	{
-		out.getLogger()->error(" MMatrix has a different number of elements than FMatrix!");
+		out.getLogger()->critical(" MMatrix has a different number of elements than FMatrix!");
 		exit(-1);
 	}
 	
@@ -194,8 +194,8 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 	Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
 	double kFactor = kFactor2;
 	
-	out.getLogger()->info("K-factor:  {:7.6e} \n", kFactor);
+	out.getLogger()->critical("K-factor:  {:7.6e} \n", kFactor);
 	out.getLogger()->info("Number of iterations: {} \n", h + 1);
-	out.getLogger()->info("Neutron Flux [1/(cm2*s)]:");
-	printVector(neutronFlux, out, TraceLevel::INFO);
+	out.getLogger()->critical("Neutron Flux [1/(cm2*s)]:");
+	printVector(neutronFlux, out, TraceLevel::CRITICAL);
 }

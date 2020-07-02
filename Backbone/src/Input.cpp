@@ -17,7 +17,7 @@ void Input::getArguments(int argc, char** argv)
 {
 	if(argc < 2)
 	{
-		std::cout << "Missing input argument!" << std::endl;
+		std::cout << "Missing input arguments!" << std::endl;
 		exit(-1);
 	}
 	else if(argc == 4)
@@ -40,8 +40,8 @@ void Input::getArguments(int argc, char** argv)
 
 void Input::printData()
 {
-	out.getLogger()->info("Input file: {}/{}",  out.getInputPath(), out.getInputName());
-	out.getLogger()->debug("Output file: {} \n", out.getOutputName());
+	out.getLogger()->critical("Input file: {}/{}",  out.getInputPath(), out.getInputName());
+	out.getLogger()->critical("Output file: {} \n", out.getOutputName());
 }
 
 std::string Input::readData()
@@ -50,7 +50,7 @@ std::string Input::readData()
 	inFile.open(m_inputPath);
 	if (!inFile) 
 	{
-		out.getLogger()->error("Unable to open file: {}", m_inputPath); 
+		out.getLogger()->critical("Unable to open file: {}", m_inputPath); 
 		exit(-1);
 	}
 	
@@ -168,7 +168,7 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 
     if(keywordFound == false) 
 	{
-		out.getLogger()->error("{} is missing from the input!", toSearch);
+		out.getLogger()->critical("{} is missing from the input!", toSearch);
 	    exit(-1);
 	}
 
@@ -188,7 +188,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 std::string Input::setCalculation()
 {
 	std::string calculation = readOneParameter("calculation");
-	out.getLogger()->info("Calculation: {}\n", calculation);
+	out.getLogger()->critical("Calculation: {}\n", calculation);
 	return calculation;
 }
 
@@ -199,21 +199,21 @@ void Input::setGeometryKind()
    if(geometry == "cylinder") 
 	{
 	   m_mesh.setMeshKind(GeomKind::CYLINDER);
-	   out.getLogger()->info("Geometry: Cylindrical \n");
+	   out.getLogger()->critical("Geometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SPHERE);
-	   out.getLogger()->info("Geometry: Spherical \n");
+	   out.getLogger()->critical("Geometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SLAB);
-	   out.getLogger()->info("Geometry: Cartesian \n");
+	   out.getLogger()->critical("Geometry: Cartesian \n");
 	}
 	else
 	{
-	   out.getLogger()->error("Geometry: {} not recognized!", geometry);
+	   out.getLogger()->critical("Geometry: {} not recognized!", geometry);
 	   exit(-1);
 	}
 } 
@@ -222,14 +222,15 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.getLogger()->info("{}: {} \n", "energies", energies);
+	out.getLogger()->critical("{}: {} \n", "energies", energies);
 }
 
 void Input::setAlbedo()
 {
 	std::string albedo = readOneParameter("albedo");
 	m_mesh.setAlbedo(std::stod(albedo));
-	out.getLogger()->info("{}: {} \n", "albedo", albedo);
+    std::string numberString = stringFormat(albedo, "%7.6e");
+	out.getLogger()->critical("{}: {} \n", "albedo", numberString);
 }
 
 void Input::setMesh()
@@ -275,13 +276,13 @@ void Input::setMesh()
 		distanceSum += regionDistance[i];
 	}
 
-	out.getLogger()->info("Input boundaries [m]:");
-	printVector(boundaries, out, TraceLevel::INFO);
+	out.getLogger()->critical("Input boundaries [m]:");
+	printVector(boundaries, out, TraceLevel::CRITICAL);
 	m_mesh.setBoundaries(boundaries);
 
     Eigen::VectorXd volumes = m_mesh.getVolumes("m");
-	out.getLogger()->info("Input volumes [m3]:");
-    printVector(volumes, out, TraceLevel::INFO);
+	out.getLogger()->critical("Input volumes [m3]:");
+    printVector(volumes, out, TraceLevel::CRITICAL);
 
 	for(size_t i = 1; i < regionNumber.size(); i++)
 	{
@@ -293,8 +294,8 @@ void Input::setMesh()
 
 	m_mesh.createMaterials(m_materialMap);
 
-	out.getLogger()->info("Input meshes:");
-	printVector(m_materialMap, out, TraceLevel::INFO);
+	out.getLogger()->critical("Input meshes:");
+	printVector(m_materialMap, out, TraceLevel::CRITICAL);
 
 	std::sort(regionMaterial.begin(), regionMaterial.end());
     regionMaterial.erase(std::unique(regionMaterial.begin(), 
@@ -348,7 +349,7 @@ void Input::setMaterialProperties(std::string name)
 
 			if(values.size() < 2) 
 			{
-	   			out.getLogger()->error("{} has no parameters!", name);
+	   			out.getLogger()->critical("{} has no parameters!", name);
 	    		exit(-1);
 			}
 			else if(values.size() >= 2 && values.size() < 4) 
@@ -358,7 +359,7 @@ void Input::setMaterialProperties(std::string name)
 			}
 			else
 			{
-	   			out.getLogger()->error("{} number of parameters exceeded!", name);
+	   			out.getLogger()->critical("{} number of parameters exceeded!", name);
 				exit(-1);
 			}
 		}
@@ -388,8 +389,8 @@ MatrixXd Input::setXS(std::string name, std::string outputName)
 		}
 	}
 
-    out.getLogger()->info(outputName);
-    printMatrix(xs, out, TraceLevel::INFO);
+    out.getLogger()->critical(outputName);
+    printMatrix(xs, out, TraceLevel::CRITICAL);
 
 	return xs;
 }
@@ -421,8 +422,8 @@ Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
 		}
 	}
 
-	out.getLogger()->info(outputName);
-    printMatrix(matrix, out, TraceLevel::INFO, "Mesh");
+	out.getLogger()->critical(outputName);
+    printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
 
 	return matrix;
 }
@@ -434,7 +435,7 @@ std::string Input::readOneParameter(std::string name)
    
    if(words.size() == 1)
    {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
+	   out.getLogger()->critical("{} is missing its parameters!", words[0]);
 	   exit(-1);
    }
    else if(words.size() == 2)
@@ -443,7 +444,7 @@ std::string Input::readOneParameter(std::string name)
    }
    else
    {
-	   out.getLogger()->error("{}  has too many parameters!", words[0]);
+	   out.getLogger()->critical("{}  has too many parameters!", words[0]);
 	   exit(-1);
    }
 
@@ -457,7 +458,7 @@ std::vector<std::string> Input::readManyParameters(std::string name)
    
    if(words.size() == 1)
    {
-	   out.getLogger()->error("{} is missing its parameters!", words[0]);
+	   out.getLogger()->critical("{} is missing its parameters!", words[0]);
 	   exit(-1);
    }
    else
@@ -471,10 +472,10 @@ std::vector<std::string> Input::readManyParameters(std::string name)
 void Input::setKineticsParameters()
 { 
     double alpha = std::stod(readOneParameter("alpha"));
-    out.getLogger()->info("Alpha [s]: {} \n", alpha);
+    out.getLogger()->critical("Alpha [s]: {} \n", stringFormat(alpha, "%7.6e"));
 
     double power = std::stod(readOneParameter("power"));
-    out.getLogger()->debug("Initial power [W]: {} \n", power);
+    out.getLogger()->critical("Initial power [W]: {} \n", stringFormat(alpha, "%7.6e"));
 
     std::vector<double> lambda = setManyParameters("lambda", "Input lambdas [1/s]");
     std::vector<double> beta = setManyParameters("beta", "Input betas");
@@ -483,8 +484,8 @@ void Input::setKineticsParameters()
 
 	if (times.size() != reactivities.size()) 
 	{
-		out.getLogger()->debug("times and reactivities must have equal sizes!"); 
-		out.getLogger()->debug("times: {} reativities: {}" , times.size(), reactivities.size());
+		out.getLogger()->critical("times and reactivities must have equal sizes!"); 
+		out.getLogger()->critical("times: {} reativities: {}" , times.size(), reactivities.size());
 		exit(-1);
 	}
 
@@ -513,8 +514,8 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		std::transform(values.begin(), values.end(), result.begin(), 
                    [](std::string &i){return std::stod(i);});
 
-		out.getLogger()->debug("{}:", outputName);
-	    printVector(result, out, TraceLevel::DEBUG);
+		out.getLogger()->critical("{}:", outputName);
+	    printVector(result, out, TraceLevel::CRITICAL);
 		return result;
 	}
 
@@ -590,8 +591,8 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		}
 	}
 
-	out.getLogger()->debug("{}:", outputName);
-	printVector(result, out, TraceLevel::DEBUG);
+	out.getLogger()->critical("{}:", outputName);
+	printVector(result, out, TraceLevel::CRITICAL);
 
 	return result;
 }
@@ -603,7 +604,7 @@ void Input::setHeatBoundaryConditions()
   
     if(boundaries.size() < 6)
     {
-		out.getLogger()->error("{} is missing one or more of its 6 parameters!", name);
+		out.getLogger()->critical("{} is missing one or more of its 6 parameters!", name);
 		exit(-1);
     }
     else if(boundaries.size() == 6)
@@ -612,7 +613,7 @@ void Input::setHeatBoundaryConditions()
     }
 	else
     {
-		out.getLogger()->error("{} has more than 6 parameters!", name);
+		out.getLogger()->critical("{} has more than 6 parameters!", name);
 		exit(-1);
     }
 } 

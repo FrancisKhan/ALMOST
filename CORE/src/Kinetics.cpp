@@ -95,8 +95,8 @@ std::vector<double> Kinetics::power(std::vector<double> &rhos, std::vector<doubl
         results.push_back(power(rhos[i], deltaT));
     }
 
-    out.getLogger()->info("Output power [W]: ");
-    printVector(results, out, TraceLevel::INFO);
+    out.getLogger()->critical("Output power [W]: ");
+    printVector(results, out, TraceLevel::CRITICAL);
 
     return results;
 }

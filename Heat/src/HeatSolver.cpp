@@ -38,9 +38,9 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
         oldTemps = newTemps;
     }
 
-    out.getLogger()->debug("Mesh middle points [m]:");
-    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
+    out.getLogger()->critical("Mesh middle points [m]:");
+    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);
 
-    out.getLogger()->debug("Final temperatures [C]:");
-    printVector(m_mesh.getTemperatures("C"), out, TraceLevel::DEBUG);
+    out.getLogger()->critical("Final temperatures [C]:");
+    printVector(m_mesh.getTemperatures("C"), out, TraceLevel::CRITICAL);
 }

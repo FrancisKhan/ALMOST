@@ -11,14 +11,14 @@ namespace fs = std::experimental::filesystem;
 void Output::printStart()
 {
 	out.getLogger()->set_pattern("[%D %T] [%n] %v");
-	out.getLogger()->info("Start Neutronics \n");
+	out.getLogger()->critical("Start simulation \n");
 	out.getLogger()->set_pattern("%v");
 }
 
 void Output::printEnd()
 {
 	out.getLogger()->set_pattern("[%D %T] [%n] %v");
-	out.getLogger()->info("End Neutronics");
+	out.getLogger()->critical("End simulation");
 }
 
 void Output::setLevel(std::string level) 

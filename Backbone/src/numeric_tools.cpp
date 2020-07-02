@@ -75,14 +75,7 @@ void printMatrix(Tensor3d A, Output output, TraceLevel level, std::string str)
 		
 			for(int j = 0; j < dims[0]; j++)
 			{
-                // These lines are needed to convert a double to a string
-				// in a specific format
-            	char buffer[32];
-    			memset(buffer, 0, sizeof(buffer));
-    			snprintf(buffer, sizeof(buffer), "%7.6e", A(i, j, h));
-    			std::string scientificNumberString(buffer);
-
-				msg += scientificNumberString + " ";
+                msg += stringFormat(A(i, j, h), "%7.6e") + " ";
 			}
 		
 			if (level == TraceLevel::CRITICAL)
@@ -130,14 +123,7 @@ void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level)
 		
 	    for(int j = 0; j < A.cols(); j++)
 	    {
-			// These lines are needed to convert a double to a string
-			// in a specific format
-            char buffer[32];
-    		memset(buffer, 0, sizeof(buffer));
-    		snprintf(buffer, sizeof(buffer), "%7.6e", A(i, j));
-    		std::string scientificNumberString(buffer);
-
-			msg += scientificNumberString + " ";
+			msg += stringFormat(A(i, j), "%7.6e") + " ";
 	    }
 		
 	    if (level == TraceLevel::CRITICAL)
@@ -624,4 +610,27 @@ Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a,
       result(i) = P(i) * result(i + 1) + Q(i);
 
     return result;
+}
+
+// These lines are needed to convert a string to a string 
+// in a specific format
+std::string stringFormat(double number, std::string format)
+{
+	char buffer[32];
+    memset(buffer, 0, sizeof(buffer));
+    snprintf(buffer, sizeof(buffer), format.c_str(), number);
+    std::string numberString(buffer);
+	return numberString;
+}
+
+// These lines are needed to convert a double to a string 
+// in a specific format
+std::string stringFormat(std::string numberStr, std::string format)
+{
+	double number = std::stod(numberStr);
+	char buffer[32];
+    memset(buffer, 0, sizeof(buffer));
+    snprintf(buffer, sizeof(buffer), format.c_str(), number);
+    std::string numberString(buffer);
+	return numberString;
 }

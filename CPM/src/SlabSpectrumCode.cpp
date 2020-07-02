@@ -89,8 +89,8 @@ Tensor3d SlabSpectrumCode::calcCPs(std::pair<Tensor3d, Tensor4d> &trackData)
 		gcpm(i, j, h) = P(i, j);
 	}
 
-	out.getLogger()->debug("P matrix (vacuum BC)");
-    printMatrix(gcpm, out, TraceLevel::DEBUG, "Group");
+	out.getLogger()->info("P matrix (vacuum BC)");
+    printMatrix(gcpm, out, TraceLevel::INFO, "Group");
 
 	return gcpm;
 }
@@ -99,7 +99,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 {	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.getLogger()->debug("Apply boundary conditions Group {}", h + 1);
+		out.getLogger()->info("Apply boundary conditions Group {}", h + 1);
 		
 		double albedo = m_mesh.getAlbedo();
 		
@@ -127,7 +127,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 			Pis(i) = 1.0 - Pis(i);
 			psi(i) = (4.0 * m_volumes(i) / m_surface) * Pis(i);
 			
-			out.getLogger()->debug("Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
+			out.getLogger()->info("Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
 		}
 		
 		double Pss = 0.0;
@@ -139,7 +139,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 		
 		Pss = 1.0 - Pss;
 		
-		out.getLogger()->debug("Pss [cm2]: {:7.6e} \n", Pss);
+		out.getLogger()->info("Pss [cm2]: {:7.6e} \n", Pss);
 		
 		for(int i = 0; i < m_cells; i++)
 		{
@@ -152,8 +152,8 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 				
 	}	
 	
-	out.getLogger()->debug("P matrix (white BC)");
-    printMatrix(gcpm, out, TraceLevel::DEBUG, "Group");
+	out.getLogger()->info("P matrix (white BC)");
+    printMatrix(gcpm, out, TraceLevel::INFO, "Group");
 
     for(int h = 0; h < m_energies; h++)
 	{

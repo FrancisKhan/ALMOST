@@ -40,6 +40,9 @@ std::vector<double> prod_poly(std::vector<double> &a);
 std::vector<double> prod_poly_i(std::vector<double> &a, size_t i);
 std::vector<double> poly_roots(std::vector<double> &p);
 
+std::string stringFormat(double number, std::string format);
+std::string stringFormat(std::string numberStr, std::string format);
+
 template <typename T>
 inline bool is_equal(const T &x, const T &y)
 {
