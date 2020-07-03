@@ -10,7 +10,7 @@ sudo apt-get install -y valgrind
 
 Download and compilation:
 
-git clone https://github.com/FrancisKhan/ALMOST.git\
+git clone https://github.com/FrancisKhan/ALMOST.git \
 cd ALMOST\
 cmake .\
 make
