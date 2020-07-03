@@ -347,23 +347,38 @@ void Input::setMaterialProperties(std::string name)
 
 			std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
 
-			if(values.size() < 2) 
+			if(name == "thermal_conductivity")
 			{
-	   			out.getLogger()->critical("{} has no parameters!", name);
-	    		exit(-1);
-			}
-			else if(values.size() >= 2 && values.size() < 4) 
-			{
-				std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
-	   			m_mesh.getMaterial(m)->setThermalConductivityLaw(numberVec);
+				setThermalConductivity(values, m);
 			}
 			else
 			{
-	   			out.getLogger()->critical("{} number of parameters exceeded!", name);
-				exit(-1);
+				out.getLogger()->critical("{} is not a material property", name);
+	    		exit(-1);
 			}
+			
 		}
 	}
+}
+
+void Input::setThermalConductivity(std::vector<std::string> &values, unsigned index)
+{
+	if(values.size() < 2) 
+	{
+		out.getLogger()->critical("{} has no parameters!", values[0]);
+	    exit(-1);
+	}
+	else if(values.size() >= 2 && values.size() < 4) 
+	{
+		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
+		m_mesh.getMaterial(index)->setThermalConductivityLaw(numberVec);
+	}
+	else
+	{
+		out.getLogger()->critical("{} number of parameters exceeded!", values[0]);
+		exit(-1);
+	}
+	
 }
 
 MatrixXd Input::setXS(std::string name, std::string outputName)
