@@ -55,3 +55,4 @@ tests/tests/
 external/eigen-lib
 external/boost-lib
 external/spdlog-lib
+external/googletest*
