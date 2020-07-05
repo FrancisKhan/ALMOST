@@ -10,6 +10,8 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace Numerics;
+using namespace PrintFuncs;
 
 class MMatrixTest : public ::testing::Test 
 {

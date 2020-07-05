@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace Numerics;
 
 void SpectrumSolver::solve(int max_iter_number, double accuracy)
 {

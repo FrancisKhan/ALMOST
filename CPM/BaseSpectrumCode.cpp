@@ -6,6 +6,8 @@
 #include <iomanip>
 
 using namespace Eigen;
+using namespace Numerics;
+using namespace PrintFuncs;
 
 const double BaseSpectrumCode::abscissa[8] = {0.0446339553, 0.1443662570, 0.2868247571,
                                               0.4548133152, 0.6280678354, 0.7856915206,

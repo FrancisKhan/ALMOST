@@ -1,6 +1,6 @@
 # Tests need to be added as executables first
 add_executable(test_cpm mathsTests.cpp CoreTests.cpp CPMTests.cpp 
-               HeatIntegrationTests.cpp integrationTests.cpp)
+               HeatIntegrationTests.cpp CPMIntegrationTests.cpp CoreIntegrationTests.cpp)
 
 # I'm using C++17 in the test
 #target_compile_features(test_cpm PRIVATE cxx_std_17)
@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# link_directories(../src/)
 target_link_libraries(test_cpm PRIVATE backbone_library core_library cpm_library gtest gtest_main pthread)
 
 # If you register a test, then ctest and make test will run it.

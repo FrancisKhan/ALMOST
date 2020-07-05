@@ -5,6 +5,9 @@
 #include <unsupported/Eigen/Polynomials>
 #include <iostream>
 
+using namespace Numerics;
+using namespace PrintFuncs;
+
 std::vector<double> Kinetics::inHourEqRoots(double rho)
 {	
     std::vector<double> lambdaProd = prod_poly(m_lambda);

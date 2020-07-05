@@ -25,6 +25,9 @@ add_subdirectory(CORE)
 # Heat transfer directory
 add_subdirectory(Heat)
 
+# Utilities files are here
+add_subdirectory(Utilities)
+
 # The executable code is here
 add_subdirectory(app)
 

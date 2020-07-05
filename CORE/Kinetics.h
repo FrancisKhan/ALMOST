@@ -2,6 +2,7 @@
 #define KINETICS_H
 
 #include <vector>
+#include "additionalPrintFuncs.h"
 
 class Kinetics
 {

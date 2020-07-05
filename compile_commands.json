@@ -20,173 +20,183 @@
   "file": "/mnt/c/C++/ALMOST/external/googletest-src/googletest/src/gtest-all.cc"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/numeric_tools.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/numeric_tools.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/numeric_tools.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Material.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Material.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Material.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Material.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Material.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Material.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Mesh.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Mesh.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Mesh.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Mesh.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Mesh.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Mesh.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/IO/Output.cpp.o -c /mnt/c/C++/ALMOST/Backbone/IO/Output.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/IO/Output.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Output.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Output.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Output.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/IO/Input.cpp.o -c /mnt/c/C++/ALMOST/Backbone/IO/Input.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/IO/Input.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Input.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Input.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Input.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/KineticsSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/KineticsSet.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/KineticsSet.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/KineticsSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/KineticsSet.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/KineticsSet.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/AbstractGeometry.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/AbstractGeometry.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/AbstractGeometry.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/AbstractGeometry.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/AbstractGeometry.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/AbstractGeometry.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Cylinder.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Cylinder.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Cylinder.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Cylinder.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Cylinder.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Cylinder.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Sphere.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Sphere.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Sphere.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Sphere.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Sphere.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Sphere.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Slab.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Slab.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Slab.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Slab.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Slab.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Slab.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/AbstractSolver.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/AbstractSolver.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/AbstractSolver.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/AbstractSolver.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/AbstractSolver.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/AbstractSolver.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Library/Library.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Library/Library.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Library/Library.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Library.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/Library.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/Library.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/CrossSectionSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/CrossSectionSet.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/CrossSectionSet.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/CrossSectionSet.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/CrossSectionSet.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/CrossSectionSet.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/BaseSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/BaseSpectrumCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/BaseSpectrumCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Backbone/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/PolynomialFunction.cpp.o -c /mnt/c/C++/ALMOST/Backbone/src/PolynomialFunction.cpp",
-  "file": "/mnt/c/C++/ALMOST/Backbone/src/PolynomialFunction.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SpectrumCodeFactory.cpp.o -c /mnt/c/C++/ALMOST/CPM/SpectrumCodeFactory.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/SpectrumCodeFactory.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/BaseSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/BaseSpectrumCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/BaseSpectrumCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/CylSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/CylSpectrumCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/CylSpectrumCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SpectrumCodeFactory.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/SpectrumCodeFactory.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/SpectrumCodeFactory.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SphSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/SphSpectrumCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/SphSpectrumCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/CylSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/CylSpectrumCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/CylSpectrumCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SlabSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/SlabSpectrumCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/SlabSpectrumCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SphSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/SphSpectrumCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/SphSpectrumCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CPM",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SpectrumSolver.cpp.o -c /mnt/c/C++/ALMOST/CPM/SpectrumSolver.cpp",
+  "file": "/mnt/c/C++/ALMOST/CPM/SpectrumSolver.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SlabSpectrumCode.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/SlabSpectrumCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/SlabSpectrumCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CORE",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/core_library.dir/Kinetics.cpp.o -c /mnt/c/C++/ALMOST/CORE/Kinetics.cpp",
+  "file": "/mnt/c/C++/ALMOST/CORE/Kinetics.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CPM/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/cpm_library.dir/SpectrumSolver.cpp.o -c /mnt/c/C++/ALMOST/CPM/src/SpectrumSolver.cpp",
-  "file": "/mnt/c/C++/ALMOST/CPM/src/SpectrumSolver.cpp"
+  "directory": "/mnt/c/C++/ALMOST/CORE",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/core_library.dir/KineticsSolver.cpp.o -c /mnt/c/C++/ALMOST/CORE/KineticsSolver.cpp",
+  "file": "/mnt/c/C++/ALMOST/CORE/KineticsSolver.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CORE/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/core_library.dir/Kinetics.cpp.o -c /mnt/c/C++/ALMOST/CORE/src/Kinetics.cpp",
-  "file": "/mnt/c/C++/ALMOST/CORE/src/Kinetics.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/SlabHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/SlabHeatCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/SlabHeatCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/CORE/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/core_library.dir/KineticsSolver.cpp.o -c /mnt/c/C++/ALMOST/CORE/src/KineticsSolver.cpp",
-  "file": "/mnt/c/C++/ALMOST/CORE/src/KineticsSolver.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/BaseHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/BaseHeatCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/BaseHeatCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/SlabHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/SlabHeatCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/SlabHeatCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/HeatSolver.cpp.o -c /mnt/c/C++/ALMOST/Heat/HeatSolver.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/HeatSolver.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/BaseHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/BaseHeatCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/BaseHeatCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/CylHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/CylHeatCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/CylHeatCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/HeatSolver.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/HeatSolver.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/HeatSolver.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/SphHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/SphHeatCode.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/SphHeatCode.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/CylHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/CylHeatCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/CylHeatCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Heat",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/HeatCodeFactory.cpp.o -c /mnt/c/C++/ALMOST/Heat/HeatCodeFactory.cpp",
+  "file": "/mnt/c/C++/ALMOST/Heat/HeatCodeFactory.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/SphHeatCode.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/SphHeatCode.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/SphHeatCode.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Utilities",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/utilities_library.dir/numeric_tools.cpp.o -c /mnt/c/C++/ALMOST/Utilities/numeric_tools.cpp",
+  "file": "/mnt/c/C++/ALMOST/Utilities/numeric_tools.cpp"
 },
 {
-  "directory": "/mnt/c/C++/ALMOST/Heat/src",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/heat_library.dir/HeatCodeFactory.cpp.o -c /mnt/c/C++/ALMOST/Heat/src/HeatCodeFactory.cpp",
-  "file": "/mnt/c/C++/ALMOST/Heat/src/HeatCodeFactory.cpp"
+  "directory": "/mnt/c/C++/ALMOST/Utilities",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/utilities_library.dir/PolynomialFunction.cpp.o -c /mnt/c/C++/ALMOST/Utilities/PolynomialFunction.cpp",
+  "file": "/mnt/c/C++/ALMOST/Utilities/PolynomialFunction.cpp"
+},
+{
+  "directory": "/mnt/c/C++/ALMOST/Utilities",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/utilities_library.dir/additionalPrintFuncs.cpp.o -c /mnt/c/C++/ALMOST/Utilities/additionalPrintFuncs.cpp",
+  "file": "/mnt/c/C++/ALMOST/Utilities/additionalPrintFuncs.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/app",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/. -I/mnt/c/C++/ALMOST/Heat/src/../../Backbone/src -I/mnt/c/C++/ALMOST/Heat/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/Heat/src/../../external/eigen-lib/src/eigen  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/app.dir/main.cpp.o -c /mnt/c/C++/ALMOST/app/main.cpp",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/Heat/. -I/mnt/c/C++/ALMOST/Heat/../Backbone/Library -I/mnt/c/C++/ALMOST/Heat/../Backbone/Datamodel  -Wall -g   -Wall -Wno-ignored-attributes -std=c++1z -o CMakeFiles/almost.dir/main.cpp.o -c /mnt/c/C++/ALMOST/app/main.cpp",
   "file": "/mnt/c/C++/ALMOST/app/main.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/tests",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/mathsTests.cpp.o -c /mnt/c/C++/ALMOST/tests/mathsTests.cpp",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/mathsTests.cpp.o -c /mnt/c/C++/ALMOST/tests/mathsTests.cpp",
   "file": "/mnt/c/C++/ALMOST/tests/mathsTests.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/tests",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CoreTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CoreTests.cpp",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CoreTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CoreTests.cpp",
   "file": "/mnt/c/C++/ALMOST/tests/CoreTests.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/tests",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CPMTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CPMTests.cpp",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CPMTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CPMTests.cpp",
   "file": "/mnt/c/C++/ALMOST/tests/CPMTests.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/tests",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/HeatIntegrationTests.cpp.o -c /mnt/c/C++/ALMOST/tests/HeatIntegrationTests.cpp",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/HeatIntegrationTests.cpp.o -c /mnt/c/C++/ALMOST/tests/HeatIntegrationTests.cpp",
   "file": "/mnt/c/C++/ALMOST/tests/HeatIntegrationTests.cpp"
 },
 {
   "directory": "/mnt/c/C++/ALMOST/tests",
-  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/src/. -I/mnt/c/C++/ALMOST/Backbone/src/../../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Backbone/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Backbone/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/src/. -I/mnt/c/C++/ALMOST/CORE/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CORE/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CORE/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/. -I/mnt/c/C++/ALMOST/CPM/src/../../Backbone/src -I/mnt/c/C++/ALMOST/CPM/src/../../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CPM/src/../../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/CPM/src/../../external/boost-lib/src/boost -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/integrationTests.cpp.o -c /mnt/c/C++/ALMOST/tests/integrationTests.cpp",
-  "file": "/mnt/c/C++/ALMOST/tests/integrationTests.cpp"
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CPMIntegrationTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CPMIntegrationTests.cpp",
+  "file": "/mnt/c/C++/ALMOST/tests/CPMIntegrationTests.cpp"
+},
+{
+  "directory": "/mnt/c/C++/ALMOST/tests",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include -I/mnt/c/C++/ALMOST/CORE/. -I/mnt/c/C++/ALMOST/CORE/../Utilities -I/mnt/c/C++/ALMOST/CORE/../Backbone/Library -I/mnt/c/C++/ALMOST/CORE/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Heat/../Utilities -I/mnt/c/C++/ALMOST/CPM/. -I/mnt/c/C++/ALMOST/CPM/../Utilities -I/mnt/c/C++/ALMOST/CPM/../Backbone/Library -I/mnt/c/C++/ALMOST/CPM/../Backbone/Datamodel -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest/include -isystem /mnt/c/C++/ALMOST/external/googletest-src/googletest  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/test_cpm.dir/CoreIntegrationTests.cpp.o -c /mnt/c/C++/ALMOST/tests/CoreIntegrationTests.cpp",
+  "file": "/mnt/c/C++/ALMOST/tests/CoreIntegrationTests.cpp"
 }
 ]

@@ -6,6 +6,8 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace Numerics;
+using namespace PrintFuncs;
 using namespace boost::math;
 
 std::pair<Tensor3d, Tensor4d> SlabSpectrumCode::calcTracks()

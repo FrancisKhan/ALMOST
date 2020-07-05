@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace PrintFuncs;
 
 void HeatSolver::solve(int max_iter_number, double accuracy)
 {

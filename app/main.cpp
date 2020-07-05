@@ -3,7 +3,6 @@
 #include "HeatSolver.h"
 #include "Output.h"
 #include "Input.h"
-#include "try.h"
 
 #include <iostream>
 

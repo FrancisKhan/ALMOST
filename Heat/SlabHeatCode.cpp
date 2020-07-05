@@ -3,6 +3,7 @@
 #include "numeric_tools.h"
 
 using namespace Eigen;
+using namespace PrintFuncs;
 
 std::tuple<MatrixXd, VectorXd> SlabHeatCode::setupSystem()
 {

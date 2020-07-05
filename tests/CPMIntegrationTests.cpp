@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "TestHelper.h"
 
-class IntegrationTests : public ::testing::Test 
+class CPMIntegrationTests : public ::testing::Test 
 {
  protected:
   virtual void SetUp() {}
@@ -10,9 +10,9 @@ class IntegrationTests : public ::testing::Test
 
 // CYLINDER TESTS //
 
-TEST_F(IntegrationTests, Problem1CY)
+TEST_F(CPMIntegrationTests, Problem1CY)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1CY.txt";
   const std::string outputPath = "outputs/Out_Problem1CY.txt";
   const std::string traceLevel = "DEBUG";
@@ -31,9 +31,9 @@ TEST_F(IntegrationTests, Problem1CY)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem5CY)
+TEST_F(CPMIntegrationTests, Problem5CY)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem5CY.txt";
   const std::string outputPath = "outputs/Out_Problem5CY.txt";
   const std::string traceLevel = "DEBUG";
@@ -52,9 +52,9 @@ TEST_F(IntegrationTests, Problem5CY)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem7)
+TEST_F(CPMIntegrationTests, Problem7)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem7.txt";
   const std::string outputPath = "outputs/Out_Problem7.txt";
   const std::string traceLevel = "DEBUG";
@@ -75,9 +75,9 @@ TEST_F(IntegrationTests, Problem7)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem9)
+TEST_F(CPMIntegrationTests, Problem9)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem9.txt";
   const std::string outputPath = "outputs/Out_Problem9.txt";
   const std::string traceLevel = "DEBUG";
@@ -99,9 +99,9 @@ TEST_F(IntegrationTests, Problem9)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem10)
+TEST_F(CPMIntegrationTests, Problem10)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem10.txt";
   const std::string outputPath = "outputs/Out_Problem10.txt";
   const std::string traceLevel = "DEBUG";
@@ -128,9 +128,9 @@ TEST_F(IntegrationTests, Problem10)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem44CY)
+TEST_F(CPMIntegrationTests, Problem44CY)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem44CY.txt";
   const std::string outputPath = "outputs/Out_Problem44CY.txt";
   const std::string traceLevel = "DEBUG";
@@ -154,9 +154,9 @@ TEST_F(IntegrationTests, Problem44CY)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem74)
+TEST_F(CPMIntegrationTests, Problem74)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem74.txt";
   const std::string outputPath = "outputs/Out_Problem74.txt";
   const std::string traceLevel = "DEBUG";
@@ -183,9 +183,9 @@ TEST_F(IntegrationTests, Problem74)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem75)
+TEST_F(CPMIntegrationTests, Problem75)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem75.txt";
   const std::string outputPath = "outputs/Out_Problem75.txt";
   const std::string traceLevel = "DEBUG";
@@ -224,9 +224,9 @@ TEST_F(IntegrationTests, Problem75)
 
 // SPHERE TESTS //
 
-TEST_F(IntegrationTests, Problem1SP)
+TEST_F(CPMIntegrationTests, Problem1SP)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1SP.txt";
   const std::string outputPath = "outputs/Out_Problem1SP.txt";
   const std::string traceLevel = "DEBUG";
@@ -245,9 +245,9 @@ TEST_F(IntegrationTests, Problem1SP)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem5SP)
+TEST_F(CPMIntegrationTests, Problem5SP)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem5SP.txt";
   const std::string outputPath = "outputs/Out_Problem5SP.txt";
   const std::string traceLevel = "DEBUG";
@@ -266,9 +266,9 @@ TEST_F(IntegrationTests, Problem5SP)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem8)
+TEST_F(CPMIntegrationTests, Problem8)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem8.txt";
   const std::string outputPath = "outputs/Out_Problem8.txt";
   const std::string traceLevel = "TRACE";
@@ -289,9 +289,9 @@ TEST_F(IntegrationTests, Problem8)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem16)
+TEST_F(CPMIntegrationTests, Problem16)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem16.txt";
   const std::string outputPath = "outputs/Out_Problem16.txt";
   const std::string traceLevel = "DEBUG";
@@ -316,9 +316,9 @@ TEST_F(IntegrationTests, Problem16)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem44SP)
+TEST_F(CPMIntegrationTests, Problem44SP)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem44SP.txt";
   const std::string outputPath = "outputs/Out_Problem44SP.txt";
   const std::string traceLevel = "DEBUG";
@@ -342,9 +342,9 @@ TEST_F(IntegrationTests, Problem44SP)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem49)
+TEST_F(CPMIntegrationTests, Problem49)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem49.txt";
   const std::string outputPath = "outputs/Out_Problem49.txt";
   const std::string traceLevel = "DEBUG";
@@ -368,9 +368,9 @@ TEST_F(IntegrationTests, Problem49)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem69)
+TEST_F(CPMIntegrationTests, Problem69)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem69.txt";
   const std::string outputPath = "outputs/Out_Problem69.txt";
   const std::string traceLevel = "DEBUG";
@@ -403,9 +403,9 @@ TEST_F(IntegrationTests, Problem69)
 
 // SLAB TESTS //
 
-TEST_F(IntegrationTests, Problem1SL)
+TEST_F(CPMIntegrationTests, Problem1SL)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1SL.txt";
   const std::string outputPath = "outputs/Out_Problem1SL.txt";
   const std::string traceLevel = "DEBUG";
@@ -424,9 +424,9 @@ TEST_F(IntegrationTests, Problem1SL)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem5SL)
+TEST_F(CPMIntegrationTests, Problem5SL)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem5SL.txt";
   const std::string outputPath = "outputs/Out_Problem5SL.txt";
   const std::string traceLevel = "DEBUG";
@@ -445,9 +445,9 @@ TEST_F(IntegrationTests, Problem5SL)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem2)
+TEST_F(CPMIntegrationTests, Problem2)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem2.txt";
   const std::string outputPath = "outputs/Out_Problem2.txt";
   const std::string traceLevel = "DEBUG";
@@ -468,9 +468,9 @@ TEST_F(IntegrationTests, Problem2)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem3)
+TEST_F(CPMIntegrationTests, Problem3)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem3.txt";
   const std::string outputPath = "outputs/Out_Problem3.txt";
   const std::string traceLevel = "DEBUG";
@@ -496,9 +496,9 @@ TEST_F(IntegrationTests, Problem3)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem4)
+TEST_F(CPMIntegrationTests, Problem4)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem4.txt";
   const std::string outputPath = "outputs/Out_Problem4.txt";
   const std::string traceLevel = "DEBUG";
@@ -526,9 +526,9 @@ TEST_F(IntegrationTests, Problem4)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem6)
+TEST_F(CPMIntegrationTests, Problem6)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem6.txt";
   const std::string outputPath = "outputs/Out_Problem6.txt";
   const std::string traceLevel = "DEBUG";
@@ -548,9 +548,9 @@ TEST_F(IntegrationTests, Problem6)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem44SL)
+TEST_F(CPMIntegrationTests, Problem44SL)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem44SL.txt";
   const std::string outputPath = "outputs/Out_Problem44SL.txt";
   const std::string traceLevel = "DEBUG";
@@ -574,9 +574,9 @@ TEST_F(IntegrationTests, Problem44SL)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem48)
+TEST_F(CPMIntegrationTests, Problem48)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem48.txt";
   const std::string outputPath = "outputs/Out_Problem48.txt";
   const std::string traceLevel = "DEBUG";
@@ -600,9 +600,9 @@ TEST_F(IntegrationTests, Problem48)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem68)
+TEST_F(CPMIntegrationTests, Problem68)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem68.txt";
   const std::string outputPath = "outputs/Out_Problem68.txt";
   const std::string traceLevel = "DEBUG";
@@ -633,9 +633,9 @@ TEST_F(IntegrationTests, Problem68)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Problem58)
+TEST_F(CPMIntegrationTests, Problem58)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem58.txt";
   const std::string outputPath = "outputs/Out_Problem58.txt";
   const std::string traceLevel = "DEBUG";
@@ -753,25 +753,10 @@ TEST_F(IntegrationTests, Problem58)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
-TEST_F(IntegrationTests, Kinetics1)
-{	
-  const std::string codePath   = "app/app";
-  const std::string inputPath  = "inputs/kinetics1.txt";
-  const std::string outputPath = "outputs/Out_kinetics1.txt";
-  const std::string traceLevel = "DEBUG";
-
-  const double powerRef = 1.339143;
-
-  TestHelper test(codePath, inputPath, outputPath, traceLevel);
-  test.runCode();
-  
-  EXPECT_DOUBLE_EQ(test.getVector("Output power").back(),  powerRef);
-}
-
-TEST_F(IntegrationTests, memTestCPMslab)
+TEST_F(CPMIntegrationTests, memTestCPMslab)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1SL.txt";
   const std::string outputPath = "outputs/Out_Problem1SL.txt";
   const std::string traceLevel = "DEBUG";
@@ -781,10 +766,10 @@ TEST_F(IntegrationTests, memTestCPMslab)
   EXPECT_TRUE((test.runCode() == 0));
 }
 
-TEST_F(IntegrationTests, memTestCPMcyl)
+TEST_F(CPMIntegrationTests, memTestCPMcyl)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1CY.txt";
   const std::string outputPath = "outputs/Out_Problem1CY.txt";
   const std::string traceLevel = "DEBUG";
@@ -794,10 +779,10 @@ TEST_F(IntegrationTests, memTestCPMcyl)
   EXPECT_TRUE((test.runCode() == 0));
 }
 
-TEST_F(IntegrationTests, memTestCPMsph)
+TEST_F(CPMIntegrationTests, memTestCPMsph)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem1CY.txt";
   const std::string outputPath = "outputs/Out_Problem1CY.txt";
   const std::string traceLevel = "DEBUG";
@@ -806,17 +791,3 @@ TEST_F(IntegrationTests, memTestCPMsph)
   
   EXPECT_TRUE((test.runCode() == 0));
 }
-
-TEST_F(IntegrationTests, memTestCORE)
-{	
-  const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
-  const std::string inputPath  = "inputs/kinetics1.txt";
-  const std::string outputPath = "outputs/Out_kinetics1.txt";
-  const std::string traceLevel = "DEBUG";
-
-  TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
-  
-  EXPECT_TRUE((test.runCode() == 0));
-}
-

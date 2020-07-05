@@ -5,6 +5,8 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace Numerics;
+using namespace PrintFuncs;
 
 std::pair<Tensor3d, Tensor4d> SphSpectrumCode::calcTracks()
 {

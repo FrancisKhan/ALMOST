@@ -18,20 +18,20 @@ public:
 	void setChi(Eigen::MatrixXd &chi) {m_chi = chi;}
 	void setFission(Eigen::MatrixXd &fission) {m_fission = fission;}
 	void setTotal(Eigen::MatrixXd &total) {m_total = total;}
-	void setScattMatrix(Tensor3d &scattMatrix) {m_scattMatrix = scattMatrix;}
+	void setScattMatrix(Numerics::Tensor3d &scattMatrix) {m_scattMatrix = scattMatrix;}
 	
 	Eigen::MatrixXd getNi() {return m_ni;}
 	Eigen::MatrixXd getChi() {return m_chi;}
 	Eigen::MatrixXd getFission() {return m_fission;}
 	Eigen::MatrixXd getTotal() {return m_total;}
-	Tensor3d getScattMatrix() {return m_scattMatrix;}
+	Numerics::Tensor3d getScattMatrix() {return m_scattMatrix;}
 	
 private:
 	Eigen::MatrixXd m_ni;
 	Eigen::MatrixXd m_chi;
 	Eigen::MatrixXd m_fission;
 	Eigen::MatrixXd m_total;
-	Tensor3d m_scattMatrix;
+	Numerics::Tensor3d m_scattMatrix;
 	
 };
 

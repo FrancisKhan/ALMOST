@@ -16,7 +16,7 @@ class HeatIntegrationTests : public ::testing::Test
 TEST_F(HeatIntegrationTests, slabMemTest)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat1.txt";
   const std::string outputPath = "outputs/Out_heat1_mem.txt";
   const std::string traceLevel = "DEBUG";
@@ -33,7 +33,7 @@ TEST_F(HeatIntegrationTests, slabMemTest)
 
 TEST_F(HeatIntegrationTests, heat1)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat1.txt";
   const std::string outputPath = "outputs/Out_heat1.txt";
   const std::string traceLevel = "DEBUG";
@@ -56,7 +56,7 @@ TEST_F(HeatIntegrationTests, heat1)
 
 TEST_F(HeatIntegrationTests, heat2)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat2.txt";
   const std::string outputPath = "outputs/Out_heat2.txt";
   const std::string traceLevel = "DEBUG";
@@ -86,7 +86,7 @@ TEST_F(HeatIntegrationTests, heat2)
 
 TEST_F(HeatIntegrationTests, heat3)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat3.txt";
   const std::string outputPath = "outputs/Out_heat3.txt";
   const std::string traceLevel = "DEBUG";
@@ -116,7 +116,7 @@ TEST_F(HeatIntegrationTests, heat3)
 
 TEST_F(HeatIntegrationTests, heat4)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat4.txt";
   const std::string outputPath = "outputs/Out_heat4.txt";
   const std::string traceLevel = "DEBUG";
@@ -146,7 +146,7 @@ TEST_F(HeatIntegrationTests, heat4)
 
 TEST_F(HeatIntegrationTests, heat5)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat5.txt";
   const std::string outputPath = "outputs/Out_heat5.txt";
   const std::string traceLevel = "DEBUG";
@@ -177,7 +177,7 @@ TEST_F(HeatIntegrationTests, heat5)
 
 TEST_F(HeatIntegrationTests, heat6)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat6.txt";
   const std::string outputPath = "outputs/Out_heat6.txt";
   const std::string traceLevel = "DEBUG";
@@ -207,7 +207,7 @@ TEST_F(HeatIntegrationTests, heat6)
 
 TEST_F(HeatIntegrationTests, heat7)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat7.txt";
   const std::string outputPath = "outputs/Out_heat7.txt";
   const std::string traceLevel = "DEBUG";
@@ -236,7 +236,7 @@ TEST_F(HeatIntegrationTests, heat7)
 
 TEST_F(HeatIntegrationTests, heat8)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat8.txt";
   const std::string outputPath = "outputs/Out_heat8.txt";
   const std::string traceLevel = "DEBUG";
@@ -264,7 +264,7 @@ TEST_F(HeatIntegrationTests, heat8)
 
 TEST_F(HeatIntegrationTests, heat9)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat9.txt";
   const std::string outputPath = "outputs/Out_heat9.txt";
   const std::string traceLevel = "DEBUG";
@@ -295,7 +295,7 @@ TEST_F(HeatIntegrationTests, heat9)
 
 TEST_F(HeatIntegrationTests, heat10)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat10.txt";
   const std::string outputPath = "outputs/Out_heat10.txt";
   const std::string traceLevel = "DEBUG";
@@ -326,7 +326,7 @@ TEST_F(HeatIntegrationTests, heat10)
 TEST_F(HeatIntegrationTests, cylMemTest)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat11.txt";
   const std::string outputPath = "outputs/Out_heat11_mem.txt";
   const std::string traceLevel = "DEBUG";
@@ -343,7 +343,7 @@ TEST_F(HeatIntegrationTests, cylMemTest)
 
 TEST_F(HeatIntegrationTests, heat11)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat11.txt";
   const std::string outputPath = "outputs/Out_heat11.txt";
   const std::string traceLevel = "DEBUG";
@@ -371,7 +371,7 @@ TEST_F(HeatIntegrationTests, heat11)
 
 TEST_F(HeatIntegrationTests, heat12)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat12.txt";
   const std::string outputPath = "outputs/Out_heat12.txt";
   const std::string traceLevel = "DEBUG";
@@ -400,7 +400,7 @@ TEST_F(HeatIntegrationTests, heat12)
 
 TEST_F(HeatIntegrationTests, heat13)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat13.txt";
   const std::string outputPath = "outputs/Out_heat13.txt";
   const std::string traceLevel = "DEBUG";
@@ -432,7 +432,7 @@ TEST_F(HeatIntegrationTests, heat13)
 
 TEST_F(HeatIntegrationTests, heat14)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat14.txt";
   const std::string outputPath = "outputs/Out_heat14.txt";
   const std::string traceLevel = "DEBUG";
@@ -461,7 +461,7 @@ TEST_F(HeatIntegrationTests, heat14)
 
 TEST_F(HeatIntegrationTests, heat15)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat15.txt";
   const std::string outputPath = "outputs/Out_heat15.txt";
   const std::string traceLevel = "DEBUG";
@@ -490,7 +490,7 @@ TEST_F(HeatIntegrationTests, heat15)
 TEST_F(HeatIntegrationTests, csphMemTest)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat16.txt";
   const std::string outputPath = "outputs/Out_heat16_mem.txt";
   const std::string traceLevel = "DEBUG";
@@ -508,7 +508,7 @@ TEST_F(HeatIntegrationTests, csphMemTest)
 
 TEST_F(HeatIntegrationTests, heat16)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat16.txt";
   const std::string outputPath = "outputs/Out_heat16.txt";
   const std::string traceLevel = "DEBUG";
@@ -537,7 +537,7 @@ TEST_F(HeatIntegrationTests, heat16)
 
 TEST_F(HeatIntegrationTests, heat17)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat17.txt";
   const std::string outputPath = "outputs/Out_heat17.txt";
   const std::string traceLevel = "DEBUG";
@@ -566,7 +566,7 @@ TEST_F(HeatIntegrationTests, heat17)
 
 TEST_F(HeatIntegrationTests, heat18)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat18.txt";
   const std::string outputPath = "outputs/Out_heat18.txt";
   const std::string traceLevel = "DEBUG";
@@ -595,7 +595,7 @@ TEST_F(HeatIntegrationTests, heat18)
 
 TEST_F(HeatIntegrationTests, heat19)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat19.txt";
   const std::string outputPath = "outputs/Out_heat19.txt";
   const std::string traceLevel = "DEBUG";
@@ -624,7 +624,7 @@ TEST_F(HeatIntegrationTests, heat19)
 
 TEST_F(HeatIntegrationTests, heat20)
 {	
-  const std::string codePath   = "app/app";
+  const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/heat20.txt";
   const std::string outputPath = "outputs/Out_heat20.txt";
   const std::string traceLevel = "DEBUG";

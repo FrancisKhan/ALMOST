@@ -4,15 +4,15 @@ add_library(core_library Kinetics.cpp KineticsSolver.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(core_library PUBLIC .)
-target_include_directories(core_library PUBLIC ../Backbone/)
-target_include_directories(core_library PUBLIC ../external/eigen-lib/src/eigen)
-target_include_directories(core_library PUBLIC ../external/spdlog-lib/src/spdlog/include/)
+target_include_directories(core_library PUBLIC ../Utilities)
+target_include_directories(core_library PUBLIC ../Backbone/Library)
+target_include_directories(core_library PUBLIC ../Backbone/Datamodel)
 
 # This depends on (header only) boost
 #target_link_libraries(cpm_library PRIVATE Boost::boost)
 
 # Experimental/filesystem C++ library
-target_link_libraries(core_library -lstdc++fs)
+target_link_libraries(core_library -lstdc++fs utilities_library)
 
 # All users of this library will need at least C++17
 

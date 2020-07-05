@@ -3,28 +3,7 @@
 #include "gtest/gtest.h"
 #include "numeric_tools.h"
 
-TEST(equality, equalityTests)
-{
-    EXPECT_TRUE(equality(1.0, 1.0));
-	EXPECT_TRUE(equality(-1.0, -1.0));
-	EXPECT_TRUE(equality(0.0, 0.0));
-	EXPECT_FALSE(equality(1.0, 2.0));
-	EXPECT_FALSE(equality(1.0, -1.0));
-}
-
-TEST(fplt, fpltTests)
-{
-    EXPECT_TRUE(fplt(2.0, 1.0));
-	EXPECT_FALSE(fplt(1.0, 2.0));
-	EXPECT_FALSE(fplt(1.0, 1.0));
-}
-
-TEST(fpgt, fpgtTests)
-{
-    EXPECT_TRUE(fpgt(2.0, 1.0));
-	EXPECT_FALSE(fpgt(1.0, 2.0));
-	EXPECT_FALSE(fpgt(1.0, 1.0));
-}
+using namespace Numerics;
 
 TEST(bickey, bickeyTests)
 {

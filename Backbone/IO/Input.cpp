@@ -3,8 +3,9 @@
 #include "Output.h"
 #include "GeomKind.h"
 #include "KineticsSet.h"
-#include "CrossSectionSet.h"
 #include "MaterialKind.h"
+#include "CrossSectionSet.h"
+#include "additionalPrintFuncs.h"
 
 #include <algorithm>
 #include <iostream>
@@ -12,6 +13,8 @@
 #include <ctype.h>
 
 using namespace Eigen;
+using namespace Numerics;
+using namespace PrintFuncs;
 
 void Input::getArguments(int argc, char** argv)
 {

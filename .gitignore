@@ -46,7 +46,7 @@ _deps
 ~$*
 
 DartConfiguration.tcl
-app/app
+app/almost
 tests/test_cpm
 tests/outputs
 outputs/*

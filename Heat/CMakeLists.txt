@@ -5,12 +5,12 @@ add_library(heat_library SlabHeatCode.cpp BaseHeatCode.cpp HeatSolver.cpp
 
 # We need this directory, and users of our library will need it too
 target_include_directories(heat_library PUBLIC .)
-target_include_directories(heat_library PUBLIC ../Backbone/)
-target_include_directories(heat_library PUBLIC ../external/spdlog-lib/src/spdlog/include/)
-target_include_directories(heat_library PUBLIC ../external/eigen-lib/src/eigen)
+target_include_directories(core_library PUBLIC ../Utilities)
+target_include_directories(heat_library PUBLIC ../Backbone/Library)
+target_include_directories(heat_library PUBLIC ../Backbone/Datamodel)
 
 # Experimental/filesystem C++ library
-target_link_libraries(heat_library -lstdc++fs)
+target_link_libraries(heat_library -lstdc++fs utilities_library)
 
 # All users of this library will need at least C++17
 

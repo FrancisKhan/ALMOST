@@ -3,6 +3,8 @@
 
 #include "Mesh.h"
 #include "Library.h"
+#include "additionalPrintFuncs.h"
+
 #include <unsupported/Eigen/CXX11/Tensor>
 
 class BaseSpectrumCode
@@ -18,13 +20,13 @@ public:
 	
 	~BaseSpectrumCode(){}
 	
-	virtual std::pair<Tensor3d, Tensor4d> calcTracks() = 0;
-	virtual Tensor3d calcCPs(std::pair<Tensor3d, Tensor4d> &trackData) = 0;
-	void particleBalanceCheck(Tensor3d &gcpm);
-	Eigen::MatrixXd calcCPMMatrix(Tensor3d &gcpm);
+	virtual std::pair<Numerics::Tensor3d, Numerics::Tensor4d> calcTracks() = 0;
+	virtual Numerics::Tensor3d calcCPs(std::pair<Numerics::Tensor3d, Numerics::Tensor4d> &trackData) = 0;
+	void particleBalanceCheck(Numerics::Tensor3d &gcpm);
+	Eigen::MatrixXd calcCPMMatrix(Numerics::Tensor3d &gcpm);
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &cpm);
 	Eigen::MatrixXd calcFMatrix(Eigen::MatrixXd &cpm);
-	virtual void applyBoundaryConditions(Tensor3d &gcpm) = 0; 
+	virtual void applyBoundaryConditions(Numerics::Tensor3d &gcpm) = 0; 
 	void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                          int max_iter_number, double accuracy);
 	

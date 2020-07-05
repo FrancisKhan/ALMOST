@@ -5,6 +5,7 @@
 #include <iostream>
 
 using namespace Eigen;
+using namespace Numerics;
 
 void Mesh::setMeshKind(GeomKind kind)
 {
