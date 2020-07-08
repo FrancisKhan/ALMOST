@@ -2,16 +2,11 @@
 #define LIBRARY_H
 
 #include "KineticsSet.h"
-#include "CrossSectionSet.h"
 
 class Library
 {
 public:
 	Library(){}
-	void setCrossSectionSet(CrossSectionSet &crossSectionSet) 
-	{m_crossSectionSet = crossSectionSet;}
-
-	CrossSectionSet getCrossSectionSet() {return m_crossSectionSet;}
 
 	void setKineticsSet(KineticsSet &kineticsSet) 
 	{m_kineticsSet = kineticsSet;}
@@ -22,7 +17,6 @@ public:
 	//std::vector< std::shared_ptr<AbstractMaterial> > getMatProperties() {return m_matProperties;};
 	
 private:
-	CrossSectionSet m_crossSectionSet;
 	//std::vector< std::shared_ptr<AbstractMaterial> > m_matProperties;
 	KineticsSet m_kineticsSet;
 };

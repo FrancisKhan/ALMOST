@@ -182,3 +182,116 @@ Eigen::VectorXd Mesh::getCellSizes(std::string dim)
 
 	return result;
 }
+
+void Mesh::setCrossSectionData(MeshCrossSections &meshCrossSections)
+{
+    for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		 m_materials[m]->setNi(meshCrossSections.m_nis.col(m));
+		 m_materials[m]->setChi(meshCrossSections.m_chis.col(m));
+		 m_materials[m]->setFissionXS(meshCrossSections.m_fissionXSs.col(m));
+		 m_materials[m]->setTotalXS(meshCrossSections.m_totalXSs.col(m));
+		 m_materials[m]->setScattMatrix(meshCrossSections.m_scattMatrices.chip(m, 2));
+	}
+}
+
+Eigen::MatrixXd Mesh::getNis()
+{
+    MatrixXd nis = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd ni  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		ni = m_materials[m]->getNi();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			nis(i, m) = ni(i);
+		}
+	}
+
+	return nis;
+}
+
+Eigen::MatrixXd Mesh::getChis()
+{
+    MatrixXd chis = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd chi  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		chi = m_materials[m]->getChi();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			chis(i, m) = chi(i);
+		}
+	}
+
+	return chis;
+}
+
+Eigen::MatrixXd Mesh::getTotalXSs()
+{
+    MatrixXd tots = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd tot  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		tot = m_materials[m]->getTotalXS();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			tots(i, m) = tot(i);
+		}
+	}
+
+	return tots;
+}
+
+Eigen::MatrixXd Mesh::getFissionXSs()
+{
+    MatrixXd fiss = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd fis  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		fis = m_materials[m]->getFissionXS();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			fiss(i, m) = fis(i);
+		}
+	}
+
+	return fiss;
+}
+
+Numerics::Tensor3d Mesh::getScattMatrices()
+{
+    Tensor3d scatts(m_energyGroupsNumber, m_energyGroupsNumber, m_meshNumber);
+	MatrixXd scatt = MatrixXd::Zero(m_energyGroupsNumber, m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		scatt = m_materials[m]->getScattMatrix();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			for(int j = 0; j < static_cast<int>(m_energyGroupsNumber); j++)
+			{
+				scatts(i, j, m) = scatt(i, j);
+			}
+		}
+	}
+
+	return scatts;
+}
+
+void Mesh::setScattMatrices(Numerics::Tensor3d &scattMatrices)
+{
+    for(int m = 0; m < scattMatrices.dimension(2); m++)
+	{
+		 m_materials[m]->setScattMatrix(scattMatrices.chip(m, 2));
+	}
+}

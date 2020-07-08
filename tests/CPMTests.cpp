@@ -133,21 +133,19 @@ TEST_F(MMatrixTest, calcMMatrixTestC3E4)
 	scattMatrix(3, 0, 1) = -3.0;
 	scattMatrix(3, 0, 2) = -3.0;
 	
-	Mesh problem;
+	Mesh mesh;
 	Library library;
-	Input input(problem, library);
+	Input input(mesh, library);
 	
-	CrossSectionSet XSSet;
-	XSSet.setScattMatrix(scattMatrix);
-	library.setCrossSectionSet(XSSet);
+	mesh.setScattMatrices(scattMatrix);
 	
 	MatrixXd cpm = MatrixXd::Identity(cells * energies, cells * energies);
 	
-	problem.setMeshKind(GeomKind::CYLINDER);
-	problem.setBoundaries(cellSide, cells); 
-	problem.setEnergyGroupsNumber(energies);
+	mesh.setMeshKind(GeomKind::CYLINDER);
+	mesh.setBoundaries(cellSide, cells); 
+	mesh.setEnergyGroupsNumber(energies);
 	
-	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	
   EXPECT_DOUBLE_EQ(MMatrix(0,  0), 9.9);
@@ -324,23 +322,21 @@ TEST_F(MMatrixTest, calcMMatrixTestC4E1)
 	scattMatrix(0, 0, 3) = -8.9;
 	scattMatrix(0, 0, 4) = -8.9;
 	
-	Mesh problem;
+	Mesh mesh;
 	Library library;
-	Input input(problem, library);
+	Input input(mesh, library);
 	
-	CrossSectionSet XSSet;
-	XSSet.setScattMatrix(scattMatrix);
-	library.setCrossSectionSet(XSSet);
+	mesh.setScattMatrices(scattMatrix);
 	
 	MatrixXd cpm = MatrixXd::Identity(cells * energies, cells * energies);
 	
-	problem.setMeshKind(GeomKind::CYLINDER);
-	problem.setBoundaries(cellSide, cells); 
-	problem.setEnergyGroupsNumber(energies);
+	mesh.setMeshKind(GeomKind::CYLINDER);
+	mesh.setBoundaries(cellSide, cells); 
+	mesh.setEnergyGroupsNumber(energies);
 	
-	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(problem, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library);
 	MatrixXd MMatrix =spectrumCode->calcMMatrix(cpm);
 
-	out.getLogger()->debug("MMatrix2"); //
+	out.getLogger()->debug("MMatrix2");
     printMatrix(MMatrix, out, TraceLevel::DEBUG);
 }

@@ -4,7 +4,6 @@
 #include "GeomKind.h"
 #include "KineticsSet.h"
 #include "MaterialKind.h"
-#include "CrossSectionSet.h"
 #include "additionalPrintFuncs.h"
 
 #include <algorithm>
@@ -321,14 +320,9 @@ void Input::setMaterials()
    		MatrixXd total   = setXS("total", "Total XS [1/cm]");	
 
 		Tensor3d scattMatrix = setMatrixXS("scattMatrix", "Scattering matrix [1/cm]");
-		CrossSectionSet XSSet;
-
-		XSSet.setNi(ni);
-   		XSSet.setChi(chi);
-   		XSSet.setFission(fission);
-   		XSSet.setTotal(total);
-   		XSSet.setScattMatrix(scattMatrix);
-   		m_library.setCrossSectionSet(XSSet);
+		
+        MeshCrossSections meshCrossSections(ni, chi, fission, total, scattMatrix);
+   		m_mesh.setCrossSectionData(meshCrossSections);
    }
    else if(m_calculation == "heat")
    {

@@ -3,10 +3,11 @@ cmake_minimum_required (VERSION 3.10)
 add_library(backbone_library Datamodel/Material.cpp Datamodel/Mesh.cpp 
 			IO/Output.cpp IO/Input.cpp Datamodel/KineticsSet.cpp Datamodel/AbstractGeometry.cpp 
 			Datamodel/Cylinder.cpp Datamodel/Sphere.cpp Datamodel/Slab.cpp 
-			Datamodel/AbstractSolver.cpp Library/Library.cpp Datamodel/CrossSectionSet.cpp)
+			Datamodel/AbstractSolver.cpp Library/Library.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC Datamodel)
+target_include_directories(backbone_library PUBLIC IO)
 target_include_directories(backbone_library PUBLIC Library)
 target_include_directories(backbone_library PUBLIC ../Utilities)
 

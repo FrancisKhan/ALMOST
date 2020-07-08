@@ -25,11 +25,11 @@
         },
 
         {
-            "name": "gdb app",
+            "name": "gdb almost",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/app/app",
-            "args": ["inputs/heat1.txt", "outputs/Out_heat1.txt", "DEBUG"],
+            "program": "${workspaceFolder}/app/almost",
+            "args": ["inputs/Problem44CY.txt", "outputs/Out_Problem44CY.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

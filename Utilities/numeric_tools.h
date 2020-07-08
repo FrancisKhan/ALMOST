@@ -14,6 +14,7 @@
 
 namespace Numerics
 {
+    typedef Eigen::Tensor<double, 2> Tensor2d;
     typedef Eigen::Tensor<double, 3> Tensor3d;
     typedef Eigen::Tensor<double, 4> Tensor4d;
 

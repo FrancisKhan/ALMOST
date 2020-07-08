@@ -11,7 +11,7 @@ public:
 	BaseSpectrumCode(mesh, library), 
 	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
-	m_totalXS(m_library.getCrossSectionSet().getTotal()),
+	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),
 	m_energies(m_mesh.getEnergyGroupsNumber()),
 	m_rays(sizeof(abscissa) / sizeof(abscissa[0])),

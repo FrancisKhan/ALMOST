@@ -4,6 +4,7 @@
 #include "GeomKind.h"
 #include "Material.h"
 #include "AbstractGeometry.h"
+#include "MeshCrossSections.h"
 
 #include <Eigen/Dense>
 #include <vector>
@@ -43,6 +44,15 @@ public:
 
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();
+
+	void setCrossSectionData(MeshCrossSections &meshCrossSections);
+    void setScattMatrices(Numerics::Tensor3d &scattMatrices);
+
+	Eigen::MatrixXd getChis();
+	Eigen::MatrixXd getNis();
+	Eigen::MatrixXd getFissionXSs();
+	Eigen::MatrixXd getTotalXSs();
+	Numerics::Tensor3d getScattMatrices();
 	
 private:
 	Eigen::VectorXd m_boundaries;

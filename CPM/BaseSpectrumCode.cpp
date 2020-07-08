@@ -66,7 +66,7 @@ MatrixXd BaseSpectrumCode::calcMMatrix(MatrixXd &cpm)
 {
     MatrixXd MMatrix = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
-	Tensor3d scattMatrix = m_library.getCrossSectionSet().getScattMatrix();
+	Tensor3d scattMatrix = m_mesh.getScattMatrices();
 	
 	// scattering matrix generation
 	
@@ -99,9 +99,9 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
 {
     MatrixXd FMatrix = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
-	MatrixXd fissXS = m_library.getCrossSectionSet().getFission();
-	MatrixXd chiXS  = m_library.getCrossSectionSet().getChi();
-	MatrixXd niXS   = m_library.getCrossSectionSet().getNi();
+	MatrixXd fissXS = m_mesh.getFissionXSs();
+	MatrixXd chiXS  = m_mesh.getChis();
+	MatrixXd niXS   = m_mesh.getNis();
 	
 	VectorXd chiMatrix = VectorXd::Zero(m_cells * m_energies);
 	
