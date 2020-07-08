@@ -1,7 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "Mesh.h"
+#include "Reactor.h"
 #include "Library.h"
 #include "numeric_tools.h"
 #include "MeshCrossSections.h"
@@ -11,9 +11,9 @@ class Input
     typedef std::pair<unsigned, unsigned> us_pair;
 
 public:
-    Input(Mesh &mesh, Library &library) : 
-	m_mesh(mesh), m_library(library), m_energies(0),
-	m_cells(0), m_inputPath(""){}
+    Input(Reactor &reactor, Library &library) : 
+	m_reactor(reactor), m_mesh(reactor.getMesh()), m_library(library), 
+	m_energies(0), m_cells(0), m_inputPath("") {}
 	std::string readData();
 	void printData();
 	void getArguments(int argc, char** argv);
@@ -48,6 +48,7 @@ private:
     Eigen::MatrixXd setXS(std::string name, std::string outputName);
 	Numerics::Tensor3d setMatrixXS(std::string name, std::string outputName);
 
+    Reactor &m_reactor;
  	Mesh &m_mesh;
 	Library &m_library;
 	unsigned m_energies;

@@ -71,6 +71,11 @@
 },
 {
   "directory": "/mnt/c/C++/ALMOST/Backbone",
+  "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/IO -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Datamodel/Reactor.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Datamodel/Reactor.cpp",
+  "file": "/mnt/c/C++/ALMOST/Backbone/Datamodel/Reactor.cpp"
+},
+{
+  "directory": "/mnt/c/C++/ALMOST/Backbone",
   "command": "/usr/bin/g++-7   -I/mnt/c/C++/ALMOST/Backbone/Datamodel -I/mnt/c/C++/ALMOST/Backbone/IO -I/mnt/c/C++/ALMOST/Backbone/Library -I/mnt/c/C++/ALMOST/Backbone/../Utilities -I/mnt/c/C++/ALMOST/Utilities/. -I/mnt/c/C++/ALMOST/Utilities/../Backbone -I/mnt/c/C++/ALMOST/Utilities/../Backbone/IO -I/mnt/c/C++/ALMOST/Utilities/../Backbone/Datamodel -I/mnt/c/C++/ALMOST/Utilities/../external/boost-lib/src/boost -I/mnt/c/C++/ALMOST/Utilities/../external/eigen-lib/src/eigen -I/mnt/c/C++/ALMOST/Utilities/../external/spdlog-lib/src/spdlog/include  -Wall -g   -Wall -Wno-ignored-attributes -o CMakeFiles/backbone_library.dir/Library/Library.cpp.o -c /mnt/c/C++/ALMOST/Backbone/Library/Library.cpp",
   "file": "/mnt/c/C++/ALMOST/Backbone/Library/Library.cpp"
 },

@@ -6,7 +6,7 @@
 class SpectrumCodeFactory
 {
 public:
-	static std::shared_ptr<BaseSpectrumCode> setSpectrumCode(Mesh &mesh, Library &library);
+	static std::shared_ptr<BaseSpectrumCode> setSpectrumCode(Reactor &reactor, Library &library);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef BASESPECTRUMCODE_H
 #define BASESPECTRUMCODE_H
 
-#include "Mesh.h"
+#include "Reactor.h"
 #include "Library.h"
 #include "additionalPrintFuncs.h"
 
@@ -10,8 +10,8 @@
 class BaseSpectrumCode
 {
 public:
-    BaseSpectrumCode(Mesh &mesh, Library &library) : 
-	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries("cm")),
+    BaseSpectrumCode(Reactor &reactor, Library &library) : 
+	m_library(library), m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),

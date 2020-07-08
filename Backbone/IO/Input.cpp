@@ -365,7 +365,7 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 		out.getLogger()->critical("{} has no parameters!", values[0]);
 	    exit(-1);
 	}
-	else if(values.size() >= 2 && values.size() < 4) 
+	else if(values.size() >= 2 && values.size() < 5) 
 	{
 		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
 		m_mesh.getMaterial(index)->setThermalConductivityLaw(numberVec);
@@ -508,7 +508,7 @@ void Input::setKineticsParameters()
 	kinSet.setBeta(beta);
 	kinSet.setTimes(times);
 	kinSet.setReactivities(reactivities);
-	m_library.setKineticsSet(kinSet);
+	m_reactor.setKineticsSet(kinSet);
 } 
 
 std::vector<double> Input::setManyParameters(std::string name, std::string outputName)

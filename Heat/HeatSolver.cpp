@@ -9,7 +9,7 @@ using namespace PrintFuncs;
 
 void HeatSolver::solve(int max_iter_number, double accuracy)
 {
-    std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_mesh, m_library);
+    std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_reactor, m_library);
 
     VectorXd oldTemps = VectorXd::Ones(m_mesh.getCellsNumber());
     VectorXd newTemps = VectorXd::Zero(m_mesh.getCellsNumber());

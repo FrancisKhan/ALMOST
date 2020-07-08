@@ -7,9 +7,9 @@
 class CylSpectrumCode : public BaseSpectrumCode
 {
 public:
-    CylSpectrumCode(Mesh &mesh, Library &library) : 
-	BaseSpectrumCode(mesh, library), 
-	m_library(library), m_mesh(mesh), m_radii(m_mesh.getBoundaries("cm")),
+    CylSpectrumCode(Reactor &reactor, Library &library) : 
+	BaseSpectrumCode(reactor, library), 
+	m_library(library), m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),

@@ -4,7 +4,7 @@
 
 void KineticsSolver::solve(int max_iter_number, double accuracy)
 {
-    KineticsSet kinSet = m_library.getKineticsSet();
+    KineticsSet kinSet = m_reactor.getKineticsSet();
 
     std::vector<double> lambda = kinSet.getLambda();
     std::vector<double> beta   = kinSet.getBeta();

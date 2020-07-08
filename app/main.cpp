@@ -1,6 +1,7 @@
-#include "SpectrumSolver.h"
 #include "KineticsSolver.h"
+#include "SpectrumSolver.h"
 #include "HeatSolver.h"
+#include "Reactor.h"
 #include "Output.h"
 #include "Input.h"
 
@@ -8,10 +9,10 @@
 
 int main(int argc, char** argv)
 {
-	Mesh mesh;
+	Reactor reactor;
 	Library library;
 
-	Input input(mesh, library);
+	Input input(reactor, library);
 	input.getArguments(argc, argv);
 	out.printStart();
 	input.printData();
@@ -20,17 +21,17 @@ int main(int argc, char** argv)
 
 	if(calculation == "neutronics")
 	{
-		SpectrumSolver spectrum(mesh, library);
+		SpectrumSolver spectrum(reactor, library);
 	    spectrum.solve();
 	}
 	else if(calculation == "kinetics")
 	{
-		KineticsSolver kinetics(mesh, library);
+		KineticsSolver kinetics(reactor, library);
 	    kinetics.solve();
 	}
 	else if(calculation == "heat")
 	{
-		HeatSolver heat(mesh, library);
+		HeatSolver heat(reactor, library);
 	    heat.solve();
 	}
 
