@@ -13,7 +13,7 @@ target_include_directories(backbone_library PUBLIC Library)
 target_include_directories(backbone_library PUBLIC ../Utilities)
 target_include_directories(backbone_library PUBLIC ../CPM)
 target_include_directories(backbone_library PUBLIC ../CORE)
-target_include_directories(backbone_library PUBLIC ../HEAT)
+target_include_directories(backbone_library PUBLIC ../Heat)
 
 # This depends on (header only) boost
 #target_link_libraries(cpm_library PRIVATE Boost::boost)
