@@ -31,6 +31,6 @@ ERROR \
 WARN \
 INFO \
 DEBUG \
-TRACE \
+TRACE
 
 
