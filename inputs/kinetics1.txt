@@ -1,6 +1,6 @@
 % kinetics simple test
 
-calculation kinetics
+solvers kinetics
 
 power 1.0
 alpha 0.00002

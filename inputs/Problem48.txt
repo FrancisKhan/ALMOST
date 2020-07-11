@@ -1,6 +1,6 @@
 % U-2-o-SL
 
-calculation neutronics
+solvers neutronics
 
 geometry  slab
 albedo    0.0

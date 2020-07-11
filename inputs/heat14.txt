@@ -4,7 +4,7 @@
 % q(0) = 0.0
 % T(L) = T2
 
-calculation heat
+solvers heat
 
 geometry cylinder
 mesh 10 0.5 M1 10 0.5 M2

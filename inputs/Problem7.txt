@@ -1,6 +1,6 @@
 % Pub-l-0-CY
 
-calculation neutronics
+solvers neutronics
 
 geometry  cylinder
 albedo    0.0

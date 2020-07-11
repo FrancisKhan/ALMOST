@@ -4,7 +4,7 @@
 % T(0) = T1
 % T(L) = T2
 
-calculation heat
+solvers heat
 
 geometry  slab
 mesh 20 0.1 M1

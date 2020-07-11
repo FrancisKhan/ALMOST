@@ -5,25 +5,25 @@
 
 void Problem::calculate()
 {
-    if(m_calculations.size() == 1)
+    if(m_solvers.size() == 1)
 	{
-		if(m_calculations[0] == CalculationKind::NEUTRONICS)
+		if(m_solvers[0] == SolverKind::NEUTRONICS)
 		{
 			SpectrumSolver spectrum(m_reactor, m_library);
 	    	spectrum.solve();
 		}
-		else if(m_calculations[0] == CalculationKind::KINETICS)
+		else if(m_solvers[0] == SolverKind::KINETICS)
 		{
 			KineticsSolver kinetics(m_reactor, m_library);
 	    	kinetics.solve();
 		}
-		else if(m_calculations[0] == CalculationKind::HEAT)
+		else if(m_solvers[0] == SolverKind::HEAT)
 		{
 			HeatSolver heat(m_reactor, m_library);
 	    	heat.solve();
 		}
 	}
-	else if(m_calculations.size() == 2)
+	else if(m_solvers.size() == 2)
 	{
 		
 	}

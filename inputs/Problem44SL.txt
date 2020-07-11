@@ -1,6 +1,6 @@
 % PU-2-O-IN
 
-calculation neutronics
+solvers neutronics
 
 geometry  slab
 albedo    1.0

@@ -3,7 +3,7 @@
 % T(0) = T1
 % q(L) = h(T2 - Tinf2)
 
-calculation heat
+solvers heat
 
 geometry  slab
 mesh 25 0.05 M1

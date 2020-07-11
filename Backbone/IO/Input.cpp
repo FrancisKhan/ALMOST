@@ -70,18 +70,18 @@ void Input::storeInput()
 	inFile.close();
 }
 
-std::vector<CalculationKind> Input::readData()
+std::vector<SolverKind> Input::readData()
 {
     storeInput();
 
-	m_calculations = setCalculation();
+	m_solvers = setSolvers();
 
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
-	// different calculations requested
-    bool setGeometryAndMesh = std::any_of(m_calculations.begin(), m_calculations.end(), 
-		[](auto i){return (i == CalculationKind::NEUTRONICS) 
-		               or (i == CalculationKind::HEAT);});
+	// different solvers requested
+    bool setGeometryAndMesh = std::any_of(m_solvers.begin(), m_solvers.end(), 
+		[](auto i){return (i == SolverKind::NEUTRONICS) 
+		               or (i == SolverKind::HEAT);});
 
     if(setGeometryAndMesh)
 	{
@@ -89,19 +89,19 @@ std::vector<CalculationKind> Input::readData()
 	    setMesh();
 	}
 
-	for(auto i : m_calculations)
+	for(auto i : m_solvers)
 	{
-		if(i == CalculationKind::NEUTRONICS)
+		if(i == SolverKind::NEUTRONICS)
 		{
     		setEnergies();
 			setAlbedo();
 			setMaterials(i);
 		}
-		else if(i == CalculationKind::KINETICS)
+		else if(i == SolverKind::KINETICS)
 		{
 			setKineticsParameters();
 		}
-		else if(i == CalculationKind::HEAT)
+		else if(i == SolverKind::HEAT)
 		{
 			setMaterials(i);
 			setHeatBoundaryConditions();
@@ -110,12 +110,12 @@ std::vector<CalculationKind> Input::readData()
 		}
 	}
 	
-	return m_calculations;
+	return m_solvers;
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
 {
-    output.clear();  // unless you want to add at the end of existing sring...
+    output.clear();  // unless you want to add at the end of existing string...
     std::unique_copy(input.begin(), input.end(), std::back_insert_iterator<std::string>(output),
                      [](char a,char b){ return isspace(a) && isspace(b);});  
  
@@ -197,38 +197,38 @@ std::vector<std::string> Input::splitLine(std::string line)
 	return words;
 } 
 
-std::vector<CalculationKind> Input::setCalculation()
+std::vector<SolverKind> Input::setSolvers()
 {
-	std::vector<CalculationKind> calcs;
-    std::string calcStr;
-	std::vector<std::string> values = readManyParameters("calculation");
+	std::vector<SolverKind> solvers;
+    std::string solverStr;
+	std::vector<std::string> values = readManyParameters("solvers");
 
     for(auto i : values)
 	{
 		if(i == "neutronics")
 		{
-			calcs.push_back(CalculationKind::NEUTRONICS);
-			calcStr += "neutronics ";
+			solvers.push_back(SolverKind::NEUTRONICS);
+			solverStr += "neutronics ";
 		}
 		else if(i == "kinetics")
 		{
-			calcs.push_back(CalculationKind::KINETICS);
-			calcStr += "kinetics ";
+			solvers.push_back(SolverKind::KINETICS);
+			solverStr += "kinetics ";
 		}
 		else if(i == "heat")
 		{
-			calcs.push_back(CalculationKind::HEAT);
-			calcStr += "heat ";
+			solvers.push_back(SolverKind::HEAT);
+			solverStr += "heat ";
 		}
 		else
 		{
-			out.getLogger()->critical("{} calculation kind not recognized!", i);
+			out.getLogger()->critical("{} solver kind not recognized!", i);
 	    	exit(-1);
 		}
 	}
 
-    out.getLogger()->critical("Calculation: {}\n", calcStr);
-	return calcs;
+    out.getLogger()->critical("Solvers: {}\n", solverStr);
+	return solvers;
 }
 
 void Input::setGeometryKind()
@@ -343,11 +343,11 @@ void Input::setMesh()
 	m_materialList = regionMaterial;
 }  
 
-void Input::setMaterials(CalculationKind calc)
+void Input::setMaterials(SolverKind solver)
 { 
    	m_cells = m_mesh.getCellsNumber();
 
-	if(calc == CalculationKind::NEUTRONICS)
+	if(solver == SolverKind::NEUTRONICS)
 	{
 		m_energies = m_mesh.getEnergyGroupsNumber();
 
@@ -361,7 +361,7 @@ void Input::setMaterials(CalculationKind calc)
         MeshCrossSections meshCrossSections(ni, chi, fission, total, scattMatrix);
    		m_mesh.setCrossSectionData(meshCrossSections);
 	}
-   	else if(calc == CalculationKind::HEAT)
+   	else if(solver == SolverKind::HEAT)
    	{
 	   	setMaterialProperties("thermal_conductivity");	
    	}

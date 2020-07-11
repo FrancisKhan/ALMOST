@@ -3,7 +3,7 @@
 % T(0) = T1
 % T(L) = T2
 
-calculation heat neutronics
+solvers heat neutronics
 
 geometry  slab
 albedo    1.0

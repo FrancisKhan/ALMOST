@@ -1,6 +1,6 @@
 % Pub-H20(1)-I-0-CY
 
-calculation neutronics
+solvers neutronics
 
 geometry  cylinder
 albedo    0.0

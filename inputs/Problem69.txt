@@ -1,6 +1,6 @@
 % UD20-2-O-SP
 
-calculation neutronics
+solvers neutronics
 
 geometry  sphere
 albedo    0.0

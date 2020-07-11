@@ -1,6 +1,6 @@
 % Ub-H20(1)-l-0-SP
 
-calculation neutronics
+solvers neutronics
 
 geometry  sphere
 albedo    0.0

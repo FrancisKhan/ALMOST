@@ -4,7 +4,7 @@
 #include "Reactor.h"
 #include "Library.h"
 #include "SpectrumSolver.h"
-#include "CalculationKind.h"
+#include "SolverKind.h"
 
 #include <vector>
 #include <string>
@@ -13,16 +13,16 @@ class Problem
 {
 public:
 	Problem(Reactor &reactor, Library &library, 
-    std::vector<CalculationKind> &calculations) :
+    std::vector<SolverKind> &solvers) :
     m_reactor(reactor), m_library(library), 
-    m_calculations(calculations) {}
+    m_solvers(solvers) {}
 
     void calculate();
 
 private:
 	Reactor m_reactor;
 	Library m_library;
-    std::vector<CalculationKind> m_calculations;
+    std::vector<SolverKind> m_solvers;
 
 };
 

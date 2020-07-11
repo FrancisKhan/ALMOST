@@ -1,6 +1,6 @@
 % PUb-l-O-IN
 
-calculation neutronics
+solvers neutronics
 
 geometry  cylinder
 albedo    1.0

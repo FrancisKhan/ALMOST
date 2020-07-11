@@ -1,6 +1,6 @@
 % PUb-l-O-IN
 
-calculation neutronics
+solvers neutronics
 
 geometry  sphere
 albedo    1.0

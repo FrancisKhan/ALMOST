@@ -3,8 +3,8 @@
 
 #include "Reactor.h"
 #include "Library.h"
+#include "SolverKind.h"
 #include "numeric_tools.h"
-#include "CalculationKind.h"
 #include "MeshCrossSections.h"
 
 class Input
@@ -16,7 +16,7 @@ public:
 	m_reactor(reactor), m_mesh(reactor.getMesh()), m_library(library), 
 	m_energies(0), m_cells(0), m_inputPath("") {}
 	void storeInput();
-	std::vector<CalculationKind> readData();
+	std::vector<SolverKind> readData();
 	void printData();
 	void getArguments(int argc, char** argv);
 	
@@ -32,11 +32,11 @@ private:
 	void setEnergies();
 	void setAlbedo();
 	void setMesh();
-	void setMaterials(CalculationKind calc);
+	void setMaterials(SolverKind calc);
 	void setKineticsParameters();
 	void setsetKineticsParameters();
 	void setReactivity();
-    std::vector<CalculationKind> setCalculation();
+    std::vector<SolverKind> setSolvers();
 	void setHeatBoundaryConditions();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
@@ -59,7 +59,7 @@ private:
 	unsigned m_energies;
 	unsigned m_cells;
 	std::string m_inputPath;
-	std::vector<CalculationKind> m_calculations;
+	std::vector<SolverKind> m_solvers;
 	std::vector<std::string> m_inputLines;
 	std::vector<std::string> m_materialMap;
 	std::vector<std::string> m_materialList;
