@@ -3,7 +3,6 @@
 #include "Output.h"
 #include "GeomKind.h"
 #include "KineticsSet.h"
-#include "MaterialKind.h"
 #include "additionalPrintFuncs.h"
 
 #include <algorithm>
@@ -46,7 +45,7 @@ void Input::printData()
 	out.getLogger()->critical("Output file: {} \n", out.getOutputName());
 }
 
-std::string Input::readData()
+void Input::storeInput()
 {
 	std::ifstream inFile;
 	inFile.open(m_inputPath);
@@ -68,39 +67,50 @@ std::string Input::readData()
 		m_inputLines.push_back(noExtraSpacesline);	
     }
 
-	m_calculation = setCalculation();
-
-    if(m_calculation == "neutronics")
-	{
-		setGeometryKind();
-		setMesh();
-    	setEnergies();
-		setAlbedo();
-		setMaterials();
-	}
-	else if(m_calculation == "kinetics")
-	{
-		setKineticsParameters();
-	}
-	else if(m_calculation == "heat")
-	{
-		setGeometryKind();
-		setMesh();
-		setMaterials();
-		setHeatBoundaryConditions();
-
-		std::vector<double> temperatures = setManyParameters("temperatures", 
-															 "Input temperatures [C]");
-		m_mesh.setTemperatures(temperatures);
-
-		std::vector<double> heatSources = setManyParameters("heat_sources", 
-															"Input heat_sources [W/m3]");
-		m_mesh.setHeatSources(heatSources);	
-	}
-	
 	inFile.close();
+}
+
+std::vector<CalculationKind> Input::readData()
+{
+    storeInput();
+
+	m_calculations = setCalculation();
+
+    // Check if geometry or mesh need to be set before anything else
+	// this is done to set them only once, independently of the number of 
+	// different calculations requested
+    bool setGeometryAndMesh = std::any_of(m_calculations.begin(), m_calculations.end(), 
+		[](auto i){return (i == CalculationKind::NEUTRONICS) 
+		               or (i == CalculationKind::HEAT);});
+
+    if(setGeometryAndMesh)
+	{
+		setGeometryKind();
+	    setMesh();
+	}
+
+	for(auto i : m_calculations)
+	{
+		if(i == CalculationKind::NEUTRONICS)
+		{
+    		setEnergies();
+			setAlbedo();
+			setMaterials(i);
+		}
+		else if(i == CalculationKind::KINETICS)
+		{
+			setKineticsParameters();
+		}
+		else if(i == CalculationKind::HEAT)
+		{
+			setMaterials(i);
+			setHeatBoundaryConditions();
+			setTemperatures();
+			setHeatSources();
+		}
+	}
 	
-	return m_calculation;
+	return m_calculations;
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -187,11 +197,38 @@ std::vector<std::string> Input::splitLine(std::string line)
 	return words;
 } 
 
-std::string Input::setCalculation()
+std::vector<CalculationKind> Input::setCalculation()
 {
-	std::string calculation = readOneParameter("calculation");
-	out.getLogger()->critical("Calculation: {}\n", calculation);
-	return calculation;
+	std::vector<CalculationKind> calcs;
+    std::string calcStr;
+	std::vector<std::string> values = readManyParameters("calculation");
+
+    for(auto i : values)
+	{
+		if(i == "neutronics")
+		{
+			calcs.push_back(CalculationKind::NEUTRONICS);
+			calcStr += "neutronics ";
+		}
+		else if(i == "kinetics")
+		{
+			calcs.push_back(CalculationKind::KINETICS);
+			calcStr += "kinetics ";
+		}
+		else if(i == "heat")
+		{
+			calcs.push_back(CalculationKind::HEAT);
+			calcStr += "heat ";
+		}
+		else
+		{
+			out.getLogger()->critical("{} calculation kind not recognized!", i);
+	    	exit(-1);
+		}
+	}
+
+    out.getLogger()->critical("Calculation: {}\n", calcStr);
+	return calcs;
 }
 
 void Input::setGeometryKind()
@@ -306,12 +343,12 @@ void Input::setMesh()
 	m_materialList = regionMaterial;
 }  
 
-void Input::setMaterials()
+void Input::setMaterials(CalculationKind calc)
 { 
-   m_cells = m_mesh.getCellsNumber();
+   	m_cells = m_mesh.getCellsNumber();
 
-   if(m_calculation == "neutronics")
-   {
+	if(calc == CalculationKind::NEUTRONICS)
+	{
 		m_energies = m_mesh.getEnergyGroupsNumber();
 
 		MatrixXd ni      = setXS("ni", "Ni");
@@ -323,11 +360,12 @@ void Input::setMaterials()
 		
         MeshCrossSections meshCrossSections(ni, chi, fission, total, scattMatrix);
    		m_mesh.setCrossSectionData(meshCrossSections);
-   }
-   else if(m_calculation == "heat")
-   {
-	   setMaterialProperties("thermal_conductivity");	
-   }
+	}
+   	else if(calc == CalculationKind::HEAT)
+   	{
+	   	setMaterialProperties("thermal_conductivity");	
+   	}
+   
 }
 
 void Input::setMaterialProperties(std::string name)
@@ -628,5 +666,19 @@ void Input::setHeatBoundaryConditions()
 		out.getLogger()->critical("{} has more than 6 parameters!", name);
 		exit(-1);
     }
+}
+
+void Input::setTemperatures()
+{ 
+	std::vector<double> temperatures = setManyParameters("temperatures", 
+														 "Input temperatures [C]");
+	m_mesh.setTemperatures(temperatures);
+} 
+
+void Input::setHeatSources()
+{ 
+	std::vector<double> heatSources = setManyParameters("heat_sources", 
+														"Input heat_sources [W/m3]");
+		m_mesh.setHeatSources(heatSources);	
 } 
 

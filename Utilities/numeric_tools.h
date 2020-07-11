@@ -1,7 +1,6 @@
 #ifndef NUMERIC_TOOLS_H
 #define NUMERIC_TOOLS_H
 
-#include "MaterialKind.h"
 #include "Output.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>

@@ -3,13 +3,17 @@ cmake_minimum_required (VERSION 3.10)
 add_library(backbone_library Datamodel/Material.cpp Datamodel/Mesh.cpp 
 			IO/Output.cpp IO/Input.cpp Datamodel/KineticsSet.cpp Datamodel/AbstractGeometry.cpp 
 			Datamodel/Cylinder.cpp Datamodel/Sphere.cpp Datamodel/Slab.cpp 
-			Datamodel/AbstractSolver.cpp Datamodel/Reactor.cpp Library/Library.cpp)
+			Datamodel/AbstractSolver.cpp Datamodel/Reactor.cpp Library/Library.cpp
+			Datamodel/Problem.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC Datamodel)
 target_include_directories(backbone_library PUBLIC IO)
 target_include_directories(backbone_library PUBLIC Library)
 target_include_directories(backbone_library PUBLIC ../Utilities)
+target_include_directories(backbone_library PUBLIC ../CPM)
+target_include_directories(backbone_library PUBLIC ../CORE)
+target_include_directories(backbone_library PUBLIC ../HEAT)
 
 # This depends on (header only) boost
 #target_link_libraries(cpm_library PRIVATE Boost::boost)

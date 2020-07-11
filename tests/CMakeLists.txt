@@ -1,11 +1,12 @@
 # Tests need to be added as executables first
 add_executable(test_cpm mathsTests.cpp CoreTests.cpp HeatIntegrationTests.cpp 
-               CPMIntegrationTests.cpp CoreIntegrationTests.cpp)
+               CPMIntegrationTests.cpp CoreIntegrationTests.cpp
+               heatNeutronicsIntegrationTests.cpp)
 
 # I'm using C++17 in the test
 #target_compile_features(test_cpm PRIVATE cxx_std_17)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
