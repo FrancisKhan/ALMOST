@@ -19,3 +19,18 @@ make
 To run all the google tests:
 
 ctest -VV 
+
+To run an almost calculation:
+
+./app/almost inputs/heat-neutronics.txt outputs/Out_heat-neutronics.txt DEBUG
+
+There are 5 different levels of logging:
+
+CRITICAL \
+ERROR \
+WARN \
+INFO \
+DEBUG \
+TRACE
+
+
