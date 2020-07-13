@@ -295,3 +295,29 @@ void Mesh::setScattMatrices(Numerics::Tensor3d &scattMatrices)
 		 m_materials[m]->setScattMatrix(scattMatrices.chip(m, 2));
 	}
 }
+
+void Mesh::setNeutronFluxes(Eigen::MatrixXd &neutronFluxes)
+{
+    for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		m_materials[m]->setNeutronFlux(neutronFluxes.col(m));
+	}
+}
+
+Eigen::MatrixXd Mesh::getNeutronFluxes()
+{
+    MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd neutronFlux   = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		neutronFlux = m_materials[m]->getNeutronFlux();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			neutronFluxes(i, m) = neutronFlux(i);
+		}
+	}
+
+	return neutronFluxes;
+}

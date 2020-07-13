@@ -21,6 +21,10 @@ public:
 	void setHeatSource(double q) {m_heatSource = q;}
 	double getHeatSource() {return m_heatSource;}
 
+    void setNeutronFlux(const Eigen::VectorXd &neutronFlux) 
+	{m_neutronFlux = neutronFlux;}
+	Eigen::VectorXd getNeutronFlux() {return m_neutronFlux;}
+
 	// Neutron cross section
 	void setNi(const Eigen::VectorXd &ni) {m_ni = ni;}
 	void setChi(const Eigen::VectorXd &chi) {m_chi = chi;}
@@ -46,6 +50,8 @@ private:
 	Eigen::VectorXd m_fission; 
 	Eigen::VectorXd m_total; 
 	Eigen::MatrixXd m_scattMatrix; 
+
+	Eigen::VectorXd m_neutronFlux; 
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
 

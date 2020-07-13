@@ -193,8 +193,18 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 		neutronFlux1 = neutronFlux2;
 	}
 	
-	Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
+	VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
 	double kFactor = kFactor2;
+
+	MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
+
+	for(int i = 0; i < m_cells; i++)
+		for(int j = 0; j < m_energies; j++)
+				meshNeutronFluxes(j, i) = neutronFlux(i + j * m_cells);
+
+	printMatrix(meshNeutronFluxes, out, TraceLevel::CRITICAL);
+
+	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	
 	out.getLogger()->critical("K-factor:  {:7.6e} \n", kFactor);
 	out.getLogger()->info("Number of iterations: {} \n", h + 1);

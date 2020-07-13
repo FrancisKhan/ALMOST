@@ -3,7 +3,6 @@
 
 #include "Reactor.h"
 #include "Library.h"
-#include "SpectrumSolver.h"
 #include "SolverKind.h"
 
 #include <vector>
