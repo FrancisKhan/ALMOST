@@ -5,6 +5,8 @@
 #include "Reactor.h"
 #include "Library.h"
 
+#include <variant>
+
 class AbstractSolver
 {
 public:
@@ -16,7 +18,8 @@ public:
 	virtual void solve(int max_iter_number = 20, 
 	double accuracy = 0.00000001) = 0;
 
-	virtual Eigen::VectorXd getMainParameter() = 0;
+	virtual std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> 
+			getMainParameter() = 0;
 	
 	static std::shared_ptr<AbstractSolver> getSolver(SolverKind solver, 
 	       Reactor &reactor, Library &library);

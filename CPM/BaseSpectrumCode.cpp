@@ -205,6 +205,7 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 	printMatrix(meshNeutronFluxes, out, TraceLevel::CRITICAL);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
+	m_reactor.setKFactor(kFactor);
 	
 	out.getLogger()->critical("K-factor:  {:7.6e} \n", kFactor);
 	out.getLogger()->info("Number of iterations: {} \n", h + 1);

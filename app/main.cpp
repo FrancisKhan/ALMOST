@@ -17,6 +17,6 @@ int main(int argc, char** argv)
 	input.printData();
 	std::vector<SolverKind> solvers = input.readData();
 	Problem problem(reactor, library, solvers);
-	problem.calculate();
+	problem.solve();
 	out.printEnd();
 }

@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 
+
 class Problem
 {
 public:
@@ -16,7 +17,7 @@ public:
     m_reactor(reactor), m_library(library), 
     m_solvers(solvers) {}
 
-    void calculate();
+    void solve(int max_iter_number = 20, double accuracy = 0.00000001);
 
 private:
 	Reactor m_reactor;

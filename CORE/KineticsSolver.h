@@ -11,7 +11,9 @@ public:
 	m_reactor(reactor), m_library(library), m_mesh(reactor.getMesh()){}
 	
 	void solve(int max_iter_number, double accuracy);
-	Eigen::VectorXd getMainParameter() {return m_mesh.getTemperatures("C");}
+	
+	std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> getMainParameter()
+		{return -1.0;}
 	
 private:
 	Reactor &m_reactor;

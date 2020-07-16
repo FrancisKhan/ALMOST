@@ -10,8 +10,10 @@
 class BaseSpectrumCode
 {
 public:
-    BaseSpectrumCode(Reactor &reactor, Library &library) : 
-	m_library(library), m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
+    BaseSpectrumCode(Reactor &reactor, Library &library) :
+	m_reactor(reactor), m_library(library), 
+	m_mesh(reactor.getMesh()), 
+	m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),
@@ -35,6 +37,7 @@ protected:
 	const static double weights[8];
 
 private:
+	Reactor &m_reactor;
 	Library &m_library;
 	Mesh &m_mesh;
 	Eigen::VectorXd m_radii;
