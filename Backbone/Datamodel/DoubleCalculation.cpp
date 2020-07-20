@@ -19,7 +19,7 @@ void DoubleCalculation::solve(int max_iter_number, double accuracy)
 	double firstDiff  = 1.0; 
 	double secondDiff = 1.0; 
 
-	for (unsigned iter = 0; iter < 1; iter++)
+	for (unsigned iter = 0; iter < 2; iter++)
 	{
 		firstSolver->solve();
 		firstParam = firstSolver->getMainParameter();

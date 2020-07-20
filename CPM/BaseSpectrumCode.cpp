@@ -145,8 +145,7 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    return FMatrix;
 }
 
-void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix, 
-					   Eigen::MatrixXd &Fmatrix, 
+void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix, 
                        int max_iter_number, double accuracy)
 {
 	diagonalDominanceCheck(Mmatrix);
@@ -159,17 +158,17 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 	
 	unsigned size = sqrt(Mmatrix.size());
 	
-	Eigen::VectorXd source1      = Eigen::VectorXd::Zero(size);
-	Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
-	Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
-	Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
+	VectorXd source1      = VectorXd::Zero(size);
+	VectorXd source2      = VectorXd::Ones(size);	
+	VectorXd neutronFlux1 = VectorXd::Ones(size);
+	VectorXd neutronFlux2 = VectorXd::Zero(size);
 	
 	double kFactor1 = 1.0;
 	double kFactor2 = 0.0;
 	
 	int h;
 	
-	Eigen::ColPivHouseholderQR<Eigen::MatrixXd> CPHQR;
+	ColPivHouseholderQR<MatrixXd> CPHQR;
 	CPHQR.compute(Mmatrix);
 	
 	for(h = 0; h < max_iter_number; h++)
@@ -202,13 +201,20 @@ void BaseSpectrumCode::sourceIteration(Eigen::MatrixXd &Mmatrix,
 		for(int j = 0; j < m_energies; j++)
 				meshNeutronFluxes(j, i) = neutronFlux(i + j * m_cells);
 
-	printMatrix(meshNeutronFluxes, out, TraceLevel::CRITICAL);
-
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	m_reactor.setKFactor(kFactor);
+
+	VectorXd powerDistribution = calcFissionPowerDistribution();
+	m_mesh.setHeatSources(powerDistribution);
 	
 	out.getLogger()->critical("K-factor:  {:7.6e} \n", kFactor);
 	out.getLogger()->info("Number of iterations: {} \n", h + 1);
 	out.getLogger()->critical("Neutron Flux [1/(cm2*s)]:");
 	printVector(neutronFlux, out, TraceLevel::CRITICAL);
+
+	if (powerDistribution.minCoeff() > 0.0)
+	{
+		out.getLogger()->critical("Thermal Power [W]:");
+		printVector(powerDistribution, out, TraceLevel::CRITICAL);
+	}
 }

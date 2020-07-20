@@ -103,7 +103,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 	{
 		out.getLogger()->info("Apply boundary conditions Group {}", h + 1);
 		
-		double albedo = m_mesh.getAlbedo();
+		double albedo = m_reactor.getAlbedo();
 		
 		VectorXd Pis   = VectorXd::Zero(m_cells);
 	    VectorXd psi   = VectorXd::Zero(m_cells);
@@ -167,4 +167,25 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 			}
 		}
 	}	
+}
+
+VectorXd SlabSpectrumCode::calcFissionPowerDistribution()
+{
+	MatrixXd neutronFluxes = m_mesh.getNeutronFluxes();
+	MatrixXd fissXSs = m_mesh.getFissionXSs();
+
+	MatrixXd product = neutronFluxes.cwiseProduct(fissXSs);
+	VectorXd powerDensities = product.colwise().sum();
+	VectorXd powers = powerDensities.cwiseProduct(m_volumes);
+
+	double thermalPower = m_reactor.getThermalPower();
+
+	VectorXd powerDistribution = VectorXd::Zero(m_cells);
+
+	for(int i = 0; i < m_cells; i++)
+	{
+		powerDistribution(i) = thermalPower * powers(i) / powers.sum();
+	}
+
+	return powerDistribution;
 }

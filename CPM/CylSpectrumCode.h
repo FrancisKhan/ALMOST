@@ -9,7 +9,9 @@ class CylSpectrumCode : public BaseSpectrumCode
 public:
     CylSpectrumCode(Reactor &reactor, Library &library) : 
 	BaseSpectrumCode(reactor, library), 
-	m_library(library), m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
+	m_reactor(reactor),
+	m_library(library), m_mesh(reactor.getMesh()), 
+	m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),
@@ -22,6 +24,9 @@ public:
 	void applyBoundaryConditions(Numerics::Tensor3d &gcpm) override; 
 
 private:
+	Eigen::VectorXd calcFissionPowerDistribution();
+	
+	Reactor &m_reactor;
 	Library &m_library;
 	Mesh &m_mesh;
 	Eigen::VectorXd m_radii;

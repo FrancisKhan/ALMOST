@@ -4,6 +4,7 @@
 #include "Reactor.h"
 #include "Library.h"
 #include "SolverKind.h"
+#include "helper_tools.h"
 #include "numeric_tools.h"
 #include "MeshCrossSections.h"
 
@@ -52,6 +53,7 @@ private:
 
 	void setTemperatures();
 	void setHeatSources();
+	void setThermalPower();
 
     Reactor &m_reactor;
  	Mesh &m_mesh;

@@ -13,6 +13,7 @@
 using namespace Eigen;
 using namespace Numerics;
 using namespace PrintFuncs;
+using namespace HelperTools;
 
 void Input::getArguments(int argc, char** argv)
 {
@@ -105,11 +106,17 @@ std::vector<SolverKind> Input::readData()
 		{
 			setMaterials(i);
 			setHeatBoundaryConditions();
+
+			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
+				setThermalPower();
+				
+			else
+				setHeatSources();
+
 			setTemperatures();
-			setHeatSources();
 		}
 	}
-	
+
 	return m_solvers;
 }
 
@@ -261,15 +268,23 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.getLogger()->critical("{}: {} \n", "energies", energies);
+	out.getLogger()->critical("{}: {} \n", "Input energies", energies);
 }
 
 void Input::setAlbedo()
 {
 	std::string albedo = readOneParameter("albedo");
-	m_mesh.setAlbedo(std::stod(albedo));
+	m_reactor.setAlbedo(std::stod(albedo));
     std::string numberString = stringFormat(albedo, "%7.6e");
-	out.getLogger()->critical("{}: {} \n", "albedo", numberString);
+	out.getLogger()->critical("{}: {} \n", "Input albedo", numberString);
+}
+
+void Input::setThermalPower()
+{
+	std::string power = readOneParameter("thermal_power");
+	m_reactor.setThermalPower(std::stod(power));
+    std::string numberString = stringFormat(power, "%7.6e");
+	out.getLogger()->critical("{}: {} \n", "Input thermal power [W]", numberString);
 }
 
 void Input::setMesh()
@@ -351,12 +366,12 @@ void Input::setMaterials(SolverKind solver)
 	{
 		m_energies = m_mesh.getEnergyGroupsNumber();
 
-		MatrixXd ni      = setXS("ni", "Ni");
-   		MatrixXd chi     = setXS("chi", "Chi");
-   		MatrixXd fission = setXS("fission", "Fission XS [1/cm]");
-   		MatrixXd total   = setXS("total", "Total XS [1/cm]");	
+		MatrixXd ni      = setXS("ni", "Input ni");
+   		MatrixXd chi     = setXS("chi", "Input chi");
+   		MatrixXd fission = setXS("fission", "Input fission XS [1/cm]");
+   		MatrixXd total   = setXS("total", "Input total XS [1/cm]");	
 
-		Tensor3d scattMatrix = setMatrixXS("scattMatrix", "Scattering matrix [1/cm]");
+		Tensor3d scattMatrix = setMatrixXS("scattMatrix", "Input scattering matrix [1/cm]");
 		
         MeshCrossSections meshCrossSections(ni, chi, fission, total, scattMatrix);
    		m_mesh.setCrossSectionData(meshCrossSections);

@@ -98,6 +98,14 @@ VectorXd Mesh::getTemperatures(std::string dim)
 	}
 }
 
+void Mesh::setHeatSources(VectorXd &sources)
+{
+    for(int i = 0; i < sources.size(); i++)
+	{
+		 m_materials[i]->setHeatSource(sources(i));
+	}
+}
+
 void Mesh::setHeatSources(std::vector<double> &sources)
 {
     for(size_t i = 0; i < sources.size(); i++)
@@ -171,7 +179,7 @@ Eigen::VectorXd Mesh::getThermalConductivities()
 	return result;
 }
 
-Eigen::VectorXd Mesh::getCellSizes(std::string dim)
+VectorXd Mesh::getCellSizes(std::string dim)
 {
 	VectorXd result = VectorXd::Zero(m_meshNumber);
 
@@ -195,7 +203,7 @@ void Mesh::setCrossSectionData(MeshCrossSections &meshCrossSections)
 	}
 }
 
-Eigen::MatrixXd Mesh::getNis()
+MatrixXd Mesh::getNis()
 {
     MatrixXd nis = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd ni  = VectorXd::Zero(m_energyGroupsNumber);
@@ -213,7 +221,7 @@ Eigen::MatrixXd Mesh::getNis()
 	return nis;
 }
 
-Eigen::MatrixXd Mesh::getChis()
+MatrixXd Mesh::getChis()
 {
     MatrixXd chis = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd chi  = VectorXd::Zero(m_energyGroupsNumber);
@@ -231,7 +239,7 @@ Eigen::MatrixXd Mesh::getChis()
 	return chis;
 }
 
-Eigen::MatrixXd Mesh::getTotalXSs()
+MatrixXd Mesh::getTotalXSs()
 {
     MatrixXd tots = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd tot  = VectorXd::Zero(m_energyGroupsNumber);
@@ -249,7 +257,7 @@ Eigen::MatrixXd Mesh::getTotalXSs()
 	return tots;
 }
 
-Eigen::MatrixXd Mesh::getFissionXSs()
+MatrixXd Mesh::getFissionXSs()
 {
     MatrixXd fiss = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd fis  = VectorXd::Zero(m_energyGroupsNumber);
@@ -267,7 +275,7 @@ Eigen::MatrixXd Mesh::getFissionXSs()
 	return fiss;
 }
 
-Numerics::Tensor3d Mesh::getScattMatrices()
+Tensor3d Mesh::getScattMatrices()
 {
     Tensor3d scatts(m_energyGroupsNumber, m_energyGroupsNumber, m_meshNumber);
 	MatrixXd scatt = MatrixXd::Zero(m_energyGroupsNumber, m_energyGroupsNumber);
@@ -304,7 +312,7 @@ void Mesh::setNeutronFluxes(Eigen::MatrixXd &neutronFluxes)
 	}
 }
 
-Eigen::MatrixXd Mesh::getNeutronFluxes()
+MatrixXd Mesh::getNeutronFluxes()
 {
     MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd neutronFlux   = VectorXd::Zero(m_energyGroupsNumber);

@@ -24,8 +24,6 @@ public:
 	double getSurface(std::string dim);
 	void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
-	void setAlbedo(double albedo){m_albedo = albedo;}
-	double getAlbedo(){return m_albedo;}
 
 	void createMaterials(std::vector<std::string> materialMap);
 	std::vector< std::shared_ptr<Material> > getMaterials() {return m_materials;}
@@ -36,6 +34,7 @@ public:
 	void setTemperatures(Eigen::VectorXd &temperatures);
 	Eigen::VectorXd getTemperatures(std::string dim);
 
+	void setHeatSources(Eigen::VectorXd &sources);
 	void setHeatSources(std::vector<double> &sources);
 	Eigen::VectorXd getHeatSources();
 
@@ -63,7 +62,6 @@ private:
 	GeomKind m_mode;
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;
-	double m_albedo;
 	Eigen::VectorXd m_heatBoundaryConditions;
     std::vector< std::shared_ptr<Material> > m_materials;
 };

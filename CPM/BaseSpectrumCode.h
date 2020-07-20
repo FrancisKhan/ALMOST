@@ -33,6 +33,7 @@ public:
                          int max_iter_number, double accuracy);
 	
 protected:
+	virtual Eigen::VectorXd calcFissionPowerDistribution() = 0;
 	const static double abscissa[8];
 	const static double weights[8];
 
