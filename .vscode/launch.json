@@ -29,7 +29,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs/heat-neutronics.txt", "outputs/Out_heat-neutronics.txt", "DEBUG"],
+            "args": ["inputs/xsTest1.txt", "outputs/Out_xsTest1.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

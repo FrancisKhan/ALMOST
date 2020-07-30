@@ -16,7 +16,9 @@ public:
 	virtual ~AbstractSolver() {}
 	
 	virtual void solve(int max_iter_number = 20, 
-	double accuracy = 0.00000001) = 0;
+	double accuracy = 0.00000001) = 0; 
+
+	virtual void relaxResults(double param) = 0;
 
 	virtual std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> 
 			getMainParameter() = 0;

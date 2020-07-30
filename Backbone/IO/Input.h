@@ -6,7 +6,6 @@
 #include "SolverKind.h"
 #include "helper_tools.h"
 #include "numeric_tools.h"
-#include "MeshCrossSections.h"
 
 class Input
 {
@@ -17,9 +16,10 @@ public:
 	m_reactor(reactor), m_mesh(reactor.getMesh()), m_library(library), 
 	m_energies(0), m_cells(0), m_inputPath("") {}
 	void storeInput();
-	std::vector<SolverKind> readData();
+	void readData();
 	void printData();
 	void getArguments(int argc, char** argv);
+	std::vector<SolverKind> getSolvers() {return m_solvers;};
 	
 private:									  
     void removeExtraSpaces(const std::string &input, std::string &output);
@@ -37,10 +37,11 @@ private:
 	void setKineticsParameters();
 	void setsetKineticsParameters();
 	void setReactivity();
-    std::vector<SolverKind> setSolvers();
+   	void setSolvers();
 	void setHeatBoundaryConditions();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
+	void setThermalXSDependence(std::vector<std::string> &values, unsigned index);
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);
@@ -48,12 +49,13 @@ private:
 	std::vector<double> setManyParameters(std::string name, 
 										  std::string prefix = "");
 
-    Eigen::MatrixXd setXS(std::string name, std::string outputName);
+    void setXS(std::string name, std::string outputName);
 	Numerics::Tensor3d setMatrixXS(std::string name, std::string outputName);
 
 	void setTemperatures();
 	void setHeatSources();
 	void setThermalPower();
+	void setRelaxationParameter();
 
     Reactor &m_reactor;
  	Mesh &m_mesh;

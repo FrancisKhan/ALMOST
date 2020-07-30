@@ -6,7 +6,6 @@ using namespace Numerics;
 
 namespace PrintFuncs
 {
-
 	void printMatrix(Tensor3d A, Output output, TraceLevel level, std::string str)
 	{
 		auto dims = A.dimensions();
@@ -162,7 +161,7 @@ namespace PrintFuncs
 		else {}
 	}
 
-	void printVector(std::vector<std::string> vec, Output output, TraceLevel level)
+	void printVector(std::vector<std::string> vec, Output output, TraceLevel level, bool isVertical)
 	{	
 	    if(output.getLogger() == nullptr) 
 		{
@@ -170,80 +169,64 @@ namespace PrintFuncs
 			return;
 		}
 
-		for(unsigned i = 0; i < vec.size(); i++)
+		if(isVertical)
 		{
+			for(unsigned i = 0; i < vec.size(); i++)
+			{
+				if (level == TraceLevel::CRITICAL)
+					output.getLogger()->critical("{}", stringFormat(vec[i],"%7.6e"));
+		    	else if (level == TraceLevel::ERROR)
+					output.getLogger()->error("{}", stringFormat(vec[i],"%7.6e"));
+				else if (level == TraceLevel::WARN)
+					output.getLogger()->warn("{}", stringFormat(vec[i],"%7.6e"));
+				else if (level == TraceLevel::INFO)
+					output.getLogger()->info("{}", stringFormat(vec[i],"%7.6e"));
+				else if(level == TraceLevel::DEBUG)
+					output.getLogger()->debug("{}", stringFormat(vec[i],"%7.6e"));
+				else if(level == TraceLevel::TRACE)
+					output.getLogger()->trace("{}", stringFormat(vec[i],"%7.6e"));
+				else {}
+			}
+		}
+		else
+		{
+			std::string msg;
+
+			for(unsigned i = 0; i < vec.size(); i++)
+				msg += stringFormat(vec[i], "%7.6e") + " ";
+
 			if (level == TraceLevel::CRITICAL)
-				output.getLogger()->critical("{}", vec[i]);
+				output.getLogger()->critical("{}", msg);
 		    else if (level == TraceLevel::ERROR)
-				output.getLogger()->error("{}", vec[i]);
+				output.getLogger()->error("{}", msg);
 			else if (level == TraceLevel::WARN)
-				output.getLogger()->warn("{}", vec[i]);
+				output.getLogger()->warn("{}", msg);
 			else if (level == TraceLevel::INFO)
-				output.getLogger()->info("{}", vec[i]);
+				output.getLogger()->info("{}", msg);
 			else if(level == TraceLevel::DEBUG)
-				output.getLogger()->debug("{}", vec[i]);
+				output.getLogger()->debug("{}", msg);
 			else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace("{}", vec[i]);
+				output.getLogger()->trace("{}", msg);
 			else {}
 		}
 
-		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERROR)
-			output.getLogger()->error(" ");
-		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn(" ");
-		else if (level == TraceLevel::INFO)
-			output.getLogger()->info(" ");
-		else if(level == TraceLevel::DEBUG)
-		output.getLogger()->debug(" ");
-		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace(" ");
-		else {}
+		if(isVertical)
+		{
+			if (level == TraceLevel::CRITICAL)
+				output.getLogger()->critical(" ");	
+			else if (level == TraceLevel::ERROR)
+				output.getLogger()->error(" ");
+			else if (level == TraceLevel::WARN)
+				output.getLogger()->warn(" ");
+			else if (level == TraceLevel::INFO)
+				output.getLogger()->info(" ");
+			else if(level == TraceLevel::DEBUG)
+				output.getLogger()->debug(" ");
+			else if(level == TraceLevel::TRACE)
+				output.getLogger()->trace(" ");
+			else {}
+		}
 	}
-
-	// void printVector(std::vector<MaterialKind> vec, Output output, TraceLevel level)
-	// {	
-	//     if(output.getLogger() == nullptr) 
-	// 	{
-	// 		std::cout << "PrintVector::Vector nullptr!" << std::endl;
-	// 		return;
-	// 	}
-
-	// 	for(auto i : vec)
-	// 	{
-	//         std::ostringstream stream;
-	// 		stream << i;
-
-	// 		if (level == TraceLevel::CRITICAL)
-	// 			output.getLogger()->critical("{}", stream.str());
-	// 	    else if (level == TraceLevel::ERROR)
-	// 			output.getLogger()->error("{}", stream.str());
-	// 		else if (level == TraceLevel::WARN)
-	// 			output.getLogger()->warn("{}", stream.str());
-	// 		else if (level == TraceLevel::INFO)
-	// 			output.getLogger()->info("{}", stream.str());
-	// 		else if(level == TraceLevel::DEBUG)
-	// 			output.getLogger()->debug("{}", stream.str());
-	// 		else if(level == TraceLevel::TRACE)
-	// 			output.getLogger()->trace("{}", stream.str());
-	// 		else {}
-	// 	}
-
-	// 	if (level == TraceLevel::CRITICAL)
-	// 		output.getLogger()->critical(" ");	
-	// 	else if (level == TraceLevel::ERROR)
-	// 		output.getLogger()->error(" ");
-	// 	else if (level == TraceLevel::WARN)
-	// 		output.getLogger()->warn(" ");
-	// 	else if (level == TraceLevel::INFO)
-	// 		output.getLogger()->info(" ");
-	// 	else if(level == TraceLevel::DEBUG)
-	// 		output.getLogger()->debug(" ");
-	// 	else if(level == TraceLevel::TRACE)
-	// 		output.getLogger()->trace(" ");
-	// 	else {}
-	// }
 
 	void printVector(std::vector<double> vec, Output output, TraceLevel level)
 	{	
@@ -300,6 +283,8 @@ namespace PrintFuncs
 	// in a specific format
 	std::string stringFormat(std::string numberStr, std::string format)
 	{
+		if(isString(numberStr)) return numberStr;
+
 		double number = std::stod(numberStr);
 		char buffer[32];
 		memset(buffer, 0, sizeof(buffer));

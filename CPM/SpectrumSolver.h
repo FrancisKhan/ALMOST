@@ -14,11 +14,14 @@ public:
 
 	std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> getMainParameter() 
 	{return m_reactor.getKFactor();}
+
+	void relaxResults(double param) override;
 	
 private:
 	Reactor &m_reactor;
     Library &m_library;
 	Mesh &m_mesh;
+	Eigen::VectorXd m_oldPowerDensities;
 };
 
 #endif

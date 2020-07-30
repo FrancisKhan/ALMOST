@@ -11,6 +11,8 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 {
     std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_reactor, m_library);
 
+    m_oldTemperatures = m_mesh.getTemperatures("C");
+
     VectorXd oldTemps = VectorXd::Ones(m_mesh.getCellsNumber());
     VectorXd newTemps = VectorXd::Zero(m_mesh.getCellsNumber());
 
@@ -44,4 +46,17 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
     out.getLogger()->critical("Final temperatures [C]:");
     printVector(m_mesh.getTemperatures("C"), out, TraceLevel::CRITICAL);
+}
+
+void HeatSolver::relaxResults(double param)
+{
+    VectorXd relaxedTemps = VectorXd::Zero(m_mesh.getCellsNumber());
+    VectorXd newTemps = m_mesh.getTemperatures("C");
+
+    relaxedTemps = newTemps * param + m_oldTemperatures * (1.0 - param);
+
+    m_mesh.setTemperatures(relaxedTemps);
+
+    out.getLogger()->info("Relaxed temperatures [C]:");
+    printVector(m_mesh.getTemperatures("C"), out, TraceLevel::INFO);
 }

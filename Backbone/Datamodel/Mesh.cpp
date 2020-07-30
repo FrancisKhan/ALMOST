@@ -98,7 +98,7 @@ VectorXd Mesh::getTemperatures(std::string dim)
 	}
 }
 
-void Mesh::setHeatSources(VectorXd &sources)
+void Mesh::setHeatSources(const VectorXd &sources)
 {
     for(int i = 0; i < sources.size(); i++)
 	{
@@ -167,6 +167,11 @@ void Mesh::setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVe
     m_materials[i]->setThermalConductivityLaw(strVec);
 }
 
+void Mesh::setThermalXSDependenceLaw(unsigned i, std::vector<std::string> &strVec)
+{
+    m_materials[i]->setThermalXSDependenceLaw(strVec);
+}
+
 Eigen::VectorXd Mesh::getThermalConductivities()
 {
 	VectorXd result = VectorXd::Zero(m_meshNumber);
@@ -189,18 +194,6 @@ VectorXd Mesh::getCellSizes(std::string dim)
 	}
 
 	return result;
-}
-
-void Mesh::setCrossSectionData(MeshCrossSections &meshCrossSections)
-{
-    for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
-	{
-		 m_materials[m]->setNi(meshCrossSections.m_nis.col(m));
-		 m_materials[m]->setChi(meshCrossSections.m_chis.col(m));
-		 m_materials[m]->setFissionXS(meshCrossSections.m_fissionXSs.col(m));
-		 m_materials[m]->setTotalXS(meshCrossSections.m_totalXSs.col(m));
-		 m_materials[m]->setScattMatrix(meshCrossSections.m_scattMatrices.chip(m, 2));
-	}
 }
 
 MatrixXd Mesh::getNis()

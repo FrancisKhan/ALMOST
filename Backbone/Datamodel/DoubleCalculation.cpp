@@ -19,13 +19,17 @@ void DoubleCalculation::solve(int max_iter_number, double accuracy)
 	double firstDiff  = 1.0; 
 	double secondDiff = 1.0; 
 
-	for (unsigned iter = 0; iter < 2; iter++)
+	for (int iter = 0; iter < max_iter_number; iter++)
 	{
+		out.getLogger()->critical("Iteration: {} \n", iter + 1);
+
 		firstSolver->solve();
 		firstParam = firstSolver->getMainParameter();
+		if (iter != 0) firstSolver->relaxResults(m_reactor.getRelaxationParameter());
 
 		secondSolver->solve();
 		secondParam = secondSolver->getMainParameter();
+		if (iter != 0) secondSolver->relaxResults(m_reactor.getRelaxationParameter());
 
 		if (iter != 0) 
 		{

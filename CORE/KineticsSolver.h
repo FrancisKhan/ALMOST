@@ -14,6 +14,8 @@ public:
 	
 	std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> getMainParameter()
 		{return -1.0;}
+
+	void relaxResults(double param) override {}
 	
 private:
 	Reactor &m_reactor;

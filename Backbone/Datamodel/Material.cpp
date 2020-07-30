@@ -20,6 +20,15 @@ double Material::getThermalConductivity()
     return m_thermalConductivityLaw->calc(m_temperature);
 }
 
+void Material::setThermalXSDependenceLaw(std::vector<std::string> &strVec)
+{
+    std::vector<double> dVec(strVec.size(), 0.0);
+    std::transform(strVec.begin(), strVec.end(), dVec.begin(), 
+    [](std::string &i){return std::stod(i);});
+
+    m_thermalXSDependenceLaw = std::make_shared<PolynomialFunction>(dVec);
+}
+
 void Material::setScattMatrix(const Numerics::Tensor2d &scattMatrix) 
 {
     m_scattMatrix = MatrixXd::Zero(scattMatrix.dimension(0), scattMatrix.dimension(1));

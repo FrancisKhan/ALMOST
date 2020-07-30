@@ -71,20 +71,17 @@ void Input::storeInput()
 	inFile.close();
 }
 
-std::vector<SolverKind> Input::readData()
+void Input::readData()
 {
     storeInput();
 
-	m_solvers = setSolvers();
+	setSolvers();
 
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
-    bool setGeometryAndMesh = std::any_of(m_solvers.begin(), m_solvers.end(), 
-		[](auto i){return (i == SolverKind::NEUTRONICS) 
-		               or (i == SolverKind::HEAT);});
-
-    if(setGeometryAndMesh)
+    if(isElementHere(m_solvers, SolverKind::NEUTRONICS) || 
+	   isElementHere(m_solvers, SolverKind::HEAT))
 	{
 		setGeometryKind();
 	    setMesh();
@@ -108,16 +105,16 @@ std::vector<SolverKind> Input::readData()
 			setHeatBoundaryConditions();
 
 			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
+			{
 				setThermalPower();
-				
+				setRelaxationParameter();
+			}	
 			else
 				setHeatSources();
 
 			setTemperatures();
 		}
 	}
-
-	return m_solvers;
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -204,7 +201,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 	return words;
 } 
 
-std::vector<SolverKind> Input::setSolvers()
+void Input::setSolvers()
 {
 	std::vector<SolverKind> solvers;
     std::string solverStr;
@@ -235,7 +232,8 @@ std::vector<SolverKind> Input::setSolvers()
 	}
 
     out.getLogger()->critical("Solvers: {}\n", solverStr);
-	return solvers;
+	m_solvers = solvers;
+	m_reactor.setSolvers(solvers);
 }
 
 void Input::setGeometryKind()
@@ -276,7 +274,7 @@ void Input::setAlbedo()
 	std::string albedo = readOneParameter("albedo");
 	m_reactor.setAlbedo(std::stod(albedo));
     std::string numberString = stringFormat(albedo, "%7.6e");
-	out.getLogger()->critical("{}: {} \n", "Input albedo", numberString);
+	out.getLogger()->critical("{}: {}", "Input albedo", numberString);
 }
 
 void Input::setThermalPower()
@@ -285,6 +283,14 @@ void Input::setThermalPower()
 	m_reactor.setThermalPower(std::stod(power));
     std::string numberString = stringFormat(power, "%7.6e");
 	out.getLogger()->critical("{}: {} \n", "Input thermal power [W]", numberString);
+}
+
+void Input::setRelaxationParameter()
+{
+	std::string param = readOneParameter("relaxation_parameter");
+	m_reactor.setRelaxationParameter(std::stod(param));
+    std::string numberString = stringFormat(param, "%7.6e");
+	out.getLogger()->critical("{}: {} \n", "Input relaxation parameter", numberString);
 }
 
 void Input::setMesh()
@@ -366,20 +372,24 @@ void Input::setMaterials(SolverKind solver)
 	{
 		m_energies = m_mesh.getEnergyGroupsNumber();
 
-		MatrixXd ni      = setXS("ni", "Input ni");
-   		MatrixXd chi     = setXS("chi", "Input chi");
-   		MatrixXd fission = setXS("fission", "Input fission XS [1/cm]");
-   		MatrixXd total   = setXS("total", "Input total XS [1/cm]");	
+		setXS("ni", "\nInput ni");
+   		setXS("chi", "\nInput chi");
+   		setXS("fission", "\nInput fission XS [1/cm]");
+   		setXS("total", "\nInput total XS [1/cm]");	
 
-		Tensor3d scattMatrix = setMatrixXS("scattMatrix", "Input scattering matrix [1/cm]");
-		
-        MeshCrossSections meshCrossSections(ni, chi, fission, total, scattMatrix);
-   		m_mesh.setCrossSectionData(meshCrossSections);
+		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]");
+		m_mesh.setScattMatrices(scattMatrices);
 	}
    	else if(solver == SolverKind::HEAT)
    	{
-	   	setMaterialProperties("thermal_conductivity");	
+	   	setMaterialProperties("thermal_conductivity");
+
+		if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
+		{
+			setMaterialProperties("thermal_xs_dependence");
+		}
    	}
+	else {;}
    
 }
 
@@ -401,6 +411,10 @@ void Input::setMaterialProperties(std::string name)
 			{
 				setThermalConductivity(values, m);
 			}
+			else if(name == "thermal_xs_dependence")
+			{
+				setThermalXSDependence(values, m);
+			}
 			else
 			{
 				out.getLogger()->critical("{} is not a material property", name);
@@ -421,19 +435,39 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 	else if(values.size() >= 2 && values.size() < 5) 
 	{
 		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
-		m_mesh.getMaterial(index)->setThermalConductivityLaw(numberVec);
+		m_mesh.setThermalConductivityLaw(index, numberVec);
 	}
 	else
 	{
 		out.getLogger()->critical("{} number of parameters exceeded!", values[0]);
 		exit(-1);
 	}
-	
 }
 
-MatrixXd Input::setXS(std::string name, std::string outputName)
+void Input::setThermalXSDependence(std::vector<std::string> &values, unsigned index)
 {
-    MatrixXd xs = MatrixXd::Zero(m_energies, m_cells);
+	if(values.size() < 2) 
+	{
+		out.getLogger()->critical("{} has no parameters!", values[0]);
+	    exit(-1);
+	}
+	else if(values.size() >= 2 && values.size() < 5) 
+	{
+		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
+		m_mesh.setThermalXSDependenceLaw(index, numberVec);
+	}
+	else
+	{
+		out.getLogger()->critical("{} number of parameters exceeded!", values[0]);
+		exit(-1);
+	}
+}
+
+void Input::setXS(std::string name, std::string outputName)
+{
+	VectorXd energyVec = VectorXd::Zero(m_energies);
+
+	out.getLogger()->critical(outputName);
 
 	for (auto matListItem : m_materialList)
     {
@@ -449,15 +483,23 @@ MatrixXd Input::setXS(std::string name, std::string outputName)
    			{
 				std::string str = name + "(" + std::to_string(i) + ")";
 				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-				xs(i - 1, m) = std::stod(values[1]);
+				energyVec(i - 1) = std::stod(values[1]);
 			}
+
+            if(name == "ni") 
+				m_mesh.getMaterial(m)->setNi(energyVec);
+			else if(name == "chi") 
+				m_mesh.getMaterial(m)->setChi(energyVec);
+			else if(name == "fission") 
+				m_mesh.getMaterial(m)->setFissionXS(energyVec);
+			else if(name == "total") 
+				m_mesh.getMaterial(m)->setTotalXS(energyVec);
+			else {;}
+
+			printVector(energyVec, out, TraceLevel::CRITICAL);
 		}
 	}
 
-    out.getLogger()->critical(outputName);
-    printMatrix(xs, out, TraceLevel::CRITICAL);
-
-	return xs;
 }
 
 Tensor3d Input::setMatrixXS(std::string name, std::string outputName)

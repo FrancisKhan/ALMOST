@@ -12,7 +12,7 @@ class Material
 {
 public:
 	Material(const std::string& name) : 
-	m_name(name){}
+	m_name(name), m_temperature(0.0) {}
 	std::string getName() {return m_name;}
 	void setTemperature(double T) {m_temperature = T;}
 	double getTemperature() {return m_temperature;}
@@ -26,17 +26,19 @@ public:
 	Eigen::VectorXd getNeutronFlux() {return m_neutronFlux;}
 
 	// Neutron cross section
+	void setThermalXSDependenceLaw(std::vector<std::string> &vec);
 	void setNi(const Eigen::VectorXd &ni) {m_ni = ni;}
-	void setChi(const Eigen::VectorXd &chi) {m_chi = chi;}
-	void setFissionXS(const Eigen::VectorXd &fission) {m_fission = fission;}
-	void setTotalXS(const Eigen::VectorXd &total) {m_total = total;}
+	void setChi(const Eigen::VectorXd &chi)  {m_chi = chi;}
+	void setFissionXS(const Eigen::VectorXd &fission)  {m_fissionXS = fission;}
+	void setTotalXS(const Eigen::VectorXd &total)  {m_totalXS = total;}
+	
 	void setScattMatrix(const Eigen::MatrixXd &scattMatrix) {m_scattMatrix = scattMatrix;}
 	void setScattMatrix(const Numerics::Tensor2d &scattMatrix);
 
 	Eigen::VectorXd getNi() {return m_ni;}
 	Eigen::VectorXd getChi() {return m_chi;}
-	Eigen::VectorXd getFissionXS() {return m_fission;}
-	Eigen::VectorXd getTotalXS() {return m_total;}
+	Eigen::VectorXd getFissionXS() {return m_fissionXS;}
+	Eigen::VectorXd getTotalXS() {return m_totalXS;}
 	Eigen::MatrixXd getScattMatrix() {return m_scattMatrix;}
 
 private:
@@ -45,15 +47,16 @@ private:
 	double m_heatSource; // Watt/m3
 
 	// Neutron cross section
-	Eigen::VectorXd m_ni;
-	Eigen::VectorXd m_chi;
-	Eigen::VectorXd m_fission; 
-	Eigen::VectorXd m_total; 
+	Eigen::VectorXd m_ni; 
+	Eigen::VectorXd m_chi; 
+	Eigen::VectorXd m_fissionXS; 
+	Eigen::VectorXd m_totalXS; 
 	Eigen::MatrixXd m_scattMatrix; 
 
-	Eigen::VectorXd m_neutronFlux; 
+    Eigen::VectorXd m_neutronFlux; 
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
+	std::shared_ptr<PolynomialFunction> m_thermalXSDependenceLaw;
 
 };
 

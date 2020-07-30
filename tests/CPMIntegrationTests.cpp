@@ -271,7 +271,7 @@ TEST_F(CPMIntegrationTests, Problem8)
   const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/Problem8.txt";
   const std::string outputPath = "outputs/Out_Problem8.txt";
-  const std::string traceLevel = "TRACE";
+  const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99507265385648924;
   std::vector<double> refFlux = {1.179613e-01, 1.161960e-01, 1.128046e-01,

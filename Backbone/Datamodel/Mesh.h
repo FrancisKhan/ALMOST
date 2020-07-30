@@ -4,7 +4,6 @@
 #include "GeomKind.h"
 #include "Material.h"
 #include "AbstractGeometry.h"
-#include "MeshCrossSections.h"
 
 #include <Eigen/Dense>
 #include <vector>
@@ -34,7 +33,7 @@ public:
 	void setTemperatures(Eigen::VectorXd &temperatures);
 	Eigen::VectorXd getTemperatures(std::string dim);
 
-	void setHeatSources(Eigen::VectorXd &sources);
+	void setHeatSources(const Eigen::VectorXd &sources);
 	void setHeatSources(std::vector<double> &sources);
 	Eigen::VectorXd getHeatSources();
 
@@ -47,8 +46,9 @@ public:
     void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
 	Eigen::MatrixXd getNeutronFluxes();
 
-	void setCrossSectionData(MeshCrossSections &meshCrossSections);
     void setScattMatrices(Numerics::Tensor3d &scattMatrices);
+
+	void setThermalXSDependenceLaw(unsigned i, std::vector<std::string> &strVec);
 
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();

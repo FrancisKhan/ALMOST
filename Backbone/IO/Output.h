@@ -4,7 +4,7 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/spdlog.h"
 
-enum TraceLevel {CRITICAL  = 0, ERROR, WARN, INFO, DEBUG, TRACE};
+enum TraceLevel {CRITICAL = 0, ERROR, WARN, INFO, DEBUG, TRACE};
 
 class Output
 {
@@ -22,6 +22,11 @@ public:
 	std::string getInputPath() {return m_inputPath;}
 	std::string getInputName() {return m_inputName;}
 	std::string getOutputName() {return m_outputName;}
+
+	void print(TraceLevel level, std::string str);
+	void print(TraceLevel level, std::string str, int input);
+	void print(TraceLevel level, std::string str, double input);
+	void print(TraceLevel level, std::string str, int input1, double input2);
 
 private: 
 	void removeOldOutputFile();

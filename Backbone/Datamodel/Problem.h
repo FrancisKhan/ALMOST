@@ -13,7 +13,7 @@ class Problem
 {
 public:
 	Problem(Reactor &reactor, Library &library, 
-    std::vector<SolverKind> &solvers) :
+    const std::vector<SolverKind> &solvers) :
     m_reactor(reactor), m_library(library), 
     m_solvers(solvers) {}
 

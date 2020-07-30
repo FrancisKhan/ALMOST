@@ -1,6 +1,5 @@
 #include "BaseSpectrumCode.h"
 #include "numeric_tools.h"
-#include "Output.h"
 
 #include <iostream>
 #include <iomanip>
@@ -24,8 +23,8 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.getLogger()->info("Particles Balance Check for Group: {}", h + 1);
-		
+		out.print(TraceLevel::CRITICAL, "Particles Balance Check for Group: {}", h + 1);
+
 		for(int i = 0; i < m_cells; i++)
         {
 			check(i) = 0.0;
@@ -34,7 +33,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 				check(i) += gcpm(i, j, h) * m_totalXS(h, j);
 			}
 			
-			out.getLogger()->info("check: {} {:7.6e}", i + 1, check(i));
+			out.print(TraceLevel::CRITICAL, "check: {} {:7.6e}", i + 1, check(i));
 		}
 	}
 }
@@ -56,7 +55,7 @@ MatrixXd BaseSpectrumCode::calcCPMMatrix(Tensor3d &gcpm)
 	    }
 	}
    
-   out.getLogger()->info("\nCPM matrix");
+   out.print(TraceLevel::DEBUG, "\nCPM matrix");
    printMatrix(cpm, out, TraceLevel::DEBUG);
 
    return cpm;
@@ -89,7 +88,7 @@ MatrixXd BaseSpectrumCode::calcMMatrix(MatrixXd &cpm)
 	   MMatrix(i, i) += 1.0;
     }
    
-	out.getLogger()->info("MMatrix");
+	out.print(TraceLevel::INFO, "MMatrix");
     printMatrix(MMatrix, out, TraceLevel::INFO);
 
 	return MMatrix;
@@ -139,7 +138,7 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    
    FMatrix = cpm * FMatrix;
    
-   out.getLogger()->info("FMatrix");
+   out.print(TraceLevel::INFO, "FMatrix");
    printMatrix(FMatrix, out, TraceLevel::INFO);
 
    return FMatrix;
@@ -205,16 +204,21 @@ void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix,
 	m_reactor.setKFactor(kFactor);
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
-	m_mesh.setHeatSources(powerDistribution);
+	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
 	
-	out.getLogger()->critical("K-factor:  {:7.6e} \n", kFactor);
-	out.getLogger()->info("Number of iterations: {} \n", h + 1);
-	out.getLogger()->critical("Neutron Flux [1/(cm2*s)]:");
+	out.print(TraceLevel::CRITICAL, "K-factor:  {:7.6e} \n", kFactor);
+	out.print(TraceLevel::DEBUG, "Number of internal neutronic iterations: {} \n", h + 1);
+	out.print(TraceLevel::CRITICAL, "Neutron Flux [1/(cm2*s)]:");
 	printVector(neutronFlux, out, TraceLevel::CRITICAL);
 
 	if (powerDistribution.minCoeff() > 0.0)
 	{
-		out.getLogger()->critical("Thermal Power [W]:");
+		out.print(TraceLevel::CRITICAL, "Thermal Power [W]:");
 		printVector(powerDistribution, out, TraceLevel::CRITICAL);
 	}
+}
+
+TraceLevel BaseSpectrumCode::setSolverLogLevel(TraceLevel level)
+{
+
 }
