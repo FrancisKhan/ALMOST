@@ -61,13 +61,13 @@ std::tuple<MatrixXd, VectorXd> CylHeatCode::applyBoundaryConditions(MatrixXd &T,
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR;
     source(m_cells - 1) = source(m_cells - 1) - betaR;
 
-    out.getLogger()->debug("Thermal conductivities [W/(m*K)]:");
+    out.print(TraceLevel::DEBUG, "Thermal conductivities [W/(m*K)]:");
     printVector(lambda, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("T matrix [W/(m*K)]:");
+    out.print(TraceLevel::DEBUG, "T matrix [W/(m*K)]:");
     printMatrix(T, out, TraceLevel::DEBUG);
 
-    out.getLogger()->debug("Source [W]:");
+    out.print(TraceLevel::DEBUG, "Source [W]:");
     printVector(source, out, TraceLevel::DEBUG);
 
     return std::make_tuple(T, source);

@@ -38,6 +38,9 @@ public:
 	std::vector<SolverKind> getSolvers() {return m_solvers;}
 	bool isMultisolvers() {return m_solvers.size() >= 2;}
 
+	void setLogLevel(TraceLevel level) {m_logLevel = level;}
+	TraceLevel getLogLevel() {return m_logLevel;}
+
 private:
 	KineticsSet m_kineticsSet;
 	Mesh m_mesh;
@@ -49,6 +52,7 @@ private:
 	double m_relaxationParameter;
 	bool m_isMultiSolver;
 	std::vector<SolverKind> m_solvers;
+	TraceLevel m_logLevel;
 };
 
 #endif

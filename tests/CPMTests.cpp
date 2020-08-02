@@ -337,6 +337,6 @@ TEST_F(MMatrixTest, calcMMatrixTestC4E1)
 	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library);
 	MatrixXd MMatrix =spectrumCode->calcMMatrix(cpm);
 
-	out.getLogger()->debug("MMatrix2");
+	out.print(TraceLevel::DEBUG, "MMatrix2");
     printMatrix(MMatrix, out, TraceLevel::DEBUG);
 }

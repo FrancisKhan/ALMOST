@@ -31,6 +31,7 @@ void Input::getArguments(int argc, char** argv)
 		out.createLogger();
 		std::string levelStr(argv[3]);
 		out.setLevel(levelStr);
+		m_reactor.setLogLevel(out.getLevel());
 	}
 	else
 	{
@@ -42,8 +43,8 @@ void Input::getArguments(int argc, char** argv)
 
 void Input::printData()
 {
-	out.getLogger()->critical("Input file: {}/{}",  out.getInputPath(), out.getInputName());
-	out.getLogger()->critical("Output file: {} \n", out.getOutputName());
+	out.print(TraceLevel::CRITICAL, "Input file: {}/{}",  out.getInputPath(), out.getInputName());
+	out.print(TraceLevel::CRITICAL, "Output file: {} \n", out.getOutputName());
 }
 
 void Input::storeInput()
@@ -52,7 +53,7 @@ void Input::storeInput()
 	inFile.open(m_inputPath);
 	if (!inFile) 
 	{
-		out.getLogger()->critical("Unable to open file: {}", m_inputPath); 
+		out.print(TraceLevel::CRITICAL, "Unable to open file: {}", m_inputPath); 
 		exit(-1);
 	}
 	
@@ -184,7 +185,7 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 
     if(keywordFound == false) 
 	{
-		out.getLogger()->critical("{} is missing from the input!", toSearch);
+		out.print(TraceLevel::CRITICAL, "{} is missing from the input!", toSearch);
 	    exit(-1);
 	}
 
@@ -226,12 +227,12 @@ void Input::setSolvers()
 		}
 		else
 		{
-			out.getLogger()->critical("{} solver kind not recognized!", i);
+			out.print(TraceLevel::CRITICAL, "{} solver kind not recognized!", i);
 	    	exit(-1);
 		}
 	}
 
-    out.getLogger()->critical("Solvers: {}\n", solverStr);
+    out.print(TraceLevel::CRITICAL, "Solvers: {}\n", solverStr);
 	m_solvers = solvers;
 	m_reactor.setSolvers(solvers);
 }
@@ -243,21 +244,21 @@ void Input::setGeometryKind()
    if(geometry == "cylinder") 
 	{
 	   m_mesh.setMeshKind(GeomKind::CYLINDER);
-	   out.getLogger()->critical("Geometry: Cylindrical \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SPHERE);
-	   out.getLogger()->critical("Geometry: Spherical \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SLAB);
-	   out.getLogger()->critical("Geometry: Cartesian \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Cartesian \n");
 	}
 	else
 	{
-	   out.getLogger()->critical("Geometry: {} not recognized!", geometry);
+	   out.print(TraceLevel::CRITICAL, "Geometry: {} not recognized!", geometry);
 	   exit(-1);
 	}
 } 
@@ -266,7 +267,7 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.getLogger()->critical("{}: {} \n", "Input energies", energies);
+	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input energies", energies);
 }
 
 void Input::setAlbedo()
@@ -274,7 +275,7 @@ void Input::setAlbedo()
 	std::string albedo = readOneParameter("albedo");
 	m_reactor.setAlbedo(std::stod(albedo));
     std::string numberString = stringFormat(albedo, "%7.6e");
-	out.getLogger()->critical("{}: {}", "Input albedo", numberString);
+	out.print(TraceLevel::CRITICAL, "{}: {}", "Input albedo", numberString);
 }
 
 void Input::setThermalPower()
@@ -282,7 +283,7 @@ void Input::setThermalPower()
 	std::string power = readOneParameter("thermal_power");
 	m_reactor.setThermalPower(std::stod(power));
     std::string numberString = stringFormat(power, "%7.6e");
-	out.getLogger()->critical("{}: {} \n", "Input thermal power [W]", numberString);
+	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input thermal power [W]", numberString);
 }
 
 void Input::setRelaxationParameter()
@@ -290,7 +291,7 @@ void Input::setRelaxationParameter()
 	std::string param = readOneParameter("relaxation_parameter");
 	m_reactor.setRelaxationParameter(std::stod(param));
     std::string numberString = stringFormat(param, "%7.6e");
-	out.getLogger()->critical("{}: {} \n", "Input relaxation parameter", numberString);
+	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input relaxation parameter", numberString);
 }
 
 void Input::setMesh()
@@ -336,12 +337,12 @@ void Input::setMesh()
 		distanceSum += regionDistance[i];
 	}
 
-	out.getLogger()->critical("Input boundaries [m]:");
+	out.print(TraceLevel::CRITICAL, "Input boundaries [m]:");
 	printVector(boundaries, out, TraceLevel::CRITICAL);
 	m_mesh.setBoundaries(boundaries);
 
     Eigen::VectorXd volumes = m_mesh.getVolumes("m");
-	out.getLogger()->critical("Input volumes [m3]:");
+	out.print(TraceLevel::CRITICAL, "Input volumes [m3]:");
     printVector(volumes, out, TraceLevel::CRITICAL);
 
 	for(size_t i = 1; i < regionNumber.size(); i++)
@@ -354,8 +355,11 @@ void Input::setMesh()
 
 	m_mesh.createMaterials(m_materialMap);
 
-	out.getLogger()->critical("Input meshes:");
+	out.print(TraceLevel::CRITICAL, "Input meshes:");
 	printVector(m_materialMap, out, TraceLevel::CRITICAL);
+
+	out.print(TraceLevel::CRITICAL, "Mesh middle points [m]:");
+    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);
 
 	std::sort(regionMaterial.begin(), regionMaterial.end());
     regionMaterial.erase(std::unique(regionMaterial.begin(), 
@@ -417,7 +421,7 @@ void Input::setMaterialProperties(std::string name)
 			}
 			else
 			{
-				out.getLogger()->critical("{} is not a material property", name);
+				out.print(TraceLevel::CRITICAL, "{} is not a material property", name);
 	    		exit(-1);
 			}
 			
@@ -429,7 +433,7 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 {
 	if(values.size() < 2) 
 	{
-		out.getLogger()->critical("{} has no parameters!", values[0]);
+		out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
 	    exit(-1);
 	}
 	else if(values.size() >= 2 && values.size() < 5) 
@@ -439,7 +443,7 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 	}
 	else
 	{
-		out.getLogger()->critical("{} number of parameters exceeded!", values[0]);
+		out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
 		exit(-1);
 	}
 }
@@ -448,7 +452,7 @@ void Input::setThermalXSDependence(std::vector<std::string> &values, unsigned in
 {
 	if(values.size() < 2) 
 	{
-		out.getLogger()->critical("{} has no parameters!", values[0]);
+		out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
 	    exit(-1);
 	}
 	else if(values.size() >= 2 && values.size() < 5) 
@@ -458,7 +462,7 @@ void Input::setThermalXSDependence(std::vector<std::string> &values, unsigned in
 	}
 	else
 	{
-		out.getLogger()->critical("{} number of parameters exceeded!", values[0]);
+		out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
 		exit(-1);
 	}
 }
@@ -467,7 +471,7 @@ void Input::setXS(std::string name, std::string outputName)
 {
 	VectorXd energyVec = VectorXd::Zero(m_energies);
 
-	out.getLogger()->critical(outputName);
+	out.print(TraceLevel::CRITICAL, outputName);
 
 	for (auto matListItem : m_materialList)
     {
@@ -529,7 +533,7 @@ Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
 		}
 	}
 
-	out.getLogger()->critical(outputName);
+	out.print(TraceLevel::CRITICAL, outputName);
     printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
 
 	return matrix;
@@ -542,7 +546,7 @@ std::string Input::readOneParameter(std::string name)
    
    if(words.size() == 1)
    {
-	   out.getLogger()->critical("{} is missing its parameters!", words[0]);
+	   out.print(TraceLevel::CRITICAL, "{} is missing its parameters!", words[0]);
 	   exit(-1);
    }
    else if(words.size() == 2)
@@ -551,7 +555,7 @@ std::string Input::readOneParameter(std::string name)
    }
    else
    {
-	   out.getLogger()->critical("{}  has too many parameters!", words[0]);
+	   out.print(TraceLevel::CRITICAL, "{}  has too many parameters!", words[0]);
 	   exit(-1);
    }
 
@@ -565,7 +569,7 @@ std::vector<std::string> Input::readManyParameters(std::string name)
    
    if(words.size() == 1)
    {
-	   out.getLogger()->critical("{} is missing its parameters!", words[0]);
+	   out.print(TraceLevel::CRITICAL, "{} is missing its parameters!", words[0]);
 	   exit(-1);
    }
    else
@@ -579,10 +583,10 @@ std::vector<std::string> Input::readManyParameters(std::string name)
 void Input::setKineticsParameters()
 { 
     double alpha = std::stod(readOneParameter("alpha"));
-    out.getLogger()->critical("Alpha [s]: {} \n", stringFormat(alpha, "%7.6e"));
+    out.print(TraceLevel::CRITICAL, "Alpha [s]: {} \n", stringFormat(alpha, "%7.6e"));
 
     double power = std::stod(readOneParameter("power"));
-    out.getLogger()->critical("Initial power [W]: {} \n", stringFormat(alpha, "%7.6e"));
+    out.print(TraceLevel::CRITICAL, "Initial power [W]: {} \n", stringFormat(alpha, "%7.6e"));
 
     std::vector<double> lambda = setManyParameters("lambda", "Input lambdas [1/s]");
     std::vector<double> beta = setManyParameters("beta", "Input betas");
@@ -591,8 +595,8 @@ void Input::setKineticsParameters()
 
 	if (times.size() != reactivities.size()) 
 	{
-		out.getLogger()->critical("times and reactivities must have equal sizes!"); 
-		out.getLogger()->critical("times: {} reativities: {}" , times.size(), reactivities.size());
+		out.print(TraceLevel::CRITICAL, "times and reactivities must have equal sizes!"); 
+		out.print(TraceLevel::CRITICAL, "times: {} reativities: {}" , times.size(), reactivities.size());
 		exit(-1);
 	}
 
@@ -621,7 +625,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		std::transform(values.begin(), values.end(), result.begin(), 
                    [](std::string &i){return std::stod(i);});
 
-		out.getLogger()->critical("{}:", outputName);
+		out.print(TraceLevel::CRITICAL, "{}:", outputName);
 	    printVector(result, out, TraceLevel::CRITICAL);
 		return result;
 	}
@@ -698,7 +702,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		}
 	}
 
-	out.getLogger()->critical("{}:", outputName);
+	out.print(TraceLevel::CRITICAL, "{}:", outputName);
 	printVector(result, out, TraceLevel::CRITICAL);
 
 	return result;
@@ -711,7 +715,7 @@ void Input::setHeatBoundaryConditions()
   
     if(boundaries.size() < 6)
     {
-		out.getLogger()->critical("{} is missing one or more of its 6 parameters!", name);
+		out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 6 parameters!", name);
 		exit(-1);
     }
     else if(boundaries.size() == 6)
@@ -720,7 +724,7 @@ void Input::setHeatBoundaryConditions()
     }
 	else
     {
-		out.getLogger()->critical("{} has more than 6 parameters!", name);
+		out.print(TraceLevel::CRITICAL, "{} has more than 6 parameters!", name);
 		exit(-1);
     }
 }

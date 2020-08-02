@@ -22,9 +22,8 @@ std::pair<Tensor3d, Tensor4d> CylSpectrumCode::calcTracks()
 	          zz(k, j, i) = m_radii(k + 1) - (m_radii(k + 1) - m_radii(k)) * pow(abscissa[i], 2); 
 			  tracks(k, j, i) = sqrt(pow(m_radii(j + 1), 2) - pow(zz(k, j, i), 2));
 			  
-			  out.getLogger()->trace("Track: {:3d} {:3d} {:3d} {:5.4f} {:5.4f}", 
-			  k, j, i, zz(k, j, i), tracks(k, j, i));
-	
+			  out.print(TraceLevel::TRACE, "Track: {:3d} {:3d} {:3d} {:5.4f} {:5.4f}", 
+			  			k, j, i, zz(k, j, i), tracks(k, j, i));
 		  }	  
 	
 	for(int h = 0; h < m_energies; h++)
@@ -41,8 +40,8 @@ std::pair<Tensor3d, Tensor4d> CylSpectrumCode::calcTracks()
 						tau(k, j, i, h) = (tracks(k, j, i) - tracks(k, j - 1, i)) * m_totalXS(h, j) +
 					    tau(k, j - 1, i, h);
 						
-						out.getLogger()->trace("Tau: {:3d} {:3d} {:3d} {:3d} {:5.4f}", 
-						k, j, i, h, tau(k, j, i, h));
+						out.print(TraceLevel::TRACE, "Tau: {:3d} {:3d} {:3d} {:3d} {:5.4f}", 
+								  k, j, i, h, tau(k, j, i, h));
 				}
 					
 			}
@@ -162,7 +161,7 @@ Tensor3d CylSpectrumCode::calcCPs(std::pair<Tensor3d, Tensor4d> &trackData)
         }
 	}
 	
-	out.getLogger()->info("P matrix (vacuum BC)");
+	out.print(TraceLevel::INFO, "P matrix (vacuum BC)");
     printMatrix(gcpm, out, TraceLevel::INFO, "Group");
 
     return gcpm;
@@ -172,12 +171,12 @@ void CylSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 {	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.getLogger()->info("Apply boundary conditions Group {}", h + 1);
+		out.print(TraceLevel::INFO, "Apply boundary conditions Group {}", h + 1);
 		
 		double albedo = m_reactor.getAlbedo();
 		
-		VectorXd Pis   = VectorXd::Zero(m_cells);
-	    VectorXd psi   = VectorXd::Zero(m_cells);
+		VectorXd Pis = VectorXd::Zero(m_cells);
+	    VectorXd psi = VectorXd::Zero(m_cells);
 		
 		Pis.setZero();
 		psi.setZero();
@@ -200,7 +199,7 @@ void CylSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 			Pis(i) = 1.0 - Pis(i);
 			psi(i) = (4.0 * m_volumes(i) / m_surface) * Pis(i);
 			
-			out.getLogger()->info("Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
+			out.print(TraceLevel::INFO, "Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
 		}
 		
 		double Pss = 0.0;
@@ -212,7 +211,7 @@ void CylSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 		
 		Pss = 1.0 - Pss;
 		
-		out.getLogger()->info("Pss [m2]: {:7.6e} \n", Pss);
+		out.print(TraceLevel::INFO, "Pss [cm2]: {:7.6e} \n", Pss);
 		
 		for(int i = 0; i < m_cells; i++)
 		{
@@ -225,7 +224,7 @@ void CylSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 				
 	}	
 	
-	out.getLogger()->info("P matrix (white BC)");
+	out.print(TraceLevel::INFO, "P matrix (white BC)");
     printMatrix(gcpm, out, TraceLevel::INFO, "Group");
 
     for(int h = 0; h < m_energies; h++)

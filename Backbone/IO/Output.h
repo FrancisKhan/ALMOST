@@ -3,8 +3,7 @@
 
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/spdlog.h"
-
-enum TraceLevel {CRITICAL = 0, ERROR, WARN, INFO, DEBUG, TRACE};
+#include "TraceLevel.h"
 
 class Output
 {
@@ -19,6 +18,7 @@ public:
 	void setInputPath(std::string inputPath);
 	void setOutputPath(std::string ioutputPathName);
 	void setLevel(std::string level);
+	TraceLevel getLevel() {return m_logLevel;}
 	std::string getInputPath() {return m_inputPath;}
 	std::string getInputName() {return m_inputName;}
 	std::string getOutputName() {return m_outputName;}
@@ -26,7 +26,13 @@ public:
 	void print(TraceLevel level, std::string str);
 	void print(TraceLevel level, std::string str, int input);
 	void print(TraceLevel level, std::string str, double input);
+	void print(TraceLevel level, std::string str, std::string input);
 	void print(TraceLevel level, std::string str, int input1, double input2);
+	void print(TraceLevel level, std::string str, std::string input1, std::string input2);
+	void print(TraceLevel level, std::string str, int input1, double input2, double input3);
+	void print(TraceLevel level, std::string str, int input1, int input2, int input3, double input4);
+	void print(TraceLevel level, std::string str, int input1, int input2, int input3, int input4, double input5);
+	void print(TraceLevel level, std::string str, int input1, int input2, int input3, double input4, double input5);
 
 private: 
 	void removeOldOutputFile();
@@ -37,6 +43,7 @@ private:
 	std::string m_inputPath;
 	std::string m_inputName;
 	std::string m_outputFullName;
+	TraceLevel m_logLevel;
 };
 
 extern Output out;

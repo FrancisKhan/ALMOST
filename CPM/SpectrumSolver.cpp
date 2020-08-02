@@ -2,8 +2,6 @@
 #include "SpectrumCodeFactory.h"
 #include "SpectrumSolver.h"
 
-#include <iostream>
-
 using namespace Eigen;
 using namespace Numerics;
 using namespace PrintFuncs;
@@ -32,6 +30,22 @@ void SpectrumSolver::relaxResults(double par)
 
     m_mesh.setHeatSources(relaxedPowerDensities);
 
-    out.getLogger()->info("Relaxed power densities [W/m3]:");
+	out.print(TraceLevel::INFO, "Relaxed power densities [W/m3]:");
     printVector(m_mesh.getHeatSources(), out, TraceLevel::INFO);
+}
+
+void SpectrumSolver::printResults(TraceLevel level)
+{
+    out.print(level, "K-factor:  {:7.6e} \n", m_reactor.getKFactor());
+	out.print(level, "Neutron Flux [1/(cm2*s)]:");
+
+	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
+	
+	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources().cwiseProduct(m_reactor.getMesh().getVolumes("cm"));
+
+	if (powerDistribution.minCoeff() > 0.0)
+	{
+		out.print(level, "Thermal Power [W]:");
+		printVector(powerDistribution, out, level);
+	}
 }

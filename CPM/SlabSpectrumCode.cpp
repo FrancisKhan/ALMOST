@@ -48,8 +48,7 @@ std::pair<Tensor3d, Tensor4d> SlabSpectrumCode::calcTracks()
 	        if (i != j) tau(i, j, 0, h) -= delta[j] * m_totalXS(h, j) +  delta[i] * m_totalXS(h, i);
 			if (tau(i, j, 0, h) < 0.0) tau(i, j, 0, h) = 0.0;
 
-			out.getLogger()->trace("Track: {:3d} {:3d} {:3d} {:5.4f}", h, i, j, tau(i, j,  0, h));
-	
+			out.print(TraceLevel::TRACE, "Tau: {:3d} {:3d} {:3d} {:5.4f}", h, i, j, tau(i, j,  0, h));
 		  }
   
     std::pair<Tensor3d, Tensor4d> trackData = std::make_pair(zz, tau);
@@ -91,9 +90,8 @@ Tensor3d SlabSpectrumCode::calcCPs(std::pair<Tensor3d, Tensor4d> &trackData)
 		gcpm(i, j, h) = P(i, j);
 	}
 
-	out.getLogger()->info("P matrix (vacuum BC)");
+	out.print(TraceLevel::INFO, "P matrix (vacuum BC)");
     printMatrix(gcpm, out, TraceLevel::INFO, "Group");
-
 	return gcpm;
 }
 
@@ -101,7 +99,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 {	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.getLogger()->info("Apply boundary conditions Group {}", h + 1);
+		out.print(TraceLevel::INFO, "Apply boundary conditions Group {}", h + 1);
 		
 		double albedo = m_reactor.getAlbedo();
 		
@@ -129,7 +127,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 			Pis(i) = 1.0 - Pis(i);
 			psi(i) = (4.0 * m_volumes(i) / m_surface) * Pis(i);
 			
-			out.getLogger()->info("Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
+			out.print(TraceLevel::INFO, "Cell n: {} Pis: {:7.6e}  psi [cm]: {:7.6e}", i, Pis(i), psi(i));
 		}
 		
 		double Pss = 0.0;
@@ -141,7 +139,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 		
 		Pss = 1.0 - Pss;
 		
-		out.getLogger()->info("Pss [cm2]: {:7.6e} \n", Pss);
+		out.print(TraceLevel::INFO, "Pss [cm2]: {:7.6e} \n", Pss);
 		
 		for(int i = 0; i < m_cells; i++)
 		{
@@ -154,7 +152,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 				
 	}	
 	
-	out.getLogger()->info("P matrix (white BC)");
+	out.print(TraceLevel::INFO, "P matrix (white BC)");
     printMatrix(gcpm, out, TraceLevel::INFO, "Group");
 
     for(int h = 0; h < m_energies; h++)

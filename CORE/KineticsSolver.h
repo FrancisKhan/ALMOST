@@ -16,6 +16,8 @@ public:
 		{return -1.0;}
 
 	void relaxResults(double param) override {}
+
+	void printResults(TraceLevel level) override {} 
 	
 private:
 	Reactor &m_reactor;

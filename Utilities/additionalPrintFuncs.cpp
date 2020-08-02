@@ -74,37 +74,64 @@ namespace PrintFuncs
 		else {}
 	}
 
-	void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level)
+	void printMatrix(Eigen::MatrixXd A, Output output, TraceLevel level, bool asVector)
 	{
 		if(output.getLogger() == nullptr) 
 		{
 			std::cout << "PrintMatrix::MatrixXd nullptr!" << std::endl;
 			return;
 		}
-	
-	    for(int i = 0; i < A.rows(); i++)
-	    {
-			std::string msg;
+
+		if(asVector)
+		{
+			for(int i = 0; i < A.rows(); i++)
+	    	{
+		    	for(int j = 0; j < A.cols(); j++)
+		    	{
+					std::string msg = stringFormat(A(i, j), "%7.6e");
 		
-		    for(int j = 0; j < A.cols(); j++)
-		    {
-				msg += stringFormat(A(i, j), "%7.6e") + " ";
-		    }
+		    		if (level == TraceLevel::CRITICAL)
+			    		output.getLogger()->critical(msg);
+		    		else if (level == TraceLevel::ERROR)
+						output.getLogger()->error(msg);
+					else if (level == TraceLevel::WARN)
+						output.getLogger()->warn(msg);
+					else if (level == TraceLevel::INFO)
+						output.getLogger()->info(msg);
+					else if(level == TraceLevel::DEBUG)
+						output.getLogger()->debug(msg);
+					else if(level == TraceLevel::TRACE)
+						output.getLogger()->trace(msg);
+					else {}
+				}
+	    	}	
+		}
+		else
+		{
+			for(int i = 0; i < A.rows(); i++)
+	    	{
+				std::string msg;
 		
-		    if (level == TraceLevel::CRITICAL)
-			    output.getLogger()->critical(msg);
-		    else if (level == TraceLevel::ERROR)
-				output.getLogger()->error(msg);
-			else if (level == TraceLevel::WARN)
-				output.getLogger()->warn(msg);
-			else if (level == TraceLevel::INFO)
-				output.getLogger()->info(msg);
-			else if(level == TraceLevel::DEBUG)
-				output.getLogger()->debug(msg);
-			else if(level == TraceLevel::TRACE)
-				output.getLogger()->trace(msg);
-			else {}
-	    }	
+		    	for(int j = 0; j < A.cols(); j++)
+		    	{
+					msg += stringFormat(A(i, j), "%7.6e") + " ";
+		    	}
+		
+		    	if (level == TraceLevel::CRITICAL)
+			    	output.getLogger()->critical(msg);
+		    	else if (level == TraceLevel::ERROR)
+					output.getLogger()->error(msg);
+				else if (level == TraceLevel::WARN)
+					output.getLogger()->warn(msg);
+				else if (level == TraceLevel::INFO)
+					output.getLogger()->info(msg);
+				else if(level == TraceLevel::DEBUG)
+					output.getLogger()->debug(msg);
+				else if(level == TraceLevel::TRACE)
+					output.getLogger()->trace(msg);
+				else {}
+	    	}	
+		}
 
 		if (level == TraceLevel::CRITICAL)
 			output.getLogger()->critical(" ");	

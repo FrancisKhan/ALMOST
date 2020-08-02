@@ -23,7 +23,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 	
 	for(int h = 0; h < m_energies; h++)
 	{
-		out.print(TraceLevel::CRITICAL, "Particles Balance Check for Group: {}", h + 1);
+		out.print(TraceLevel::INFO, "Particles Balance Check for Group: {}", h + 1);
 
 		for(int i = 0; i < m_cells; i++)
         {
@@ -33,7 +33,7 @@ void BaseSpectrumCode::particleBalanceCheck(Tensor3d &gcpm)
 				check(i) += gcpm(i, j, h) * m_totalXS(h, j);
 			}
 			
-			out.print(TraceLevel::CRITICAL, "check: {} {:7.6e}", i + 1, check(i));
+			out.print(TraceLevel::INFO, "check: {} {:7.6e}", i + 1, check(i));
 		}
 	}
 }
@@ -88,7 +88,7 @@ MatrixXd BaseSpectrumCode::calcMMatrix(MatrixXd &cpm)
 	   MMatrix(i, i) += 1.0;
     }
    
-	out.print(TraceLevel::INFO, "MMatrix");
+	out.print(TraceLevel::INFO, "\nMMatrix");
     printMatrix(MMatrix, out, TraceLevel::INFO);
 
 	return MMatrix;
@@ -151,7 +151,7 @@ void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix,
 	
 	if(Mmatrix.size() != Fmatrix.size())
 	{
-		out.getLogger()->critical(" MMatrix has a different number of elements than FMatrix!");
+		out.print(TraceLevel::CRITICAL, " MMatrix has a different number of elements than FMatrix!");
 		exit(-1);
 	}
 	
@@ -205,20 +205,4 @@ void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix,
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
-	
-	out.print(TraceLevel::CRITICAL, "K-factor:  {:7.6e} \n", kFactor);
-	out.print(TraceLevel::DEBUG, "Number of internal neutronic iterations: {} \n", h + 1);
-	out.print(TraceLevel::CRITICAL, "Neutron Flux [1/(cm2*s)]:");
-	printVector(neutronFlux, out, TraceLevel::CRITICAL);
-
-	if (powerDistribution.minCoeff() > 0.0)
-	{
-		out.print(TraceLevel::CRITICAL, "Thermal Power [W]:");
-		printVector(powerDistribution, out, TraceLevel::CRITICAL);
-	}
-}
-
-TraceLevel BaseSpectrumCode::setSolverLogLevel(TraceLevel level)
-{
-
 }

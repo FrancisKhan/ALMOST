@@ -25,6 +25,8 @@ public:
 	
 	static std::shared_ptr<AbstractSolver> getSolver(SolverKind solver, 
 	       Reactor &reactor, Library &library);
+	
+	virtual void printResults(TraceLevel level) = 0; 
 
 private:
 	Reactor m_reactor;

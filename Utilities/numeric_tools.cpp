@@ -35,7 +35,7 @@ namespace Numerics
 		{
 			if(matrix(i, i) < (rowSum(i) - matrix(i, i))) // comparing two floating numbers!!
 			{
-				out.getLogger()->warn("The convergence is not guaranteed, the matrix is not strictly diagonally dominant");
+				out.print(TraceLevel::CRITICAL, "The convergence is not guaranteed, the matrix is not strictly diagonally dominant");
 			}
 		}
 	}

@@ -35,7 +35,6 @@ public:
 	
 protected:
 	virtual Eigen::VectorXd calcFissionPowerDistribution() = 0;
-	virtual TraceLevel setSolverLogLevel(TraceLevel level);
 	const static double abscissa[8];
 	const static double weights[8];
 

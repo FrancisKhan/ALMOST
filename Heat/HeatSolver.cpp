@@ -24,7 +24,7 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
         newTemps = m_mesh.getTemperatures("C");
 
-        out.getLogger()->debug("Temperatures [C]:");
+        out.print(TraceLevel::DEBUG, "within solver temperatures [C]:");
         printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
 
         // max difference between new and old temperatures
@@ -40,12 +40,6 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
         oldTemps = newTemps;
     }
-
-    out.getLogger()->critical("Mesh middle points [m]:");
-    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);
-
-    out.getLogger()->critical("Final temperatures [C]:");
-    printVector(m_mesh.getTemperatures("C"), out, TraceLevel::CRITICAL);
 }
 
 void HeatSolver::relaxResults(double param)
@@ -57,6 +51,12 @@ void HeatSolver::relaxResults(double param)
 
     m_mesh.setTemperatures(relaxedTemps);
 
-    out.getLogger()->info("Relaxed temperatures [C]:");
+    out.print(TraceLevel::INFO, "Relaxed temperatures [C]:");
     printVector(m_mesh.getTemperatures("C"), out, TraceLevel::INFO);
+}
+
+void HeatSolver::printResults(TraceLevel level)
+{
+    out.print(level, "Final temperatures [C]:");
+    printVector(m_mesh.getTemperatures("C"), out, level);
 }
