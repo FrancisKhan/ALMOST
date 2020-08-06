@@ -1,9 +1,12 @@
 % Steady-state, heat-neutronics coupled calculation
+% One neutron energy group
+% Reactor thermal power = 10 MW
+% Constant thermal conductivity
 % Boundary conditions:
 % T(0) = T1
 % T(L) = T2
 
-solvers heat neutronics
+solvers neutronics heat
 
 geometry  slab
 albedo    0.0
@@ -20,5 +23,5 @@ chi(1) 1.0
 fission(1) 0.081600
 total(1) 0.32640
 scattMatrix(1, 1) 0.225216
+thermal_xs_dependence(1) 1.0 0.001
 thermal_conductivity 22.0
-thermal_xs_dependence 1.0

@@ -48,8 +48,6 @@ public:
 
     void setScattMatrices(Numerics::Tensor3d &scattMatrices);
 
-	void setThermalXSDependenceLaw(unsigned i, std::vector<std::string> &strVec);
-
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();
 	Eigen::MatrixXd getFissionXSs();

@@ -102,17 +102,19 @@ void Input::readData()
 		}
 		else if(i == SolverKind::HEAT)
 		{
-			setMaterials(i);
-			setHeatBoundaryConditions();
-
 			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
-			{
+			{	
+				setEnergies();
 				setThermalPower();
 				setRelaxationParameter();
 			}	
 			else
+			{
 				setHeatSources();
+			}
 
+			setMaterials(i);
+			setHeatBoundaryConditions();
 			setTemperatures();
 		}
 	}
@@ -370,18 +372,17 @@ void Input::setMesh()
 
 void Input::setMaterials(SolverKind solver)
 { 
-   	m_cells = m_mesh.getCellsNumber();
+   	m_cells    = m_mesh.getCellsNumber();
+	m_energies = m_mesh.getEnergyGroupsNumber();
 
 	if(solver == SolverKind::NEUTRONICS)
 	{
-		m_energies = m_mesh.getEnergyGroupsNumber();
+		setXS("ni", "\nInput ni:");
+   		setXS("chi", "\nInput chi:");
+   		setXS("fission", "\nInput fission XS [1/cm]:");
+   		setXS("total", "\nInput total XS [1/cm]:");	
 
-		setXS("ni", "\nInput ni");
-   		setXS("chi", "\nInput chi");
-   		setXS("fission", "\nInput fission XS [1/cm]");
-   		setXS("total", "\nInput total XS [1/cm]");	
-
-		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]");
+		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 		m_mesh.setScattMatrices(scattMatrices);
 	}
    	else if(solver == SolverKind::HEAT)
@@ -390,7 +391,7 @@ void Input::setMaterials(SolverKind solver)
 
 		if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
 		{
-			setMaterialProperties("thermal_xs_dependence");
+			setXSThermalDependence("thermal_xs_dependence", "\nInput thermal XS dependence:");	
 		}
    	}
 	else {;}
@@ -399,6 +400,16 @@ void Input::setMaterials(SolverKind solver)
 
 void Input::setMaterialProperties(std::string name)
 {
+	if(name == "thermal_conductivity")
+	{
+		out.print(TraceLevel::CRITICAL, "Input thermal conductivity [W/(m*K)]:");
+	}
+	else
+	{
+		out.print(TraceLevel::CRITICAL, "{} is not a material property", name);
+   		exit(-1);
+	}
+
 	for (auto matListItem : m_materialList)
     {
         std::string matStr = "material";
@@ -414,10 +425,6 @@ void Input::setMaterialProperties(std::string name)
 			if(name == "thermal_conductivity")
 			{
 				setThermalConductivity(values, m);
-			}
-			else if(name == "thermal_xs_dependence")
-			{
-				setThermalXSDependence(values, m);
 			}
 			else
 			{
@@ -440,6 +447,7 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 	{
 		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
 		m_mesh.setThermalConductivityLaw(index, numberVec);
+		printVector(numberVec, out, TraceLevel::CRITICAL, false);
 	}
 	else
 	{
@@ -448,22 +456,31 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 	}
 }
 
-void Input::setThermalXSDependence(std::vector<std::string> &values, unsigned index)
+void Input::setXSThermalDependence(std::string name, std::string outputName)
 {
-	if(values.size() < 2) 
-	{
-		out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
-	    exit(-1);
-	}
-	else if(values.size() >= 2 && values.size() < 5) 
-	{
-		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
-		m_mesh.setThermalXSDependenceLaw(index, numberVec);
-	}
-	else
-	{
-		out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
-		exit(-1);
+	out.print(TraceLevel::CRITICAL, outputName);
+
+	for (auto matListItem : m_materialList)
+    {
+        std::string matStr = "material";
+	    readOneParameter(matStr + " " + matListItem);
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+		for(unsigned m = 0; m < m_cells; m++)
+    	{
+			if (m_materialMap[m] != matListItem) continue;
+
+			for (unsigned i = 1; i <= m_energies; i++)
+   			{
+				std::string str = name + "(" + std::to_string(i) + ")";
+				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+				std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
+				m_mesh.getMaterial(m)->setThermalXSDependenceLaws(numberVec);
+				printVector(numberVec, out, TraceLevel::CRITICAL, false);
+			}
+			
+			out.print(TraceLevel::CRITICAL, " ");
+		}
 	}
 }
 
@@ -503,7 +520,6 @@ void Input::setXS(std::string name, std::string outputName)
 			printVector(energyVec, out, TraceLevel::CRITICAL);
 		}
 	}
-
 }
 
 Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
@@ -625,7 +641,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		std::transform(values.begin(), values.end(), result.begin(), 
                    [](std::string &i){return std::stod(i);});
 
-		out.print(TraceLevel::CRITICAL, "{}:", outputName);
+		out.print(TraceLevel::CRITICAL, "\n{}:", outputName);
 	    printVector(result, out, TraceLevel::CRITICAL);
 		return result;
 	}
@@ -702,7 +718,7 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 		}
 	}
 
-	out.print(TraceLevel::CRITICAL, "{}:", outputName);
+	out.print(TraceLevel::CRITICAL, "\n{}:", outputName);
 	printVector(result, out, TraceLevel::CRITICAL);
 
 	return result;

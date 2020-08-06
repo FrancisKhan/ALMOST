@@ -190,6 +190,13 @@ void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix,
 		kFactor1     = kFactor2;
 		neutronFlux1 = neutronFlux2;
 	}
+
+	if(h > max_iter_number)
+	{
+		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", h + 1);
+		out.print(TraceLevel::CRITICAL, "The neutronic calculation did not converge!");
+		exit(-1);
+	}
 	
 	VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
 	double kFactor = kFactor2;

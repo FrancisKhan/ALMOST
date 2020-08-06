@@ -17,7 +17,7 @@ public:
 
 	virtual ~BaseCalculation(){}
 
-	virtual void solve(int max_iter_number = 20, double accuracy = 0.000001) = 0;
+	virtual void solve(int max_iter_number = 30, double accuracy = 0.000001) = 0;
 
 protected:
     virtual double getDifference(std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> &New,

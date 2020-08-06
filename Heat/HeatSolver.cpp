@@ -16,7 +16,9 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
     VectorXd oldTemps = VectorXd::Ones(m_mesh.getCellsNumber());
     VectorXd newTemps = VectorXd::Zero(m_mesh.getCellsNumber());
 
-    for(int i = 0; i < max_iter_number; i++)
+    int i;
+    
+    for(i = 0; i < max_iter_number; i++)
     {
         auto [T, source]   = heatCode->setupSystem();	
         auto [Tb, sourceb] = heatCode->applyBoundaryConditions(T, source);
@@ -40,6 +42,13 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
         oldTemps = newTemps;
     }
+
+    if(i > max_iter_number)
+	{
+		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", i + 1);
+		out.print(TraceLevel::CRITICAL, "The heat calculation did not converge!");
+		exit(-1);
+	}
 }
 
 void HeatSolver::relaxResults(double param)

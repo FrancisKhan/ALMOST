@@ -43,7 +43,7 @@ void SpectrumSolver::printResults(TraceLevel level)
 	
 	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources().cwiseProduct(m_reactor.getMesh().getVolumes("cm"));
 
-	if (powerDistribution.minCoeff() > 0.0)
+	if (powerDistribution.maxCoeff() > 0.0)
 	{
 		out.print(level, "Thermal Power [W]:");
 		printVector(powerDistribution, out, level);

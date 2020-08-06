@@ -46,7 +46,14 @@ void DoubleCalculation::solve(int max_iter_number, double accuracy)
 		firstParamOld  = firstParam;
 		secondParamOld = secondParam;
 	}
- 
+	
+	if(iter > max_iter_number)
+	{
+		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", iter + 1);
+		out.print(TraceLevel::CRITICAL, "The coupled calculation did not converge!");
+		exit(-1);
+	}
+
 	if(m_reactor.getLogLevel() == TraceLevel::CRITICAL)
 	{
 		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", iter + 1);

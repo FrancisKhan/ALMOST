@@ -26,7 +26,7 @@ public:
 	Eigen::VectorXd getNeutronFlux() {return m_neutronFlux;}
 
 	// Neutron cross section
-	void setThermalXSDependenceLaw(std::vector<std::string> &vec);
+	void setThermalXSDependenceLaws(std::vector<std::string> &vec);
 	void setNi(const Eigen::VectorXd &ni) {m_ni = ni;}
 	void setChi(const Eigen::VectorXd &chi)  {m_chi = chi;}
 	void setFissionXS(const Eigen::VectorXd &fission)  {m_fissionXS = fission;}
@@ -38,7 +38,7 @@ public:
 	Eigen::VectorXd getNi() {return m_ni;}
 	Eigen::VectorXd getChi() {return m_chi;}
 	Eigen::VectorXd getFissionXS() {return m_fissionXS;}
-	Eigen::VectorXd getTotalXS() {return m_totalXS;}
+	Eigen::VectorXd getTotalXS();
 	Eigen::MatrixXd getScattMatrix() {return m_scattMatrix;}
 
 private:
@@ -56,8 +56,7 @@ private:
     Eigen::VectorXd m_neutronFlux; 
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
-	std::shared_ptr<PolynomialFunction> m_thermalXSDependenceLaw;
-
+	std::vector< std::shared_ptr<PolynomialFunction> > m_thermalXSDependenceLaws;
 };
 
 #endif

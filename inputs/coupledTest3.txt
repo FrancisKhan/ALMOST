@@ -1,0 +1,35 @@
+% Steady-state, heat-neutronics coupled calculation
+% Two neutron energy groups
+% Reactor thermal power = 10 MW
+% Constant thermal conductivity
+% Boundary conditions:
+% T(0) = T1
+% T(L) = T2
+
+solvers heat neutronics
+
+geometry  slab
+albedo    0.0
+energies  2
+mesh 10 0.0601275 M1
+temperatures 30.0 10 
+heat_boundary_conditions 1.0 0.0 30.0 1.0 0.0 30.0
+thermal_power 10000000.0
+relaxation_parameter 0.6
+
+material M1
+ni(1) 2.70
+ni(2) 2.50
+chi(1) 0.575
+chi(2) 0.425
+fission(1) 0.06192
+fission(2) 0.06912
+total(1) 0.2160
+total(2) 0.3456
+scattMatrix(1, 1) 0.078240
+scattMatrix(1, 2) 0.0720
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 0.26304
+thermal_xs_dependence(1) 1.0 0.001
+thermal_xs_dependence(2) 1.0 0.0005
+thermal_conductivity 22.0

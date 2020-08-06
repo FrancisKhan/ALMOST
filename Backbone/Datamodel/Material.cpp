@@ -20,13 +20,13 @@ double Material::getThermalConductivity()
     return m_thermalConductivityLaw->calc(m_temperature);
 }
 
-void Material::setThermalXSDependenceLaw(std::vector<std::string> &strVec)
+void Material::setThermalXSDependenceLaws(std::vector<std::string> &strVec)
 {
     std::vector<double> dVec(strVec.size(), 0.0);
     std::transform(strVec.begin(), strVec.end(), dVec.begin(), 
     [](std::string &i){return std::stod(i);});
 
-    m_thermalXSDependenceLaw = std::make_shared<PolynomialFunction>(dVec);
+    m_thermalXSDependenceLaws.push_back(std::make_shared<PolynomialFunction>(dVec));
 }
 
 void Material::setScattMatrix(const Numerics::Tensor2d &scattMatrix) 
@@ -40,4 +40,17 @@ void Material::setScattMatrix(const Numerics::Tensor2d &scattMatrix)
             m_scattMatrix(i, j) = scattMatrix(i, j);
         }
     }
+}
+
+VectorXd Material::getTotalXS()
+{
+    VectorXd results = m_totalXS;
+
+    if(m_thermalXSDependenceLaws.size() > 0)
+    {
+        for(int i = 0; i < m_totalXS.size(); i++)
+            results(i) = m_totalXS(i) * m_thermalXSDependenceLaws[i]->calc(m_temperature);
+    }
+
+    return results;
 }

@@ -41,7 +41,7 @@ private:
 	void setHeatBoundaryConditions();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
-	void setThermalXSDependence(std::vector<std::string> &values, unsigned index);
+	// void setThermalXSDependence(std::vector<std::string> &values, unsigned index);
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);
@@ -51,6 +51,7 @@ private:
 
     void setXS(std::string name, std::string outputName);
 	Numerics::Tensor3d setMatrixXS(std::string name, std::string outputName);
+	void setXSThermalDependence(std::string name, std::string outputName);
 
 	void setTemperatures();
 	void setHeatSources();

@@ -167,11 +167,6 @@ void Mesh::setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVe
     m_materials[i]->setThermalConductivityLaw(strVec);
 }
 
-void Mesh::setThermalXSDependenceLaw(unsigned i, std::vector<std::string> &strVec)
-{
-    m_materials[i]->setThermalXSDependenceLaw(strVec);
-}
-
 Eigen::VectorXd Mesh::getThermalConductivities()
 {
 	VectorXd result = VectorXd::Zero(m_meshNumber);
