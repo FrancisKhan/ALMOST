@@ -3,7 +3,6 @@
 #include "SpectrumSolver.h"
 
 using namespace Eigen;
-using namespace Numerics;
 using namespace PrintFuncs;
 
 void SpectrumSolver::solve(int max_iter_number, double accuracy)
@@ -11,8 +10,8 @@ void SpectrumSolver::solve(int max_iter_number, double accuracy)
 	 m_oldPowerDensities = m_mesh.getHeatSources();
 
 	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(m_reactor, m_library);
-	std::pair<Tensor3d, Tensor4d> trackData = spectrumCode->calcTracks();
-	Tensor3d gcpm = spectrumCode->calcCPs(trackData);
+	std::pair<Numerics::Tensor3d, Numerics::Tensor4d> trackData = spectrumCode->calcTracks();
+	Numerics::Tensor3d gcpm = spectrumCode->calcCPs(trackData);
 	spectrumCode->applyBoundaryConditions(gcpm);
 	spectrumCode->particleBalanceCheck(gcpm);
 	MatrixXd cpm = spectrumCode->calcCPMMatrix(gcpm);

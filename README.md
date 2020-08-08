@@ -12,7 +12,7 @@ Download and compilation:
 
 git clone https://github.com/FrancisKhan/ALMOST.git \
 cd ALMOST\
-cmake .\
+cmake -DCMAKE_BUILD_TYPE=Release . \
 make
 
 

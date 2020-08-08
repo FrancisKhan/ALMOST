@@ -123,9 +123,15 @@ std::vector<double> getVector(std::string keyword)
     std::string getCurrentWorkingDir() 
     {
 	    char buff[FILENAME_MAX];
-	    getcwd(buff, FILENAME_MAX);
-	    std::string current_working_dir(buff);
-	    return current_working_dir;
+        if(getcwd(buff, FILENAME_MAX) != nullptr)
+        {
+            std::string current_working_dir(buff);
+	        return current_working_dir;
+        }
+        else
+        {
+            return std::string("");
+        }
     }
   
     // This method is needed because Visual Studio Code runs the tests from 

@@ -18,5 +18,5 @@ script:
   - export CXX=g++-7
   - cmake --version
   - cmake CMakeLists.txt
-  - cmake  --build .
+  - cmake -DCMAKE_BUILD_TYPE=Release .
   - ctest -VV
