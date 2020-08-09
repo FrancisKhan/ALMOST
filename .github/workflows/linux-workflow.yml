@@ -25,3 +25,11 @@ jobs:
       with:
         name: build-output
         path: build-output.txt
+        
+    - name: Test Almost
+      run: ctest -VV -O test-output.txt
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: test-output
+        path: test-output.txt
