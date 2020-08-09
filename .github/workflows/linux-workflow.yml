@@ -21,7 +21,7 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=Release .
         make 2>&1 | tee build-output.txt
     
-    - uses: action/upload-artifact@v2
+    - uses: actions/upload-artifact@v2
       with:
         name: build-output
         path: build-output.txt
