@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - name: Install dependencies
+      run: sudo apt-get install -y valgrind
+           
     - name: Checkout Almost Repository
       uses: actions/checkout@v2
       with:
