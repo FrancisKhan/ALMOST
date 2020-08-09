@@ -1,0 +1,27 @@
+name: CI-Linux
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout Almost Repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Compile Almost
+      run: |
+        cmake -DCMAKE_BUILD_TYPE=Release .
+        make 2>&1 | tee build-output.txt
+    
+    - uses: action/upload-artifact@v1
+      with:
+        name: build-output
+        path:  build-output.txt
