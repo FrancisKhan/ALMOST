@@ -29,10 +29,10 @@ public:
     {
         const std::string prePath = getPrePath();
 
-        const std::string finalStr = m_linuxCommand + " " 
-        + prePath + m_codePath + " " +
-        prePath + m_inputPath + " " + prePath +
-        m_outputPath + " " + m_traceLevel;
+        const std::string finalStr = m_linuxCommand + std::string(" ") 
+        + prePath + m_codePath + std::string(" ") +
+        prePath + m_inputPath + std::string(" ") + prePath +
+        m_outputPath + std::string(" ") + m_traceLevel;
 
         int result = system(finalStr.c_str());
 
@@ -49,7 +49,7 @@ public:
         return result;
     }
 
-    void readOutput(std:: string filename)
+    void readOutput(std::string filename)
     {
         std::ifstream inFile(filename);
 
@@ -60,7 +60,7 @@ public:
 	    }
 
         std::string line; 
-        while (std::getline(inFile, line))
+        while(std::getline(inFile, line))
         {
             m_outputLines.push_back(line);	
         }
@@ -135,7 +135,7 @@ std::vector<double> getVector(std::string keyword)
     }
   
     // This method is needed because Visual Studio Code runs the tests from 
-    // the ALMOST folder, while make or ctest run from from the tests folder.
+    // the ALMOST folder, while make or ctest runs from the tests folder.
     // Absolute path seem not to work with WLS
     std::string getPrePath() 
     {
@@ -143,20 +143,20 @@ std::vector<double> getVector(std::string keyword)
 
         if(path.substr(path.size() -5, path.size()) == "tests")
         {
-            return "./../";
+            return std::string("./../");
         }
         else
         {
-            return "./";
+            return std::string("./");
         }
     }
 
 private:
-    const std::string &m_linuxCommand;
-    const std::string &m_codePath; 
-    const std::string &m_inputPath; 
-    const std::string &m_outputPath; 
-    const std::string &m_traceLevel;
+    const std::string m_linuxCommand;
+    const std::string m_codePath; 
+    const std::string m_inputPath; 
+    const std::string m_outputPath; 
+    const std::string m_traceLevel;
     std::vector<std::string> m_outputLines;
 };
 
