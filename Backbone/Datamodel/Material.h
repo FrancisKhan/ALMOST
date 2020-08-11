@@ -12,7 +12,7 @@ class Material
 {
 public:
 	Material(const std::string& name) : 
-	m_name(name), m_temperature(0.0) {}
+	m_name(name), m_temperature(0.0), m_heatSource(0.0) {}
 	std::string getName() {return m_name;}
 	void setTemperature(double T) {m_temperature = T;}
 	double getTemperature() {return m_temperature;}
