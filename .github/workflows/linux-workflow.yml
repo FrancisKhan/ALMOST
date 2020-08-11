@@ -35,8 +35,8 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: test1
-        path: outputs/Out_coupledTest1.txt
+        name: test-output-failure
+        path: test-output.txt
     
     - uses: actions/upload-artifact@v2
       with:
