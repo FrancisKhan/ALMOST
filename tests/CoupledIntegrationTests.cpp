@@ -13,7 +13,7 @@ TEST_F(CoupledIntegrationTests, coupledTest1)
   const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/coupledTest1.txt";
   const std::string outputPath = "outputs/Out_coupledTest1.txt";
-  const std::string traceLevel = "CRITICAL";
+  const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.444236e-01;
 
