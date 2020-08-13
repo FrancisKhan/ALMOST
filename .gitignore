@@ -8,6 +8,9 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages
 _deps
 
 # Prerequisites
@@ -42,6 +45,9 @@ _deps
 *.exe
 *.out
 *.app
+
+# Installers
+*.deb
 
 ~$*
 

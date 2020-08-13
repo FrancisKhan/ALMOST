@@ -6,3 +6,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 target_link_libraries(almost PRIVATE utilities_library backbone_library cpm_library core_library heat_library)
+
+install(TARGETS almost
+    DESTINATION "/usr/bin/"
+)
+
+SET(CPACK_GENERATOR "DEB")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Francesco Tantillo")
+SET(CPACK_PACKAGE_DESCRIPTION "Advanced Lightweight Multi-physics Object-oriented Simulation Tool")
+#SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "It's a service menu for dolphin that allow you to open folders skipping no-text files")
+SET(CPACK_PACKAGE_CONTACT "tntfnc3@gmail.com")
+SET(CPACK_PACKAGE_VERSION_MAJOR "1")
+SET(CPACK_PACKAGE_VERSION_MINOR "0")
+SET(CPACK_PACKAGE_VERSION_PATCH "0")
+SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+SET(CPACK_DEBIAN_ARCHITECTURE "amd64")
+INCLUDE(CPack)
