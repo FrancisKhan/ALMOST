@@ -1,13 +1,18 @@
 #ifndef NUMERIC_TOOLS_H
 #define NUMERIC_TOOLS_H
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+#include <cmath>
+
 #include "Output.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <Eigen/Dense>
 #include <functional>
 #include <exception>
-#include <cmath>
+
 #include <limits>
 #include <vector>
 

@@ -22,7 +22,7 @@ namespace PrintFuncs
 	    {
 			if (level == TraceLevel::CRITICAL)
 				output.getLogger()->critical(finStr, h + 1);	
-			else if (level == TraceLevel::ERROR)
+			else if (level == TraceLevel::ERR)
 				output.getLogger()->error(finStr, h + 1);
 			else if (level == TraceLevel::WARN)
 				output.getLogger()->warn(finStr, h + 1);
@@ -45,7 +45,7 @@ namespace PrintFuncs
 		
 				if (level == TraceLevel::CRITICAL)
 					output.getLogger()->critical(msg);
-				else if (level == TraceLevel::ERROR)
+				else if (level == TraceLevel::ERR)
 					output.getLogger()->error(msg);
 				else if (level == TraceLevel::WARN)
 					output.getLogger()->warn(msg);
@@ -61,7 +61,7 @@ namespace PrintFuncs
 
 		if (level == TraceLevel::CRITICAL)
 			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERROR)
+		else if (level == TraceLevel::ERR)
 			output.getLogger()->error(" ");
 		else if (level == TraceLevel::WARN)
 			output.getLogger()->warn(" ");
@@ -92,7 +92,7 @@ namespace PrintFuncs
 		
 		    		if (level == TraceLevel::CRITICAL)
 			    		output.getLogger()->critical(msg);
-		    		else if (level == TraceLevel::ERROR)
+		    		else if (level == TraceLevel::ERR)
 						output.getLogger()->error(msg);
 					else if (level == TraceLevel::WARN)
 						output.getLogger()->warn(msg);
@@ -119,7 +119,7 @@ namespace PrintFuncs
 		
 		    	if (level == TraceLevel::CRITICAL)
 			    	output.getLogger()->critical(msg);
-		    	else if (level == TraceLevel::ERROR)
+		    	else if (level == TraceLevel::ERR)
 					output.getLogger()->error(msg);
 				else if (level == TraceLevel::WARN)
 					output.getLogger()->warn(msg);
@@ -135,7 +135,7 @@ namespace PrintFuncs
 
 		if (level == TraceLevel::CRITICAL)
 			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERROR)
+		else if (level == TraceLevel::ERR)
 			output.getLogger()->error(" ");
 		else if (level == TraceLevel::WARN)
 			output.getLogger()->warn(" ");
@@ -160,7 +160,7 @@ namespace PrintFuncs
 		{
 			if (level == TraceLevel::CRITICAL)
 				output.getLogger()->critical("{:7.6e}", vec(i));
-		    else if (level == TraceLevel::ERROR)
+		    else if (level == TraceLevel::ERR)
 				output.getLogger()->error("{:7.6e}", vec(i));
 			else if (level == TraceLevel::WARN)
 				output.getLogger()->warn("{:7.6e}", vec(i));
@@ -175,7 +175,7 @@ namespace PrintFuncs
 
 		if (level == TraceLevel::CRITICAL)
 			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERROR)
+		else if (level == TraceLevel::ERR)
 			output.getLogger()->error(" ");
 		else if (level == TraceLevel::WARN)
 			output.getLogger()->warn(" ");
@@ -202,7 +202,7 @@ namespace PrintFuncs
 			{
 				if (level == TraceLevel::CRITICAL)
 					output.getLogger()->critical("{}", stringFormat(vec[i],"%7.6e"));
-		    	else if (level == TraceLevel::ERROR)
+		    	else if (level == TraceLevel::ERR)
 					output.getLogger()->error("{}", stringFormat(vec[i],"%7.6e"));
 				else if (level == TraceLevel::WARN)
 					output.getLogger()->warn("{}", stringFormat(vec[i],"%7.6e"));
@@ -224,7 +224,7 @@ namespace PrintFuncs
 
 			if (level == TraceLevel::CRITICAL)
 				output.getLogger()->critical("{}", msg);
-		    else if (level == TraceLevel::ERROR)
+		    else if (level == TraceLevel::ERR)
 				output.getLogger()->error("{}", msg);
 			else if (level == TraceLevel::WARN)
 				output.getLogger()->warn("{}", msg);
@@ -241,7 +241,7 @@ namespace PrintFuncs
 		{
 			if (level == TraceLevel::CRITICAL)
 				output.getLogger()->critical(" ");	
-			else if (level == TraceLevel::ERROR)
+			else if (level == TraceLevel::ERR)
 				output.getLogger()->error(" ");
 			else if (level == TraceLevel::WARN)
 				output.getLogger()->warn(" ");
@@ -267,7 +267,7 @@ namespace PrintFuncs
 		{
 			if (level == TraceLevel::CRITICAL)
 				output.getLogger()->critical("{:7.6e}", vec[i]);
-		    else if (level == TraceLevel::ERROR)
+		    else if (level == TraceLevel::ERR)
 				output.getLogger()->error("{:7.6e}", vec[i]);
 			else if (level == TraceLevel::WARN)
 				output.getLogger()->warn("{:7.6e}", vec[i]);
@@ -282,7 +282,7 @@ namespace PrintFuncs
 
 		if (level == TraceLevel::CRITICAL)
 			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERROR)
+		else if (level == TraceLevel::ERR)
 			output.getLogger()->error(" ");
 		else if (level == TraceLevel::WARN)
 			output.getLogger()->warn(" ");
