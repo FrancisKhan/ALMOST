@@ -6,7 +6,8 @@ Dependencies for Ubuntu 18.04:
 sudo apt-get install -y git\
 sudo apt-get install -y cmake\
 sudo apt-get install -y g++\
-sudo apt-get install -y valgrind
+sudo apt-get install -y valgrind \
+sudo apt-get install -y gcc-mingw-w64
 
 Download and compilation:
 
