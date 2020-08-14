@@ -21,4 +21,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 target_compile_features(utilities_library PUBLIC cxx_std_17)
-target_compile_options(utilities_library PUBLIC -Wall -Wno-ignored-attributes -Wa,-mbig-obj)
+
+IF (WIN32)
+  target_compile_options(utilities_library PUBLIC -Wall -Wno-ignored-attributes -Wa,-mbig-obj)
+ELSE()
+  target_compile_options(utilities_library PUBLIC -Wall -Wno-ignored-attributes)
+ENDIF()

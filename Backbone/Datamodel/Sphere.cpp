@@ -1,6 +1,9 @@
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
+#include <cmath>
+
 #include "Sphere.h"
-#include <math.h>
-#include <iostream>
 
 using namespace Eigen;
 
