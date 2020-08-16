@@ -18,7 +18,7 @@ sudo update-alternatives --config x86_64-w64-mingw32-g++
 
 Download and compilation on Linux:
 
-git clone https://github.com/FrancisKhan/ALMOST.git \
+git clone https://github.com/FrancisKhan/ALMOST_src.git \
 cd ALMOST\
 cmake -DCMAKE_BUILD_TYPE=Release . \
 make \
@@ -26,7 +26,7 @@ cpack
 
 Download and compilation on Windows:
 
-git clone https://github.com/FrancisKhan/ALMOST.git \
+git clone https://github.com/FrancisKhan/ALMOST_src.git \
 cd ALMOST\
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=mingw-w64_toolchain.cmake .
 make
