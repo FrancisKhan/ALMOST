@@ -1,0 +1,30 @@
+name: CI-Cross-Compilation
+
+on:
+  push:
+    branches: [ master, development ]
+  pull_request:
+    branches: [ master, development ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Install dependencies
+      run: sudo apt-get install -y valgrind
+           
+    - name: Checkout Almost Repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Compile Almost
+      run: |
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=mingw-w64_toolchain.cmake .
+        make 2>&1 | tee build-output.txt
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build-output
+        path: build-output.txt
