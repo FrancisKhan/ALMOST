@@ -14,3 +14,7 @@ heat_boundary_conditions 0.0 1.0 0.0 1.0 0.0 30.0
 
 material M1
 thermal_conductivity 22.0
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20

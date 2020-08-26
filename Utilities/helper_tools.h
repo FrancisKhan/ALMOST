@@ -17,8 +17,26 @@ namespace HelperTools
             return false;
     }
 
+    inline bool isElementHere(const std::vector<SolverData>& vec, const SolverKind& elem)
+    {
+        bool result = false;
+
+        for(SolverData i : vec)
+        {
+            if(i.getKind() == elem)
+                result = true;
+        }
+
+        return result;
+    }
+
     template <typename T>
     inline bool isElementNotHere(const std::vector<T>& vec, const T& elem)
+    {
+        return !isElementHere(vec, elem);
+    }
+
+    inline bool isElementNotHere(const std::vector<SolverData>& vec, const SolverKind& elem)
     {
         return !isElementHere(vec, elem);
     }

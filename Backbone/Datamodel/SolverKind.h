@@ -17,4 +17,16 @@ inline std::ostream& operator << (std::ostream& stm, SolverKind calc)
     }
 }
 
+inline std::string get_name(SolverKind solver) 
+{
+  switch (solver) 
+  {
+    case SolverKind::UNDEFINED  : return std::string("UNDEFINED");
+    case SolverKind::NEUTRONICS : return std::string("NEUTRONICS");
+    case SolverKind::KINETICS   : return std::string("KINETICS");
+    case SolverKind::HEAT       : return std::string("HEAT");
+    default : return std::string(""); 
+  }
+}
+
 #endif

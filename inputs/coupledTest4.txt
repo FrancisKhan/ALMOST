@@ -33,3 +33,11 @@ scattMatrix(2, 2) 0.26304
 thermal_xs_dependence(1) 1.0 0.001
 thermal_xs_dependence(2) 1.0 0.0005
 thermal_conductivity 22.0 0.01
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20
+
+solver neutronics
+accuracy 1.0E-8
+max_iteration_number 20

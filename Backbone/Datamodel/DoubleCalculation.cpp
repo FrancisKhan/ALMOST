@@ -22,7 +22,7 @@ void DoubleCalculation::solve(int max_iter_number, double accuracy)
 	int iter;
 	for (iter = 0; iter < max_iter_number; iter++)
 	{
-		out.print(TraceLevel::INFO, "Iteration: {} \n", iter + 1);
+		out.print(TraceLevel::INFO, "Coupled iteration: {} \n", iter + 1);
 
 		firstSolver->solve();
 		firstSolver->printResults(TraceLevel::INFO);
@@ -49,14 +49,14 @@ void DoubleCalculation::solve(int max_iter_number, double accuracy)
 	
 	if(iter > max_iter_number)
 	{
-		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", iter + 1);
+		out.print(TraceLevel::CRITICAL, "Number of coupled iteration: {}", iter + 1);
 		out.print(TraceLevel::CRITICAL, "The coupled calculation did not converge!");
 		exit(-1);
 	}
 
 	if(m_reactor.getLogLevel() == TraceLevel::CRITICAL)
 	{
-		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", iter + 1);
+		out.print(TraceLevel::CRITICAL, "Number of coupled iteration: {} \n", iter + 1);
 		firstSolver->printResults(TraceLevel::CRITICAL);
 		secondSolver->printResults(TraceLevel::CRITICAL);
 	}

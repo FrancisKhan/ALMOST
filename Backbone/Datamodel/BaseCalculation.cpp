@@ -5,7 +5,7 @@
 using namespace Eigen;
 
 std::shared_ptr<BaseCalculation> BaseCalculation::setCalculation(Reactor &reactor, 
-        Library &library, std::vector<SolverKind> &solvers)
+        Library &library, std::vector<SolverData> &solvers)
 {
   if (solvers.size() == 1)
   {

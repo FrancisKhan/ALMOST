@@ -36,3 +36,6 @@ scattMatrix(3, 1) 0.0
 scattMatrix(3, 2) 0.0
 scattMatrix(3, 3) 2.0
 
+solver neutronics
+accuracy 1.0E-8
+max_iteration_number 20

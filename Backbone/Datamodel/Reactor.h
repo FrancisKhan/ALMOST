@@ -3,7 +3,7 @@
 
 #include "numeric_tools.h"
 #include "KineticsSet.h"
-#include "SolverKind.h"
+#include "SolverData.h"
 #include "Mesh.h"
 
 #include <vector>
@@ -34,8 +34,8 @@ public:
 	void setRelaxationParameter(double param) {m_relaxationParameter = param;}
 	double getRelaxationParameter() {return m_relaxationParameter;}
 
-	void setSolvers(std::vector<SolverKind> &solvers) {m_solvers = solvers;}
-	std::vector<SolverKind> getSolvers() {return m_solvers;}
+	void setSolvers(std::vector<SolverData> &solvers) {m_solvers = solvers;}
+	std::vector<SolverData> getSolvers() {return m_solvers;}
 	bool isMultisolvers() {return m_solvers.size() >= 2;}
 
 	void setLogLevel(TraceLevel level) {m_logLevel = level;}
@@ -51,7 +51,7 @@ private:
 	// to be placed elsewere
 	double m_relaxationParameter;
 	bool m_isMultiSolver;
-	std::vector<SolverKind> m_solvers;
+	std::vector<SolverData> m_solvers;
 	TraceLevel m_logLevel;
 };
 

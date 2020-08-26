@@ -2,7 +2,7 @@
 #include "KineticsSet.h"
 #include "Kinetics.h"
 
-void KineticsSolver::solve(int max_iter_number, double accuracy)
+void KineticsSolver::solve()
 {
     KineticsSet kinSet = m_reactor.getKineticsSet();
 

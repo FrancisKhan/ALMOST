@@ -7,7 +7,7 @@ class SingleCalculation : public BaseCalculation
 {
 public:
     SingleCalculation(Reactor &reactor, 
-    Library &library, SolverKind &solver):
+    Library &library, SolverData &solver):
     m_reactor(reactor), m_library(library), 
     m_solver(solver) {}
 
@@ -16,7 +16,7 @@ public:
 private:
     Reactor m_reactor;
 	Library m_library;
-    SolverKind m_solver;
+    SolverData m_solver;
 };
 
 #endif

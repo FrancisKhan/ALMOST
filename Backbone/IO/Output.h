@@ -30,6 +30,7 @@ public:
 	void print(TraceLevel level, std::string str, int input1, double input2);
 	void print(TraceLevel level, std::string str, std::string input1, std::string input2);
 	void print(TraceLevel level, std::string str, int input1, double input2, double input3);
+	void print(TraceLevel level, std::string str, std::string input1, std::string input2, std::string input3);
 	void print(TraceLevel level, std::string str, int input1, int input2, int input3, double input4);
 	void print(TraceLevel level, std::string str, int input1, int input2, int input3, int input4, double input5);
 	void print(TraceLevel level, std::string str, int input1, int input2, int input3, double input4, double input5);

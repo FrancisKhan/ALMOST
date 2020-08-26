@@ -7,7 +7,7 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-void HeatSolver::solve(int max_iter_number, double accuracy)
+void HeatSolver::solve()
 {
     std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_reactor, m_library);
 
@@ -18,7 +18,7 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
 
     int i;
     
-    for(i = 0; i < max_iter_number; i++)
+    for(i = 0; i < m_solverData.getMaxIterNumber(); i++)
     {
         auto [T, source]   = heatCode->setupSystem();	
         auto [Tb, sourceb] = heatCode->applyBoundaryConditions(T, source);
@@ -38,14 +38,16 @@ void HeatSolver::solve(int max_iter_number, double accuracy)
         }
 
         // exit condition
-		if (maxValue < accuracy) break;
+		if (maxValue < m_solverData.getAccuracy()) break;
 
         oldTemps = newTemps;
     }
 
-    if(i > max_iter_number)
+    out.print(TraceLevel::DEBUG, "Number of heat iteration: {}", i + 1);
+
+    if(i + 1 > m_solverData.getMaxIterNumber())
 	{
-		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", i + 1);
+		out.print(TraceLevel::CRITICAL, "Number of heat iteration: {}", i + 1);
 		out.print(TraceLevel::CRITICAL, "The heat calculation did not converge!");
 		exit(-1);
 	}

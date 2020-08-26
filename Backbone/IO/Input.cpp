@@ -75,8 +75,9 @@ void Input::storeInput()
 void Input::readData()
 {
     storeInput();
-
 	setSolvers();
+	setSolverProperties("accuracy");
+	setSolverProperties("max_iteration_number");
 
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
@@ -90,17 +91,17 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if(i == SolverKind::NEUTRONICS)
+		if(i.getKind() == SolverKind::NEUTRONICS)
 		{
     		setEnergies();
 			setAlbedo();
-			setMaterials(i);
+			setMaterials(i.getKind());
 		}
-		else if(i == SolverKind::KINETICS)
+		else if(i.getKind() == SolverKind::KINETICS)
 		{
 			setKineticsParameters();
 		}
-		else if(i == SolverKind::HEAT)
+		else if(i.getKind() == SolverKind::HEAT)
 		{
 			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
 			{	
@@ -113,7 +114,7 @@ void Input::readData()
 				setHeatSources();
 			}
 
-			setMaterials(i);
+			setMaterials(i.getKind());
 			setHeatBoundaryConditions();
 			setTemperatures();
 		}
@@ -206,7 +207,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 
 void Input::setSolvers()
 {
-	std::vector<SolverKind> solvers;
+	std::vector<SolverData> solvers;
     std::string solverStr;
 	std::vector<std::string> values = readManyParameters("solvers");
 
@@ -214,17 +215,20 @@ void Input::setSolvers()
 	{
 		if(i == "neutronics")
 		{
-			solvers.push_back(SolverKind::NEUTRONICS);
+			SolverData solver(SolverKind::NEUTRONICS);
+			solvers.push_back(solver);
 			solverStr += "neutronics ";
 		}
 		else if(i == "kinetics")
 		{
-			solvers.push_back(SolverKind::KINETICS);
+			SolverData solver(SolverKind::KINETICS);
+			solvers.push_back(solver);
 			solverStr += "kinetics ";
 		}
 		else if(i == "heat")
 		{
-			solvers.push_back(SolverKind::HEAT);
+			SolverData solver(SolverKind::HEAT);
+			solvers.push_back(solver);
 			solverStr += "heat ";
 		}
 		else
@@ -269,7 +273,7 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input energies", energies);
+	out.print(TraceLevel::CRITICAL, "{}: {} \n", "\nInput energies", energies);
 }
 
 void Input::setAlbedo()
@@ -395,7 +399,6 @@ void Input::setMaterials(SolverKind solver)
 		}
    	}
 	else {;}
-   
 }
 
 void Input::setMaterialProperties(std::string name)
@@ -758,4 +761,38 @@ void Input::setHeatSources()
 														"Input heat_sources [W/m3]");
 		m_mesh.setHeatSources(heatSources);	
 } 
+
+void Input::setSolverProperties(std::string name)
+{
+	for (auto &solver : m_solvers)
+    {
+        std::string matStr = "solver";
+	    readOneParameter(matStr + " " + get_name(solver.getKind()));
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
+
+		std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
+
+		if(values.size() < 1) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
+	    	exit(-1);
+		}
+		else if(values.size() == 2) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_name(solver.getKind()), values[0], values[1]);
+
+			if(values[0] == "accuracy")
+				solver.setAccuracy(std::stod(values[1]));
+			else if(values[0] == "max_iteration_number")
+				solver.setMaxIterNumber(std::stoi(values[1]));
+			else {;}
+		}
+		else
+		{
+			out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
+			exit(-1);
+		}
+	}
+}
+
 

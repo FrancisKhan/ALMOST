@@ -5,7 +5,7 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-void SpectrumSolver::solve(int max_iter_number, double accuracy)
+void SpectrumSolver::solve()
 {
 	 m_oldPowerDensities = m_mesh.getHeatSources();
 
@@ -17,6 +17,10 @@ void SpectrumSolver::solve(int max_iter_number, double accuracy)
 	MatrixXd cpm = spectrumCode->calcCPMMatrix(gcpm);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
+
+	int max_iter_number = m_solverData.getMaxIterNumber();
+	double accuracy     = m_solverData.getAccuracy();
+
 	spectrumCode->sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy);
 }
 

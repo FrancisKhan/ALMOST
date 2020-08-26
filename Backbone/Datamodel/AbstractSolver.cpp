@@ -3,20 +3,20 @@
 #include "SpectrumSolver.h"
 #include "HeatSolver.h"
 
-std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverKind solver, 
-                            Reactor &reactor, Library &library)
+std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverData &solver, 
+                 Reactor &reactor, Library &library)
 {
-  if (solver == SolverKind::NEUTRONICS)
+  if (solver.getKind() == SolverKind::NEUTRONICS)
   {
-    return std::make_shared<SpectrumSolver>(reactor, library);
+    return std::make_shared<SpectrumSolver>(reactor, library, solver);
   }
-  else if (solver == SolverKind::KINETICS)
+  else if (solver.getKind() == SolverKind::KINETICS)
   {
-    return std::make_shared<KineticsSolver>(reactor, library);
+    return std::make_shared<KineticsSolver>(reactor, library, solver);
   }
-  else if (solver == SolverKind::HEAT)
+  else if (solver.getKind() == SolverKind::HEAT)
   {
-    return std::make_shared<HeatSolver>(reactor, library);
+    return std::make_shared<HeatSolver>(reactor, library, solver);
   }
   else
   {
