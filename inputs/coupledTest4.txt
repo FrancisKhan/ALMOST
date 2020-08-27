@@ -41,3 +41,7 @@ max_iteration_number 20
 solver neutronics
 accuracy 1.0E-8
 max_iteration_number 20
+
+solver coupled
+accuracy 1.0E-6
+max_iteration_number 30

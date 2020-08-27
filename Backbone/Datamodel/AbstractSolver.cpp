@@ -1,4 +1,5 @@
 #include "AbstractSolver.h"
+#include "CoupledSolver.h"
 #include "KineticsSolver.h"
 #include "SpectrumSolver.h"
 #include "HeatSolver.h"
@@ -6,7 +7,11 @@
 std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverData &solver, 
                  Reactor &reactor, Library &library)
 {
-  if (solver.getKind() == SolverKind::NEUTRONICS)
+  if (solver.getKind() == SolverKind::COUPLED)
+  {
+    return std::make_shared<CoupledSolver>(reactor, library, solver);
+  }
+  else if (solver.getKind() == SolverKind::NEUTRONICS)
   {
     return std::make_shared<SpectrumSolver>(reactor, library, solver);
   }

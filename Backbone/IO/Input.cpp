@@ -118,6 +118,9 @@ void Input::readData()
 			setHeatBoundaryConditions();
 			setTemperatures();
 		}
+		else
+		{
+		}
 	}
 }
 
@@ -239,6 +242,14 @@ void Input::setSolvers()
 	}
 
     out.print(TraceLevel::CRITICAL, "Solvers: {}\n", solverStr);
+
+	// add coupled solver if coupled calculation
+	if(solvers.size() >= 2)
+	{
+		SolverData solver(SolverKind::COUPLED);
+		solvers.push_back(solver);
+	}
+
 	m_solvers = solvers;
 	m_reactor.setSolvers(solvers);
 }

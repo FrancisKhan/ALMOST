@@ -11,9 +11,11 @@ public:
     m_reactor(reactor), m_library(library), 
     m_solvers(solvers) {}
 
-	void solve(int max_iter_number, double accuracy) override;
+	void solve() override;
 
 private:
+    SolverData getCoupledSolver();
+
     Reactor m_reactor;
 	Library m_library;
     std::vector<SolverData> m_solvers;
