@@ -17,3 +17,7 @@ thermal_conductivity 20.0
 
 material M2
 thermal_conductivity 2.0
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20

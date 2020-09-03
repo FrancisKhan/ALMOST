@@ -6,11 +6,12 @@
 class KineticsSolver : public AbstractSolver
 {
 public:
-    KineticsSolver(Reactor &reactor, Library &library) : 
-	AbstractSolver(reactor, library), 
-	m_reactor(reactor), m_library(library), m_mesh(reactor.getMesh()){}
+    KineticsSolver(Reactor &reactor, Library &library, SolverData &solverData) : 
+	AbstractSolver(reactor, library, solverData), 
+	m_reactor(reactor), m_library(library), m_solverData(solverData), 
+	m_mesh(reactor.getMesh()){}
 	
-	void solve(int max_iter_number, double accuracy);
+	void solve();
 	
 	std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> getMainParameter()
 		{return -1.0;}
@@ -22,6 +23,7 @@ public:
 private:
 	Reactor &m_reactor;
     Library &m_library;
+	SolverData &m_solverData;
 	Mesh &m_mesh;
 		
 };

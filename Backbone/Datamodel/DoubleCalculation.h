@@ -7,16 +7,18 @@ class DoubleCalculation : public BaseCalculation
 {
 public:
     DoubleCalculation(Reactor &reactor, 
-    Library &library, std::vector<SolverKind> &solvers):
+    Library &library, std::vector<SolverData> &solvers):
     m_reactor(reactor), m_library(library), 
     m_solvers(solvers) {}
 
-	void solve(int max_iter_number, double accuracy) override;
+	void solve() override;
 
 private:
+    SolverData getCoupledSolver();
+
     Reactor m_reactor;
 	Library m_library;
-    std::vector<SolverKind> m_solvers;
+    std::vector<SolverData> m_solvers;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "Reactor.h"
 #include "Library.h"
 #include "SolverKind.h"
+#include "SolverData.h"
 #include "helper_tools.h"
 #include "numeric_tools.h"
 
@@ -19,7 +20,7 @@ public:
 	void readData();
 	void printData();
 	void getArguments(int argc, char** argv);
-	std::vector<SolverKind> getSolvers() {return m_solvers;};
+	std::vector<SolverData> getSolvers() {return m_solvers;};
 	
 private:									  
     void removeExtraSpaces(const std::string &input, std::string &output);
@@ -41,7 +42,6 @@ private:
 	void setHeatBoundaryConditions();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
-	// void setThermalXSDependence(std::vector<std::string> &values, unsigned index);
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);
@@ -56,7 +56,9 @@ private:
 	void setTemperatures();
 	void setHeatSources();
 	void setThermalPower();
-	void setRelaxationParameter();
+
+	void setSolverProperties(std::string name, 
+		 SolverKind inputSolver = SolverKind::UNDEFINED);
 
     Reactor &m_reactor;
  	Mesh &m_mesh;
@@ -64,7 +66,7 @@ private:
 	unsigned m_energies;
 	unsigned m_cells;
 	std::string m_inputPath;
-	std::vector<SolverKind> m_solvers;
+	std::vector<SolverData> m_solvers;
 	std::vector<std::string> m_inputLines;
 	std::vector<std::string> m_materialMap;
 	std::vector<std::string> m_materialList;

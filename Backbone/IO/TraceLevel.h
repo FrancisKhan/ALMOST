@@ -1,7 +1,7 @@
 #ifndef TRACELEVEL_H
 #define TRACELEVEL_H
 
-enum class TraceLevel {CRITICAL = 0, ERROR, WARN, INFO, DEBUG, TRACE};
+enum class TraceLevel {CRITICAL = 0, ERR, WARN, INFO, DEBUG, TRACE};
 
 // inline TraceLevel operator ++(TraceLevel &level, int)
 // {

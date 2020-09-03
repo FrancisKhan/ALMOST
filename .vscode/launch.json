@@ -29,7 +29,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs/kinetics1.txt", "outputs/Out_kinetics1.txt", "DEBUG"],
+            "args": ["inputs/test1.txt", "outputs/Out_test1.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -75,8 +75,16 @@ void Input::storeInput()
 void Input::readData()
 {
     storeInput();
-
 	setSolvers();
+	setSolverProperties("accuracy");
+	setSolverProperties("max_iteration_number");
+
+	if(isElementHere(m_solvers, SolverKind::NEUTRONICS) 
+	&& isElementHere(m_solvers, SolverKind::HEAT) 
+	&& isElementHere(m_solvers, SolverKind::COUPLED))
+	{
+		setSolverProperties("relaxation_parameter", SolverKind::COUPLED);
+	}
 
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
@@ -90,32 +98,34 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if(i == SolverKind::NEUTRONICS)
+		if(i.getKind() == SolverKind::NEUTRONICS)
 		{
     		setEnergies();
 			setAlbedo();
-			setMaterials(i);
+			setMaterials(i.getKind());
 		}
-		else if(i == SolverKind::KINETICS)
+		else if(i.getKind() == SolverKind::KINETICS)
 		{
 			setKineticsParameters();
 		}
-		else if(i == SolverKind::HEAT)
+		else if(i.getKind() == SolverKind::HEAT)
 		{
 			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
 			{	
 				setEnergies();
 				setThermalPower();
-				setRelaxationParameter();
 			}	
 			else
 			{
 				setHeatSources();
 			}
 
-			setMaterials(i);
+			setMaterials(i.getKind());
 			setHeatBoundaryConditions();
 			setTemperatures();
+		}
+		else
+		{
 		}
 	}
 }
@@ -206,7 +216,7 @@ std::vector<std::string> Input::splitLine(std::string line)
 
 void Input::setSolvers()
 {
-	std::vector<SolverKind> solvers;
+	std::vector<SolverData> solvers;
     std::string solverStr;
 	std::vector<std::string> values = readManyParameters("solvers");
 
@@ -214,17 +224,20 @@ void Input::setSolvers()
 	{
 		if(i == "neutronics")
 		{
-			solvers.push_back(SolverKind::NEUTRONICS);
+			SolverData solver(SolverKind::NEUTRONICS);
+			solvers.push_back(solver);
 			solverStr += "neutronics ";
 		}
 		else if(i == "kinetics")
 		{
-			solvers.push_back(SolverKind::KINETICS);
+			SolverData solver(SolverKind::KINETICS);
+			solvers.push_back(solver);
 			solverStr += "kinetics ";
 		}
 		else if(i == "heat")
 		{
-			solvers.push_back(SolverKind::HEAT);
+			SolverData solver(SolverKind::HEAT);
+			solvers.push_back(solver);
 			solverStr += "heat ";
 		}
 		else
@@ -235,6 +248,14 @@ void Input::setSolvers()
 	}
 
     out.print(TraceLevel::CRITICAL, "Solvers: {}\n", solverStr);
+
+	// add coupled solver if coupled calculation
+	if(solvers.size() >= 2)
+	{
+		SolverData solver(SolverKind::COUPLED);
+		solvers.push_back(solver);
+	}
+
 	m_solvers = solvers;
 	m_reactor.setSolvers(solvers);
 }
@@ -246,21 +267,21 @@ void Input::setGeometryKind()
    if(geometry == "cylinder") 
 	{
 	   m_mesh.setMeshKind(GeomKind::CYLINDER);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Cylindrical \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SPHERE);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Spherical \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SLAB);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Cartesian \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cartesian \n");
 	}
 	else
 	{
-	   out.print(TraceLevel::CRITICAL, "Geometry: {} not recognized!", geometry);
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: {} not recognized!", geometry);
 	   exit(-1);
 	}
 } 
@@ -269,7 +290,7 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input energies", energies);
+	out.print(TraceLevel::CRITICAL, "{}: {} \n", "\nInput energies", energies);
 }
 
 void Input::setAlbedo()
@@ -286,14 +307,6 @@ void Input::setThermalPower()
 	m_reactor.setThermalPower(std::stod(power));
     std::string numberString = stringFormat(power, "%7.6e");
 	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input thermal power [W]", numberString);
-}
-
-void Input::setRelaxationParameter()
-{
-	std::string param = readOneParameter("relaxation_parameter");
-	m_reactor.setRelaxationParameter(std::stod(param));
-    std::string numberString = stringFormat(param, "%7.6e");
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input relaxation parameter", numberString);
 }
 
 void Input::setMesh()
@@ -395,7 +408,6 @@ void Input::setMaterials(SolverKind solver)
 		}
    	}
 	else {;}
-   
 }
 
 void Input::setMaterialProperties(std::string name)
@@ -758,4 +770,46 @@ void Input::setHeatSources()
 														"Input heat_sources [W/m3]");
 		m_mesh.setHeatSources(heatSources);	
 } 
+
+void Input::setSolverProperties(std::string name, SolverKind inputSolver)
+{
+	for (auto &solver : m_solvers)
+    {
+		// if the property is related only to a specific solver
+		if(inputSolver != SolverKind::UNDEFINED)
+		{
+			if(solver.getKind() != inputSolver) continue;
+		}
+
+        std::string matStr = "solver";
+	    readOneParameter(matStr + " " + get_name(solver.getKind()));
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
+
+		std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
+
+		if(values.size() < 1) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
+	    	exit(-1);
+		}
+		else if(values.size() == 2) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_name(solver.getKind()), values[0], values[1]);
+
+			if(values[0] == "accuracy")
+				solver.setAccuracy(std::stod(values[1]));
+			else if(values[0] == "max_iteration_number")
+				solver.setMaxIterNumber(std::stoi(values[1]));
+			else if(values[0] == "relaxation_parameter")
+				solver.setRelaxationParameter(std::stod(values[1]));
+			else {;}
+		}
+		else
+		{
+			out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
+			exit(-1);
+		}
+	}
+}
+
 

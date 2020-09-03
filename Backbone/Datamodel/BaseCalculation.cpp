@@ -2,21 +2,25 @@
 #include "SingleCalculation.h"
 #include "DoubleCalculation.h"
 
+#include <algorithm>
+
 using namespace Eigen;
 
 std::shared_ptr<BaseCalculation> BaseCalculation::setCalculation(Reactor &reactor, 
-        Library &library, std::vector<SolverKind> &solvers)
+        Library &library, std::vector<SolverData> &solvers)
 {
   if (solvers.size() == 1)
   {
     return std::make_shared<SingleCalculation>(reactor, library, solvers[0]);
   }
-  else if (solvers.size() == 2)
+  else if (solvers.size() == 3) // there is coupled solver as well
   {
     return std::make_shared<DoubleCalculation>(reactor, library, solvers);
   }
   else
   {
+	  out.print(TraceLevel::CRITICAL, "Not ready to couple more than two calculations!");
+	  exit(-1);
 	  return std::shared_ptr<BaseCalculation>(nullptr);
   }
 }

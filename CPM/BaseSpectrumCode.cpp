@@ -191,9 +191,11 @@ void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix,
 		neutronFlux1 = neutronFlux2;
 	}
 
-	if(h > max_iter_number)
+	out.print(TraceLevel::DEBUG, "Number of neutronic iteration: {}", h + 1);
+
+	if(h + 1 > max_iter_number)
 	{
-		out.print(TraceLevel::CRITICAL, "Number of iteration: {} \n", h + 1);
+		out.print(TraceLevel::CRITICAL, "Number of neutronic iteration: {}", h + 1);
 		out.print(TraceLevel::CRITICAL, "The neutronic calculation did not converge!");
 		exit(-1);
 	}
