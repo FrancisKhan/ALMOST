@@ -30,12 +30,12 @@ void DoubleCalculation::solve()
 		firstSolver->solve();
 		firstSolver->printResults(TraceLevel::INFO);
 		firstParam = firstSolver->getMainParameter();
-		if (iter != 0) firstSolver->relaxResults(m_reactor.getRelaxationParameter());
+		if (iter != 0) firstSolver->relaxResults(getCoupledSolver().getRelaxationParameter());
 
 		secondSolver->solve();
 		secondSolver->printResults(TraceLevel::INFO);
 		secondParam = secondSolver->getMainParameter();
-		if (iter != 0) secondSolver->relaxResults(m_reactor.getRelaxationParameter());
+		if (iter != 0) secondSolver->relaxResults(getCoupledSolver().getRelaxationParameter());
 
 		if (iter != 0) 
 		{

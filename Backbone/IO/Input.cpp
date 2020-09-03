@@ -79,6 +79,13 @@ void Input::readData()
 	setSolverProperties("accuracy");
 	setSolverProperties("max_iteration_number");
 
+	if(isElementHere(m_solvers, SolverKind::NEUTRONICS) 
+	&& isElementHere(m_solvers, SolverKind::HEAT) 
+	&& isElementHere(m_solvers, SolverKind::COUPLED))
+	{
+		setSolverProperties("relaxation_parameter", SolverKind::COUPLED);
+	}
+
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
@@ -107,7 +114,6 @@ void Input::readData()
 			{	
 				setEnergies();
 				setThermalPower();
-				setRelaxationParameter();
 			}	
 			else
 			{
@@ -261,21 +267,21 @@ void Input::setGeometryKind()
    if(geometry == "cylinder") 
 	{
 	   m_mesh.setMeshKind(GeomKind::CYLINDER);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Cylindrical \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SPHERE);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Spherical \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SLAB);
-	   out.print(TraceLevel::CRITICAL, "Geometry: Cartesian \n");
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cartesian \n");
 	}
 	else
 	{
-	   out.print(TraceLevel::CRITICAL, "Geometry: {} not recognized!", geometry);
+	   out.print(TraceLevel::CRITICAL, "\nGeometry: {} not recognized!", geometry);
 	   exit(-1);
 	}
 } 
@@ -301,14 +307,6 @@ void Input::setThermalPower()
 	m_reactor.setThermalPower(std::stod(power));
     std::string numberString = stringFormat(power, "%7.6e");
 	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input thermal power [W]", numberString);
-}
-
-void Input::setRelaxationParameter()
-{
-	std::string param = readOneParameter("relaxation_parameter");
-	m_reactor.setRelaxationParameter(std::stod(param));
-    std::string numberString = stringFormat(param, "%7.6e");
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input relaxation parameter", numberString);
 }
 
 void Input::setMesh()
@@ -773,10 +771,16 @@ void Input::setHeatSources()
 		m_mesh.setHeatSources(heatSources);	
 } 
 
-void Input::setSolverProperties(std::string name)
+void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 {
 	for (auto &solver : m_solvers)
     {
+		// if the property is related only to a specific solver
+		if(inputSolver != SolverKind::UNDEFINED)
+		{
+			if(solver.getKind() != inputSolver) continue;
+		}
+
         std::string matStr = "solver";
 	    readOneParameter(matStr + " " + get_name(solver.getKind()));
 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
@@ -796,6 +800,8 @@ void Input::setSolverProperties(std::string name)
 				solver.setAccuracy(std::stod(values[1]));
 			else if(values[0] == "max_iteration_number")
 				solver.setMaxIterNumber(std::stoi(values[1]));
+			else if(values[0] == "relaxation_parameter")
+				solver.setRelaxationParameter(std::stod(values[1]));
 			else {;}
 		}
 		else

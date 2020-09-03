@@ -56,9 +56,9 @@ private:
 	void setTemperatures();
 	void setHeatSources();
 	void setThermalPower();
-	void setRelaxationParameter();
 
-	void setSolverProperties(std::string name);
+	void setSolverProperties(std::string name, 
+		 SolverKind inputSolver = SolverKind::UNDEFINED);
 
     Reactor &m_reactor;
  	Mesh &m_mesh;

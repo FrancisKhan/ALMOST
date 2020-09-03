@@ -12,7 +12,7 @@
 class Reactor
 {
 public:
-	Reactor() : m_thermalPower(-1.0), m_relaxationParameter(1.0) {}
+	Reactor() : m_thermalPower(-1.0) {}
 	
 	void setKineticsSet(KineticsSet &kineticsSet) 
 	{m_kineticsSet = kineticsSet;}
@@ -31,9 +31,6 @@ public:
 	Mesh& getMesh() {return m_mesh;}
 
 	// to be placed elsewere
-	void setRelaxationParameter(double param) {m_relaxationParameter = param;}
-	double getRelaxationParameter() {return m_relaxationParameter;}
-
 	void setSolvers(std::vector<SolverData> &solvers) {m_solvers = solvers;}
 	std::vector<SolverData> getSolvers() {return m_solvers;}
 	bool isMultisolvers() {return m_solvers.size() >= 2;}
@@ -49,7 +46,6 @@ private:
 	double m_albedo;
 
 	// to be placed elsewere
-	double m_relaxationParameter;
 	bool m_isMultiSolver;
 	std::vector<SolverData> m_solvers;
 	TraceLevel m_logLevel;

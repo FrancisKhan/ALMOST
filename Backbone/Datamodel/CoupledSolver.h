@@ -17,7 +17,6 @@ public:
 	{return 0.0;}
 
 	void relaxResults(double param) override {};
-
 	void printResults(TraceLevel level) override {}; 
 	
 private:
