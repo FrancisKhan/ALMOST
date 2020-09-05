@@ -1,7 +1,7 @@
 # ALMOST
 Advanced Lightweight Multi-physics Object-oriented Simulation Tool
 
-Dependencies for Ubuntu 18.04:
+Dependencies for Ubuntu 18.04 and 20.04:
 
 sudo apt-get install -y git\
 sudo apt-get install -y cmake\
@@ -19,7 +19,7 @@ sudo update-alternatives --config x86_64-w64-mingw32-g++
 Download and compilation on Linux:
 
 git clone https://github.com/FrancisKhan/ALMOST_src.git \
-cd ALMOST\
+cd ALMOST_src\
 cmake -DCMAKE_BUILD_TYPE=Release . \
 make \
 cpack
@@ -27,7 +27,7 @@ cpack
 Download and compilation on Windows:
 
 git clone https://github.com/FrancisKhan/ALMOST_src.git \
-cd ALMOST \
+cd ALMOST_src \
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=mingw-w64_toolchain.cmake . \
 make
 
