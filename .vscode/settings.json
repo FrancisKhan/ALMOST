@@ -121,6 +121,7 @@
         "superlusupport": "cpp",
         "*.evaluator": "cpp",
         "*.traits": "cpp",
-        "*.expression": "cpp"
+        "*.expression": "cpp",
+        "bit": "cpp"
     }
 }

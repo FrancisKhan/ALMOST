@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cstdlib>
 
 class TestHelper
 {
@@ -27,18 +28,35 @@ public:
 
 	int runCode()
     {
-        const std::string prePath = getPrePath();
+        std::string prePath = getPrePath();
 
-        const std::string finalStr = m_linuxCommand + std::string(" ") 
+        std::string finalStr = m_linuxCommand + std::string(" ") 
         + prePath + m_codePath + std::string(" ") +
         prePath + m_inputPath + std::string(" ") + prePath +
         m_outputPath + std::string(" ") + m_traceLevel;
 
-        int result = system(finalStr.c_str());
+        int result = -1;
 
-        if(!result)
+        if(AmIRunningOnWindows())
         {
-            readOutput(prePath + m_outputPath);
+            finalStr = fromLinuxToWindowsPath(finalStr); 
+
+            // valgrind tests cannot be done on Windows
+            if(finalStr.find("valgrind") != std::string::npos)
+                result = 0;
+            else
+                result = system(finalStr.c_str());
+        }
+        else
+        {
+            result = system(finalStr.c_str());
+        }
+        
+        if(!result)
+        {   
+            // valgrind tests cannot be done on Windows
+            if(finalStr.find("valgrind") == std::string::npos)
+                readOutput(prePath + m_outputPath);
         }
         else
         {
@@ -135,7 +153,7 @@ std::vector<double> getVector(std::string keyword)
     }
   
     // This method is needed because Visual Studio Code runs the tests from 
-    // the ALMOST folder, while make or ctest runs from the tests folder.
+    // the ALMOST_src folder, while make or ctest runs from the tests folder.
     // Absolute path seem not to work with WLS
     std::string getPrePath() 
     {
@@ -150,6 +168,29 @@ std::vector<double> getVector(std::string keyword)
             return std::string("./");
         }
     }
+    
+    bool AmIRunningOnWindows() 
+    {
+        if (getenv("windir")!= NULL)
+            return true;
+        else
+            return false;
+    }
+
+    std::string fromLinuxToWindowsPath(std::string &path) 
+    {
+    std::string from = "/";
+    std::string to = "\\";
+    size_t start_pos = 0;
+
+    while((start_pos = path.find(from, start_pos)) != std::string::npos) 
+    {
+        path.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+
+    return path;
+}
 
 private:
     const std::string m_linuxCommand;

@@ -16,10 +16,11 @@
             "options": {
                 "cwd": "/usr/bin"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build"
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
