@@ -1,4 +1,5 @@
 #include "Output.h"
+#include "version.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -11,7 +12,8 @@ namespace fs = std::experimental::filesystem;
 void Output::printStart()
 {
 	out.getLogger()->set_pattern("[%D %T] [%n] %v");
-	out.getLogger()->critical("Start simulation \n");
+	out.getLogger()->critical("Start simulation");
+    out.getLogger()->critical("ALMOST Version: {} \n", get_version_all());
 	out.getLogger()->set_pattern("%v");
 }
 
