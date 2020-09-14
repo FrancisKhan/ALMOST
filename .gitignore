@@ -63,3 +63,4 @@ external/boost-lib
 external/spdlog-lib
 external/googletest*
 git-version.h
+**build
