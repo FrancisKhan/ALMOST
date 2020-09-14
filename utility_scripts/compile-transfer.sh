@@ -8,7 +8,7 @@ cmake -DCMAKE_BUILD_TYPE=Release .
 make
 cpack
 
-copy executables and installers
+# copy executables and installers
 
 cp -fv ./app/almost ../ALMOST/app
 cp -fv almost*.deb ../ALMOST/installers
