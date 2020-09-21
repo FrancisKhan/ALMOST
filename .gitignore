@@ -56,6 +56,7 @@ app/almost
 tests/test_almost
 tests/outputs
 outputs/*
+outputs_experimental/*
 tests/testLog.txt
 tests/tests/
 external/eigen-lib

@@ -25,7 +25,7 @@ set(VERSION "#ifndef GIT_VERSION_H
 
 #include <string>
 
-const std::string VERSION_ALL   =\"${SEMVER}\";
+const std::string VERSION_ALL   =\"${VERSION}\";
 const std::string VERSION_MAJOR =\"${VERSION_MAJOR}\";
 const std::string VERSION_MINOR =\"${VERSION_MINOR}\";
 const std::string VERSION_PATCH =\"${VERSION_PATCH}\";
