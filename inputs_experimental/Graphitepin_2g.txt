@@ -1,0 +1,47 @@
+% Graphite fuel pin 2g
+
+solvers neutronics
+
+geometry  cylinder
+albedo    1.0
+energies  2
+
+mesh 5 0.005 M1 10 0.0175676 M2
+
+material M1
+
+ni(1)      2.61179e+00
+chi(1)     1.00000e+00
+fission(1) 1.68760e-03
+total(1)   4.41001e-01
+
+ni(2)      2.43670e+00
+chi(2)     0.00000e+00
+fission(2) 1.33397e-02
+total(2)   4.17872e-01
+
+scattMatrix(1, 1) 4.31987e-01
+scattMatrix(1, 2) 4.48318e-10
+scattMatrix(2, 1) 4.13597e-04
+scattMatrix(2, 2) 3.89069e-01
+
+material M2
+
+ni(1)      0.00000e+00
+chi(1)     0.00000e+00
+fission(1) 0.00000e+00
+total(1)   2.19938e-01
+
+ni(2)      0.00000e+00
+chi(2)     0.00000e+00
+fission(2) 0.00000e+00
+total(2)   2.55153e-01
+
+scattMatrix(1, 1) 2.18419e-01
+scattMatrix(1, 2) 1.51360e-03
+scattMatrix(2, 1) 8.05093e-05
+scattMatrix(2, 2) 2.55007e-01
+
+solver neutronics
+accuracy 1.0E-6
+max_iteration_number 100

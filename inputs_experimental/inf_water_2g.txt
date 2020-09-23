@@ -1,4 +1,4 @@
-% Infinite graphite reactor 2g
+% Infinite water reactor 2g
 
 solvers neutronics
 

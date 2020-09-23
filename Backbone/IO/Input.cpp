@@ -371,7 +371,7 @@ void Input::setMesh()
 	m_mesh.createMaterials(m_materialMap);
 
 	out.print(TraceLevel::CRITICAL, "Input meshes:");
-	printVector(m_materialMap, out, TraceLevel::CRITICAL);
+	printVector(m_materialMap, out, TraceLevel::CRITICAL, false);
 
 	out.print(TraceLevel::CRITICAL, "Mesh middle points [m]:");
     printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);

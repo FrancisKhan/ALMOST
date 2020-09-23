@@ -3,7 +3,13 @@
 build_linux () {
   echo "Build Almost for Linux"
   cd ..
-  git clean -x -f -d
+  
+  if [ $1 == "clean" ]; then
+    git clean -x -f -d
+  else
+    echo "git clean not used" 
+  fi
+  
   cmake -DCMAKE_BUILD_TYPE=Release .
   make
   cpack
@@ -15,7 +21,13 @@ build_linux () {
 build_windows () {
   echo "Build Almost for Windows"
   cd ..
-  git clean -x -f -d
+  
+  if [ $1 == "clean" ]; then
+    git clean -x -f -d
+  else
+    echo "git clean not used" 
+  fi
+
   cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=mingw-w64_toolchain.cmake .
   make
   cd app
@@ -32,21 +44,40 @@ build_windows () {
 
 if [ $# -eq 0 ]
   then
-    echo "No arguments supplied"
+    echo "No arguments supplied, please OS and git clean/keep parameters"
 fi
 
 if [ $1 == "linux" ]; then
 
-  build_linux
+  if [ $2 == "clean" ]; then
+    build_linux clean
+  elif [ $2 == "keep" ]; then
+    build_linux keep
+  else
+    echo "git parameter not recognized, use: clean or keep" 
+  fi
   
 elif [ $1 == "windows" ]; then
 
-  build_windows
+  if [ $2 == "clean" ]; then
+    build_windows clean
+  elif [ $2 == "keep" ]; then
+    build_windows keep
+  else
+    echo "git parameter not recognized, use: clean or keep" 
+  fi
 
 elif [ $1 == "all" ]; then
-
-  build_linux
-  build_windows
+  
+  if [ $2 == "clean" ]; then
+    build_linux clean
+    build_windows clean
+  elif [ $2 == "keep" ]; then
+    build_linux keep
+    build_windows keep
+  else
+    echo "Make parameter not recognized, use: clean or keep" 
+  fi
   
 else
   echo "OS system not recognized or not supported." 
