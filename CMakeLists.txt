@@ -59,6 +59,9 @@ add_subdirectory(CORE)
 # Heat transfer directory
 add_subdirectory(Heat)
 
+# Heat transfer directory
+add_subdirectory(Diffusion)
+
 # Utilities files are here
 add_subdirectory(Utilities)
 

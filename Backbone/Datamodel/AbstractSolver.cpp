@@ -3,6 +3,7 @@
 #include "KineticsSolver.h"
 #include "SpectrumSolver.h"
 #include "HeatSolver.h"
+#include "DiffusionSolver.h"
 
 std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverData &solver, 
                  Reactor &reactor, Library &library)
@@ -22,6 +23,10 @@ std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverData &solver,
   else if (solver.getKind() == SolverKind::HEAT)
   {
     return std::make_shared<HeatSolver>(reactor, library, solver);
+  }
+  else if (solver.getKind() == SolverKind::DIFFUSION)
+  {
+    return std::make_shared<DiffusionSolver>(reactor, library, solver);
   }
   else
   {

@@ -240,6 +240,12 @@ void Input::setSolvers()
 			solvers.push_back(solver);
 			solverStr += "heat ";
 		}
+		else if(i == "diffusion")
+		{
+			SolverData solver(SolverKind::DIFFUSION);
+			solvers.push_back(solver);
+			solverStr += "diffusion ";
+		}
 		else
 		{
 			out.print(TraceLevel::CRITICAL, "{} solver kind not recognized!", i);
