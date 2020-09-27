@@ -1,6 +1,6 @@
 % PU-2-O-IN
 
-solvers neutronics
+solvers transport
 
 geometry  slab
 albedo    1.0
@@ -27,6 +27,6 @@ scattMatrix(1, 2) 0.0432
 scattMatrix(2, 1) 0.0
 scattMatrix(2, 2) 0.23616
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 20

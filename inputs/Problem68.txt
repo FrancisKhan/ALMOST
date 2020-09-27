@@ -1,6 +1,6 @@
 % UD20-2-O-SP
 
-solvers neutronics
+solvers transport
 
 geometry  slab
 albedo    0.0
@@ -27,6 +27,6 @@ scattMatrix(1, 2) 0.004555
 scattMatrix(2, 1) 0.0
 scattMatrix(2, 2) 0.42410
 
-solver neutronics
+solver transport
 accuracy 1.0E-5
 max_iteration_number 50

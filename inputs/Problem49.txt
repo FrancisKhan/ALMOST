@@ -1,6 +1,6 @@
 % U-2-o-SP
 
-solvers neutronics
+solvers transport
 
 geometry  sphere
 albedo    0.0
@@ -27,6 +27,6 @@ scattMatrix(1, 2) 0.0720
 scattMatrix(2, 1) 0.0
 scattMatrix(2, 2) 0.26304
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 30

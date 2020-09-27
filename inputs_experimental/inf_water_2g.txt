@@ -1,6 +1,6 @@
 % Infinite water reactor 2g
 
-solvers neutronics
+solvers transport
 
 geometry  slab
 albedo    1.0
@@ -25,6 +25,6 @@ scattMatrix(1, 2) 1.95782e-03
 scattMatrix(2, 1) 1.95911e-05
 scattMatrix(2, 2) 2.58896e-01
 
-solver neutronics
+solver transport
 accuracy 1.0E-6
 max_iteration_number 100

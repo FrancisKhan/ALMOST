@@ -1,6 +1,6 @@
 % URR-3-O-IN
 
-solvers neutronics
+solvers transport
 
 geometry  cylinder
 albedo    1.0
@@ -36,6 +36,6 @@ scattMatrix(3, 1) 0.0
 scattMatrix(3, 2) 0.0
 scattMatrix(3, 3) 2.0
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 20

@@ -1,6 +1,6 @@
 % Pub-H20(1)-I-0-CY
 
-solvers neutronics
+solvers transport
 
 geometry  cylinder
 albedo    0.0
@@ -24,6 +24,6 @@ fission(1) 0.0
 total(1) 0.32640
 scattMatrix(1, 1) 0.293760
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 20

@@ -1,4 +1,4 @@
-% Steady-state, heat-neutronics coupled calculation
+% Steady-state, heat-transport coupled calculation
 % One neutron energy group
 % Reactor thermal power = 10 MW
 % Constant thermal conductivity
@@ -6,7 +6,7 @@
 % T(0) = T1
 % T(L) = T2
 
-solvers neutronics heat
+solvers transport heat
 
 geometry  slab
 albedo    0.0
@@ -29,7 +29,7 @@ solver heat
 accuracy 1.0E-8
 max_iteration_number 20
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 20
 

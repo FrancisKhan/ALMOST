@@ -1,6 +1,6 @@
 % Graphite fuel pin 2g
 
-solvers neutronics
+solvers transport
 
 geometry  cylinder
 albedo    1.0
@@ -42,6 +42,6 @@ scattMatrix(1, 2) 1.51360e-03
 scattMatrix(2, 1) 8.05093e-05
 scattMatrix(2, 2) 2.55007e-01
 
-solver neutronics
+solver transport
 accuracy 1.0E-6
 max_iteration_number 100

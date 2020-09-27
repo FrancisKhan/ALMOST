@@ -1,6 +1,6 @@
 % URRb-H20a(l)-2-0-SL
 
-solvers neutronics
+solvers transport
 
 geometry  slab
 albedo    0.0
@@ -46,6 +46,6 @@ scattMatrix(1, 2) 0.04749
 scattMatrix(2, 1) 0.000336
 scattMatrix(2, 2) 2.9676
 
-solver neutronics
+solver transport
 accuracy 1.0E-8
 max_iteration_number 20

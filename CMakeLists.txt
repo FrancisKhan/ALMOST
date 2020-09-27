@@ -50,7 +50,7 @@ add_subdirectory(external)
 # Backbone directory
 add_subdirectory(Backbone)
 
-# Neutronics directory
+# Transport directory
 add_subdirectory(CPM)
 
 # Point kinetics directory

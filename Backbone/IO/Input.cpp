@@ -79,7 +79,7 @@ void Input::readData()
 	setSolverProperties("accuracy");
 	setSolverProperties("max_iteration_number");
 
-	if(isElementHere(m_solvers, SolverKind::NEUTRONICS) 
+	if(isElementHere(m_solvers, SolverKind::TRANSPORT) 
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
 	&& isElementHere(m_solvers, SolverKind::COUPLED))
 	{
@@ -89,7 +89,7 @@ void Input::readData()
     // Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
-    if(isElementHere(m_solvers, SolverKind::NEUTRONICS) || 
+    if(isElementHere(m_solvers, SolverKind::TRANSPORT) || 
 	   isElementHere(m_solvers, SolverKind::HEAT))
 	{
 		setGeometryKind();
@@ -98,7 +98,7 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if(i.getKind() == SolverKind::NEUTRONICS)
+		if(i.getKind() == SolverKind::TRANSPORT)
 		{
     		setEnergies();
 			setAlbedo();
@@ -110,7 +110,7 @@ void Input::readData()
 		}
 		else if(i.getKind() == SolverKind::HEAT)
 		{
-			if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
+			if(isElementHere(m_solvers, SolverKind::TRANSPORT))
 			{	
 				setEnergies();
 				setThermalPower();
@@ -222,11 +222,11 @@ void Input::setSolvers()
 
     for(auto i : values)
 	{
-		if(i == "neutronics")
+		if(i == "transport")
 		{
-			SolverData solver(SolverKind::NEUTRONICS);
+			SolverData solver(SolverKind::TRANSPORT);
 			solvers.push_back(solver);
-			solverStr += "neutronics ";
+			solverStr += "transport ";
 		}
 		else if(i == "kinetics")
 		{
@@ -394,7 +394,7 @@ void Input::setMaterials(SolverKind solver)
    	m_cells    = m_mesh.getCellsNumber();
 	m_energies = m_mesh.getEnergyGroupsNumber();
 
-	if(solver == SolverKind::NEUTRONICS)
+	if(solver == SolverKind::TRANSPORT)
 	{
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
@@ -408,7 +408,7 @@ void Input::setMaterials(SolverKind solver)
    	{
 	   	setMaterialProperties("thermal_conductivity");
 
-		if(isElementHere(m_solvers, SolverKind::NEUTRONICS))
+		if(isElementHere(m_solvers, SolverKind::TRANSPORT))
 		{
 			setXSThermalDependence("thermal_xs_dependence", "\nInput thermal XS dependence:");	
 		}

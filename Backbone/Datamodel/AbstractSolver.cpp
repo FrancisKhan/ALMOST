@@ -12,7 +12,7 @@ std::shared_ptr<AbstractSolver> AbstractSolver::getSolver(SolverData &solver,
   {
     return std::make_shared<CoupledSolver>(reactor, library, solver);
   }
-  else if (solver.getKind() == SolverKind::NEUTRONICS)
+  else if (solver.getKind() == SolverKind::TRANSPORT)
   {
     return std::make_shared<SpectrumSolver>(reactor, library, solver);
   }
