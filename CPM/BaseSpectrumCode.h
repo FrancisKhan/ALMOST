@@ -30,8 +30,7 @@ public:
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &cpm);
 	Eigen::MatrixXd calcFMatrix(Eigen::MatrixXd &cpm);
 	virtual void applyBoundaryConditions(Numerics::Tensor3d &gcpm) = 0; 
-	void sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                         int max_iter_number, double accuracy);
+	void setNewHeatSource(Numerics::SourceIterResults result);
 	
 protected:
 	virtual Eigen::VectorXd calcFissionPowerDistribution() = 0;

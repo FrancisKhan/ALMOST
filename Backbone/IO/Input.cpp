@@ -79,7 +79,7 @@ void Input::readData()
 	setSolverProperties("accuracy");
 	setSolverProperties("max_iteration_number");
 
-	if(isElementHere(m_solvers, SolverKind::TRANSPORT) 
+	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
 	&& isElementHere(m_solvers, SolverKind::COUPLED))
 	{
@@ -90,6 +90,7 @@ void Input::readData()
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
     if(isElementHere(m_solvers, SolverKind::TRANSPORT) || 
+	   isElementHere(m_solvers, SolverKind::DIFFUSION) || 
 	   isElementHere(m_solvers, SolverKind::HEAT))
 	{
 		setGeometryKind();
@@ -98,7 +99,7 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if(i.getKind() == SolverKind::TRANSPORT)
+		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION))
 		{
     		setEnergies();
 			setAlbedo();
@@ -110,7 +111,7 @@ void Input::readData()
 		}
 		else if(i.getKind() == SolverKind::HEAT)
 		{
-			if(isElementHere(m_solvers, SolverKind::TRANSPORT))
+			if(isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 			{	
 				setEnergies();
 				setThermalPower();
@@ -222,7 +223,7 @@ void Input::setSolvers()
 
     for(auto i : values)
 	{
-		if(i == "transport")
+		if(i == "transport")  
 		{
 			SolverData solver(SolverKind::TRANSPORT);
 			solvers.push_back(solver);
@@ -394,12 +395,15 @@ void Input::setMaterials(SolverKind solver)
    	m_cells    = m_mesh.getCellsNumber();
 	m_energies = m_mesh.getEnergyGroupsNumber();
 
-	if(solver == SolverKind::TRANSPORT)
+	if((solver == SolverKind::TRANSPORT) || (solver == SolverKind::DIFFUSION))
 	{
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
    		setXS("fission", "\nInput fission XS [1/cm]:");
    		setXS("total", "\nInput total XS [1/cm]:");	
+
+		if(solver == SolverKind::DIFFUSION)
+			setXS("diffCoeff", "\nInput diffusion coefficients [cm]:");	
 
 		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 		m_mesh.setScattMatrices(scattMatrices);

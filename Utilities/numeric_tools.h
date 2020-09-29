@@ -18,6 +18,21 @@
 
 namespace Numerics
 {
+
+    typedef struct SourceIterResults_
+    { 
+        const Eigen::VectorXd meshNeutronFluxes;
+        const double kFactor;
+
+        SourceIterResults_(const Eigen::VectorXd& flux, const double& kFactor): 
+        meshNeutronFluxes(flux), 
+        kFactor(kFactor) {}
+
+        const Eigen::VectorXd getNeutronFLux() {return meshNeutronFluxes;}
+        const double getKFactor() {return kFactor;}
+
+    } SourceIterResults;
+
     typedef Eigen::Tensor<double, 2> Tensor2d;
     typedef Eigen::Tensor<double, 3> Tensor3d;
     typedef Eigen::Tensor<double, 4> Tensor4d;
@@ -196,6 +211,9 @@ namespace Numerics
                                    const Eigen::VectorXd &b, 
                   	               const Eigen::VectorXd &c, 
                                    const Eigen::VectorXd &d);
+
+    SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+                                      int max_iter_number, double accuracy, std::string title);
 }
 
 #endif

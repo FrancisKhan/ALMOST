@@ -25,7 +25,7 @@ private:
 	Library &m_library;
 	SolverData &m_solverData;
 	Mesh &m_mesh;
-	Eigen::VectorXd m_oldTemperatures;
+	Eigen::VectorXd m_oldPowerDensities;
 };
 
 #endif

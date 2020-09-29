@@ -158,4 +158,67 @@ namespace Numerics
 
 	    return result;
 	}
+
+	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+                                      int max_iter_number, double accuracy, std::string title)
+	{
+		diagonalDominanceCheck(Mmatrix);
+	
+		if(Mmatrix.size() != Fmatrix.size())
+		{
+			out.print(TraceLevel::CRITICAL, " MMatrix has a different number of elements than FMatrix!");
+			exit(-1);
+		}
+	
+		unsigned size = sqrt(Mmatrix.size());
+	
+		Eigen::VectorXd source1      = Eigen::VectorXd::Zero(size);
+		Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
+		Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
+		Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
+	
+		double kFactor1 = 1.0;
+		double kFactor2 = 0.0;
+	
+		int h;
+	
+		Eigen::ColPivHouseholderQR<Eigen::MatrixXd> CPHQR;
+		CPHQR.compute(Mmatrix);
+	
+		for(h = 0; h < max_iter_number; h++)
+		{
+			neutronFlux2 = CPHQR.solve(source2);
+		
+			source1 = Fmatrix * neutronFlux1;
+			source2 = Fmatrix * neutronFlux2;
+		
+			double sum1 = std::inner_product(source1.begin(), source1.end(), source2.begin(), 0.0);
+			double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
+		
+			kFactor2 = kFactor1 * (sum2 / sum1);
+		
+			source2 /= kFactor2;
+		
+			// exit condition
+			if (fabs((kFactor2 - kFactor1) / kFactor2) < accuracy) break;
+		
+			kFactor1     = kFactor2;
+			neutronFlux1 = neutronFlux2;
+		}
+
+		out.print(TraceLevel::DEBUG, "Number of {} iteration: {}", title, h + 1);
+
+		if(h + 1 > max_iter_number)
+		{
+			out.print(TraceLevel::CRITICAL, "Number of {} iteration: {}", title, h + 1);
+			out.print(TraceLevel::CRITICAL, "The {} calculation did not converge!", title);
+			exit(-1);
+		}
+
+		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
+		double kFactor = kFactor2;
+
+		SourceIterResults result(neutronFlux, kFactor);
+		return result;
+	}
 }

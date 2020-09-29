@@ -21,7 +21,8 @@ void SpectrumSolver::solve()
 	int max_iter_number = m_solverData.getMaxIterNumber();
 	double accuracy     = m_solverData.getAccuracy();
 
-	spectrumCode->sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy);
+	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "transport");
+	spectrumCode->setNewHeatSource(result);
 }
 
 void SpectrumSolver::relaxResults(double par)

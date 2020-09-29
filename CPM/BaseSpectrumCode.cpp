@@ -144,73 +144,16 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    return FMatrix;
 }
 
-void BaseSpectrumCode::sourceIteration(MatrixXd &Mmatrix, MatrixXd &Fmatrix, 
-                       int max_iter_number, double accuracy)
+void BaseSpectrumCode::setNewHeatSource(Numerics::SourceIterResults result)
 {
-	diagonalDominanceCheck(Mmatrix);
-	
-	if(Mmatrix.size() != Fmatrix.size())
-	{
-		out.print(TraceLevel::CRITICAL, " MMatrix has a different number of elements than FMatrix!");
-		exit(-1);
-	}
-	
-	unsigned size = sqrt(Mmatrix.size());
-	
-	VectorXd source1      = VectorXd::Zero(size);
-	VectorXd source2      = VectorXd::Ones(size);	
-	VectorXd neutronFlux1 = VectorXd::Ones(size);
-	VectorXd neutronFlux2 = VectorXd::Zero(size);
-	
-	double kFactor1 = 1.0;
-	double kFactor2 = 0.0;
-	
-	int h;
-	
-	ColPivHouseholderQR<MatrixXd> CPHQR;
-	CPHQR.compute(Mmatrix);
-	
-	for(h = 0; h < max_iter_number; h++)
-	{
-		neutronFlux2 = CPHQR.solve(source2);
-		
-		source1 = Fmatrix * neutronFlux1;
-		source2 = Fmatrix * neutronFlux2;
-		
-		double sum1 = std::inner_product(source1.begin(), source1.end(), source2.begin(), 0.0);
-		double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
-		
-		kFactor2 = kFactor1 * (sum2 / sum1);
-		
-		source2 /= kFactor2;
-		
-		// exit condition
-		if (fabs((kFactor2 - kFactor1) / kFactor2) < accuracy) break;
-		
-		kFactor1     = kFactor2;
-		neutronFlux1 = neutronFlux2;
-	}
-
-	out.print(TraceLevel::DEBUG, "Number of neutronic iteration: {}", h + 1);
-
-	if(h + 1 > max_iter_number)
-	{
-		out.print(TraceLevel::CRITICAL, "Number of neutronic iteration: {}", h + 1);
-		out.print(TraceLevel::CRITICAL, "The neutronic calculation did not converge!");
-		exit(-1);
-	}
-	
-	VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
-	double kFactor = kFactor2;
-
 	MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
 
 	for(int i = 0; i < m_cells; i++)
 		for(int j = 0; j < m_energies; j++)
-				meshNeutronFluxes(j, i) = neutronFlux(i + j * m_cells);
+				meshNeutronFluxes(j, i) = result.getNeutronFLux()(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
-	m_reactor.setKFactor(kFactor);
+	m_reactor.setKFactor(result.getKFactor());
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
