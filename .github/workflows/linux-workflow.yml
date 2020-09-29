@@ -24,7 +24,7 @@ jobs:
     - name: Compile Almost
       run: |
         cmake -DCMAKE_BUILD_TYPE=Release .
-        make 2>&1 | tee build-output.txt
+        make |& tee build-output.txt ; ( exit ${PIPESTATUS[0]} )
     
     - uses: actions/upload-artifact@v2
       with:
