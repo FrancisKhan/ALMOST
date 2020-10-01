@@ -5,13 +5,13 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-std::tuple<MatrixXd, VectorXd> SphDiffusionCode::setupSystem()
+MatrixXd SphDiffusionCode::createMMatrix()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
     m_temperatures     = m_mesh.getTemperatures("C");
     m_heatSources      = m_mesh.getHeatSources();
-    VectorXd lambda    = getInterfaceThermalConductivities();
+    VectorXd lambda    = getInterfaceDiffusionConstants();
     VectorXd cellSizes = m_mesh.getCellSizes("m");
 
     for(int i = 0; i < m_cells; i++)
@@ -34,17 +34,15 @@ std::tuple<MatrixXd, VectorXd> SphDiffusionCode::setupSystem()
             T(i, i - 1) = - lambda[i] * pow(m_radii(i), 2) / cellSizes(i - 1);
             T(i, i + 1) = - lambda[i + 1] * pow(m_radii(i + 1), 2) / cellSizes(i + 1);
         }
-
-        m_heatSources(i) *= cellSizes(i) * pow((m_radii(i) + 0.5 * cellSizes(i)), 2);
     }
 
-    return std::make_tuple(T, m_heatSources);
+    return T;
 }
 
-std::tuple<MatrixXd, VectorXd> SphDiffusionCode::applyBoundaryConditions(MatrixXd &T, VectorXd &source)
+MatrixXd SphDiffusionCode::applyBoundaryConditions(MatrixXd &T)
 {
     VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
-    VectorXd lambda     = getInterfaceThermalConductivities();
+    VectorXd lambda     = getInterfaceDiffusionConstants();
 
     // Right boundary condition
 
@@ -52,14 +50,13 @@ std::tuple<MatrixXd, VectorXd> SphDiffusionCode::applyBoundaryConditions(MatrixX
 
     double AR = boundaries(3);
     double BR = boundaries(4);
-    double CR = boundaries(5);
+    //double CR = boundaries(5);
 
     double denominatorR = (deltaXR / (2.0 * pow(m_radii(m_cells), 2) * lambda(m_cells - 1))) * AR + BR;
     double alphaR =  AR / denominatorR;
-    double betaR  = -CR / denominatorR;
+    //double betaR  = -CR / denominatorR;
 
     T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR;
-    source(m_cells - 1) = source(m_cells - 1) - betaR;
 
     out.print(TraceLevel::DEBUG, "Thermal conductivities [W/(m*K)]:");
     printVector(lambda, out, TraceLevel::DEBUG);
@@ -67,8 +64,5 @@ std::tuple<MatrixXd, VectorXd> SphDiffusionCode::applyBoundaryConditions(MatrixX
     out.print(TraceLevel::DEBUG, "T matrix [W/K]:");
     printMatrix(T, out, TraceLevel::DEBUG);
 
-    out.print(TraceLevel::DEBUG, "Source [W]:");
-    printVector(source, out, TraceLevel::DEBUG);
-
-    return std::make_tuple(T, source);
+    return T;
 }

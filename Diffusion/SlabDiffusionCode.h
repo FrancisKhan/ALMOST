@@ -12,9 +12,8 @@ public:
 	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()) {}
 
-	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> setupSystem() override;
-	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> 
-	        applyBoundaryConditions(Eigen::MatrixXd &T, Eigen::VectorXd &source) override;
+	Eigen::MatrixXd createMMatrix() override;
+	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &M) override;
 	
 private:
 	Library &m_library;
@@ -22,8 +21,6 @@ private:
 	Eigen::VectorXd m_radii;
 	Eigen::VectorXd m_volumes;
 	int m_cells;
-	Eigen::VectorXd m_temperatures;
-	Eigen::VectorXd m_heatSources;
 };
 
 #endif

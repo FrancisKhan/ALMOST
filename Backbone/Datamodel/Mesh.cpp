@@ -245,6 +245,24 @@ MatrixXd Mesh::getTotalXSs()
 	return tots;
 }
 
+MatrixXd Mesh::getDiffusionConstants()
+{
+    MatrixXd diffs = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd diff  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		diff = m_materials[m]->getDiffusionConstants();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			diffs(i, m) = diff(i);
+		}
+	}
+
+	return diffs;
+}
+
 MatrixXd Mesh::getFissionXSs()
 {
     MatrixXd fiss = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);

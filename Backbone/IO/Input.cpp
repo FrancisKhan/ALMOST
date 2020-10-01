@@ -537,6 +537,8 @@ void Input::setXS(std::string name, std::string outputName)
 				m_mesh.getMaterial(m)->setFissionXS(energyVec);
 			else if(name == "total") 
 				m_mesh.getMaterial(m)->setTotalXS(energyVec);
+			else if(name == "diffCoeff") 
+				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
 			else {;}
 
 			printVector(energyVec, out, TraceLevel::CRITICAL);

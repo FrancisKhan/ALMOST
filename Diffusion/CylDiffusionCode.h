@@ -12,9 +12,8 @@ public:
 	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()) {}
 
-	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> setupSystem() override;
-	std::tuple<Eigen::MatrixXd, Eigen::VectorXd> 
-	        applyBoundaryConditions(Eigen::MatrixXd &T, Eigen::VectorXd &source) override;
+	Eigen::MatrixXd createMMatrix() override;
+	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &T) override;
 	
 private:
 	Library &m_library;

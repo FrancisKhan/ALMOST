@@ -18,11 +18,10 @@ public:
 	~BaseDiffusionCode(){}
 	
 	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
-	Eigen::VectorXd getInterfaceThermalConductivities();
+	Eigen::VectorXd getInterfaceDiffusionConstants();
 
-	virtual std::tuple<Eigen::MatrixXd, Eigen::VectorXd> setupSystem() = 0;
-	virtual std::tuple<Eigen::MatrixXd, Eigen::VectorXd> 
-	        applyBoundaryConditions(Eigen::MatrixXd &T, Eigen::VectorXd &source) = 0;
+	virtual Eigen::MatrixXd createMMatrix() = 0;
+	virtual Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &T) = 0;
 	
 private:
 	Library &m_library;
