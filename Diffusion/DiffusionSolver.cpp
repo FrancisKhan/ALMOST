@@ -15,7 +15,13 @@ void DiffusionSolver::solve()
     int max_iter_number = m_solverData.getMaxIterNumber();
 	double accuracy     = m_solverData.getAccuracy();
 
-    MatrixXd MMatrix = diffCode->createMMatrix();
+    MatrixXd MMatrix = diffCode->calcMMatrix();
+    MatrixXd FMatrix = diffCode->calcFMatrix();
+
+    diffCode->applyBoundaryConditions(MMatrix);
+
+    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "diffusion");
+    diffCode->setNewHeatSource(result);
 }
 
 void DiffusionSolver::relaxResults(double param)
@@ -33,6 +39,16 @@ void DiffusionSolver::relaxResults(double param)
 
 void DiffusionSolver::printResults(TraceLevel level)
 {
-    // out.print(level, "Final temperatures [C]:");
-    // printVector(m_mesh.getTemperatures("C"), out, level); 
+    out.print(level, "K-factor:  {:7.6e} \n", m_reactor.getKFactor());
+	out.print(level, "Neutron Flux [1/(cm2*s)]:");
+
+	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
+	
+	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources().cwiseProduct(m_reactor.getMesh().getVolumes("cm"));
+
+	if (powerDistribution.maxCoeff() > 0.0)
+	{
+		out.print(level, "Thermal Power [W]:");
+		printVector(powerDistribution, out, level);
+	}
 }

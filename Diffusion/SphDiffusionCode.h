@@ -12,7 +12,8 @@ public:
 	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()) {}
 
-	Eigen::MatrixXd createMMatrix() override;
+	Eigen::MatrixXd calcMMatrix() override;
+	Eigen::MatrixXd calcFMatrix() override {;}
 	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &T) override;
 	
 private:

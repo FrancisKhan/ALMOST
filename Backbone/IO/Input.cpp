@@ -395,15 +395,23 @@ void Input::setMaterials(SolverKind solver)
    	m_cells    = m_mesh.getCellsNumber();
 	m_energies = m_mesh.getEnergyGroupsNumber();
 
-	if((solver == SolverKind::TRANSPORT) || (solver == SolverKind::DIFFUSION))
+	if((solver == SolverKind::TRANSPORT))
 	{
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
    		setXS("fission", "\nInput fission XS [1/cm]:");
    		setXS("total", "\nInput total XS [1/cm]:");	
 
-		if(solver == SolverKind::DIFFUSION)
-			setXS("diffCoeff", "\nInput diffusion coefficients [cm]:");	
+		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
+		m_mesh.setScattMatrices(scattMatrices);
+	}
+	else if(solver == SolverKind::DIFFUSION)
+	{
+		setXS("ni", "\nInput ni:");
+   		setXS("chi", "\nInput chi:");
+   		setXS("fission", "\nInput fission XS [1/cm]:");
+   		setXS("absorption", "\nInput absorption XS [1/cm]:");	
+		setXS("diffCoeff", "\nInput diffusion coefficients [cm]:");	
 
 		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 		m_mesh.setScattMatrices(scattMatrices);
@@ -537,6 +545,8 @@ void Input::setXS(std::string name, std::string outputName)
 				m_mesh.getMaterial(m)->setFissionXS(energyVec);
 			else if(name == "total") 
 				m_mesh.getMaterial(m)->setTotalXS(energyVec);
+			else if(name == "absorption") 
+				m_mesh.getMaterial(m)->setAbsXS(energyVec);
 			else if(name == "diffCoeff") 
 				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
 			else {;}

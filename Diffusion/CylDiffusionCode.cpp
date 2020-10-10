@@ -5,7 +5,7 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-MatrixXd CylDiffusionCode::createMMatrix()
+MatrixXd CylDiffusionCode::calcMMatrix()
 {
     MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 

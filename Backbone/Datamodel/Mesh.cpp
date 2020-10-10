@@ -188,7 +188,12 @@ VectorXd Mesh::getCellSizes(std::string dim)
 		result[i] = m_boundaries[i + 1] - m_boundaries[i];
 	}
 
-	return result;
+	if(dim == "m")  
+		return result;
+	else if(dim == "cm") 
+		return result * 100.0;
+	else
+		return result * -1.0;
 }
 
 MatrixXd Mesh::getNis()
@@ -243,6 +248,24 @@ MatrixXd Mesh::getTotalXSs()
 	}
 
 	return tots;
+}
+
+MatrixXd Mesh::getAbsXSs()
+{
+    MatrixXd abss = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd abs  = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		abs = m_materials[m]->getAbsXS();
+
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			abss(i, m) = abs(i);
+		}
+	}
+
+	return abss;
 }
 
 MatrixXd Mesh::getDiffusionConstants()

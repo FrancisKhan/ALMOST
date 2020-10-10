@@ -52,6 +52,7 @@ public:
 	Eigen::MatrixXd getNis();
 	Eigen::MatrixXd getFissionXSs();
 	Eigen::MatrixXd getTotalXSs();
+	Eigen::MatrixXd getAbsXSs();
 	Eigen::MatrixXd getDiffusionConstants();
 	Numerics::Tensor3d getScattMatrices();
 	

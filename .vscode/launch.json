@@ -29,7 +29,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs/test1.txt", "outputs/Out_test1.txt", "DEBUG"],
+            "args": ["inputs_experimental/Problem2_diff.txt", "outputs_experimental/Out_Problem2_diff.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

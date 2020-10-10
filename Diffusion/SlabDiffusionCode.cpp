@@ -5,75 +5,100 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-MatrixXd SlabDiffusionCode::createMMatrix()
+MatrixXd SlabDiffusionCode::calcMMatrix()
 {
     MatrixXd M = MatrixXd::Zero(m_cells, m_cells);
 
-    VectorXd D         = getInterfaceDiffusionConstants();
-    VectorXd cellSizes = m_mesh.getCellSizes("m");
+    MatrixXd D         = m_mesh.getDiffusionConstants();
+    MatrixXd absXS     = m_mesh.getAbsXSs();
+    VectorXd cellSizes = m_mesh.getCellSizes("cm");
+
+    out.print(TraceLevel::DEBUG, "D vector:");
+    printMatrix(D, out, TraceLevel::DEBUG);
+
+    out.print(TraceLevel::DEBUG, "absXS vector:");
+    printMatrix(absXS, out, TraceLevel::DEBUG);
+
+    out.print(TraceLevel::DEBUG, "cellSizes vector:");
+    printVector(cellSizes, out, TraceLevel::DEBUG);
 
     for(int i = 0; i < m_cells; i++)
     {
-        if (i == 0)
+        if(i == 0)
         {
-            M(i, i)     = + D[i + 1] / cellSizes(i + 1);
-            M(i, i + 1) = - D[i + 1] / cellSizes(i + 1);
+            double A = (D(0, i) * D(0, i + 1)) / 
+                   (cellSizes(i) * (cellSizes(i + 1) * D(0, i) + cellSizes(i) * D(0, i + 1)));
+
+            double B = D(0, i) / pow(cellSizes(i), 2);
+
+            M(i, i)     = + 2.0 * (A + B + 0.5 * absXS(0, i));              
+            M(i, i + 1) = - 2.0 * A;
         }
         else if (i == m_cells - 1)
         {
-            M(i, i)     = + D[i] / cellSizes(i - 1);
-            M(i, i - 1) = - D[i] / cellSizes(i - 1);
+            double A = D(0, i) / pow(cellSizes(i), 2);
+
+            double B = (D(0, i) * D(0, i - 1)) / 
+                   (cellSizes(i) * (cellSizes(i - 1) * D(0, i) + cellSizes(i - 1) * D(0, i)));
+
+            M(i, i)     = + 2.0 * (A + B + 0.5 * absXS(0, i));              
+            M(i, i - 1) = - 2.0 * B;
         }
         else
         {
-            M(i, i)     = + D[i] / cellSizes(i - 1) 
-                          + D[i + 1] / cellSizes(i + 1);
-                          
-            M(i, i - 1) = - D[i] / cellSizes(i - 1);
-            M(i, i + 1) = - D[i + 1] / cellSizes(i + 1);
+            double A = (D(0, i) * D(0, i + 1)) / 
+                   (cellSizes(i) * (cellSizes(i + 1) * D(0, i) + cellSizes(i) * D(0, i + 1)));
+
+            double B = (D(0, i) * D(0, i - 1)) / 
+                   (cellSizes(i) * (cellSizes(i - 1) * D(0, i) + cellSizes(i - 1) * D(0, i)));
+
+            M(i, i)     = + 2.0 * (A + B + 0.5 * absXS(0, i));              
+            M(i, i - 1) = - 2.0 * B;
+            M(i, i + 1) = - 2.0 * A;
         }
     }
+        
+
+    out.print(TraceLevel::DEBUG, "M matrix []:");
+    printMatrix(M, out, TraceLevel::DEBUG);
 
     return M;
 }
 
+MatrixXd SlabDiffusionCode::calcFMatrix()
+{
+    MatrixXd F = MatrixXd::Zero(m_cells, m_cells);
+
+    MatrixXd Ni     = m_mesh.getNis();
+    MatrixXd fissXS = m_mesh.getFissionXSs();
+
+    out.print(TraceLevel::DEBUG, "Ni vector:");
+    printMatrix(Ni, out, TraceLevel::DEBUG);
+
+    out.print(TraceLevel::DEBUG, "fissXS vector:");
+    printMatrix(fissXS, out, TraceLevel::DEBUG);
+
+    for(int i = 0; i < m_cells; i++)
+    {
+        F(i, i) = Ni(0, i) * fissXS(0, i);                  
+    }  
+
+    out.print(TraceLevel::DEBUG, "F matrix []:");
+    printMatrix(F, out, TraceLevel::DEBUG);
+
+    return F;
+}
+
 MatrixXd SlabDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 {
-    VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
-    VectorXd lambda     = getInterfaceDiffusionConstants();
+    double albedo = m_reactor.getAlbedo();
 
-    // Left boundary condition
+    // if(Numerics::is_equal(albedo, 1.0))
+    // {
+    //     //M(1, 0) = 0.0;
+    // }
 
-    double deltaXL = m_radii(1) - m_radii(0);
-
-    double AL = boundaries(0);
-    double BL = boundaries(1);
-    //double CL = boundaries(2);
-
-    double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL + BL;
-    double alphaL =  AL / denominatorL;
-    //double betaL  = -CL / denominatorL;
-
-    M(0, 0) = M(0, 0) + alphaL;
-
-    // Right boundary condition
-
-    double deltaXR = m_radii(m_cells) - m_radii(m_cells - 1);
-
-    double AR = boundaries(3);
-    double BR = boundaries(4);
-    //double CR = boundaries(5);
-
-    double denominatorR = (deltaXR / (2.0 * lambda(m_cells - 1))) * AR + BR;
-    double alphaR =  AR / denominatorR;
-    //double betaR  = -CR / denominatorR;
-
-    M(m_cells - 1, m_cells - 1) = M(m_cells - 1, m_cells - 1) + alphaR;
-
-    out.print(TraceLevel::DEBUG, "Thermal conductivities [W/(m*K)]:");
-    printVector(lambda, out, TraceLevel::DEBUG);
-
-    out.print(TraceLevel::DEBUG, "M matrix [W/(m2*K)]:");
+    out.print(TraceLevel::DEBUG, "M matrix []:");
     printMatrix(M, out, TraceLevel::DEBUG);
 
     return M;
