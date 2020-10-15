@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
@@ -29,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs_experimental/Problem2_diff.txt", "outputs_experimental/Out_Problem2_diff.txt", "DEBUG"],
+            "args": ["inputs_experimental/slab_two_materials.txt", "outputs_experimental/Out_slab_two_materials.txt", "INFO"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

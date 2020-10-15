@@ -3,10 +3,10 @@
 solvers diffusion
 
 geometry  slab
-albedo    0.0
+albedo    1.0
 energies  1
 
-mesh 10 1.0 M1
+mesh 50 1.0 M1
 
 material M1
 

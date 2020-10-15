@@ -11,8 +11,8 @@
 class BaseDiffusionCode
 {
 public:
-    BaseDiffusionCode(Reactor &reactor, Library &library) : 
-	m_reactor(reactor), m_library(library), 
+    BaseDiffusionCode(Reactor &reactor, Library &library, SolverData &solverData) : 
+	m_reactor(reactor), m_library(library), m_solverData(solverData),
 	m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_cells(m_mesh.getCellsNumber()),
@@ -25,7 +25,6 @@ public:
 
 	virtual Eigen::MatrixXd calcMMatrix() = 0;
 	virtual Eigen::MatrixXd calcFMatrix() = 0;
-	virtual Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &T) = 0;
 	void setNewHeatSource(Numerics::SourceIterResults result);
 
 	
@@ -33,6 +32,7 @@ public:
 private:
 	Reactor &m_reactor;
 	Library &m_library;
+	SolverData &m_solverData;
 	Mesh &m_mesh;
 	Eigen::VectorXd m_radii;
 	Eigen::VectorXd m_volumes;

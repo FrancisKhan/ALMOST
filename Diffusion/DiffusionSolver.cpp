@@ -10,15 +10,13 @@ using namespace PrintFuncs;
 void DiffusionSolver::solve()
 {
     m_oldPowerDensities = m_mesh.getHeatSources();
-    std::shared_ptr<BaseDiffusionCode> diffCode = DiffusionCodeFactory::setDiffusionCode(m_reactor, m_library);
+    std::shared_ptr<BaseDiffusionCode> diffCode = DiffusionCodeFactory::setDiffusionCode(m_reactor, m_library, m_solverData);
 
     int max_iter_number = m_solverData.getMaxIterNumber();
 	double accuracy     = m_solverData.getAccuracy();
 
     MatrixXd MMatrix = diffCode->calcMMatrix();
     MatrixXd FMatrix = diffCode->calcFMatrix();
-
-    diffCode->applyBoundaryConditions(MMatrix);
 
     Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "diffusion");
     diffCode->setNewHeatSource(result);

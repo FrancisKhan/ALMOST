@@ -8,7 +8,7 @@ class DiffusionSolver : public AbstractSolver
 public:
     DiffusionSolver(Reactor &reactor, Library &library, SolverData &solverData) : 
 	AbstractSolver(reactor, library, solverData), 
-	m_reactor(reactor), m_library(library),  m_solverData(solverData),
+	m_reactor(reactor), m_library(library), m_solverData(solverData),
 	m_mesh(reactor.getMesh()){}
 	
 	void solve();

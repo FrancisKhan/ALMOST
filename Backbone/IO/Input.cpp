@@ -76,17 +76,8 @@ void Input::readData()
 {
     storeInput();
 	setSolvers();
-	setSolverProperties("accuracy");
-	setSolverProperties("max_iteration_number");
 
-	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
-	&& isElementHere(m_solvers, SolverKind::HEAT) 
-	&& isElementHere(m_solvers, SolverKind::COUPLED))
-	{
-		setSolverProperties("relaxation_parameter", SolverKind::COUPLED);
-	}
-
-    // Check if geometry or mesh need to be set before anything else
+	// Check if geometry or mesh need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
     if(isElementHere(m_solvers, SolverKind::TRANSPORT) || 
@@ -97,12 +88,23 @@ void Input::readData()
 	    setMesh();
 	}
 
+	setSolverProperties("accuracy");
+	setSolverProperties("max_iteration_number");
+	setSolverProperties("albedo", SolverKind::TRANSPORT);
+	setSolverProperties("albedo", SolverKind::DIFFUSION);
+
+	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
+	&& isElementHere(m_solvers, SolverKind::HEAT) 
+	&& isElementHere(m_solvers, SolverKind::COUPLED))
+	{
+		setSolverProperties("relaxation_parameter", SolverKind::COUPLED);
+	}
+
 	for(auto i : m_solvers)
 	{
 		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION))
 		{
     		setEnergies();
-			setAlbedo();
 			setMaterials(i.getKind());
 		}
 		else if(i.getKind() == SolverKind::KINETICS)
@@ -274,21 +276,21 @@ void Input::setGeometryKind()
    if(geometry == "cylinder") 
 	{
 	   m_mesh.setMeshKind(GeomKind::CYLINDER);
-	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cylindrical \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Cylindrical \n");
 	}
 	else if(geometry == "sphere") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SPHERE);
-	   out.print(TraceLevel::CRITICAL, "\nGeometry: Spherical \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Spherical \n");
 	}
 	else if(geometry == "slab") 
 	{
 	   m_mesh.setMeshKind(GeomKind::SLAB);
-	   out.print(TraceLevel::CRITICAL, "\nGeometry: Cartesian \n");
+	   out.print(TraceLevel::CRITICAL, "Geometry: Cartesian \n");
 	}
 	else
 	{
-	   out.print(TraceLevel::CRITICAL, "\nGeometry: {} not recognized!", geometry);
+	   out.print(TraceLevel::CRITICAL, "Geometry: {} not recognized!", geometry);
 	   exit(-1);
 	}
 } 
@@ -297,15 +299,7 @@ void Input::setEnergies()
 {
 	std::string energies = readOneParameter("energies");
 	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "\nInput energies", energies);
-}
-
-void Input::setAlbedo()
-{
-	std::string albedo = readOneParameter("albedo");
-	m_reactor.setAlbedo(std::stod(albedo));
-    std::string numberString = stringFormat(albedo, "%7.6e");
-	out.print(TraceLevel::CRITICAL, "{}: {}", "Input albedo", numberString);
+	out.print(TraceLevel::CRITICAL, "{}: {}", "\nInput energies", energies);
 }
 
 void Input::setThermalPower()
@@ -380,7 +374,7 @@ void Input::setMesh()
 	out.print(TraceLevel::CRITICAL, "Input meshes:");
 	printVector(m_materialMap, out, TraceLevel::CRITICAL, false);
 
-	out.print(TraceLevel::CRITICAL, "Mesh middle points [m]:");
+	out.print(TraceLevel::CRITICAL, "\nMesh middle points [m]:");
     printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);
 
 	std::sort(regionMaterial.begin(), regionMaterial.end());
@@ -550,9 +544,24 @@ void Input::setXS(std::string name, std::string outputName)
 			else if(name == "diffCoeff") 
 				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
 			else {;}
-
-			printVector(energyVec, out, TraceLevel::CRITICAL);
 		}
+	}
+
+	for(unsigned m = 0; m < m_cells; m++)
+    {
+        if(name == "ni") 
+			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL);
+		else if(name == "chi") 
+			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL);
+		else if(name == "fission") 
+			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL);
+		else if(name == "total") 
+			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL);
+		else if(name == "absorption") 
+			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL);
+		else if(name == "diffCoeff") 
+			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL);
+		else {;}
 	}
 }
 
@@ -824,6 +833,53 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				solver.setMaxIterNumber(std::stoi(values[1]));
 			else if(values[0] == "relaxation_parameter")
 				solver.setRelaxationParameter(std::stod(values[1]));
+			else if(values[0] == "albedo")
+			{
+				if(inputSolver == SolverKind::TRANSPORT)
+				{
+					std::vector<double> albedo{std::stod(values[1])}; 
+					solver.setAlbedo(albedo);
+				}
+				else if(inputSolver == SolverKind::DIFFUSION)
+				{
+					if(m_mesh.getGeometry() == GeomKind::SLAB)
+					{
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));	
+						exit(-1);
+					}
+					else
+					{
+						std::vector<double> albedo{std::stod(values[1])}; 
+						solver.setAlbedo(albedo);
+					}
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}
+				
+						
+			}
+			else {;}
+		}
+		else if(values.size() == 3) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {}", get_name(solver.getKind()), values[0], values[1], values[2]);
+
+			if(values[0] == "albedo")
+			{
+				if((inputSolver == SolverKind::DIFFUSION) && (m_mesh.getGeometry() == GeomKind::SLAB))
+				{
+					std::vector<double> albedo{std::stod(values[1])}; 
+					solver.setAlbedo(albedo);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}
+			}
 			else {;}
 		}
 		else

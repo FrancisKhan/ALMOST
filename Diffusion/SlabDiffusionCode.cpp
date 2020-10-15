@@ -14,13 +14,17 @@ MatrixXd SlabDiffusionCode::calcMMatrix()
     VectorXd cellSizes = m_mesh.getCellSizes("cm");
 
     out.print(TraceLevel::DEBUG, "D vector:");
-    printMatrix(D, out, TraceLevel::DEBUG);
+    printMatrix(D, out, TraceLevel::INFO);
 
     out.print(TraceLevel::DEBUG, "absXS vector:");
-    printMatrix(absXS, out, TraceLevel::DEBUG);
+    printMatrix(absXS, out, TraceLevel::INFO);
 
     out.print(TraceLevel::DEBUG, "cellSizes vector:");
-    printVector(cellSizes, out, TraceLevel::DEBUG);
+    printVector(cellSizes, out, TraceLevel::INFO);
+
+    std::vector<double> albedoVec = m_solverData.getAlbedo();
+    double albedo = albedoVec[0];
+    out.print(TraceLevel::INFO, "albedo: {}", albedo);
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -29,14 +33,17 @@ MatrixXd SlabDiffusionCode::calcMMatrix()
             double A = (D(0, i) * D(0, i + 1)) / 
                    (cellSizes(i) * (cellSizes(i + 1) * D(0, i) + cellSizes(i) * D(0, i + 1)));
 
-            double B = D(0, i) / pow(cellSizes(i), 2);
+            double B = D(0, i) * (1.0 - albedo) / (cellSizes(i) * (4.0 * D(0, i) * (1.0 + albedo) + cellSizes(i) * (1.0 - albedo)));
+            //double B = D(0, i) / pow(cellSizes(i), 2);
+            
 
             M(i, i)     = + 2.0 * (A + B + 0.5 * absXS(0, i));              
             M(i, i + 1) = - 2.0 * A;
         }
         else if (i == m_cells - 1)
         {
-            double A = D(0, i) / pow(cellSizes(i), 2);
+            double A = D(0, i) * (1.0 - albedo) / (cellSizes(i) * (4.0 * D(0, i) * (1.0 + albedo) + cellSizes(i) * (1.0 - albedo)));
+            //double A = D(0, i) / pow(cellSizes(i), 2);
 
             double B = (D(0, i) * D(0, i - 1)) / 
                    (cellSizes(i) * (cellSizes(i - 1) * D(0, i) + cellSizes(i - 1) * D(0, i)));
@@ -73,10 +80,10 @@ MatrixXd SlabDiffusionCode::calcFMatrix()
     MatrixXd fissXS = m_mesh.getFissionXSs();
 
     out.print(TraceLevel::DEBUG, "Ni vector:");
-    printMatrix(Ni, out, TraceLevel::DEBUG);
+    printMatrix(Ni, out, TraceLevel::INFO);
 
     out.print(TraceLevel::DEBUG, "fissXS vector:");
-    printMatrix(fissXS, out, TraceLevel::DEBUG);
+    printMatrix(fissXS, out, TraceLevel::INFO);
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -87,19 +94,4 @@ MatrixXd SlabDiffusionCode::calcFMatrix()
     printMatrix(F, out, TraceLevel::DEBUG);
 
     return F;
-}
-
-MatrixXd SlabDiffusionCode::applyBoundaryConditions(MatrixXd &M)
-{
-    double albedo = m_reactor.getAlbedo();
-
-    // if(Numerics::is_equal(albedo, 1.0))
-    // {
-    //     //M(1, 0) = 0.0;
-    // }
-
-    out.print(TraceLevel::DEBUG, "M matrix []:");
-    printMatrix(M, out, TraceLevel::DEBUG);
-
-    return M;
 }
