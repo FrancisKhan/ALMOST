@@ -9,7 +9,7 @@ void SpectrumSolver::solve()
 {
 	 m_oldPowerDensities = m_mesh.getHeatSources();
 
-	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(m_reactor, m_library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(m_reactor, m_library, m_solverData);
 	std::pair<Numerics::Tensor3d, Numerics::Tensor4d> trackData = spectrumCode->calcTracks();
 	Numerics::Tensor3d gcpm = spectrumCode->calcCPs(trackData);
 	spectrumCode->applyBoundaryConditions(gcpm);

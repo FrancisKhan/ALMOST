@@ -101,7 +101,7 @@ void SlabSpectrumCode::applyBoundaryConditions(Tensor3d &gcpm)
 	{
 		out.print(TraceLevel::INFO, "Apply boundary conditions Group {}", h + 1);
 		
-		double albedo = m_reactor.getAlbedo();
+		double albedo = m_solverData.getAlbedo()[0];
 		
 		VectorXd Pis   = VectorXd::Zero(m_cells);
 	    VectorXd psi   = VectorXd::Zero(m_cells);

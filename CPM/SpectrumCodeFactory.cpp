@@ -3,19 +3,19 @@
 #include "SphSpectrumCode.h"
 #include "SlabSpectrumCode.h"
 
-std::shared_ptr<BaseSpectrumCode> SpectrumCodeFactory::setSpectrumCode(Reactor &reactor, Library &library)
+std::shared_ptr<BaseSpectrumCode> SpectrumCodeFactory::setSpectrumCode(Reactor &reactor, Library &library, SolverData &solverData)
 {
   if (reactor.getMesh().getGeometry() == GeomKind::CYLINDER)
   {
-    return std::make_shared<CylSpectrumCode>(reactor, library);
+    return std::make_shared<CylSpectrumCode>(reactor, library, solverData);
   }
   else if (reactor.getMesh().getGeometry() == GeomKind::SPHERE)
   {
-    return std::make_shared<SphSpectrumCode>(reactor, library);
+    return std::make_shared<SphSpectrumCode>(reactor, library, solverData);
   }
   else if (reactor.getMesh().getGeometry() == GeomKind::SLAB)
   {
-    return std::make_shared<SlabSpectrumCode>(reactor, library);
+    return std::make_shared<SlabSpectrumCode>(reactor, library, solverData);
   }
   else
   {

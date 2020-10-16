@@ -3,7 +3,6 @@
 solvers transport
 
 geometry  slab
-albedo    0.0
 energies  2
 
 mesh 10 0.0601275 M1
@@ -30,4 +29,5 @@ scattMatrix(2, 2) 0.26304
 solver transport
 accuracy 1.0E-8
 max_iteration_number 20
+albedo 0.0
 

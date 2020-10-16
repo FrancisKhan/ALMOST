@@ -9,7 +9,6 @@
 solvers heat transport
 
 geometry  slab
-albedo    0.0
 energies  2
 mesh 10 0.0601275 M1
 temperatures 30.0 10 
@@ -40,6 +39,7 @@ max_iteration_number 20
 solver transport
 accuracy 1.0E-8
 max_iteration_number 20
+albedo 0.0
 
 solver coupled
 accuracy 1.0E-6

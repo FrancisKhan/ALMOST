@@ -3,7 +3,6 @@
 solvers transport
 
 geometry  sphere
-albedo    0.0
 energies  2
 
 mesh 20 16.95337621 M1
@@ -30,3 +29,4 @@ scattMatrix(2, 2) 0.42410
 solver transport
 accuracy 1.0E-5
 max_iteration_number 40
+albedo 0.0

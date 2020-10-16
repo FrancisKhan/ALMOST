@@ -3,7 +3,6 @@
 solvers transport
 
 geometry  cylinder
-albedo    0.0
 energies  1
 
 mesh 6 0.0339761 M1 7 0.03063725 M2
@@ -27,3 +26,4 @@ scattMatrix(1, 1) 0.293760
 solver transport
 accuracy 1.0E-8
 max_iteration_number 20
+albedo 0.0

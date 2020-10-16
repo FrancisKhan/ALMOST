@@ -136,6 +136,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC3E4)
 	Mesh mesh;
 	Library library;
 	Input input(mesh, library);
+	SolverData solverData(SolverKind::TRANSPORT);
 	
 	mesh.setScattMatrices(scattMatrix);
 	
@@ -145,7 +146,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC3E4)
 	mesh.setBoundaries(cellSide, cells); 
 	mesh.setEnergyGroupsNumber(energies);
 	
-	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library, solverData);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	
   EXPECT_DOUBLE_EQ(MMatrix(0,  0), 9.9);
@@ -325,6 +326,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC4E1)
 	Mesh mesh;
 	Library library;
 	Input input(mesh, library);
+	SolverData solverData(SolverKind::TRANSPORT);
 	
 	mesh.setScattMatrices(scattMatrix);
 	
@@ -334,7 +336,7 @@ TEST_F(MMatrixTest, calcMMatrixTestC4E1)
 	mesh.setBoundaries(cellSide, cells); 
 	mesh.setEnergyGroupsNumber(energies);
 	
-	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library);
+	std::shared_ptr<BaseSpectrumCode> spectrumCode = SpectrumCodeFactory::setSpectrumCode(mesh, library, solverData);
 	MatrixXd MMatrix =spectrumCode->calcMMatrix(cpm);
 
 	out.print(TraceLevel::DEBUG, "MMatrix2");

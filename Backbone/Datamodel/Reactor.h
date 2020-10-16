@@ -25,9 +25,6 @@ public:
 	void setThermalPower(double thermalPower) {m_thermalPower = thermalPower;}
 	double getThermalPower() {return m_thermalPower;}
 
-	void setAlbedo(double albedo) {m_albedo = albedo;}
-	double getAlbedo() {return m_albedo;}
-
 	Mesh& getMesh() {return m_mesh;}
 
 	// to be placed elsewere
