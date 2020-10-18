@@ -54,6 +54,7 @@ public:
 	Eigen::MatrixXd getTotalXSs();
 	Eigen::MatrixXd getAbsXSs();
 	Eigen::MatrixXd getDiffusionConstants();
+	Eigen::MatrixXd getRemovalXSs();
 	Numerics::Tensor3d getScattMatrices();
 	
 private:

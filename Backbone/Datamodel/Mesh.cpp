@@ -304,6 +304,24 @@ MatrixXd Mesh::getFissionXSs()
 	return fiss;
 }
 
+MatrixXd Mesh::getRemovalXSs()
+{
+	MatrixXd rem = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+
+    MatrixXd tot   = getTotalXSs();
+	Tensor3d scatt = getScattMatrices();
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			rem(i, m) = tot(i, m) - scatt(i, i, m);
+		}
+	}
+
+	return rem;
+}
+
 Tensor3d Mesh::getScattMatrices()
 {
     Tensor3d scatts(m_energyGroupsNumber, m_energyGroupsNumber, m_meshNumber);

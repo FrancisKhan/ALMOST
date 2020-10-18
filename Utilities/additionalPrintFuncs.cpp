@@ -148,7 +148,7 @@ namespace PrintFuncs
 		else {}
 	}
 
-	void printVector(Eigen::VectorXd vec, Output output, TraceLevel level)
+	void printVector(Eigen::VectorXd vec, Output output, TraceLevel level, bool isVertical, bool endline)
 	{	
 	    if(output.getLogger() == nullptr) 
 		{
@@ -156,36 +156,63 @@ namespace PrintFuncs
 			return;
 		}
 
-		for(int i = 0; i < vec.size(); i++)
+		if(isVertical)
 		{
+			for(int i = 0; i < vec.size(); i++)
+			{
+				if (level == TraceLevel::CRITICAL)
+					output.getLogger()->critical("{:7.6e}", vec(i));
+		    	else if (level == TraceLevel::ERR)
+					output.getLogger()->error("{:7.6e}", vec(i));
+				else if (level == TraceLevel::WARN)
+					output.getLogger()->warn("{:7.6e}", vec(i));
+				else if (level == TraceLevel::INFO)
+					output.getLogger()->info("{:7.6e}", vec(i));
+				else if(level == TraceLevel::DEBUG)
+					output.getLogger()->debug("{:7.6e}", vec(i));
+				else if(level == TraceLevel::TRACE)
+					output.getLogger()->trace("{:7.6e}", vec(i));
+				else {}
+			}
+		}
+		else
+		{
+			std::string msg;
+
+			for(unsigned i = 0; i < vec.size(); i++)
+				msg += stringFormat(vec[i], "%7.6e") + " ";
+
 			if (level == TraceLevel::CRITICAL)
-				output.getLogger()->critical("{:7.6e}", vec(i));
+				output.getLogger()->critical("{}", msg);
 		    else if (level == TraceLevel::ERR)
-				output.getLogger()->error("{:7.6e}", vec(i));
+				output.getLogger()->error("{}", msg);
 			else if (level == TraceLevel::WARN)
-				output.getLogger()->warn("{:7.6e}", vec(i));
+				output.getLogger()->warn("{}", msg);
 			else if (level == TraceLevel::INFO)
-				output.getLogger()->info("{:7.6e}", vec(i));
+				output.getLogger()->info("{}", msg);
 			else if(level == TraceLevel::DEBUG)
-				output.getLogger()->debug("{:7.6e}", vec(i));
+				output.getLogger()->debug("{}", msg);
 			else if(level == TraceLevel::TRACE)
-				output.getLogger()->trace("{:7.6e}", vec(i));
+				output.getLogger()->trace("{}", msg);
 			else {}
 		}
-
-		if (level == TraceLevel::CRITICAL)
-			output.getLogger()->critical(" ");	
-		else if (level == TraceLevel::ERR)
-			output.getLogger()->error(" ");
-		else if (level == TraceLevel::WARN)
-			output.getLogger()->warn(" ");
-		else if (level == TraceLevel::INFO)
-			output.getLogger()->info(" ");
-		else if(level == TraceLevel::DEBUG)
-			output.getLogger()->debug(" ");
-		else if(level == TraceLevel::TRACE)
-			output.getLogger()->trace(" ");
-		else {}
+		
+		if(isVertical && endline)
+		{
+			if (level == TraceLevel::CRITICAL)
+				output.getLogger()->critical(" ");	
+			else if (level == TraceLevel::ERR)
+				output.getLogger()->error(" ");
+			else if (level == TraceLevel::WARN)
+				output.getLogger()->warn(" ");
+			else if (level == TraceLevel::INFO)
+				output.getLogger()->info(" ");
+			else if(level == TraceLevel::DEBUG)
+				output.getLogger()->debug(" ");
+			else if(level == TraceLevel::TRACE)
+				output.getLogger()->trace(" ");
+			else {}
+		}
 	}
 
 	void printVector(std::vector<std::string> vec, Output output, TraceLevel level, bool isVertical)

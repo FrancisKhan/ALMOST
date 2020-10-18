@@ -1,11 +1,12 @@
-% Pub-H20(1)-I-0-CY
+% Pub-H20(10)-l-O-CY
+% Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
-solvers transport
+csolvers transport
 
 geometry  cylinder
 energies  1
 
-mesh 6 0.0339761 M1 7 0.03063725 M2
+mesh 10 0.03077574 M1 20 0.33714829 M2
 
 material M1
 

@@ -1,8 +1,9 @@
 % PU-2-O-IN
+% Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 solvers transport
 
-geometry  slab
+geometry  cylinder
 energies  2
 
 mesh 10 0.1 M1

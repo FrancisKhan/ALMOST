@@ -550,17 +550,17 @@ void Input::setXS(std::string name, std::string outputName)
 	for(unsigned m = 0; m < m_cells; m++)
     {
         if(name == "ni") 
-			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL, false , false);
 		else if(name == "chi") 
-			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL, false , false);
 		else if(name == "fission") 
-			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL, false , false);
 		else if(name == "total") 
-			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL, false , false);
 		else if(name == "absorption") 
-			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL, false , false);
 		else if(name == "diffCoeff") 
-			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL);
+			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL, false , false);
 		else {;}
 	}
 }
@@ -655,7 +655,7 @@ void Input::setKineticsParameters()
 	if (times.size() != reactivities.size()) 
 	{
 		out.print(TraceLevel::CRITICAL, "times and reactivities must have equal sizes!"); 
-		out.print(TraceLevel::CRITICAL, "times: {} reativities: {}" , times.size(), reactivities.size());
+		out.print(TraceLevel::CRITICAL, "times: {} reactivities: {}" , int(times.size()), reactivities.size());
 		exit(-1);
 	}
 
@@ -871,7 +871,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 			{
 				if((inputSolver == SolverKind::DIFFUSION) && (m_mesh.getGeometry() == GeomKind::SLAB))
 				{
-					std::vector<double> albedo{std::stod(values[1])}; 
+					std::vector<double> albedo{std::stod(values[1]), std::stod(values[2])}; 
 					solver.setAlbedo(albedo);
 				}
 				else

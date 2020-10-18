@@ -1,8 +1,9 @@
 % PUb-l-O-IN
+% Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 solvers transport
 
-geometry  slab
+geometry  sphere
 energies  1
 
 mesh 10 0.1 M1

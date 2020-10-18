@@ -1,18 +1,18 @@
 #include "gtest/gtest.h"
 #include "TestHelper.h"
 
-class CoupledIntegrationTests : public ::testing::Test 
+class CPMHeatIntegrationTests : public ::testing::Test 
 {
  protected:
   virtual void SetUp() {}
   virtual void TearDown() {}
 };
 
-TEST_F(CoupledIntegrationTests, coupledTest1)
+TEST_F(CPMHeatIntegrationTests, coupledTest1)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/coupledTest1.txt";
-  const std::string outputPath = "outputs/Out_coupledTest1.txt";
+  const std::string inputPath  = "inputs/CPMHeatTest1.txt";
+  const std::string outputPath = "outputs/Out_CPMHeatTest1.txt";
   const std::string traceLevel = "CRITICAL";
 
   const double kEffRef = 9.444236e-01;
@@ -41,11 +41,11 @@ TEST_F(CoupledIntegrationTests, coupledTest1)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(CoupledIntegrationTests, coupledTest2)
+TEST_F(CPMHeatIntegrationTests, coupledTest2)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/coupledTest2.txt";
-  const std::string outputPath = "outputs/Out_coupledTest2.txt";
+  const std::string inputPath  = "inputs/CPMHeatTest2.txt";
+  const std::string outputPath = "outputs/Out_CPMHeatTest2.txt";
   const std::string traceLevel = "CRITICAL";
 
   const double kEffRef = 9.444236e-01;
@@ -75,11 +75,11 @@ TEST_F(CoupledIntegrationTests, coupledTest2)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(CoupledIntegrationTests, coupledTest3)
+TEST_F(CPMHeatIntegrationTests, coupledTest3)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/coupledTest3.txt";
-  const std::string outputPath = "outputs/Out_coupledTest3.txt";
+  const std::string inputPath  = "inputs/CPMHeatTest3.txt";
+  const std::string outputPath = "outputs/Out_CPMHeatTest3.txt";
   const std::string traceLevel = "CRITICAL";
 
   const double kEffRef = 9.371118e-01;
@@ -111,11 +111,11 @@ TEST_F(CoupledIntegrationTests, coupledTest3)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(CoupledIntegrationTests, coupledTest4)
+TEST_F(CPMHeatIntegrationTests, coupledTest4)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/coupledTest4.txt";
-  const std::string outputPath = "outputs/Out_coupledTest4.txt";
+  const std::string inputPath  = "inputs/CPMHeatTest4.txt";
+  const std::string outputPath = "outputs/Out_CPMHeatTest4.txt";
   const std::string traceLevel = "CRITICAL";
 
   const double kEffRef = 9.376760e-01;
@@ -147,11 +147,11 @@ TEST_F(CoupledIntegrationTests, coupledTest4)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
-TEST_F(CoupledIntegrationTests, coupledTest5)
+TEST_F(CPMHeatIntegrationTests, coupledTest5)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/coupledTest5.txt";
-  const std::string outputPath = "outputs/Out_coupledTest5.txt";
+  const std::string inputPath  = "inputs/CPMHeatTest5.txt";
+  const std::string outputPath = "outputs/Out_CPMHeatTest5.txt";
   const std::string traceLevel = "CRITICAL";
 
   const double kEffRef = 7.962047e-01;

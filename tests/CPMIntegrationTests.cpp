@@ -13,8 +13,8 @@ class CPMIntegrationTests : public ::testing::Test
 TEST_F(CPMIntegrationTests, Problem1CY)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1CY.txt";
-  const std::string outputPath = "outputs/Out_Problem1CY.txt";
+  const std::string inputPath  = "inputs/CPMProblem1CY.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1CY.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.6129031;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -34,8 +34,8 @@ TEST_F(CPMIntegrationTests, Problem1CY)
 TEST_F(CPMIntegrationTests, Problem5CY)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem5CY.txt";
-  const std::string outputPath = "outputs/Out_Problem5CY.txt";
+  const std::string inputPath  = "inputs/CPMProblem5CY.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem5CY.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.2903225806451606;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -55,8 +55,8 @@ TEST_F(CPMIntegrationTests, Problem5CY)
 TEST_F(CPMIntegrationTests, Problem7)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem7.txt";
-  const std::string outputPath = "outputs/Out_Problem7.txt";
+  const std::string inputPath  = "inputs/CPMProblem7.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem7.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99673135097656018;
@@ -78,8 +78,8 @@ TEST_F(CPMIntegrationTests, Problem7)
 TEST_F(CPMIntegrationTests, Problem9)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem9.txt";
-  const std::string outputPath = "outputs/Out_Problem9.txt";
+  const std::string inputPath  = "inputs/CPMProblem9.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem9.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99520893671732791;
@@ -102,8 +102,8 @@ TEST_F(CPMIntegrationTests, Problem9)
 TEST_F(CPMIntegrationTests, Problem10)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem10.txt";
-  const std::string outputPath = "outputs/Out_Problem10.txt";
+  const std::string inputPath  = "inputs/CPMProblem10.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem10.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.98028468508336697;
@@ -131,8 +131,8 @@ TEST_F(CPMIntegrationTests, Problem10)
 TEST_F(CPMIntegrationTests, Problem44CY)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem44CY.txt";
-  const std::string outputPath = "outputs/Out_Problem44CY.txt";
+  const std::string inputPath  = "inputs/CPMProblem44CY.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem44CY.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 2.683767478813559;
@@ -157,8 +157,8 @@ TEST_F(CPMIntegrationTests, Problem44CY)
 TEST_F(CPMIntegrationTests, Problem74)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem74.txt";
-  const std::string outputPath = "outputs/Out_Problem74.txt";
+  const std::string inputPath  = "inputs/CPMProblem74.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem74.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 1.60;
@@ -186,8 +186,8 @@ TEST_F(CPMIntegrationTests, Problem74)
 TEST_F(CPMIntegrationTests, Problem75)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem75.txt";
-  const std::string outputPath = "outputs/Out_Problem75.txt";
+  const std::string inputPath  = "inputs/CPMProblem75.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem75.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 1.60;
@@ -227,8 +227,8 @@ TEST_F(CPMIntegrationTests, Problem75)
 TEST_F(CPMIntegrationTests, Problem1SP)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1SP.txt";
-  const std::string outputPath = "outputs/Out_Problem1SP.txt";
+  const std::string inputPath  = "inputs/CPMProblem1SP.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1SP.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.6129031;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -248,8 +248,8 @@ TEST_F(CPMIntegrationTests, Problem1SP)
 TEST_F(CPMIntegrationTests, Problem5SP)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem5SP.txt";
-  const std::string outputPath = "outputs/Out_Problem5SP.txt";
+  const std::string inputPath  = "inputs/CPMProblem5SP.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem5SP.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.2903225806451601;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -269,8 +269,8 @@ TEST_F(CPMIntegrationTests, Problem5SP)
 TEST_F(CPMIntegrationTests, Problem8)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem8.txt";
-  const std::string outputPath = "outputs/Out_Problem8.txt";
+  const std::string inputPath  = "inputs/CPMProblem8.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem8.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.950726e-01;
@@ -292,8 +292,8 @@ TEST_F(CPMIntegrationTests, Problem8)
 TEST_F(CPMIntegrationTests, Problem16)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem16.txt";
-  const std::string outputPath = "outputs/Out_Problem16.txt";
+  const std::string inputPath  = "inputs/CPMProblem16.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem16.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.962318e-01;
@@ -319,8 +319,8 @@ TEST_F(CPMIntegrationTests, Problem16)
 TEST_F(CPMIntegrationTests, Problem44SP)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem44SP.txt";
-  const std::string outputPath = "outputs/Out_Problem44SP.txt";
+  const std::string inputPath  = "inputs/CPMProblem44SP.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem44SP.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 2.683767478813559;
@@ -345,8 +345,8 @@ TEST_F(CPMIntegrationTests, Problem44SP)
 TEST_F(CPMIntegrationTests, Problem49)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem49.txt";
-  const std::string outputPath = "outputs/Out_Problem49.txt";
+  const std::string inputPath  = "inputs/CPMProblem49.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem49.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.914234e-01;
@@ -371,8 +371,8 @@ TEST_F(CPMIntegrationTests, Problem49)
 TEST_F(CPMIntegrationTests, Problem69)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem69.txt";
-  const std::string outputPath = "outputs/Out_Problem69.txt";
+  const std::string inputPath  = "inputs/CPMProblem69.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem69.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.977171e-01;
@@ -406,8 +406,8 @@ TEST_F(CPMIntegrationTests, Problem69)
 TEST_F(CPMIntegrationTests, Problem1SL)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1SL.txt";
-  const std::string outputPath = "outputs/Out_Problem1SL.txt";
+  const std::string inputPath  = "inputs/CPMProblem1SL.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1SL.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.6129031;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -427,8 +427,8 @@ TEST_F(CPMIntegrationTests, Problem1SL)
 TEST_F(CPMIntegrationTests, Problem5SL)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem5SL.txt";
-  const std::string outputPath = "outputs/Out_Problem5SL.txt";
+  const std::string inputPath  = "inputs/CPMProblem5SL.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem5SL.txt";
   const std::string traceLevel = "DEBUG";
   const double kEffRef = 2.2903225806451601;
   std::vector<double> refFlux = {0.1000, 0.1000, 0.1000,
@@ -448,8 +448,8 @@ TEST_F(CPMIntegrationTests, Problem5SL)
 TEST_F(CPMIntegrationTests, Problem2)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem2.txt";
-  const std::string outputPath = "outputs/Out_Problem2.txt";
+  const std::string inputPath  = "inputs/CPMProblem2.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem2.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99758944633443514;
@@ -471,8 +471,8 @@ TEST_F(CPMIntegrationTests, Problem2)
 TEST_F(CPMIntegrationTests, Problem3)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem3.txt";
-  const std::string outputPath = "outputs/Out_Problem3.txt";
+  const std::string inputPath  = "inputs/CPMProblem3.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem3.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99893783602164843;
@@ -499,8 +499,8 @@ TEST_F(CPMIntegrationTests, Problem3)
 TEST_F(CPMIntegrationTests, Problem4)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem4.txt";
-  const std::string outputPath = "outputs/Out_Problem4.txt";
+  const std::string inputPath  = "inputs/CPMProblem4.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem4.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99930420924023056;
@@ -529,8 +529,8 @@ TEST_F(CPMIntegrationTests, Problem4)
 TEST_F(CPMIntegrationTests, Problem6)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem6.txt";
-  const std::string outputPath = "outputs/Out_Problem6.txt";
+  const std::string inputPath  = "inputs/CPMProblem6.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem6.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99638161118620527;
@@ -551,8 +551,8 @@ TEST_F(CPMIntegrationTests, Problem6)
 TEST_F(CPMIntegrationTests, Problem44SL)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem44SL.txt";
-  const std::string outputPath = "outputs/Out_Problem44SL.txt";
+  const std::string inputPath  = "inputs/CPMProblem44SL.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem44SL.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 2.6837674788135604;
@@ -577,8 +577,8 @@ TEST_F(CPMIntegrationTests, Problem44SL)
 TEST_F(CPMIntegrationTests, Problem48)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem48.txt";
-  const std::string outputPath = "outputs/Out_Problem48.txt";
+  const std::string inputPath  = "inputs/CPMProblem48.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem48.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99608037636503111;
@@ -603,8 +603,8 @@ TEST_F(CPMIntegrationTests, Problem48)
 TEST_F(CPMIntegrationTests, Problem68)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem68.txt";
-  const std::string outputPath = "outputs/Out_Problem68.txt";
+  const std::string inputPath  = "inputs/CPMProblem68.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem68.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 9.956694e-01;
@@ -636,8 +636,8 @@ TEST_F(CPMIntegrationTests, Problem68)
 TEST_F(CPMIntegrationTests, Problem58)
 {	
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem58.txt";
-  const std::string outputPath = "outputs/Out_Problem58.txt";
+  const std::string inputPath  = "inputs/CPMProblem58.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem58.txt";
   const std::string traceLevel = "DEBUG";
 
   const double kEffRef = 0.99239516125086513;
@@ -757,8 +757,8 @@ TEST_F(CPMIntegrationTests, memTestCPMslab)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1SL.txt";
-  const std::string outputPath = "outputs/Out_Problem1SL.txt";
+  const std::string inputPath  = "inputs/CPMProblem1SL.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1SL.txt";
   const std::string traceLevel = "DEBUG";
 
   TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
@@ -770,8 +770,8 @@ TEST_F(CPMIntegrationTests, memTestCPMcyl)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1CY.txt";
-  const std::string outputPath = "outputs/Out_Problem1CY.txt";
+  const std::string inputPath  = "inputs/CPMProblem1CY.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1CY.txt";
   const std::string traceLevel = "DEBUG";
 
   TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);
@@ -783,8 +783,8 @@ TEST_F(CPMIntegrationTests, memTestCPMsph)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
   const std::string codePath   = "app/almost";
-  const std::string inputPath  = "inputs/Problem1CY.txt";
-  const std::string outputPath = "outputs/Out_Problem1CY.txt";
+  const std::string inputPath  = "inputs/CPMProblem1CY.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem1CY.txt";
   const std::string traceLevel = "DEBUG";
 
   TestHelper test(valgrind, codePath, inputPath, outputPath, traceLevel);

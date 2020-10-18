@@ -1,17 +1,16 @@
-% PUa-l-O-SL
+% PUb-l-O-IN
+% Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 solvers transport
 
 geometry  slab
 energies  1
 
-mesh 10 0.03707444 M1
+mesh 10 0.1 M1
 
 material M1
 
-% properties U
-
-ni(1) 3.24
+ni(1) 2.84
 chi(1) 1.0
 fission(1) 0.081600
 total(1) 0.32640
@@ -20,4 +19,4 @@ scattMatrix(1, 1) 0.225216
 solver transport
 accuracy 1.0E-8
 max_iteration_number 20
-albedo 0.0
+albedo 1.0
