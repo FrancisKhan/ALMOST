@@ -5,36 +5,62 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
-MatrixXd CylDiffusionCode::calcMMatrix()
+MatrixXd CylDiffusionCode::calcDiffOperatorMatrix()
 {
-    MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
+    MatrixXd M = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
-    // m_temperatures     = m_mesh.getTemperatures("C");
-    // m_heatSources      = m_mesh.getHeatSources();
-    // VectorXd lambda    = getInterfaceDiffusionConstants();
-    // VectorXd cellSizes = m_mesh.getCellSizes("m");
+    MatrixXd D         = m_mesh.getDiffusionConstants();
+    MatrixXd totXS     = m_mesh.getTotalXSs();
+    VectorXd cellSizes = m_mesh.getCellSizes("cm");
 
-    // for(int i = 0; i < m_cells; i++)
-    // {
-    //     if(i == 0)
-    //     {
-    //         T(i, i)     = + lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
-    //         T(i, i + 1) = - lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
-    //     }
-    //     else if(i == m_cells - 1)
-    //     {
-    //         T(i, i)     = + lambda[i] * m_radii(i) / cellSizes(i - 1);
-    //         T(i, i - 1) = - lambda[i] * m_radii(i) / cellSizes(i - 1);
-    //     }
-    //     else
-    //     {
-    //         T(i, i)     = + lambda[i] * m_radii(i) / cellSizes(i - 1) + 
-    //                         lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
+    out.print(TraceLevel::DEBUG, "D vector:");
+    printMatrix(D, out, TraceLevel::DEBUG);
 
-    //         T(i, i - 1) = - lambda[i] * m_radii(i) / cellSizes(i - 1);
-    //         T(i, i + 1) = - lambda[i + 1] * m_radii(i + 1) / cellSizes(i + 1);
-    //     }
-    // }
+    out.print(TraceLevel::DEBUG, "totXS vector:");
+    printMatrix(totXS, out, TraceLevel::DEBUG);
 
-    return T;
+    out.print(TraceLevel::DEBUG, "cellSizes vector:");
+    printVector(cellSizes, out, TraceLevel::DEBUG);
+
+    double albedoL = m_solverData.getAlbedo()[0];
+    double albedoR = m_solverData.getAlbedo()[1];
+
+    out.print(TraceLevel::DEBUG, "albedo: {} {}\n", albedoL, albedoR);
+
+    double A, B;
+
+    for(int e = 0; e < m_energies; e++)
+    {
+        for(int m = 0; m < m_cells; m++)
+        {
+            if(m == 0)
+            {
+                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
+                B = D(e, m) * (1.0 - albedoL) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL)));
+                //B = D(e, m) / pow(cellSizes(m), 2);        
+                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
+            }
+            else if (m == m_cells - 1)
+            {
+                A = D(e, m) * (1.0 - albedoR) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR)));
+                //A = D(e, m) / pow(cellSizes(m), 2);
+                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));             
+                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
+            }
+            else
+            {      
+                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
+                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));         
+                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
+                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
+            }
+
+            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m)); 
+        }
+    }
+        
+    out.print(TraceLevel::DEBUG, "Diffusion operator matrix []:");
+    printMatrix(M, out, TraceLevel::DEBUG);
+
+    return M;
 }

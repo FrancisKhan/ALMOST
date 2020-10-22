@@ -15,7 +15,8 @@ void DiffusionSolver::solve()
     int max_iter_number = m_solverData.getMaxIterNumber();
 	double accuracy     = m_solverData.getAccuracy();
 
-    MatrixXd MMatrix = diffCode->calcMMatrix();
+    MatrixXd DMatrix = diffCode->calcDiffOperatorMatrix();
+    MatrixXd MMatrix = diffCode->calcMMatrix(DMatrix);
     MatrixXd FMatrix = diffCode->calcFMatrix();
 
     Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "diffusion");

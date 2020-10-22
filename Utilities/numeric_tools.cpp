@@ -33,7 +33,6 @@ namespace Numerics
 	
 		for(unsigned i = 0; i < rowSum.size(); i++)
 		{
-			//if(matrix(i, i) < (rowSum(i) - matrix(i, i))) // comparing two floating numbers!!
 			if(is_lower(matrix(i, i), (rowSum(i) - matrix(i, i))))
 			{
 				out.print(TraceLevel::CRITICAL, "The convergence is not guaranteed, the matrix is not strictly diagonally dominant");

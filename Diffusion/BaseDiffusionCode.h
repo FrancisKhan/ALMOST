@@ -21,10 +21,10 @@ public:
 	~BaseDiffusionCode(){}
 	
 	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
-	Eigen::MatrixXd getInterfaceDiffusionConstants();
+	virtual Eigen::MatrixXd calcDiffOperatorMatrix() = 0;
+	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix);
+	Eigen::MatrixXd calcFMatrix();
 
-	virtual Eigen::MatrixXd calcMMatrix() = 0;
-	virtual Eigen::MatrixXd calcFMatrix() = 0;
 	void setNewHeatSource(Numerics::SourceIterResults result);
 
 	

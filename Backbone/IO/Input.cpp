@@ -404,7 +404,7 @@ void Input::setMaterials(SolverKind solver)
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
    		setXS("fission", "\nInput fission XS [1/cm]:");
-   		setXS("absorption", "\nInput absorption XS [1/cm]:");	
+   		setXS("total", "\nInput total XS [1/cm]:");	
 		setXS("diffCoeff", "\nInput diffusion coefficients [cm]:");	
 
 		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");

@@ -12,10 +12,10 @@ public:
 	m_mesh(reactor.getMesh()), 
 	m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
-	m_cells(m_mesh.getCellsNumber()) {}
+	m_cells(m_mesh.getCellsNumber()), 
+	m_energies(m_mesh.getEnergyGroupsNumber()) {}
 
-	Eigen::MatrixXd calcMMatrix() override;
-	Eigen::MatrixXd calcFMatrix() override;
+	Eigen::MatrixXd calcDiffOperatorMatrix() override;
 	
 private:
 	Reactor &m_reactor;
@@ -25,6 +25,7 @@ private:
 	Eigen::VectorXd m_radii;
 	Eigen::VectorXd m_volumes;
 	int m_cells;
+	int m_energies;
 };
 
 #endif

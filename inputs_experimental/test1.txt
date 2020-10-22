@@ -1,19 +1,18 @@
-% PUa-l-O-SL
+% Test input 1
 
 solvers diffusion
 
 geometry  slab
-albedo    1.0
 energies  1
 
-mesh 50 1.0 M1
+mesh 3 1.0 M1
 
 material M1
 
 ni(1)         2.43751e+00
 chi(1)        1.00000e+00
 fission(1)    7.97768e-04
-absorption(1) 1.45350e-03
+total(1)      2.40563e-01
 diffCoeff(1)  1.58149e+00
 
 scattMatrix(1, 1) 2.39111e-01
@@ -21,3 +20,4 @@ scattMatrix(1, 1) 2.39111e-01
 solver diffusion
 accuracy 1.0E-8
 max_iteration_number 20
+albedo 0.0 0.0

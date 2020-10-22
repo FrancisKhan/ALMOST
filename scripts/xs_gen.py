@@ -83,7 +83,7 @@ def main(argv):
             
             elif(solver == "diffusion"):
                 
-                print("absorption(", i+1, ") ", "{:.5e}".format(absorption[i]), sep="", file=f)
+                print("total(", i+1, ")      ", "{:.5e}".format(total[i]), sep="", file=f)
                 
                 if(transportCorrection):
                     print("diffCoeff(", i+1, ")  ", "{:.5e}".format(diffCoeff[i]), sep="", file=f)

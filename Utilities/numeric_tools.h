@@ -182,13 +182,13 @@ namespace Numerics
         return a;
     }
 
-    template <typename T>
-    inline Eigen::VectorXd operator-(const Eigen::VectorXd& a, const T m)
-    {
-        Eigen::VectorXd result = Eigen::VectorXd::Zero(a.size());
-        std::transform(a.begin(), a.end(), result.begin(), [m](auto i){return i - m;});
-        return result;
-    }
+    // template <typename T>
+    // inline Eigen::VectorXd operator-(const Eigen::VectorXd& a, const T m)
+    // {
+    //     Eigen::VectorXd result = Eigen::VectorXd::Zero(a.size());
+    //     std::transform(a.begin(), a.end(), result.begin(), [m](auto i){return i - m;});
+    //     return result;
+    // }
 
     template <typename T>
     inline Eigen::VectorXd operator+(const Eigen::VectorXd& a, const T p)
