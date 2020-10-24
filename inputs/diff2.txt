@@ -1,5 +1,6 @@
 % Graphite reactor with graphite reflector
 % Left reflective boundary condition 
+% One energy groups
 
 solvers diffusion
 

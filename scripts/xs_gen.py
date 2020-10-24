@@ -23,9 +23,9 @@ def main(argv):
     output = resFile + "_ALMOST.txt"
     f = open(output, 'w')
     
-    print("\nSolver: ", solver, file=f)
-    print("Transport Correction ", transportCorrection, file=f)
-    print("Leakage Correction:  ", leakageCorrection, "\n\n", file=f)
+    print("\nSolver:               ", solver, file=f)
+    print("Transport Correction: ", transportCorrection, file=f)
+    print("Leakage Correction:   ", leakageCorrection, "\n\n", file=f)
     
     for key in res.universes:
         univ = res.getUniv(key[0], key[1])
@@ -75,9 +75,9 @@ def main(argv):
             if(solver == "transport"):
                 
                 if(transportCorrection):
-                    for i in range(energyGroups):
-                        total[i] = total[i] - scatt1[i]
-                        scattMatrix0[i + i * energyGroups] = scattMatrix0[i + i * energyGroups] - scatt1[i]
+                    for j in range(energyGroups):
+                        total[j] = total[j] - scatt1[j]
+                        scattMatrix0[j + j * energyGroups] = scattMatrix0[j + j * energyGroups] - scatt1[j]
                 
                 print("total(", i+1, ")      ", "{:.5e}".format(total[i]), sep="", file=f)
             

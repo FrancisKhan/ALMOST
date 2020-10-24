@@ -1,0 +1,34 @@
+% Graphite reactor
+% Reflective boundaries at both ends
+% Two energy groups
+
+solvers diffusion
+
+geometry  slab
+energies  2
+
+mesh 50 2.0 M1
+
+material M1
+
+ni(1)         2.44699e+00
+chi(1)        1.00000e+00
+fission(1)    2.29206e-05
+total(1)      2.20509e-01
+diffCoeff(1)  1.80307e+00
+
+ni(2)         2.43670e+00
+chi(2)        0.00000e+00
+fission(2)    4.45882e-04
+total(2)      2.59265e-01
+diffCoeff(2)  1.35913e+00
+
+scattMatrix(1, 1) 2.17907e-01
+scattMatrix(1, 2) 2.33860e-03
+scattMatrix(2, 1) 1.33398e-05
+scattMatrix(2, 2) 2.58620e-01
+
+solver diffusion
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 1.0 0.0

@@ -1,0 +1,49 @@
+% Test input 2
+
+solvers transport
+
+geometry  slab
+energies  2
+
+mesh 25 0.5 M1 25 0.5 M2
+
+material M1
+
+ni(1)         2.45250e+00
+chi(1)        1.00000e+00
+fission(1)    8.33685e-05
+total(1)      2.21092e-01
+
+ni(2)         2.43670e+00
+chi(2)        0.00000e+00
+fission(2)    1.55150e-03
+total(2)      2.60150e-01
+
+scattMatrix(1, 1) 2.18422e-01
+scattMatrix(1, 2) 1.79896e-03
+scattMatrix(2, 1) 3.54725e-05
+scattMatrix(2, 2) 2.58103e-01
+
+
+material M2
+
+ni(1)         0.00000e+00
+chi(1)        0.00000e+00
+fission(1)    0.00000e+00
+total(1)      2.29046e-01
+
+ni(2)         0.00000e+00
+chi(2)        0.00000e+00
+fission(2)    0.00000e+00
+total(2)      2.58901e-01
+
+scattMatrix(1, 1) 2.25733e-01
+scattMatrix(1, 2) 3.30828e-03
+scattMatrix(2, 1) 7.61814e-06
+scattMatrix(2, 2) 2.58806e-01
+
+
+solver transport
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 1.0

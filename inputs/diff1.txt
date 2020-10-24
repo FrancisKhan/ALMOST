@@ -1,5 +1,6 @@
 % Graphite reactor with graphite reflector
 % Zero in-current at both boundaries
+% One energy groups
 
 solvers diffusion
 
