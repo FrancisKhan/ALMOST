@@ -1,0 +1,45 @@
+% Water reactor
+% Reflective boundaries on the left
+% Three energy groups
+
+solvers diffusion
+
+geometry  slab
+energies  3
+
+mesh 50 2.0 M1
+
+material M1
+
+ni(1)         2.79977e+00
+chi(1)        7.65359e-01
+fission(1)    8.25049e-05
+total(1)      1.88489e-01
+diffCoeff(1)  3.12413e+00
+
+ni(2)         2.43675e+00
+chi(2)        2.34641e-01
+fission(2)    2.49610e-04
+total(2)      8.42584e-01
+diffCoeff(2)  1.19396e+00
+
+ni(3)         2.43670e+00
+chi(3)        0.00000e+00
+fission(3)    8.42627e-03
+total(3)      1.46348e+00
+diffCoeff(3)  4.04889e-01
+
+scattMatrix(1, 1) 1.13554e-01
+scattMatrix(1, 2) 7.45513e-02
+scattMatrix(1, 3) 0.00000e+00
+scattMatrix(2, 1) 0.00000e+00
+scattMatrix(2, 2) 7.88117e-01
+scattMatrix(2, 3) 5.23030e-02
+scattMatrix(3, 1) 0.00000e+00
+scattMatrix(3, 2) 5.90805e-05
+scattMatrix(3, 3) 1.43995e+00
+
+solver diffusion
+accuracy 1.0E-6
+max_iteration_number 200
+albedo 1.0 0.0

@@ -1,4 +1,6 @@
-% Test input 2
+% Water reactor
+% Reflective boundaries on the left
+% Four energy groups
 
 solvers diffusion
 
@@ -49,6 +51,7 @@ scattMatrix(4, 1) 0.00000e+00
 scattMatrix(4, 2) 0.00000e+00
 scattMatrix(4, 3) 5.89703e-05
 scattMatrix(4, 4) 1.43985e+00
+
 
 solver diffusion
 accuracy 1.0E-6

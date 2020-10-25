@@ -75,9 +75,8 @@ def main(argv):
             if(solver == "transport"):
                 
                 if(transportCorrection):
-                    for j in range(energyGroups):
-                        total[j] = total[j] - scatt1[j]
-                        scattMatrix0[j + j * energyGroups] = scattMatrix0[j + j * energyGroups] - scatt1[j]
+                    total[i] = total[i] - scatt1[i]
+                    scattMatrix0[i + i * energyGroups] = scattMatrix0[i + i * energyGroups] - scatt1[i]
                 
                 print("total(", i+1, ")      ", "{:.5e}".format(total[i]), sep="", file=f)
             

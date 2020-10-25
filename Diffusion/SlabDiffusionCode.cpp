@@ -13,19 +13,8 @@ MatrixXd SlabDiffusionCode::calcDiffOperatorMatrix()
     MatrixXd totXS     = m_mesh.getTotalXSs();
     VectorXd cellSizes = m_mesh.getCellSizes("cm");
 
-    out.print(TraceLevel::DEBUG, "D vector:");
-    printMatrix(D, out, TraceLevel::DEBUG);
-
-    out.print(TraceLevel::DEBUG, "totXS vector:");
-    printMatrix(totXS, out, TraceLevel::DEBUG);
-
-    out.print(TraceLevel::DEBUG, "cellSizes vector:");
-    printVector(cellSizes, out, TraceLevel::DEBUG);
-
     double albedoL = m_solverData.getAlbedo()[0];
     double albedoR = m_solverData.getAlbedo()[1];
-
-    out.print(TraceLevel::DEBUG, "albedo: {} {}\n", albedoL, albedoR);
 
     double A, B;
 
@@ -64,27 +53,3 @@ MatrixXd SlabDiffusionCode::calcDiffOperatorMatrix()
 
     return M;
 }
-
-// MatrixXd SlabDiffusionCode::calcFMatrix()
-// {
-//     MatrixXd F = MatrixXd::Zero(m_cells, m_cells);
-
-//     MatrixXd Ni     = m_mesh.getNis();
-//     MatrixXd fissXS = m_mesh.getFissionXSs();
-
-//     out.print(TraceLevel::DEBUG, "Ni vector:");
-//     printMatrix(Ni, out, TraceLevel::DEBUG);
-
-//     out.print(TraceLevel::DEBUG, "fissXS vector:");
-//     printMatrix(fissXS, out, TraceLevel::DEBUG);
-
-//     for(int i = 0; i < m_cells; i++)
-//     {
-//         F(i, i) = Ni(0, i) * fissXS(0, i);                  
-//     }  
-
-//     out.print(TraceLevel::DEBUG, "F matrix []:");
-//     printMatrix(F, out, TraceLevel::DEBUG);
-
-//     return F;
-// }
