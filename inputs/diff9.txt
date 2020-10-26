@@ -1,4 +1,6 @@
-% Test input 2
+% Water reactor with water reflector
+% Reflective boundaries on the left
+% Four energy groups
 
 solvers diffusion
 
