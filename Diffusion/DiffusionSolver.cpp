@@ -12,14 +12,12 @@ void DiffusionSolver::solve()
     m_oldPowerDensities = m_mesh.getHeatSources();
     std::shared_ptr<BaseDiffusionCode> diffCode = DiffusionCodeFactory::setDiffusionCode(m_reactor, m_library, m_solverData);
 
-    int max_iter_number = m_solverData.getMaxIterNumber();
-	double accuracy     = m_solverData.getAccuracy();
-
     MatrixXd DMatrix = diffCode->calcDiffOperatorMatrix();
     MatrixXd MMatrix = diffCode->calcMMatrix(DMatrix);
     MatrixXd FMatrix = diffCode->calcFMatrix();
 
-    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "diffusion");
+    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, 
+                                         m_solverData, m_reactor.getMesh().getVolumes("cm"));
     diffCode->setNewHeatSource(result);
 }
 

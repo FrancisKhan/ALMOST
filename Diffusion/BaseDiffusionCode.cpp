@@ -19,7 +19,7 @@ MatrixXd BaseDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
 	        for(int i = 0; i < m_cells; i++)
 	        {
 	      	    MMatrix(i + (k + j) % m_energies * m_cells, i + j * m_cells) = 
-				scattMatrix(j % m_energies, (k + j) % m_energies, i);
+				scattMatrix(j % m_energies, (k + j) % m_energies, i) * m_volumes(i);
 		    }
 	    }
 	}

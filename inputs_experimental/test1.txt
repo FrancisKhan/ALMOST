@@ -2,33 +2,22 @@
 
 solvers diffusion
 
-geometry  slab
+geometry  cylinder
 energies  1
 
-mesh 50 0.5 M1 50 0.5 M2
+mesh 50 1.0 M1
 
 material M1
-
-ni(1)         2.43774e+00
+ni(1)         2.43752e+00
 chi(1)        1.00000e+00
-fission(1)    7.16873e-04
-total(1)      2.37961e-01
-diffCoeff(1)  1.60885e+00
+fission(1)    5.08445e-03
+total(1)      1.11309e+00
+diffCoeff(1)  1.01197e+00
 
-scattMatrix(1, 1) 2.36596e-01
+scattMatrix(1, 1) 1.09853e+00
 
-
-material M2
-
-ni(1)         0.00000e+00
-chi(1)        0.00000e+00
-fission(1)    0.00000e+00
-total(1)      2.54934e-01
-diffCoeff(1)  1.40430e+00
-
-scattMatrix(1, 1) 2.54857e-01
 
 solver diffusion
-accuracy 1.0E-8
-max_iteration_number 20
-albedo 1.0 1.0
+accuracy 1.0E-4
+max_iteration_number 80
+albedo 0.0

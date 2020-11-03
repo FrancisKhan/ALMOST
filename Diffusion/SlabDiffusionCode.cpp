@@ -24,27 +24,27 @@ MatrixXd SlabDiffusionCode::calcDiffOperatorMatrix()
         {
             if(m == 0)
             {
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
-                B = D(e, m) * (1.0 - albedoL) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL)));
+                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1));
+                B = D(e, m) * (1.0 - albedoL) / (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL));
                 //B = D(e, m) / pow(cellSizes(m), 2);        
                 M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
             }
             else if (m == m_cells - 1)
             {
-                A = D(e, m) * (1.0 - albedoR) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR)));
+                A = D(e, m) * (1.0 - albedoR) / (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR));
                 //A = D(e, m) / pow(cellSizes(m), 2);
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));             
+                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m));             
                 M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
             }
             else
             {      
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));         
+                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1));
+                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m));         
                 M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
                 M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
             }
 
-            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m)); 
+            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m) * cellSizes(m)); 
         }
     }
         

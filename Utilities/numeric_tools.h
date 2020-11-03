@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "Output.h"
+#include "SolverData.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <Eigen/Dense>
@@ -213,7 +214,9 @@ namespace Numerics
                                    const Eigen::VectorXd &d);
 
     SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      int max_iter_number, double accuracy, std::string title);
+                                      SolverData &solverData, Eigen::VectorXd volumes);
+
+    Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
 }
 
 #endif

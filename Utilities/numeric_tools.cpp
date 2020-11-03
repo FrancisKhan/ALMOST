@@ -158,8 +158,15 @@ namespace Numerics
 	    return result;
 	}
 
+	Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b)
+	{
+		Eigen::VectorXd result(a.size() + b.size());
+		result << a, b;
+		return result;
+	}
+
 	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      int max_iter_number, double accuracy, std::string title)
+                                      SolverData &solverData, Eigen::VectorXd volumes)
 	{
 		diagonalDominanceCheck(Mmatrix);
 	
@@ -175,9 +182,20 @@ namespace Numerics
 		Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
 		Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
 		Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
-	
+
+		Eigen::VectorXd volumesVec = volumes;
+
+		int energyGroups = double(size) / volumes.size();
+
+		for(auto i = 0; i < energyGroups - 1; i++)
+			volumesVec = ConcatenateEigenVectors(volumesVec, volumes);
+
 		double kFactor1 = 1.0;
 		double kFactor2 = 0.0;
+
+		int max_iter_number = solverData.getMaxIterNumber();
+		double accuracy = solverData.getAccuracy();
+		std::string title = get_name(solverData.getKind());
 	
 		int h;
 	
@@ -195,7 +213,12 @@ namespace Numerics
 			double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
 		
 			kFactor2 = kFactor1 * (sum2 / sum1);
-		
+
+			if(solverData.getKind() == SolverKind::DIFFUSION)
+			{
+				source2 = source2.cwiseProduct(volumesVec);	
+			}
+
 			source2 /= kFactor2;
 		
 			// exit condition

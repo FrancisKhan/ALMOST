@@ -17,11 +17,10 @@ void SpectrumSolver::solve()
 	MatrixXd cpm = spectrumCode->calcCPMMatrix(gcpm);
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
-
-	int max_iter_number = m_solverData.getMaxIterNumber();
-	double accuracy     = m_solverData.getAccuracy();
  
-	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, max_iter_number, accuracy, "transport");
+	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, 
+										 m_solverData, m_reactor.getMesh().getVolumes("cm"));
+
 	spectrumCode->setNewHeatSource(result);
 }
 

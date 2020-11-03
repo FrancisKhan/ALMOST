@@ -30,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs_experimental/slab_two_materials.txt", "outputs_experimental/Out_slab_two_materials.txt", "INFO"],
+            "args": ["inputs/diff5.txt", "outputs/Out_diff5.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

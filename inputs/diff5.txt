@@ -13,20 +13,20 @@ material M1
 
 ni(1)         2.44699e+00
 chi(1)        1.00000e+00
-fission(1)    2.29206e-05
-total(1)      2.20509e-01
-diffCoeff(1)  1.80307e+00
+fission(1)    2.29150e-05
+total(1)      2.20503e-01
+diffCoeff(1)  1.80322e+00
 
 ni(2)         2.43670e+00
 chi(2)        0.00000e+00
-fission(2)    4.45882e-04
-total(2)      2.59265e-01
-diffCoeff(2)  1.35913e+00
+fission(2)    4.45925e-04
+total(2)      2.59267e-01
+diffCoeff(2)  1.35912e+00
 
-scattMatrix(1, 1) 2.17907e-01
-scattMatrix(1, 2) 2.33860e-03
-scattMatrix(2, 1) 1.33398e-05
-scattMatrix(2, 2) 2.58620e-01
+scattMatrix(1, 1) 2.17902e-01
+scattMatrix(1, 2) 2.33725e-03
+scattMatrix(2, 1) 1.32951e-05
+scattMatrix(2, 2) 2.58622e-01
 
 solver diffusion
 accuracy 1.0E-8
