@@ -1,0 +1,24 @@
+% Water reactor
+% Vacuum boundaries on the right
+% One energy group
+
+solvers diffusion
+
+geometry  cylinder
+energies  1
+
+mesh 50 1.0 M1
+
+material M1
+ni(1)         2.43752e+00
+chi(1)        1.00000e+00
+fission(1)    5.08445e-03
+total(1)      1.11309e+00
+diffCoeff(1)  1.01197e+00
+
+scattMatrix(1, 1) 1.09853e+00
+
+solver diffusion
+accuracy 1.0E-4
+max_iteration_number 80
+albedo 0.0
