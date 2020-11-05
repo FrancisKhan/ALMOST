@@ -1,5 +1,5 @@
 % Water reactor
-% Vacuum boundaries on the right
+% Vacuum boundary on the right
 % Two energy groups
 
 solvers diffusion

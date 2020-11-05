@@ -1,0 +1,34 @@
+% Water reactor
+% Vacuum boundary on the right
+% Two energy groups
+
+solvers diffusion
+
+geometry  sphere
+energies  2
+
+mesh 50 1.0 M1
+
+material M1
+
+ni(1)         2.49196e+00
+chi(1)        1.00000e+00
+fission(1)    1.83369e-04
+total(1)      5.88494e-01
+diffCoeff(1)  1.98528e+00
+
+ni(2)         2.43670e+00
+chi(2)        0.00000e+00
+fission(2)    8.30172e-03
+total(2)      1.44201e+00
+diffCoeff(2)  4.11700e-01
+
+scattMatrix(1, 1) 5.54426e-01
+scattMatrix(1, 2) 3.25847e-02
+scattMatrix(2, 1) 5.86896e-05
+scattMatrix(2, 2) 1.41881e+00
+
+solver diffusion
+accuracy 1.0E-6
+max_iteration_number 80
+albedo 0.0

@@ -1,5 +1,5 @@
 % Water reactor
-% Reflective boundaries on the left
+% Reflective boundary on the left
 % Four energy groups
 
 solvers diffusion

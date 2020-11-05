@@ -13,19 +13,8 @@ MatrixXd SphDiffusionCode::calcDiffOperatorMatrix()
     MatrixXd totXS     = m_mesh.getTotalXSs();
     VectorXd cellSizes = m_mesh.getCellSizes("cm");
 
-    out.print(TraceLevel::DEBUG, "D vector:");
-    printMatrix(D, out, TraceLevel::DEBUG);
-
-    out.print(TraceLevel::DEBUG, "totXS vector:");
-    printMatrix(totXS, out, TraceLevel::DEBUG);
-
-    out.print(TraceLevel::DEBUG, "cellSizes vector:");
-    printVector(cellSizes, out, TraceLevel::DEBUG);
-
-    double albedoL = m_solverData.getAlbedo()[0];
-    double albedoR = m_solverData.getAlbedo()[1];
-
-    out.print(TraceLevel::DEBUG, "albedo: {} {}\n", albedoL, albedoR);
+    double albedoL = 1.0; // Fixed to reflective
+    double albedoR = m_solverData.getAlbedo()[0];
 
     double A, B;
 
@@ -33,29 +22,33 @@ MatrixXd SphDiffusionCode::calcDiffOperatorMatrix()
     {
         for(int m = 0; m < m_cells; m++)
         {
+            double volume  = (4.0 / 3.0) * M_PI * (pow(m_radii(m + 1), 3) - pow(m_radii(m), 3));
+            double SOverVp = 4.0 * M_PI * pow(m_radii(m + 1), 2);
+            double SOverVm = 4.0 * M_PI * pow(m_radii(m), 2);
+
             if(m == 0)
             {
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
-                B = D(e, m) * (1.0 - albedoL) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL)));
-                //B = D(e, m) / pow(cellSizes(m), 2);        
+                A = (D(e, m) * D(e, m + 1)) * SOverVp / ((cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
+                B = D(e, m) * (1.0 - albedoL) * SOverVm  / ((4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL)));
+                //B = D(e, m) * SOverVm / cellSizes(m);      
                 M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
             }
             else if (m == m_cells - 1)
             {
-                A = D(e, m) * (1.0 - albedoR) / (cellSizes(m) * (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR)));
-                //A = D(e, m) / pow(cellSizes(m), 2);
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));             
+                A = D(e, m) * (1.0 - albedoR) * SOverVp / ((4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR)));
+                //A = D(e, m) * SOverVp / cellSizes(m);
+                B = (D(e, m) * D(e, m - 1) * SOverVm) / ((cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));             
                 M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
             }
             else
             {      
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m) * (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));         
+                A = (D(e, m) * D(e, m + 1)) * SOverVp / ((cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1)));
+                B = (D(e, m) * D(e, m - 1)) * SOverVm / ((cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m)));         
                 M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
                 M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
             }
 
-            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m)); 
+            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m) * volume); 
         }
     }
         

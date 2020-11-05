@@ -16,8 +16,6 @@ MatrixXd CylDiffusionCode::calcDiffOperatorMatrix()
     double albedoL = 1.0; // Fixed to reflective
     double albedoR = m_solverData.getAlbedo()[0];
 
-    out.print(TraceLevel::DEBUG, "albedo: {}\n", albedoR);
-
     double A, B;
 
     for(int e = 0; e < m_energies; e++)
@@ -25,8 +23,8 @@ MatrixXd CylDiffusionCode::calcDiffOperatorMatrix()
         for(int m = 0; m < m_cells; m++)
         {
             double volume  = M_PI * (pow(m_radii(m + 1), 2) - pow(m_radii(m), 2));
-            double SOverVp = (2.0 * M_PI * m_radii(m + 1)); // / volume;
-            double SOverVm = (2.0 * M_PI * m_radii(m)); //     / volume;
+            double SOverVp = (2.0 * M_PI * m_radii(m + 1));
+            double SOverVm = (2.0 * M_PI * m_radii(m));
 
             if(m == 0)
             {
