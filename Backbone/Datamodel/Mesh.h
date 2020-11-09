@@ -20,7 +20,8 @@ public:
 	Eigen::VectorXd getCellSizes(std::string dim);
 	unsigned getCellsNumber(){return m_meshNumber;}
 	Eigen::VectorXd getVolumes(std::string dim);
-	double getSurface(std::string dim);
+	Eigen::VectorXd getSurfaces(std::string dim);
+	double getExternalSurface(std::string dim);
 	void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 

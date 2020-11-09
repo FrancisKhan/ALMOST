@@ -104,3 +104,24 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
 	//VectorXd powerDistribution = calcFissionPowerDistribution();
 	//m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
 }
+
+Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
+{
+	VectorXd cellSizes = m_mesh.getCellSizes("cm");
+	MatrixXd D         = m_mesh.getDiffusionConstants();
+	VectorXd surfaces  = m_mesh.getSurfaces("cm");
+
+
+	MatrixXd DInterface = MatrixXd::Zero(m_energies, m_cells);
+
+    for(int e = 0; e < m_energies; e++)
+    {
+        for(int m = 0; m < m_cells - 1; m++)
+        {
+            DInterface(e, m) = (D(e, m) * D(e, m + 1) * surfaces(m + 1)) / 
+			(cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1));
+        }
+    }
+
+	return DInterface;
+}

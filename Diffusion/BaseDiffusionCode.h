@@ -27,7 +27,8 @@ public:
 
 	void setNewHeatSource(Numerics::SourceIterResults result);
 
-	
+protected:
+	Eigen::MatrixXd getInterfaceDiffcoefficients();
 	
 private:
 	Reactor &m_reactor;

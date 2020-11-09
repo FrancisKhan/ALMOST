@@ -19,14 +19,14 @@ VectorXd Slab::volumes(VectorXd &boundaries, std::string dim)
 		return volumes * -1.0;
 }
 
-double Slab::surface(VectorXd &boundaries, std::string dim)
+VectorXd Slab::surfaces(VectorXd &boundaries, std::string dim)
 {
-    double surface = 1.0;
+	VectorXd surfaces = VectorXd::Ones(boundaries.size());
+	return surfaces;
+}
 
-	if(dim == "m")  
-		return surface;
-	else if(dim == "cm") 
-		return surface;
-	else
-		return -1.0;	
+double Slab::externalSurface(VectorXd &boundaries, std::string dim)
+{
+	VectorXd s = surfaces(boundaries, dim);
+	return s(Eigen::last);
 }

@@ -22,14 +22,22 @@ VectorXd Cylinder::volumes(VectorXd &boundaries, std::string dim)
 		return volumes * -1.0;
 }
 
-double Cylinder::surface(VectorXd &boundaries, std::string dim)
+VectorXd Cylinder::surfaces(VectorXd &boundaries, std::string dim)
 {
-	double surface = 2.0 * M_PI * boundaries(boundaries.size() - 1);
+	VectorXd surfaces = VectorXd::Zero(boundaries.size());
 
-    if(dim == "m")  
-		return surface;
+	surfaces = 2.0 * M_PI * boundaries;
+	
+	if(dim == "m")  
+		return surfaces;
 	else if(dim == "cm") 
-		return surface * 100.0;
+		return surfaces * 100.0;
 	else
-		return surface * -1.0;	
+		return surfaces * -1.0;
+}
+
+double Cylinder::externalSurface(VectorXd &boundaries, std::string dim)
+{
+	VectorXd s = surfaces(boundaries, dim);    
+	return s(Eigen::last);
 }

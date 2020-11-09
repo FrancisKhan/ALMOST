@@ -7,7 +7,8 @@ class Slab : public AbstractGeometry
 {
 public:
 	Eigen::VectorXd volumes(Eigen::VectorXd &boundaries, std::string dim);
-	double surface(Eigen::VectorXd &boundaries, std::string dim);
+	Eigen::VectorXd surfaces(Eigen::VectorXd &boundaries, std::string dim);
+	double externalSurface(Eigen::VectorXd &boundaries, std::string dim);
 };
 
 #endif

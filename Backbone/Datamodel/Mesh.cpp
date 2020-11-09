@@ -47,11 +47,25 @@ VectorXd Mesh::getVolumes(std::string dim)
 	}
 }
 
-double Mesh::getSurface(std::string dim)
+VectorXd Mesh::getSurfaces(std::string dim)
+{
+	VectorXd empty = VectorXd::Zero(1);
+	
+	if(pm_abGeom != nullptr)
+	{
+		return pm_abGeom->surfaces(m_boundaries, dim);
+	}
+	else
+	{
+		return empty;
+	}
+}
+
+double Mesh::getExternalSurface(std::string dim)
 {
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->surface(m_boundaries, dim);
+		return pm_abGeom->externalSurface(m_boundaries, dim);
 	}
 	else
 	{

@@ -9,14 +9,17 @@ MatrixXd SlabDiffusionCode::calcDiffOperatorMatrix()
 {
     MatrixXd M = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
-    MatrixXd D         = m_mesh.getDiffusionConstants();
-    MatrixXd totXS     = m_mesh.getTotalXSs();
-    VectorXd cellSizes = m_mesh.getCellSizes("cm");
+    MatrixXd D          = m_mesh.getDiffusionConstants();
+    MatrixXd totXS      = m_mesh.getTotalXSs();
+    VectorXd cellSizes  = m_mesh.getCellSizes("cm");
+    VectorXd surfaces   = m_mesh.getSurfaces("cm");
+    VectorXd volumes    = m_mesh.getVolumes("cm");
+    MatrixXd DInterface = getInterfaceDiffcoefficients();
 
     double albedoL = m_solverData.getAlbedo()[0];
     double albedoR = m_solverData.getAlbedo()[1];
 
-    double A, B;
+    double B;
 
     for(int e = 0; e < m_energies; e++)
     {
@@ -24,27 +27,22 @@ MatrixXd SlabDiffusionCode::calcDiffOperatorMatrix()
         {
             if(m == 0)
             {
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1));
-                B = D(e, m) * (1.0 - albedoL) / (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL));
-                //B = D(e, m) / pow(cellSizes(m), 2);        
-                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
+                B = D(e, m) * (1.0 - albedoL) * surfaces(m) / (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL));     
+                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
+                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + B + 0.5 * totXS(e, m) * volumes(m));
             }
             else if (m == m_cells - 1)
             {
-                A = D(e, m) * (1.0 - albedoR) / (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR));
-                //A = D(e, m) / pow(cellSizes(m), 2);
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m));             
-                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
+                B = D(e, m) * (1.0 - albedoR) * surfaces(m + 1) / (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR));          
+                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
+                M(m + e * m_cells, m + e * m_cells) = 2.0 * (B + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
             }
             else
-            {      
-                A = (D(e, m) * D(e, m + 1)) / (cellSizes(m + 1) * D(e, m) + cellSizes(m) * D(e, m + 1));
-                B = (D(e, m) * D(e, m - 1)) / (cellSizes(m) * D(e, m - 1) + cellSizes(m - 1) * D(e, m));         
-                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * B;
-                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * A;
-            }
-
-            M(m + e * m_cells, m + e * m_cells) = 2.0 * (A + B + 0.5 * totXS(e, m) * cellSizes(m)); 
+            {             
+                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
+                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
+                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
+            } 
         }
     }
         

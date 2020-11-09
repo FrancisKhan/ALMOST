@@ -17,7 +17,7 @@ public:
 	m_cells(m_mesh.getCellsNumber()),
 	m_energies(m_mesh.getEnergyGroupsNumber()),
 	m_rays(sizeof(abscissa) / sizeof(abscissa[0])),
-	m_surface(m_mesh.getSurface("cm")) {}
+	m_surface(m_mesh.getExternalSurface("cm")) {}
 	
 	std::pair<Numerics::Tensor3d, Numerics::Tensor4d> calcTracks() override;
 	Numerics::Tensor3d calcCPs(std::pair<Numerics::Tensor3d, Numerics::Tensor4d> &pair) override;

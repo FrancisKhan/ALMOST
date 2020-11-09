@@ -22,14 +22,29 @@ VectorXd Sphere::volumes(VectorXd &boundaries, std::string dim)
 		return volumes * -1.0;
 }
 
-double Sphere::surface(VectorXd &boundaries, std::string dim)
+VectorXd Sphere::surfaces(VectorXd &boundaries, std::string dim)
 {
-	double surface = 4.0 * M_PI * pow(boundaries(boundaries.size() - 1), 2);
+	VectorXd surfaces = VectorXd::Zero(boundaries.size());
+	
+	for(unsigned i = 0; i < boundaries.size(); i++)
+		surfaces(i) = 4.0 * M_PI * pow(boundaries(i), 2);
+	
+	if(dim == "m")  
+		return surfaces;
+	else if(dim == "cm") 
+		return surfaces * 10000.0;
+	else
+		return surfaces * -1.0;
+}
+
+double Sphere::externalSurface(VectorXd &boundaries, std::string dim)
+{
+	VectorXd s = surfaces(boundaries, dim);
 
 	if(dim == "m")  
-		return surface;
+		return s(Eigen::last);
 	else if(dim == "cm") 
-		return surface * 10000.0;
+		return s(Eigen::last) * 10000.0;
 	else
-		return surface * -1.0;	
+		return s(Eigen::last) * -1.0;	
 }
