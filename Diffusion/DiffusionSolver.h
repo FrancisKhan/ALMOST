@@ -14,10 +14,9 @@ public:
 	void solve();
 
 	std::variant<double, Eigen::VectorXd, Eigen::MatrixXd> getMainParameter() 
-	{return m_mesh.getTemperatures("C");}
+	{return m_reactor.getKFactor();}
 
 	void relaxResults(double param) override;
-
 	void printResults(TraceLevel level) override;
 
 private:

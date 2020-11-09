@@ -20,11 +20,12 @@ public:
 
 	~BaseDiffusionCode(){}
 	
-	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
 	Eigen::MatrixXd calcDiffOperatorMatrix();
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix);
 	Eigen::MatrixXd calcFMatrix();
+	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &M);
 
+	Eigen::VectorXd calcFissionPowerDistribution();
 	void setNewHeatSource(Numerics::SourceIterResults result);
 
 protected:

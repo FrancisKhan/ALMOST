@@ -12,26 +12,27 @@ void DiffusionSolver::solve()
     m_oldPowerDensities = m_mesh.getHeatSources();
     std::shared_ptr<BaseDiffusionCode> diffCode = DiffusionCodeFactory::setDiffusionCode(m_reactor, m_library, m_solverData);
 
-    MatrixXd DMatrix = diffCode->calcDiffOperatorMatrix();
-    MatrixXd MMatrix = diffCode->calcMMatrix(DMatrix);
-    MatrixXd FMatrix = diffCode->calcFMatrix();
+    MatrixXd DMatrix  = diffCode->calcDiffOperatorMatrix();
+    MatrixXd DMatrix2 = diffCode->applyBoundaryConditions(DMatrix);
+    MatrixXd MMatrix  = diffCode->calcMMatrix(DMatrix2);
+    MatrixXd FMatrix  = diffCode->calcFMatrix();
 
     Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, 
                                          m_solverData, m_reactor.getMesh().getVolumes("cm"));
     diffCode->setNewHeatSource(result);
 }
 
-void DiffusionSolver::relaxResults(double param)
+void DiffusionSolver::relaxResults(double par)
 {
-    // VectorXd relaxedTemps = VectorXd::Zero(m_mesh.getCellsNumber());
-    // VectorXd newTemps = m_mesh.getTemperatures("C");
+    VectorXd relaxedPowerDensities = VectorXd::Zero(m_mesh.getCellsNumber());
+    VectorXd newDenss = m_mesh.getHeatSources();
 
-    // relaxedTemps = newTemps * param + m_oldTemperatures * (1.0 - param);
+    relaxedPowerDensities = newDenss * par + m_oldPowerDensities * (1.0 - par);
 
-    // m_mesh.setTemperatures(relaxedTemps);
+    m_mesh.setHeatSources(relaxedPowerDensities);
 
-    // out.print(TraceLevel::INFO, "Relaxed temperatures [C]:");
-    // printVector(m_mesh.getTemperatures("C"), out, TraceLevel::INFO);
+	out.print(TraceLevel::INFO, "Relaxed power densities [W/m3]:");
+    printVector(m_mesh.getHeatSources(), out, TraceLevel::INFO);
 }
 
 void DiffusionSolver::printResults(TraceLevel level)

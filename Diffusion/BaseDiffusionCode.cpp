@@ -24,12 +24,9 @@ MatrixXd BaseDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
 	    }
 	}
 	
-	out.print(TraceLevel::INFO, "\nMMatrix before");
-    printMatrix(MMatrix, out, TraceLevel::INFO);
-
 	MMatrix = diffMatrix - MMatrix;
 
-	out.print(TraceLevel::INFO, "\nMMatrix after");
+	out.print(TraceLevel::INFO, "\nMMatrix");
     printMatrix(MMatrix, out, TraceLevel::INFO);
 
 	return MMatrix;
@@ -83,11 +80,25 @@ MatrixXd BaseDiffusionCode::calcFMatrix()
    return FMatrix;
 }
 
-void BaseDiffusionCode::solveSystem(MatrixXd &T, VectorXd &source)
+VectorXd BaseDiffusionCode::calcFissionPowerDistribution()
 {
-    VectorXd temperatures = VectorXd::Zero(source.size());
-    temperatures = T.colPivHouseholderQr().solve(source);
-    m_mesh.setTemperatures(temperatures);
+	MatrixXd neutronFluxes = m_mesh.getNeutronFluxes();
+	MatrixXd fissXSs = m_mesh.getFissionXSs();
+
+	MatrixXd product = neutronFluxes.cwiseProduct(fissXSs);
+	VectorXd powerDensities = product.colwise().sum();
+	VectorXd powers = powerDensities.cwiseProduct(m_volumes);
+
+	double thermalPower = m_reactor.getThermalPower();
+
+	VectorXd powerDistribution = VectorXd::Zero(m_cells);
+
+	for(int i = 0; i < m_cells; i++)
+	{
+		powerDistribution(i) = thermalPower * powers(i) / powers.sum();
+	}
+
+	return powerDistribution;
 }
 
 void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
@@ -101,8 +112,8 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	m_reactor.setKFactor(result.getKFactor());
 
-	//VectorXd powerDistribution = calcFissionPowerDistribution();
-	//m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
+	VectorXd powerDistribution = calcFissionPowerDistribution();
+	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
 }
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
@@ -130,6 +141,31 @@ MatrixXd BaseDiffusionCode::calcDiffOperatorMatrix()
 {
     MatrixXd M = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
+    MatrixXd totXS      = m_mesh.getTotalXSs();
+    VectorXd volumes    = m_mesh.getVolumes("cm");
+    MatrixXd DInterface = getInterfaceDiffcoefficients();
+
+    for(int e = 0; e < m_energies; e++)
+    {
+        for(int m = 0; m < m_cells; m++)
+        {
+            if((m != 0) && (m != m_cells - 1))
+            {             
+                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
+                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
+                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
+            } 
+        }
+    }
+        
+    out.print(TraceLevel::DEBUG, "Diffusion operator matrix []:");
+    printMatrix(M, out, TraceLevel::DEBUG);
+
+    return M;
+}
+
+MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
+{
     MatrixXd D          = m_mesh.getDiffusionConstants();
     MatrixXd totXS      = m_mesh.getTotalXSs();
     VectorXd cellSizes  = m_mesh.getCellSizes("cm");
@@ -144,38 +180,30 @@ MatrixXd BaseDiffusionCode::calcDiffOperatorMatrix()
 		albedoL = m_solverData.getAlbedo()[0];
     	albedoR = m_solverData.getAlbedo()[1];
 	}
-	else
+	else // CYLINDER and SPHERE
 	{
 		albedoL = 1.0; // Fixed to reflective
     	albedoR = m_solverData.getAlbedo()[0];
 	}
 
-    for(int e = 0; e < m_energies; e++)
+	for(int e = 0; e < m_energies; e++)
     {
-        for(int m = 0; m < m_cells; m++)
-        {
-            if(m == 0)
-            {
-                B = D(e, m) * (1.0 - albedoL) * surfaces(m) / (4.0 * D(e, m) * (1.0 + albedoL) + cellSizes(m) * (1.0 - albedoL));     
-                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
-                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + B + 0.5 * totXS(e, m) * volumes(m));
-            }
-            else if (m == m_cells - 1)
-            {
-                B = D(e, m) * (1.0 - albedoR) * surfaces(m + 1) / (4.0 * D(e, m) * (1.0 + albedoR) + cellSizes(m) * (1.0 - albedoR));          
-                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
-                M(m + e * m_cells, m + e * m_cells) = 2.0 * (B + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
-            }
-            else
-            {             
-                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
-                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
-                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
-            } 
-        }
+		// Left boundary condition
+
+        B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));     
+        M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
+        M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * volumes(0));
+
+		// Right boundary condition
+
+		int l = m_cells - 1;
+
+		B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));          
+        M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
+        M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * volumes(l));
     }
-        
-    out.print(TraceLevel::DEBUG, "Diffusion operator matrix []:");
+
+    out.print(TraceLevel::DEBUG, "M matrix [] (after boundary conditions):");
     printMatrix(M, out, TraceLevel::DEBUG);
 
     return M;
