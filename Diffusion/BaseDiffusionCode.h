@@ -21,7 +21,7 @@ public:
 	~BaseDiffusionCode(){}
 	
 	void solveSystem(Eigen::MatrixXd &T, Eigen::VectorXd &source);
-	virtual Eigen::MatrixXd calcDiffOperatorMatrix() = 0;
+	Eigen::MatrixXd calcDiffOperatorMatrix();
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix);
 	Eigen::MatrixXd calcFMatrix();
 
