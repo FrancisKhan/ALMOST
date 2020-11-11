@@ -13,9 +13,9 @@ build_linux () {
   cmake -DCMAKE_BUILD_TYPE=Release .
   make
   cpack
-  cp -fv ./app/almost ../ALMOST/app
-  cp -fv almost*.deb ../ALMOST/installers
-  cp -fv ./tests/test_almost ../ALMOST/tests
+  cp -fv ./app/almost ./installers
+  cp -fv almost*.deb ./installers
+  cp -fv ./tests/test_almost ./installers
 }
 
 build_windows () {
@@ -37,9 +37,9 @@ build_windows () {
   FullTag=`git describe --abbrev=0`
   Tag=${FullTag:1}
   cd app
-  cp -fv almost.exe ../../ALMOST/app
-  cp -fv Almost_installer.exe ../../ALMOST/installers/Almost-${Tag}_installer.exe
-  cp -fv ../tests/test_almost.exe ../../ALMOST/tests
+  cp -fv almost.exe ../installers
+  cp -fv Almost_installer.exe ../installers/Almost-${Tag}_installer.exe
+  cp -fv ../tests/test_almost.exe ../installers/tests
 }
 
 if [ $# -eq 0 ]
