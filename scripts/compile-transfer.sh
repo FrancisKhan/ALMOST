@@ -1,11 +1,13 @@
 #!/bin/bash
 
+parentdir="$(dirname "$PWD")"
+
 build_linux () {
   echo "Build Almost for Linux"
-  cd ..
+  cd $parentdir
   
   if [ $1 == "clean" ]; then
-    git clean -x -f -d
+    git clean -x -f -d -e installers
   else
     echo "git clean not used" 
   fi
@@ -20,10 +22,10 @@ build_linux () {
 
 build_windows () {
   echo "Build Almost for Windows"
-  cd ..
+  cd $parentdir
   
   if [ $1 == "clean" ]; then
-    git clean -x -f -d
+    git clean -x -f -d -e installers
   else
     echo "git clean not used" 
   fi
