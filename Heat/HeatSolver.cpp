@@ -20,9 +20,9 @@ void HeatSolver::solve()
     
     for(i = 0; i < m_solverData.getMaxIterNumber(); i++)
     {
-        auto [T, source]   = heatCode->setupSystem();	
-        auto [Tb, sourceb] = heatCode->applyBoundaryConditions(T, source);
-        heatCode->solveSystem(Tb, sourceb);
+        MatrixXd T = heatCode->setupSystem();	
+        auto [Tb, source] = heatCode->applyBoundaryConditions(T);
+        heatCode->solveSystem(Tb, source);
 
         newTemps = m_mesh.getTemperatures("C");
 

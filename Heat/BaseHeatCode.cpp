@@ -1,6 +1,8 @@
 #include "BaseHeatCode.h"
+#include "numeric_tools.h"
 
 using namespace Eigen;
+using namespace PrintFuncs;
 
 VectorXd BaseHeatCode::getInterfaceThermalConductivities()
 {
@@ -8,13 +10,19 @@ VectorXd BaseHeatCode::getInterfaceThermalConductivities()
     VectorXd interfaceLambda = m_mesh.getThermalConductivities();
     VectorXd cellSizes       = m_mesh.getCellSizes("m");
 
-    for(int i = 1; i < materialLambda.size() - 1; i++)
+    interfaceLambda(0) *= m_surfaces(0); 
+
+    for(int i = 1; i < m_cells - 1; i++)
     {
         double f = cellSizes(i - 1) / (cellSizes(i) + cellSizes(i - 1));
 
         interfaceLambda(i) = 1.0 / ((1.0 - f) / materialLambda(i - 1) +
-                             f / materialLambda(i));
+                             f / materialLambda(i));        
+
+        interfaceLambda(i) *= m_surfaces(i);      
     }
+
+    interfaceLambda(m_cells- 1) *= m_surfaces(m_cells - 1); 
 
     return interfaceLambda;
 }
@@ -26,43 +34,94 @@ void BaseHeatCode::solveSystem(MatrixXd &T, VectorXd &source)
     m_mesh.setTemperatures(temperatures);
 }
 
-std::vector<double> BaseHeatCode::exactSolution()
-{	
-	unsigned Nx = 20;
-    std::vector<double> x(Nx, 0.0);
-    double L = 1.0;
+MatrixXd BaseHeatCode::setupSystem()
+{
+    MatrixXd T = MatrixXd::Zero(m_cells, m_cells);
 
-    std::vector<double> a = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0,  
-                             1.0, 1.0, 1.0, 1.0, 1.0, 8.0,
-                             8.0, 8.0, 8.0, 8.0, 0.1, 0.1,
-                             0.1, 0.1, 0.1};
-    
-    double u_L = 1.0;
-    double u_R = 0.0;
+    m_temperatures     = m_mesh.getTemperatures("C");
+    VectorXd lambda    = getInterfaceThermalConductivities();
+    VectorXd cellSizes = m_mesh.getCellSizes("m");
 
-    int count = 0;
-    std::generate(x.begin(), x.end(), 
-    [&](){return (L / Nx) * count++;});
+    for(int i = 0; i < m_cells; i++)
+    {
+        if(i == 0)
+        {
+            T(i, i)     = + lambda[i + 1] / cellSizes(i + 1);
+            T(i, i + 1) = - lambda[i + 1] / cellSizes(i + 1);
+        }
+        else if(i == m_cells - 1)
+        {
+            T(i, i)     = + lambda[i] / cellSizes(i - 1);
+            T(i, i - 1) = - lambda[i] / cellSizes(i - 1);
+        }
+        else
+        {
+            T(i, i)     = + lambda[i] / cellSizes(i - 1) + 
+                            lambda[i + 1] / cellSizes(i + 1);
 
-    std::cout << "x" << std::endl;
-    std::for_each(x.begin(), x.end(), [](double i){std::cout << i << std::endl;});
-    
-    std::vector <double> g(Nx+1, 0.0);
-    double dx = x[1] - x[0];
-    
-    g[0] = 0.5 * dx / a[0];
+            T(i, i - 1) = - lambda[i] / cellSizes(i - 1);
+            T(i, i + 1) = - lambda[i + 1] / cellSizes(i + 1);
+        }
+    }
 
-    for(unsigned i = 1; i < Nx; i++)
-        g[i] = g[i-1] + dx/a[i];
+    out.print(TraceLevel::DEBUG, "T matrix []:");
+    printMatrix(T, out, TraceLevel::DEBUG);
 
-    g[Nx] = g[Nx-1] + 0.5*dx/a[Nx];
+    return T;
+}
 
-    count = 0;
-    std::vector<double> v(g.size());
-    std::generate(v.begin(), v.end(), [&](){return u_L + (u_R - u_L)*g[count++]/g[Nx];});
+std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T)
+{
+    VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
+    VectorXd lambda     = getInterfaceThermalConductivities();
+    m_heatSources       = m_mesh.getHeatSources();
 
-    std::cout << "v" << std::endl;
-    std::for_each(v.begin(), v.end(), [](double i){std::cout << i << std::endl;});
+    for(int i = 0; i < m_cells; i++)
+    {
+        m_heatSources(i) *= m_volumes(i);
+    }
 
-    return v;
+    // Left boundary condition
+
+    if(m_mesh.getGeometry() == GeomKind::SLAB)
+	{
+		double deltaXL = m_radii(1) - m_radii(0);
+
+        double AL = boundaries(0);
+        double BL = boundaries(1);
+        double CL = boundaries(2);
+
+        double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL + BL;
+        double alphaL =  AL / denominatorL;
+        double betaL  = -CL / denominatorL;
+
+        T(0, 0) = T(0, 0) + alphaL;
+        m_heatSources(0) = m_heatSources(0) - betaL;
+	}
+
+    // Right boundary condition
+
+    double deltaXR = m_radii(m_cells) - m_radii(m_cells - 1);
+
+    double AR = boundaries(3);
+    double BR = boundaries(4);
+    double CR = boundaries(5);
+
+    double denominatorR = (deltaXR / (2.0 * m_surfaces(m_cells) * lambda(m_cells - 1) / m_surfaces(m_cells - 1))) * AR + BR / m_surfaces(m_cells);
+    double alphaR =  AR / denominatorR;
+    double betaR  = -CR / denominatorR;
+
+    T(m_cells - 1, m_cells - 1) = T(m_cells - 1, m_cells - 1) + alphaR;
+    m_heatSources(m_cells - 1) = m_heatSources(m_cells - 1) - betaR;
+
+    out.print(TraceLevel::DEBUG, "Thermal conductivities [W/(m*K)]:");
+    printVector(lambda, out, TraceLevel::DEBUG);
+
+    out.print(TraceLevel::DEBUG, "T matrix []:");
+    printMatrix(T, out, TraceLevel::DEBUG);
+
+    out.print(TraceLevel::DEBUG, "Source [W]:");
+    printVector(m_heatSources, out, TraceLevel::DEBUG);
+
+    return std::make_tuple(T, m_heatSources);
 }

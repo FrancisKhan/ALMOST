@@ -72,11 +72,11 @@ elif [ $1 == "windows" ]; then
 elif [ $1 == "all" ]; then
   
   if [ $2 == "clean" ]; then
-    build_linux clean
     build_windows clean
+    build_linux clean
   elif [ $2 == "keep" ]; then
-    build_linux keep
     build_windows keep
+    build_linux keep
   else
     echo "Make parameter not recognized, use: clean or keep" 
   fi
