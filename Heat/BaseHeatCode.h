@@ -26,6 +26,7 @@ public:
 
 protected:
 	Eigen::VectorXd getInterfaceThermalConductivities();
+	Eigen::VectorXd getInterfaceCellSizes();
 	
 private:
 	Library &m_library;

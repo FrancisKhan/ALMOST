@@ -4,6 +4,20 @@
 using namespace Eigen;
 using namespace PrintFuncs;
 
+VectorXd BaseHeatCode::getInterfaceCellSizes()
+{
+    VectorXd interCellSizes  = m_mesh.getCellSizes("m");
+    VectorXd cellSizes       = m_mesh.getCellSizes("m");
+
+    for(int i = 1; i < m_cells - 1; i++)
+    {
+        interCellSizes(i) = 0.5 * (cellSizes(i) + cellSizes(i - 1));  
+    }
+
+    return interCellSizes;
+}
+
+
 VectorXd BaseHeatCode::getInterfaceThermalConductivities()
 {
     VectorXd materialLambda  = m_mesh.getThermalConductivities();
@@ -22,7 +36,7 @@ VectorXd BaseHeatCode::getInterfaceThermalConductivities()
         interfaceLambda(i) *= m_surfaces(i);      
     }
 
-    interfaceLambda(m_cells- 1) *= m_surfaces(m_cells - 1); 
+    interfaceLambda(m_cells - 1) *= m_surfaces(m_cells - 1); 
 
     return interfaceLambda;
 }
@@ -40,7 +54,7 @@ MatrixXd BaseHeatCode::setupSystem()
 
     m_temperatures     = m_mesh.getTemperatures("C");
     VectorXd lambda    = getInterfaceThermalConductivities();
-    VectorXd cellSizes = m_mesh.getCellSizes("m");
+    VectorXd cellSizes = getInterfaceCellSizes();
 
     for(int i = 0; i < m_cells; i++)
     {
@@ -56,10 +70,10 @@ MatrixXd BaseHeatCode::setupSystem()
         }
         else
         {
-            T(i, i)     = + lambda[i] / cellSizes(i - 1) + 
+            T(i, i)     = + lambda[i] / cellSizes(i) + 
                             lambda[i + 1] / cellSizes(i + 1);
 
-            T(i, i - 1) = - lambda[i] / cellSizes(i - 1);
+            T(i, i - 1) = - lambda[i] / cellSizes(i);
             T(i, i + 1) = - lambda[i + 1] / cellSizes(i + 1);
         }
     }
