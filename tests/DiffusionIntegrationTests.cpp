@@ -2266,6 +2266,135 @@ TEST_F(DiffIntegrationTests, diff17)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+TEST_F(DiffIntegrationTests, diff18)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff18.txt";
+  const std::string outputPath = "outputs/Out_diff18.txt";
+  const std::string traceLevel = "DEBUG";
+  const double kEffRef = 1.224084e+00;
+  std::vector<double> refFlux = {6.199386e-02,
+                                 6.175565e-02,
+                                 6.128015e-02,
+                                 6.056915e-02,
+                                 5.962538e-02,
+                                 5.845242e-02,
+                                 5.705474e-02,
+                                 5.543768e-02,
+                                 5.360740e-02,
+                                 5.157090e-02,
+                                 4.933595e-02,
+                                 4.691111e-02,
+                                 4.430566e-02,
+                                 4.152957e-02,
+                                 3.859349e-02,
+                                 3.550870e-02,
+                                 3.228703e-02,
+                                 2.894088e-02,
+                                 2.548312e-02,
+                                 2.192706e-02,
+                                 1.828640e-02,
+                                 1.457518e-02,
+                                 1.080770e-02,
+                                 6.998509e-03,
+                                 3.162299e-03};
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+TEST_F(DiffIntegrationTests, diff19)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff19.txt";
+  const std::string outputPath = "outputs/Out_diff19.txt";
+  const std::string traceLevel = "DEBUG";
+  const double kEffRef = 1.156711e+00;
+  std::vector<double> refFlux = {6.456479e-02,
+                                 6.427381e-02,
+                                 6.369382e-02,
+                                 6.282874e-02,
+                                 6.168441e-02,
+                                 6.026855e-02,
+                                 5.859071e-02,
+                                 5.666217e-02,
+                                 5.449589e-02,
+                                 5.210641e-02,
+                                 4.950969e-02,
+                                 4.672306e-02,
+                                 4.376506e-02,
+                                 4.065530e-02,
+                                 3.741430e-02,
+                                 3.406338e-02,
+                                 3.062445e-02,
+                                 2.711990e-02,
+                                 2.357239e-02,
+                                 2.000471e-02,
+                                 1.643961e-02,
+                                 1.289963e-02,
+                                 9.406924e-03,
+                                 5.983132e-03,
+                                 2.649192e-03};
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+TEST_F(DiffIntegrationTests, diff20)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff20.txt";
+  const std::string outputPath = "outputs/Out_diff20.txt";
+  const std::string traceLevel = "DEBUG";
+  const double kEffRef = 1.083289e+00;
+  std::vector<double> refFlux = {6.696470e-02,
+                                 6.662149e-02,
+                                 6.593814e-02,
+                                 6.492098e-02,
+                                 6.357936e-02,
+                                 6.192563e-02,
+                                 5.997492e-02,
+                                 5.774505e-02,
+                                 5.525628e-02,
+                                 5.253114e-02,
+                                 4.959415e-02,
+                                 4.647155e-02,
+                                 4.319105e-02,
+                                 3.978151e-02,
+                                 3.627263e-02,
+                                 3.269463e-02,
+                                 2.907797e-02,
+                                 2.545297e-02,
+                                 2.184953e-02,
+                                 1.829684e-02,
+                                 1.482304e-02,
+                                 1.145497e-02,
+                                 8.217880e-03,
+                                 5.135214e-03,
+                                 2.228371e-03};
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
 TEST_F(DiffIntegrationTests, memTestDiffSlab)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";

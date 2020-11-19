@@ -1,5 +1,5 @@
 % Graphite reactor
-% Reflective boundary at both ends
+% Reflective boundary on the right
 % Two energy groups
 
 solvers diffusion
