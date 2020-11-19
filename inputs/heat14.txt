@@ -10,7 +10,7 @@ geometry cylinder
 mesh 10 0.5 M1 10 0.5 M2
 temperatures 30.0 20 
 heat_sources 2000.0 20
-heat_boundary_conditions 0.0 1.0 0.0 1.0 0.0 30.0
+heat_boundary_conditions 1.0 0.0 30.0
 
 material M1
 thermal_conductivity 20.0

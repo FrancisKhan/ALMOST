@@ -86,7 +86,7 @@ MatrixXd BaseHeatCode::setupSystem()
 
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T)
 {
-    VectorXd boundaries = m_mesh.getHeatBoundaryConditions();
+    std::pair<VectorXd, VectorXd> boundariesPair = m_mesh.getHeatBoundaryConditions();
     VectorXd lambda     = getInterfaceThermalConductivities();
     m_heatSources       = m_mesh.getHeatSources();
 
@@ -95,15 +95,28 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
         m_heatSources(i) *= m_volumes(i);
     }
 
+    VectorXd leftboundary  = boundariesPair.first;
+    VectorXd rightboundary = boundariesPair.second;
+
+    // for (auto i : leftboundary)
+    // {
+    //     std::cout << "left " << i << std::endl; 
+    // }
+
+    // for (auto i : rightboundary)
+    // {
+    //     std::cout << "right " << i << std::endl; 
+    // }
+
     // Left boundary condition
 
     if(m_mesh.getGeometry() == GeomKind::SLAB)
 	{
 		double deltaXL = m_radii(1) - m_radii(0);
 
-        double AL = boundaries(0);
-        double BL = boundaries(1);
-        double CL = boundaries(2);
+        double AL = leftboundary(0);
+        double BL = leftboundary(1);
+        double CL = leftboundary(2);
 
         double denominatorL = (deltaXL / (2.0 * lambda(0))) * AL + BL;
         double alphaL =  AL / denominatorL;
@@ -117,9 +130,9 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
 
     double deltaXR = m_radii(m_cells) - m_radii(m_cells - 1);
 
-    double AR = boundaries(3);
-    double BR = boundaries(4);
-    double CR = boundaries(5);
+    double AR = rightboundary(0);
+    double BR = rightboundary(1);
+    double CR = rightboundary(2);
 
     double denominatorR = (deltaXR / (2.0 * m_surfaces(m_cells) * lambda(m_cells - 1) / m_surfaces(m_cells - 1))) * AR + BR / m_surfaces(m_cells);
     double alphaR =  AR / denominatorR;

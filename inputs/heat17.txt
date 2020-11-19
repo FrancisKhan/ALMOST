@@ -10,7 +10,7 @@ geometry sphere
 mesh 20 0.1 M1
 temperatures 20.0 20 
 heat_sources 2000000.0 20
-heat_boundary_conditions 0.0 1.0 0.0 1.0 0.00005 20.0
+heat_boundary_conditions 1.0 0.00005 20.0
 
 material M1
 thermal_conductivity 22.0

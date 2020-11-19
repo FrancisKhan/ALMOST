@@ -771,21 +771,42 @@ void Input::setHeatBoundaryConditions()
 { 
 	const std::string name = "heat_boundary_conditions";
 	std::vector<double> boundaries = setManyParameters(name, "Input boundary conditions");
-  
-    if(boundaries.size() < 6)
-    {
-		out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 6 parameters!", name);
-		exit(-1);
-    }
-    else if(boundaries.size() == 6)
-    {
-		m_mesh.setHeatBoundaryConditions(boundaries);
-    }
+	
+	if(m_mesh.getGeometry() == GeomKind::SLAB)
+	{
+		if(boundaries.size() < 6)
+    	{
+			out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 6 parameters!", name);
+			exit(-1);
+    	}
+    	else if(boundaries.size() == 6)
+    	{
+			m_mesh.setHeatBoundaryConditions(boundaries);
+    	}
+		else
+    	{
+			out.print(TraceLevel::CRITICAL, "{} has more than 3 parameters!", name);
+			exit(-1);
+    	}
+	}
 	else
-    {
-		out.print(TraceLevel::CRITICAL, "{} has more than 6 parameters!", name);
-		exit(-1);
-    }
+	{
+		if(boundaries.size() < 3)
+    	{
+			out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 3 parameters!", name);
+			exit(-1);
+    	}
+    	else if(boundaries.size() == 3)
+    	{
+			m_mesh.setHeatBoundaryConditions(boundaries);
+    	}
+		else
+    	{
+			out.print(TraceLevel::CRITICAL, "{} has more than 3 parameters!", name);
+			exit(-1);
+    	}
+	}
+	
 }
 
 void Input::setTemperatures()

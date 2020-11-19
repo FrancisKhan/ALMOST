@@ -39,7 +39,7 @@ public:
 	Eigen::VectorXd getHeatSources();
 
 	void setHeatBoundaryConditions(std::vector<double> &boundaries);
-	Eigen::VectorXd getHeatBoundaryConditions(){return m_heatBoundaryConditions;}
+	std::pair<Eigen::VectorXd, Eigen::VectorXd> getHeatBoundaryConditions();
 
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();

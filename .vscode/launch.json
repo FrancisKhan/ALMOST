@@ -30,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs/CPMProblem1CY.txt", "outputs/Out_CPMProblem1CY.txt", "DEBUG"],
+            "args": ["inputs/heat1.txt", "outputs/Out_heat1.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
