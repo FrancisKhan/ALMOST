@@ -98,16 +98,6 @@ std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T
     VectorXd leftboundary  = boundariesPair.first;
     VectorXd rightboundary = boundariesPair.second;
 
-    // for (auto i : leftboundary)
-    // {
-    //     std::cout << "left " << i << std::endl; 
-    // }
-
-    // for (auto i : rightboundary)
-    // {
-    //     std::cout << "right " << i << std::endl; 
-    // }
-
     // Left boundary condition
 
     if(m_mesh.getGeometry() == GeomKind::SLAB)

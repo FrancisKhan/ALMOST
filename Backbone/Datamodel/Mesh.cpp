@@ -153,11 +153,12 @@ std::pair<VectorXd, VectorXd> Mesh::getHeatBoundaryConditions()
 
 	if (m_heatBoundaryConditions.size() == 3)
 	{
-		left << 0.0, 1.0, 0.0; //reflective
+		left << 0.0, 1.0, 0.0; // reflective boundary
 
 	    right(0) = m_heatBoundaryConditions(0);
 		right(1) = m_heatBoundaryConditions(1);
 		right(2) = m_heatBoundaryConditions(2);
+
 	}
 	else if(m_heatBoundaryConditions.size() == 6)
 	{
@@ -165,9 +166,9 @@ std::pair<VectorXd, VectorXd> Mesh::getHeatBoundaryConditions()
 		left(1) = m_heatBoundaryConditions(1);
 		left(2) = m_heatBoundaryConditions(2);
 
-		right(3) = m_heatBoundaryConditions(3);
-		right(4) = m_heatBoundaryConditions(4);
-		right(5) = m_heatBoundaryConditions(5);
+		right(0) = m_heatBoundaryConditions(3);
+		right(1) = m_heatBoundaryConditions(4);
+		right(2) = m_heatBoundaryConditions(5);
 	}
 	else
 	{
@@ -175,18 +176,7 @@ std::pair<VectorXd, VectorXd> Mesh::getHeatBoundaryConditions()
 		exit(-1);
 	}
 
-	for (auto i : left)
-    {
-        std::cout << "left " << i << std::endl; 
-    }
-
-    for (auto i : right)
-    {
-        std::cout << "right " << i << std::endl; 
-    }
-
 	return std::make_pair(left, right);
-	
 }
 
 VectorXd Mesh::getBoundaries(std::string dim)
