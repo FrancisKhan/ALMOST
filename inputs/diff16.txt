@@ -1,4 +1,4 @@
-% Water reactor
+% Water reactor, spherical geometry
 % Reflective boundary on the right
 % Two energy groups
 

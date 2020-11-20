@@ -1,4 +1,4 @@
-% Water reactor
+% Water reactor, slab geometry
 % Reflective boundary on the left
 % Four energy groups
 

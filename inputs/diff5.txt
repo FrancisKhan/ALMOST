@@ -1,4 +1,4 @@
-% Graphite reactor
+% Graphite reactor, slab geometry
 % Reflective boundary on the right
 % Two energy groups
 

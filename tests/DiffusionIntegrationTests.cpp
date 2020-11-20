@@ -10,6 +10,10 @@ class DiffIntegrationTests : public ::testing::Test
 
 // SLAB TESTS //
 
+// Graphite reactor with graphite reflector, slab geometry
+// Zero in-current at both boundaries
+// One energy groups
+
 TEST_F(DiffIntegrationTests, diff1)
 {	
   const std::string codePath   = "app/almost";
@@ -128,6 +132,10 @@ TEST_F(DiffIntegrationTests, diff1)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor with graphite reflector, slab geometry
+// Left reflective boundary condition 
+// One energy groups
+
 TEST_F(DiffIntegrationTests, diff2)
 {	
   const std::string codePath   = "app/almost";
@@ -196,6 +204,10 @@ TEST_F(DiffIntegrationTests, diff2)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor with graphite reflector, slab geometry
+// Right reflective boundary condition 
+// One energy groups
+
 TEST_F(DiffIntegrationTests, diff3)
 {	
   const std::string codePath   = "app/almost";
@@ -263,6 +275,10 @@ TEST_F(DiffIntegrationTests, diff3)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Graphite reactor with graphite reflector, slab geometry
+// Reflective boundary at both ends
+// One energy groups
 
 TEST_F(DiffIntegrationTests, diff4)
 {	
@@ -382,6 +398,10 @@ TEST_F(DiffIntegrationTests, diff4)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor, slab geometry
+// Reflective boundary on the right
+// Two energy groups
+
 TEST_F(DiffIntegrationTests, diff5)
 {	
   const std::string codePath   = "app/almost";
@@ -500,6 +520,10 @@ TEST_F(DiffIntegrationTests, diff5)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor with graphite reflector, slab geometry
+// Reflective boundary at both ends
+// Two energy groups
+
 TEST_F(DiffIntegrationTests, diff6)
 {	
   const std::string codePath   = "app/almost";
@@ -617,6 +641,11 @@ TEST_F(DiffIntegrationTests, diff6)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor, slab geometry
+// Reflective boundary on the left
+// Three energy groups
+
 
 TEST_F(DiffIntegrationTests, diff7)
 {	
@@ -785,6 +814,10 @@ TEST_F(DiffIntegrationTests, diff7)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor, slab geometry
+// Reflective boundary on the left
+// Four energy groups
 
 TEST_F(DiffIntegrationTests, diff8)
 {	
@@ -1004,6 +1037,10 @@ TEST_F(DiffIntegrationTests, diff8)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Water reactor with water reflector, slab geometry
+// Reflective boundary on the left
+// Four energy groups
+
 TEST_F(DiffIntegrationTests, diff9)
 {	
   const std::string codePath   = "app/almost";
@@ -1222,6 +1259,12 @@ TEST_F(DiffIntegrationTests, diff9)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// CYLINDER TESTS //
+
+// Water reactor, cylindrical geometry
+// Vacuum boundary on the right
+// One energy group
+
 TEST_F(DiffIntegrationTests, diff10)
 {	
   const std::string codePath   = "app/almost";
@@ -1289,6 +1332,10 @@ TEST_F(DiffIntegrationTests, diff10)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor, cylindrical geometry
+// Vacuum boundary on the right
+// Two energy groups
 
 TEST_F(DiffIntegrationTests, diff11)
 {	
@@ -1408,6 +1455,10 @@ TEST_F(DiffIntegrationTests, diff11)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Water reactor, cylindrical geometry
+// Reflective boundary on the right
+// Two energy groups
+
 TEST_F(DiffIntegrationTests, diff12)
 {	
   const std::string codePath   = "app/almost";
@@ -1525,6 +1576,10 @@ TEST_F(DiffIntegrationTests, diff12)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor with water reflector, cylindrical geometry
+// Vacuum boundary on the right
+// Two energy groups
 
 TEST_F(DiffIntegrationTests, diff13)
 {	
@@ -1744,6 +1799,12 @@ TEST_F(DiffIntegrationTests, diff13)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// SPHERE TESTS //
+
+// Water reactor, spherical geometry
+// Vacuum boundary on the right
+// One energy group
+
 TEST_F(DiffIntegrationTests, diff14)
 {	
   const std::string codePath   = "app/almost";
@@ -1811,6 +1872,10 @@ TEST_F(DiffIntegrationTests, diff14)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor, spherical geometry
+// Vacuum boundary on the right
+// Two energy groups
 
 TEST_F(DiffIntegrationTests, diff15)
 {	
@@ -1930,6 +1995,10 @@ TEST_F(DiffIntegrationTests, diff15)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Water reactor, spherical geometry
+// Reflective boundary on the right
+// Two energy groups
+
 TEST_F(DiffIntegrationTests, diff16)
 {	
   const std::string codePath   = "app/almost";
@@ -2047,6 +2116,10 @@ TEST_F(DiffIntegrationTests, diff16)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Water reactor with water reflector, spherical geometry
+// Vacuum boundary on the right
+// Two energy groups
 
 TEST_F(DiffIntegrationTests, diff17)
 {	
@@ -2266,38 +2339,53 @@ TEST_F(DiffIntegrationTests, diff17)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor, slab geometry
+// Reflective boundary on the right
+// One energy group
+// non uniform grid test
+
 TEST_F(DiffIntegrationTests, diff18)
 {	
   const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/diff18.txt";
   const std::string outputPath = "outputs/Out_diff18.txt";
   const std::string traceLevel = "DEBUG";
-  const double kEffRef = 1.224084e+00;
-  std::vector<double> refFlux = {6.199386e-02,
-                                 6.175565e-02,
-                                 6.128015e-02,
-                                 6.056915e-02,
-                                 5.962538e-02,
-                                 5.845242e-02,
-                                 5.705474e-02,
-                                 5.543768e-02,
-                                 5.360740e-02,
-                                 5.157090e-02,
-                                 4.933595e-02,
-                                 4.691111e-02,
-                                 4.430566e-02,
-                                 4.152957e-02,
-                                 3.859349e-02,
-                                 3.550870e-02,
-                                 3.228703e-02,
-                                 2.894088e-02,
-                                 2.548312e-02,
-                                 2.192706e-02,
-                                 1.828640e-02,
-                                 1.457518e-02,
-                                 1.080770e-02,
-                                 6.998509e-03,
-                                 3.162299e-03};
+  const double kEffRef = 1.224089e+00;
+  std::vector<double> refFlux = {5.598311e-02,
+                                 5.576777e-02,
+                                 5.533792e-02,
+                                 5.469522e-02,
+                                 5.384212e-02,
+                                 5.278193e-02,
+                                 5.151870e-02,
+                                 5.005731e-02,
+                                 4.840338e-02,
+                                 4.656325e-02,
+                                 4.454402e-02,
+                                 4.235345e-02,
+                                 3.999997e-02,
+                                 3.749262e-02,
+                                 3.484106e-02,
+                                 3.205548e-02,
+                                 2.914659e-02,
+                                 2.612559e-02,
+                                 2.300409e-02,
+                                 1.979411e-02,
+                                 1.760336e-02,
+                                 1.650046e-02,
+                                 1.539051e-02,
+                                 1.427398e-02,
+                                 1.315136e-02,
+                                 1.202311e-02,
+                                 1.088972e-02,
+                                 9.751675e-03,
+                                 8.609464e-03,
+                                 7.463574e-03,
+                                 6.314494e-03,
+                                 5.162714e-03,
+                                 4.008729e-03,
+                                 2.853030e-03,
+                                 1.696112e-03};
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
@@ -2308,6 +2396,11 @@ TEST_F(DiffIntegrationTests, diff18)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Graphite reactor, cylindrical geometry
+// Vacuum boundary
+// One energy group
+// non uniform grid test
 
 TEST_F(DiffIntegrationTests, diff19)
 {	
@@ -2315,32 +2408,42 @@ TEST_F(DiffIntegrationTests, diff19)
   const std::string inputPath  = "inputs/diff19.txt";
   const std::string outputPath = "outputs/Out_diff19.txt";
   const std::string traceLevel = "DEBUG";
-  const double kEffRef = 1.156711e+00;
-  std::vector<double> refFlux = {6.456479e-02,
-                                 6.427381e-02,
-                                 6.369382e-02,
-                                 6.282874e-02,
-                                 6.168441e-02,
-                                 6.026855e-02,
-                                 5.859071e-02,
-                                 5.666217e-02,
-                                 5.449589e-02,
-                                 5.210641e-02,
-                                 4.950969e-02,
-                                 4.672306e-02,
-                                 4.376506e-02,
-                                 4.065530e-02,
-                                 3.741430e-02,
-                                 3.406338e-02,
-                                 3.062445e-02,
-                                 2.711990e-02,
-                                 2.357239e-02,
-                                 2.000471e-02,
-                                 1.643961e-02,
-                                 1.289963e-02,
-                                 9.406924e-03,
-                                 5.983132e-03,
-                                 2.649192e-03};
+  const double kEffRef = 1.156731e+00;
+  std::vector<double> refFlux = {5.896301e-02,
+                                 5.869732e-02,
+                                 5.816775e-02,
+                                 5.737786e-02,
+                                 5.633299e-02,
+                                 5.504020e-02,
+                                 5.350819e-02,
+                                 5.174726e-02,
+                                 4.976926e-02,
+                                 4.758743e-02,
+                                 4.521637e-02,
+                                 4.267190e-02,
+                                 3.997094e-02,
+                                 3.713138e-02,
+                                 3.417197e-02,
+                                 3.111217e-02,
+                                 2.797198e-02,
+                                 2.477184e-02,
+                                 2.153245e-02,
+                                 1.827461e-02,
+                                 1.610426e-02,
+                                 1.502088e-02,
+                                 1.394006e-02,
+                                 1.286255e-02,
+                                 1.178909e-02,
+                                 1.072043e-02,
+                                 9.657314e-03,
+                                 8.600465e-03,
+                                 7.550610e-03,
+                                 6.508463e-03,
+                                 5.474735e-03,
+                                 4.450122e-03,
+                                 3.435315e-03,
+                                 2.430993e-03,
+                                 1.437825e-03};
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
@@ -2351,6 +2454,11 @@ TEST_F(DiffIntegrationTests, diff19)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Graphite reactor, spherical geometry
+// Vacuum boundary
+// One energy group
+// non uniform grid test
 
 TEST_F(DiffIntegrationTests, diff20)
 {	
@@ -2358,32 +2466,42 @@ TEST_F(DiffIntegrationTests, diff20)
   const std::string inputPath  = "inputs/diff20.txt";
   const std::string outputPath = "outputs/Out_diff20.txt";
   const std::string traceLevel = "DEBUG";
-  const double kEffRef = 1.083289e+00;
-  std::vector<double> refFlux = {6.696470e-02,
-                                 6.662149e-02,
-                                 6.593814e-02,
-                                 6.492098e-02,
-                                 6.357936e-02,
-                                 6.192563e-02,
-                                 5.997492e-02,
-                                 5.774505e-02,
-                                 5.525628e-02,
-                                 5.253114e-02,
-                                 4.959415e-02,
-                                 4.647155e-02,
-                                 4.319105e-02,
-                                 3.978151e-02,
-                                 3.627263e-02,
-                                 3.269463e-02,
-                                 2.907797e-02,
-                                 2.545297e-02,
-                                 2.184953e-02,
-                                 1.829684e-02,
-                                 1.482304e-02,
-                                 1.145497e-02,
-                                 8.217880e-03,
-                                 5.135214e-03,
-                                 2.228371e-03};
+  const double kEffRef = 1.083326e+00;
+  std::vector<double> refFlux = {6.176522e-02,
+                                 6.144873e-02,
+                                 6.081858e-02,
+                                 5.988059e-02,
+                                 5.864342e-02,
+                                 5.711841e-02,
+                                 5.531953e-02,
+                                 5.326321e-02,
+                                 5.096814e-02,
+                                 4.845507e-02,
+                                 4.574662e-02,
+                                 4.286698e-02,
+                                 3.984171e-02,
+                                 3.669740e-02,
+                                 3.346143e-02,
+                                 3.016170e-02,
+                                 2.682625e-02,
+                                 2.348307e-02,
+                                 2.015972e-02,
+                                 1.688312e-02,
+                                 1.474718e-02,
+                                 1.368915e-02,
+                                 1.264198e-02,
+                                 1.160654e-02,
+                                 1.058368e-02,
+                                 9.574252e-03,
+                                 8.579075e-03,
+                                 7.598947e-03,
+                                 6.634645e-03,
+                                 5.686923e-03,
+                                 4.756509e-03,
+                                 3.844109e-03,
+                                 2.950402e-03,
+                                 2.076042e-03,
+                                 1.221656e-03};
 
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
@@ -2394,6 +2512,8 @@ TEST_F(DiffIntegrationTests, diff20)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// slab geometry, memory test
 
 TEST_F(DiffIntegrationTests, memTestDiffSlab)
 {	
@@ -2408,6 +2528,8 @@ TEST_F(DiffIntegrationTests, memTestDiffSlab)
   EXPECT_TRUE((test.runCode() == 0));
 }
 
+// cylindrical geometry, memory test
+
 TEST_F(DiffIntegrationTests, memTestDiffCylinder)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
@@ -2420,6 +2542,8 @@ TEST_F(DiffIntegrationTests, memTestDiffCylinder)
   
   EXPECT_TRUE((test.runCode() == 0));
 }
+
+// spherical geometry, memory test
 
 TEST_F(DiffIntegrationTests, memTestDiffSpherical)
 {	

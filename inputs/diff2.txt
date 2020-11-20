@@ -1,4 +1,4 @@
-% Graphite reactor with graphite reflector
+% Graphite reactor with graphite reflector, slab geometry
 % Left reflective boundary condition 
 % One energy groups
 
