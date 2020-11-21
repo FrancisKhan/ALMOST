@@ -10,6 +10,9 @@ class CPMIntegrationTests : public ::testing::Test
 
 // CYLINDER TESTS //
 
+// PUa-l-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem1CY)
 {	
   const std::string codePath   = "app/almost";
@@ -52,6 +55,9 @@ TEST_F(CPMIntegrationTests, Problem5CY)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Pub-l-0-CY
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem7)
 {	
   const std::string codePath   = "app/almost";
@@ -74,6 +80,9 @@ TEST_F(CPMIntegrationTests, Problem7)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// Pub-H20(1)-I-0-CY
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem9)
 {	
@@ -98,6 +107,9 @@ TEST_F(CPMIntegrationTests, Problem9)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// Pub-H20(10)-l-O-CY
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem10)
 {	
@@ -128,6 +140,9 @@ TEST_F(CPMIntegrationTests, Problem10)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// PU-2-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem44CY)
 {	
   const std::string codePath   = "app/almost";
@@ -153,6 +168,9 @@ TEST_F(CPMIntegrationTests, Problem44CY)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// URR-3-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem74)
 {	
@@ -182,6 +200,9 @@ TEST_F(CPMIntegrationTests, Problem74)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// URR-3-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem75)
 {	
@@ -224,6 +245,9 @@ TEST_F(CPMIntegrationTests, Problem75)
 
 // SPHERE TESTS //
 
+// PUa-l-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem1SP)
 {	
   const std::string codePath   = "app/almost";
@@ -245,6 +269,9 @@ TEST_F(CPMIntegrationTests, Problem1SP)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// PUb-l-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem5SP)
 {	
   const std::string codePath   = "app/almost";
@@ -265,6 +292,9 @@ TEST_F(CPMIntegrationTests, Problem5SP)
   EXPECT_TRUE(areEqual);
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// Pub-l-0-SP
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem8)
 {	
@@ -288,6 +318,9 @@ TEST_F(CPMIntegrationTests, Problem8)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// Ub-H20(1)-l-0-SP
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem16)
 {	
@@ -316,6 +349,9 @@ TEST_F(CPMIntegrationTests, Problem16)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// PU-2-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem44SP)
 {	
   const std::string codePath   = "app/almost";
@@ -342,6 +378,9 @@ TEST_F(CPMIntegrationTests, Problem44SP)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// U-2-o-SP
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem49)
 {	
   const std::string codePath   = "app/almost";
@@ -367,6 +406,9 @@ TEST_F(CPMIntegrationTests, Problem49)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// UD20-2-O-SP
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem69)
 {	
@@ -403,6 +445,9 @@ TEST_F(CPMIntegrationTests, Problem69)
 
 // SLAB TESTS //
 
+// PUa-l-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem1SL)
 {	
   const std::string codePath   = "app/almost";
@@ -424,6 +469,9 @@ TEST_F(CPMIntegrationTests, Problem1SL)
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// PUb-l-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem5SL)
 {	
   const std::string codePath   = "app/almost";
@@ -444,6 +492,9 @@ TEST_F(CPMIntegrationTests, Problem5SL)
   EXPECT_TRUE(areEqual);
 	EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
+
+// PUa-l-O-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem2)
 {	
@@ -467,6 +518,9 @@ TEST_F(CPMIntegrationTests, Problem2)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// PUa-H20(1)-l-0-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem3)
 {	
@@ -495,6 +549,9 @@ TEST_F(CPMIntegrationTests, Problem3)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// PUa-H20(0.5)-l-0-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem4)
 {	
@@ -526,6 +583,9 @@ TEST_F(CPMIntegrationTests, Problem4)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// Pub-l-0-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem6)
 {	
   const std::string codePath   = "app/almost";
@@ -547,6 +607,9 @@ TEST_F(CPMIntegrationTests, Problem6)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// PU-2-O-IN
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem44SL)
 {	
@@ -574,6 +637,9 @@ TEST_F(CPMIntegrationTests, Problem44SL)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// U-2-o-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
 TEST_F(CPMIntegrationTests, Problem48)
 {	
   const std::string codePath   = "app/almost";
@@ -599,6 +665,9 @@ TEST_F(CPMIntegrationTests, Problem48)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// UD20-2-O-SP
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem68)
 {	
@@ -632,6 +701,9 @@ TEST_F(CPMIntegrationTests, Problem68)
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
+
+// URRb-H20a(l)-2-0-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 TEST_F(CPMIntegrationTests, Problem58)
 {	
@@ -753,6 +825,8 @@ TEST_F(CPMIntegrationTests, Problem58)
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
 }
 
+// slab geometry, memory test
+
 TEST_F(CPMIntegrationTests, memTestCPMslab)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
@@ -766,6 +840,8 @@ TEST_F(CPMIntegrationTests, memTestCPMslab)
   EXPECT_TRUE((test.runCode() == 0));
 }
 
+// cylindrical geometry, memory test
+
 TEST_F(CPMIntegrationTests, memTestCPMcyl)
 {	
   const std::string valgrind   = "valgrind --leak-check=yes --quiet --error-exitcode=-1";
@@ -778,6 +854,8 @@ TEST_F(CPMIntegrationTests, memTestCPMcyl)
   
   EXPECT_TRUE((test.runCode() == 0));
 }
+
+// spherical geometry, memory test
 
 TEST_F(CPMIntegrationTests, memTestCPMsph)
 {	
