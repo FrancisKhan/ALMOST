@@ -1,5 +1,5 @@
 % Steady-state, constant parameters, slab geometry
-% 2 materials with the same cell sizes with internal generation
+% non-uniform grid
 % Boundary conditions:
 % T(0) = T1
 % T(L) = T2
@@ -7,16 +7,13 @@
 solvers heat
 
 geometry  slab
-mesh 20 0.1 M1 5 0.1 M2
+mesh 20 0.1 M1 5 0.1 M1
 temperatures 20.0 25 
 heat_sources 20000.0 25
 heat_boundary_conditions 1.0 0.0 20.0 1.0 0.0 60.0
 
 material M1
 thermal_conductivity 2.0
-
-material M2
-thermal_conductivity 20.0
 
 solver heat
 accuracy 1.0E-8
