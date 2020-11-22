@@ -92,6 +92,7 @@ void Input::readData()
 	setSolverProperties("max_iteration_number");
 	setSolverProperties("albedo", SolverKind::TRANSPORT);
 	setSolverProperties("albedo", SolverKind::DIFFUSION);
+	setSolverProperties("heat_boundary_conditions", SolverKind::HEAT);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -124,7 +125,6 @@ void Input::readData()
 			}
 
 			setMaterials(i.getKind());
-			setHeatBoundaryConditions();
 			setTemperatures();
 		}
 		else
@@ -767,48 +767,6 @@ std::vector<double> Input::setManyParameters(std::string name, std::string outpu
 	return result;
 }
 
-void Input::setHeatBoundaryConditions()
-{ 
-	const std::string name = "heat_boundary_conditions";
-	std::vector<double> boundaries = setManyParameters(name, "Input boundary conditions");
-	
-	if(m_mesh.getGeometry() == GeomKind::SLAB)
-	{
-		if(boundaries.size() < 6)
-    	{
-			out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 6 parameters!", name);
-			exit(-1);
-    	}
-    	else if(boundaries.size() == 6)
-    	{
-			m_mesh.setHeatBoundaryConditions(boundaries);
-    	}
-		else
-    	{
-			out.print(TraceLevel::CRITICAL, "{} has more than 3 parameters!", name);
-			exit(-1);
-    	}
-	}
-	else
-	{
-		if(boundaries.size() < 3)
-    	{
-			out.print(TraceLevel::CRITICAL, "{} is missing one or more of its 3 parameters!", name);
-			exit(-1);
-    	}
-    	else if(boundaries.size() == 3)
-    	{
-			m_mesh.setHeatBoundaryConditions(boundaries);
-    	}
-		else
-    	{
-			out.print(TraceLevel::CRITICAL, "{} has more than 3 parameters!", name);
-			exit(-1);
-    	}
-	}
-	
-}
-
 void Input::setTemperatures()
 { 
 	std::vector<double> temperatures = setManyParameters("temperatures", 
@@ -900,6 +858,45 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
 					exit(-1);
 				}
+			}
+			else {;}
+		}
+		else if(values.size() == 4) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2], values[3]);
+
+			if(values[0] == "heat_boundary_conditions")
+			{
+				if((inputSolver == SolverKind::HEAT) && (m_mesh.getGeometry() != GeomKind::SLAB))
+				{
+					solver.setHeatBoundaryConditions(values);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}
+
+			}
+			else {;}
+		}
+		else if(values.size() == 7) 
+		{
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {} {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2],
+			          values[3], values[4], values[5], values[6]);
+
+			if(values[0] == "heat_boundary_conditions")
+			{
+				if((inputSolver == SolverKind::HEAT) && (m_mesh.getGeometry() == GeomKind::SLAB))
+				{
+					solver.setHeatBoundaryConditions(values);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}
+
 			}
 			else {;}
 		}

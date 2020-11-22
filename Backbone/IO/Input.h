@@ -38,7 +38,6 @@ private:
 	void setsetKineticsParameters();
 	void setReactivity();
    	void setSolvers();
-	void setHeatBoundaryConditions();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
 

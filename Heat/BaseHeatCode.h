@@ -11,8 +11,8 @@
 class BaseHeatCode
 {
 public:
-    BaseHeatCode(Reactor &reactor, Library &library) : 
-	m_library(library), m_mesh(reactor.getMesh()), 
+    BaseHeatCode(Reactor &reactor, Library &library, SolverData &solverData) : 
+	m_library(library), m_mesh(reactor.getMesh()), m_solverData(solverData),
 	m_radii(m_mesh.getBoundaries("m")),
 	m_volumes(m_mesh.getVolumes("m")),
 	m_cells(m_mesh.getCellsNumber()),
@@ -31,6 +31,7 @@ protected:
 private:
 	Library &m_library;
 	Mesh &m_mesh;
+	SolverData &m_solverData;
 	Eigen::VectorXd m_radii;
 	Eigen::VectorXd m_volumes;
 	int m_cells;

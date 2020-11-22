@@ -3,6 +3,7 @@
 
 #include "SolverKind.h"
 
+#include <Eigen/Dense>
 #include<vector>
 
 class SolverData
@@ -21,6 +22,8 @@ public:
     double getRelaxationParameter() {return m_relaxParam;}
     void setAlbedo(std::vector<double> albedo) {m_albedo = albedo;}
     std::vector<double> getAlbedo() {return m_albedo;}
+    void setHeatBoundaryConditions(std::vector<std::string> &values);
+    std::pair<Eigen::VectorXd, Eigen::VectorXd> getHeatBoundaryConditions();
 	
 private:
     SolverKind m_kind;
@@ -28,6 +31,7 @@ private:
     int m_maxIterNumber;
     double m_relaxParam;
     std::vector<double> m_albedo;
+    Eigen::VectorXd m_heatBoundaryConditions;
 };
 
 #endif

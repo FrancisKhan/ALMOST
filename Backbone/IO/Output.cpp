@@ -319,6 +319,23 @@ void Output::print(TraceLevel level, std::string str, std::string input1,
 	else {}
 }
 
+void Output::print(TraceLevel level, std::string str, std::string input1, 
+                   std::string input2, std::string input3, std::string input4, std::string input5)
+{
+	if (level == TraceLevel::CRITICAL)
+		out.getLogger()->critical(str, input1, input2, input3, input4, input5);
+	else if (level == TraceLevel::ERR)
+		out.getLogger()->error(str, input1, input2, input3, input4, input5);
+	else if (level == TraceLevel::WARN)
+		out.getLogger()->warn(str, input1, input2, input3, input4, input5);
+	else if (level == TraceLevel::INFO)
+		out.getLogger()->info(str, input1, input2, input3, input4, input5);
+	else if(level == TraceLevel::DEBUG)
+		out.getLogger()->debug(str, input1, input2, input3, input4, input5);
+	else if(level == TraceLevel::TRACE)
+		out.getLogger()->trace(str, input1, input2, input3, input4, input5);
+	else {}
+}
 
 void Output::print(TraceLevel level, std::string str, int input1, int input2, int input3, int input4, double input5)
 {
@@ -351,5 +368,24 @@ void Output::print(TraceLevel level, std::string str, int input1, int input2, in
 		out.getLogger()->debug(str, input1, input2, input3, input4, input5);
 	else if(level == TraceLevel::TRACE)
 		out.getLogger()->trace(str, input1, input2, input3, input4, input5);
+	else {}
+}
+
+void Output::print(TraceLevel level, std::string str, std::string input1, 
+                   std::string input2, std::string input3, std::string input4, std::string input5,
+				   std::string input6, std::string input7, std::string input8)
+{
+	if (level == TraceLevel::CRITICAL)
+		out.getLogger()->critical(str, input1, input2, input3, input4, input5, input6, input7, input8);
+	else if (level == TraceLevel::ERR)
+		out.getLogger()->error(str, input1, input2, input3, input4, input5, input6, input7, input8);
+	else if (level == TraceLevel::WARN)
+		out.getLogger()->warn(str, input1, input2, input3, input4, input5, input6, input7, input8);
+	else if (level == TraceLevel::INFO)
+		out.getLogger()->info(str, input1, input2, input3, input4, input5, input6, input7, input8);
+	else if(level == TraceLevel::DEBUG)
+		out.getLogger()->debug(str, input1, input2, input3, input4, input5, input6, input7, input8);
+	else if(level == TraceLevel::TRACE)
+		out.getLogger()->trace(str, input1, input2, input3, input4, input5, input6, input7, input8);
 	else {}
 }

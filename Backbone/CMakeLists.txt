@@ -5,7 +5,8 @@ add_library(backbone_library Datamodel/Material.cpp Datamodel/Mesh.cpp
 			Datamodel/Cylinder.cpp Datamodel/Sphere.cpp Datamodel/Slab.cpp 
 			Datamodel/AbstractSolver.cpp Datamodel/Reactor.cpp Library/Library.cpp
 			Datamodel/Problem.cpp Datamodel/BaseCalculation.cpp
-			Datamodel/SingleCalculation.cpp Datamodel/DoubleCalculation.cpp)
+			Datamodel/SingleCalculation.cpp Datamodel/DoubleCalculation.cpp
+			Datamodel/SolverData.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC Datamodel)

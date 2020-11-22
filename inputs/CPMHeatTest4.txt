@@ -13,7 +13,6 @@ albedo    0.0
 energies  2
 mesh 10 0.0601275 M1
 temperatures 30.0 10 
-heat_boundary_conditions 1.0 0.0 30.0 1.0 0.0 30.0
 thermal_power 10000000.0
 
 material M1
@@ -36,6 +35,7 @@ thermal_conductivity 22.0 0.01
 solver heat
 accuracy 1.0E-8
 max_iteration_number 20
+heat_boundary_conditions 1.0 0.0 30.0 1.0 0.0 30.0
 
 solver transport
 accuracy 1.0E-8

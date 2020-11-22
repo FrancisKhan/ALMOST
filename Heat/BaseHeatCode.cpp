@@ -86,7 +86,7 @@ MatrixXd BaseHeatCode::setupSystem()
 
 std::tuple<MatrixXd, VectorXd> BaseHeatCode::applyBoundaryConditions(MatrixXd &T)
 {
-    std::pair<VectorXd, VectorXd> boundariesPair = m_mesh.getHeatBoundaryConditions();
+    std::pair<VectorXd, VectorXd> boundariesPair = m_solverData.getHeatBoundaryConditions();
     VectorXd lambda     = getInterfaceThermalConductivities();
     m_heatSources       = m_mesh.getHeatSources();
 

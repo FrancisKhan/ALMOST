@@ -10,7 +10,6 @@ geometry  slab
 mesh 20 0.1 M1
 temperatures 20.0 20 
 heat_sources 2000000.0 20
-heat_boundary_conditions 1.0 0.0 20.0 1.0 0.0 20.0
 
 material M1
 thermal_conductivity 22.00345 0.023
@@ -18,3 +17,4 @@ thermal_conductivity 22.00345 0.023
 solver heat
 accuracy 1.0E-8
 max_iteration_number 20
+heat_boundary_conditions 1.0 0.0 20.0 1.0 0.0 20.0

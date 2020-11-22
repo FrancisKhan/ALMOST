@@ -9,7 +9,7 @@ using namespace PrintFuncs;
 
 void HeatSolver::solve()
 {
-    std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_reactor, m_library);
+    std::shared_ptr<BaseHeatCode> heatCode = HeatCodeFactory::setHeatCode(m_reactor, m_library, m_solverData);
 
     m_oldTemperatures = m_mesh.getTemperatures("C");
 
