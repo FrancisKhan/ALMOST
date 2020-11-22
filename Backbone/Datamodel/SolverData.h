@@ -10,7 +10,7 @@ class SolverData
 {
 public:
     SolverData(const SolverKind &kind) : m_kind(kind), m_accuracy(0.0), 
-    m_maxIterNumber(0), m_relaxParam(0.0), m_albedo(1, 0.0) {}
+    m_maxIterNumber(0), m_relaxParam(0.0), m_albedo(1, 0.0), m_energies(0) {}
 	
     void setKind(SolverKind kind) {m_kind = kind;}
     SolverKind getKind() {return m_kind;}
@@ -24,6 +24,8 @@ public:
     std::vector<double> getAlbedo() {return m_albedo;}
     void setHeatBoundaryConditions(std::vector<std::string> &values);
     std::pair<Eigen::VectorXd, Eigen::VectorXd> getHeatBoundaryConditions();
+    void setEnergies(int energies) {m_energies = energies;}
+    int getEnergies() {return m_energies;}
 	
 private:
     SolverKind m_kind;
@@ -32,6 +34,7 @@ private:
     double m_relaxParam;
     std::vector<double> m_albedo;
     Eigen::VectorXd m_heatBoundaryConditions;
+    int m_energies;
 };
 
 #endif

@@ -4,8 +4,6 @@
 solvers transport
 
 geometry  sphere
-energies  2
-
 mesh 10 0.07909444 M1
 
 material M1
@@ -31,3 +29,4 @@ solver transport
 accuracy 1.0E-8
 max_iteration_number 30
 albedo 0.0
+energies  2

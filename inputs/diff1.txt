@@ -5,8 +5,6 @@
 solvers diffusion
 
 geometry  slab
-energies  1
-
 mesh 25 0.5 M2 50 1.0 M1 25 0.5 M2
 
 material M1
@@ -34,3 +32,4 @@ solver diffusion
 accuracy 1.0E-6
 max_iteration_number 80
 albedo 0.0 0.0
+energies  1

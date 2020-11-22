@@ -5,8 +5,6 @@
 solvers diffusion
 
 geometry  cylinder
-energies  2
-
 mesh 50 1.0 M1
 
 material M1
@@ -32,3 +30,4 @@ solver diffusion
 accuracy 1.0E-6
 max_iteration_number 200
 albedo 1.0
+energies  2

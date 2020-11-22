@@ -2,10 +2,7 @@
 % Analytical Benchmark Test Set for Criticality Code Verification LA-13511
 
 solvers transport
-
 geometry  cylinder
-energies  1
-
 mesh 10 0.1 M1
 
 material M1
@@ -20,4 +17,5 @@ solver transport
 accuracy 1.0E-8
 max_iteration_number 20
 albedo 1.0
+energies  1
 

@@ -18,7 +18,7 @@ public:
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),
-	m_energies(m_mesh.getEnergyGroupsNumber()),
+	m_energies(m_solverData.getEnergies()),
 	m_rays(sizeof(abscissa) / sizeof(abscissa[0])) {}
 	
 	~BaseSpectrumCode(){}

@@ -4,8 +4,6 @@
 solvers transport
 
 geometry  slab
-energies  1
-
 mesh 9 0.04513502 M1
 
 material M1
@@ -20,3 +18,4 @@ solver transport
 accuracy 1.0E-8
 max_iteration_number 20
 albedo 0.0
+energies  1

@@ -16,7 +16,7 @@ public:
 	m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_cells(m_mesh.getCellsNumber()),
-	m_energies(m_mesh.getEnergyGroupsNumber()) {}
+	m_energies(m_solverData.getEnergies()) {}
 
 	~BaseDiffusionCode(){}
 	

@@ -4,8 +4,6 @@
 csolvers transport
 
 geometry  cylinder
-energies  1
-
 mesh 10 0.03077574 M1 20 0.33714829 M2
 
 material M1
@@ -28,3 +26,4 @@ solver transport
 accuracy 1.0E-8
 max_iteration_number 20
 albedo 0.0
+energies  1

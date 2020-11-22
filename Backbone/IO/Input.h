@@ -31,7 +31,6 @@ private:
 	
 	std::pair<unsigned, unsigned> findBlock(std::string keyOne, std::string keyTwo);
 	void setGeometryKind();
-	void setEnergies();
 	void setMesh();
 	void setMaterials(SolverKind calc);
 	void setKineticsParameters();

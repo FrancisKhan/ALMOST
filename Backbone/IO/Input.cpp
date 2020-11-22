@@ -93,6 +93,8 @@ void Input::readData()
 	setSolverProperties("albedo", SolverKind::TRANSPORT);
 	setSolverProperties("albedo", SolverKind::DIFFUSION);
 	setSolverProperties("heat_boundary_conditions", SolverKind::HEAT);
+	setSolverProperties("energies", SolverKind::TRANSPORT);
+	setSolverProperties("energies", SolverKind::DIFFUSION);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -105,7 +107,6 @@ void Input::readData()
 	{
 		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION))
 		{
-    		setEnergies();
 			setMaterials(i.getKind());
 		}
 		else if(i.getKind() == SolverKind::KINETICS)
@@ -116,7 +117,6 @@ void Input::readData()
 		{
 			if(isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 			{	
-				setEnergies();
 				setThermalPower();
 			}	
 			else
@@ -295,19 +295,12 @@ void Input::setGeometryKind()
 	}
 } 
 
-void Input::setEnergies()
-{
-	std::string energies = readOneParameter("energies");
-	m_mesh.setEnergyGroupsNumber(std::stoi(energies));
-	out.print(TraceLevel::CRITICAL, "{}: {}", "\nInput energies", energies);
-}
-
 void Input::setThermalPower()
 {
 	std::string power = readOneParameter("thermal_power");
 	m_reactor.setThermalPower(std::stod(power));
     std::string numberString = stringFormat(power, "%7.6e");
-	out.print(TraceLevel::CRITICAL, "{}: {} \n", "Input thermal power [W]", numberString);
+	out.print(TraceLevel::CRITICAL, "\nInput thermal power [W]: {} \n", numberString);
 }
 
 void Input::setMesh()
@@ -812,6 +805,11 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				solver.setMaxIterNumber(std::stoi(values[1]));
 			else if(values[0] == "relaxation_parameter")
 				solver.setRelaxationParameter(std::stod(values[1]));
+			else if(values[0] == "energies")
+			{
+				solver.setEnergies(std::stoi(values[1]));
+				m_mesh.setEnergyGroupsNumber(std::stoi(values[1]));
+			}
 			else if(values[0] == "albedo")
 			{
 				if(inputSolver == SolverKind::TRANSPORT)
