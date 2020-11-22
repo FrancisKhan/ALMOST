@@ -186,12 +186,11 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 	    std::transform(itemLine.begin(), itemLine.end(), itemLine.begin(), ::tolower);
 	    std::transform(toSearch.begin(), toSearch.end(), toSearch.begin(), ::tolower);
 		pos = itemLine.find(toSearch);
-		
-        if(pos != std::string::npos) keywordFound = true;
 
 		if(pos != std::string::npos && counter >= lowLimit && counter <= topLimit) 
 		{
 			line = itemLine;
+			keywordFound = true;
 			break;
 		}
 
@@ -787,7 +786,6 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
         std::string matStr = "solver";
 	    readOneParameter(matStr + " " + get_name(solver.getKind()));
 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
-
 		std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
 
 		if(values.size() < 1) 
