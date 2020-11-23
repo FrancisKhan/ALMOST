@@ -7,7 +7,7 @@ solvers diffusion
 geometry  slab
 mesh 25 0.5 M2 50 1.0 M1 25 0.5 M2
 
-material M1
+material M1 % first material
 
 ni(1)         2.43774e+00
 chi(1)        1.00000e+00
@@ -18,7 +18,7 @@ diffCoeff(1)  1.60857e+00
 scattMatrix(1, 1) 2.36603e-01
 
 
-material M2
+material M2 % second material
 
 ni(1)         0.00000e+00
 chi(1)        0.00000e+00

@@ -206,9 +206,15 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 	return line;
 }
 
-// fix it for inline comments!
 std::vector<std::string> Input::splitLine(std::string line)
 { 
+	// ignore in line comments (that start with %)
+	std::size_t found = line.find("%");
+  	if (found != std::string::npos)
+    {
+		line = line.substr(0, found);
+	}
+
     std::istringstream iss(line);
     std::vector<std::string> words(std::istream_iterator<std::string>{iss},
                                    std::istream_iterator<std::string>());
