@@ -22,7 +22,7 @@ public:
 	Eigen::VectorXd getVolumes(std::string dim);
 	Eigen::VectorXd getSurfaces(std::string dim);
 	double getExternalSurface(std::string dim);
-	void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
+	void setEnergyGroupsNumber(unsigned n);
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 
 	void createMaterials(std::vector<std::string> materialMap);
@@ -44,13 +44,10 @@ public:
     void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
 	Eigen::MatrixXd getNeutronFluxes();
 
-    void setScattMatrices(Numerics::Tensor3d &scattMatrices);
-
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();
 	Eigen::MatrixXd getFissionXSs();
 	Eigen::MatrixXd getTotalXSs();
-	Eigen::MatrixXd getAbsXSs();
 	Eigen::MatrixXd getDiffusionConstants();
 	Eigen::MatrixXd getRemovalXSs();
 	Numerics::Tensor3d getScattMatrices();

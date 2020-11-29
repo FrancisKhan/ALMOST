@@ -170,6 +170,15 @@ void Mesh::createMaterials(std::vector<std::string> materialMap)
 	}
 }
 
+void Mesh::setEnergyGroupsNumber(unsigned n)
+{
+	m_energyGroupsNumber = n;
+	for(unsigned i = 0; i < m_meshNumber; i++)
+	{
+		m_materials[i]->setEnergies(n);
+	}
+}
+
 void Mesh::setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec)
 {
     m_materials[i]->setThermalConductivityLaw(strVec);
@@ -258,24 +267,6 @@ MatrixXd Mesh::getTotalXSs()
 	return tots;
 }
 
-MatrixXd Mesh::getAbsXSs()
-{
-    MatrixXd abss = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
-	VectorXd abs  = VectorXd::Zero(m_energyGroupsNumber);
-
-	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
-	{
-		abs = m_materials[m]->getAbsXS();
-
-		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
-		{
-			abss(i, m) = abs(i);
-		}
-	}
-
-	return abss;
-}
-
 MatrixXd Mesh::getDiffusionConstants()
 {
     MatrixXd diffs = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
@@ -349,14 +340,6 @@ Tensor3d Mesh::getScattMatrices()
 	}
 
 	return scatts;
-}
-
-void Mesh::setScattMatrices(Numerics::Tensor3d &scattMatrices)
-{
-    for(int m = 0; m < scattMatrices.dimension(2); m++)
-	{
-		 m_materials[m]->setScattMatrix(scattMatrices.chip(m, 2));
-	}
 }
 
 void Mesh::setNeutronFluxes(Eigen::MatrixXd &neutronFluxes)

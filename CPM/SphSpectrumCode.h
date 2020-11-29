@@ -24,8 +24,6 @@ public:
 	void applyBoundaryConditions(Numerics::Tensor3d &gcpm) override; 
 	
 private:
-	Eigen::VectorXd calcFissionPowerDistribution();
-
 	Reactor &m_reactor;
 	Library &m_library;
 	SolverData &m_solverData;

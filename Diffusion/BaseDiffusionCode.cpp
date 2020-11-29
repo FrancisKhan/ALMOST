@@ -113,7 +113,11 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
 	m_reactor.setKFactor(result.getKFactor());
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
-	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
+
+	// The heat diffusion code expects the power density in W/m3
+
+	VectorXd volumes = m_mesh.getVolumes("m");
+	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()

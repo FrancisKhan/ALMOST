@@ -32,21 +32,21 @@ void DiffusionSolver::relaxResults(double par)
     m_mesh.setHeatSources(relaxedPowerDensities);
 
 	out.print(TraceLevel::INFO, "Relaxed power densities [W/m3]:");
-    printVector(m_mesh.getHeatSources(), out, TraceLevel::INFO);
+    printVector(m_reactor.getMesh().getHeatSources(), out, TraceLevel::INFO);
 }
 
 void DiffusionSolver::printResults(TraceLevel level)
 {
-    out.print(level, "K-factor:  {:7.6e} \n", m_reactor.getKFactor());
+    out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
 	out.print(level, "Neutron Flux [1/(cm2*s)]:");
 
 	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
 	
-	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources().cwiseProduct(m_reactor.getMesh().getVolumes("cm"));
+    VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 
 	if (powerDistribution.maxCoeff() > 0.0)
 	{
-		out.print(level, "Thermal Power [W]:");
-		printVector(powerDistribution, out, level);
+		out.print(level, "Thermal power density [W/m3]:");
+        printVector(powerDistribution, out, level);
 	}
 }

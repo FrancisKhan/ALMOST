@@ -33,7 +33,7 @@ public:
 	void setNewHeatSource(Numerics::SourceIterResults result);
 	
 protected:
-	virtual Eigen::VectorXd calcFissionPowerDistribution() = 0;
+	Eigen::VectorXd calcFissionPowerDistribution();
 	const static double abscissa[8];
 	const static double weights[8];
 

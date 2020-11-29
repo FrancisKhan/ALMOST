@@ -144,6 +144,28 @@ MatrixXd BaseSpectrumCode::calcFMatrix(MatrixXd &cpm)
    return FMatrix;
 }
 
+VectorXd BaseSpectrumCode::calcFissionPowerDistribution()
+{
+	MatrixXd neutronFluxes = m_mesh.getNeutronFluxes();
+	MatrixXd fissXSs = m_mesh.getFissionXSs();
+
+	MatrixXd product = neutronFluxes.cwiseProduct(fissXSs);
+	VectorXd powerDensities = product.colwise().sum();
+	VectorXd powers = powerDensities.cwiseProduct(m_volumes);
+
+	double thermalPower = m_reactor.getThermalPower();
+
+	VectorXd powerDistribution = VectorXd::Zero(m_cells);
+
+	for(int i = 0; i < m_cells; i++)
+	{
+		powerDistribution(i) = thermalPower * powers(i) / powers.sum();
+	}
+
+	return powerDistribution;
+}
+
+
 void BaseSpectrumCode::setNewHeatSource(Numerics::SourceIterResults result)
 {
 	MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
@@ -156,5 +178,9 @@ void BaseSpectrumCode::setNewHeatSource(Numerics::SourceIterResults result)
 	m_reactor.setKFactor(result.getKFactor());
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
-	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(m_volumes));
+
+	// The heat diffusion code expects the power density in W/m3
+
+	VectorXd volumes = m_mesh.getVolumes("m");
+	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }

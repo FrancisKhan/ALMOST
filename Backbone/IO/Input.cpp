@@ -393,9 +393,7 @@ void Input::setMaterials(SolverKind solver)
    		setXS("chi", "\nInput chi:");
    		setXS("fission", "\nInput fission XS [1/cm]:");
    		setXS("total", "\nInput total XS [1/cm]:");	
-
-		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
-		m_mesh.setScattMatrices(scattMatrices);
+		setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 	}
 	else if(solver == SolverKind::DIFFUSION)
 	{
@@ -404,18 +402,11 @@ void Input::setMaterials(SolverKind solver)
    		setXS("fission", "\nInput fission XS [1/cm]:");
    		setXS("total", "\nInput total XS [1/cm]:");	
 		setXS("diffCoeff", "\nInput diffusion coefficients [cm]:");	
-
-		Tensor3d scattMatrices = setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
-		m_mesh.setScattMatrices(scattMatrices);
+		setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 	}
    	else if(solver == SolverKind::HEAT)
    	{
 	   	setMaterialProperties("thermal_conductivity");
-
-		if(isElementHere(m_solvers, SolverKind::TRANSPORT))
-		{
-			setXSThermalDependence("thermal_xs_dependence", "\nInput thermal XS dependence:");	
-		}
    	}
 	else {;}
 }
@@ -478,7 +469,7 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 	}
 }
 
-void Input::setXSThermalDependence(std::string name, std::string outputName)
+void Input::setXS(std::string name, std::string outputName)
 {
 	out.print(TraceLevel::CRITICAL, outputName);
 
@@ -497,7 +488,28 @@ void Input::setXSThermalDependence(std::string name, std::string outputName)
 				std::string str = name + "(" + std::to_string(i) + ")";
 				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
 				std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
-				m_mesh.getMaterial(m)->setThermalXSDependenceLaws(numberVec);
+				if (name == "total")
+				{
+					m_mesh.getMaterial(m)->setTotalXSTempDependenceLaws(numberVec);
+				}
+				else if (name == "fission")
+				{
+					m_mesh.getMaterial(m)->setFissionXSTempDependenceLaws(numberVec);
+				}
+				else if (name == "diffCoeff")
+				{
+					m_mesh.getMaterial(m)->setDiffCoeffTempDependenceLaws(numberVec);
+				}
+				else if (name == "ni")
+				{
+					m_mesh.getMaterial(m)->setNiTempDependenceLaws(numberVec);
+				}
+				else if (name == "chi")
+				{
+					m_mesh.getMaterial(m)->setChiTempDependenceLaws(numberVec);
+				}
+				else {;}
+				
 				printVector(numberVec, out, TraceLevel::CRITICAL, false);
 			}
 			
@@ -506,10 +518,8 @@ void Input::setXSThermalDependence(std::string name, std::string outputName)
 	}
 }
 
-void Input::setXS(std::string name, std::string outputName)
+void Input::setMatrixXS(std::string name, std::string outputName)
 {
-	VectorXd energyVec = VectorXd::Zero(m_energies);
-
 	out.print(TraceLevel::CRITICAL, outputName);
 
 	for (auto matListItem : m_materialList)
@@ -517,62 +527,6 @@ void Input::setXS(std::string name, std::string outputName)
         std::string matStr = "material";
 	    readOneParameter(matStr + " " + matListItem);
 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
-
-		for(unsigned m = 0; m < m_cells; m++)
-    	{
-			if (m_materialMap[m] != matListItem) continue;
-
-			for (unsigned i = 1; i <= m_energies; i++)
-   			{
-				std::string str = name + "(" + std::to_string(i) + ")";
-				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-				energyVec(i - 1) = std::stod(values[1]);
-			}
-
-            if(name == "ni") 
-				m_mesh.getMaterial(m)->setNi(energyVec);
-			else if(name == "chi") 
-				m_mesh.getMaterial(m)->setChi(energyVec);
-			else if(name == "fission") 
-				m_mesh.getMaterial(m)->setFissionXS(energyVec);
-			else if(name == "total") 
-				m_mesh.getMaterial(m)->setTotalXS(energyVec);
-			else if(name == "absorption") 
-				m_mesh.getMaterial(m)->setAbsXS(energyVec);
-			else if(name == "diffCoeff") 
-				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
-			else {;}
-		}
-	}
-
-	for(unsigned m = 0; m < m_cells; m++)
-    {
-        if(name == "ni") 
-			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL, false , false);
-		else if(name == "chi") 
-			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL, false , false);
-		else if(name == "fission") 
-			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL, false , false);
-		else if(name == "total") 
-			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL, false , false);
-		else if(name == "absorption") 
-			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL, false , false);
-		else if(name == "diffCoeff") 
-			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL, false , false);
-		else {;}
-	}
-}
-
-Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
-{
-    Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
-    matrix.setZero();
-
-	for (auto matListItem : m_materialList)
-    {
-       std::string matStr = "material";
-	   readOneParameter(matStr + " " + matListItem);
-	   std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
 
 		for(unsigned m = 0; m < m_cells; m++)
     	{
@@ -584,16 +538,20 @@ Tensor3d Input::setMatrixXS(std::string name, std::string outputName)
 	    		{
 					std::string str = name + "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
 					std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-					matrix(i - 1, j - 1, m) = std::stod(values[2]);
+					std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 2, values.end());
+					if (name == "scattMatrix")
+					{
+						m_mesh.getMaterial(m)->setScattMatrixTempDependenceLaws(numberVec);
+					}
+					else {;}
+
+					printVector(numberVec, out, TraceLevel::CRITICAL, false);
 				}
+
+				out.print(TraceLevel::CRITICAL, " ");
 			}
 		}
 	}
-
-	out.print(TraceLevel::CRITICAL, outputName);
-    printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
-
-	return matrix;
 }
 
 std::string Input::readOneParameter(std::string name)
@@ -669,7 +627,6 @@ void Input::setKineticsParameters()
 
 std::vector<double> Input::setManyParameters(std::string name, std::string outputName)
 { 
-
     std::vector<std::string> values = readManyParameters(name);
 
     std::vector<double> result(values.size(), 0.0);
@@ -775,7 +732,7 @@ void Input::setTemperatures()
 void Input::setHeatSources()
 { 
 	std::vector<double> heatSources = setManyParameters("heat_sources", 
-														"Input heat_sources [W/m3]");
+														"Input heat_source densities [W/m3]");
 		m_mesh.setHeatSources(heatSources);	
 } 
 
@@ -911,3 +868,92 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 }
 
 
+// void Input::setMatrixXS(std::string name, std::string outputName)
+// {
+//     Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
+//     matrix.setZero();
+
+// 	for (auto matListItem : m_materialList)
+//     {
+//        std::string matStr = "material";
+// 	   readOneParameter(matStr + " " + matListItem);
+// 	   std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+// 		for(unsigned m = 0; m < m_cells; m++)
+//     	{
+//         	if (m_materialMap[m] != matListItem) continue;
+
+// 			for (unsigned i = 1; i <= m_energies; i++)
+//     		{
+// 	    		for (unsigned j = 1; j <= m_energies; j++)
+// 	    		{
+// 					std::string str = name + "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
+// 					std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+// 					matrix(i - 1, j - 1, m) = std::stod(values[2]);
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	m_mesh.setScattMatrices(matrix);
+
+// 	out.print(TraceLevel::CRITICAL, outputName);
+//     printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
+// }
+
+// void Input::setXS(std::string name, std::string outputName)
+// {
+// 	VectorXd energyVec = VectorXd::Zero(m_energies);
+
+// 	out.print(TraceLevel::CRITICAL, outputName);
+
+// 	for (auto matListItem : m_materialList)
+//     {
+//         std::string matStr = "material";
+// 	    readOneParameter(matStr + " " + matListItem);
+// 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
+
+// 		for(unsigned m = 0; m < m_cells; m++)
+//     	{
+// 			if (m_materialMap[m] != matListItem) continue;
+
+// 			for (unsigned i = 1; i <= m_energies; i++)
+//    			{
+// 				std::string str = name + "(" + std::to_string(i) + ")";
+// 				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
+// 				energyVec(i - 1) = std::stod(values[1]);
+// 			}
+
+//             if(name == "ni") 
+// 				m_mesh.getMaterial(m)->setNi(energyVec);
+// 			else if(name == "chi") 
+// 				m_mesh.getMaterial(m)->setChi(energyVec);
+// 			else if(name == "fission") 
+// 				m_mesh.getMaterial(m)->setFissionXS(energyVec);
+// 			else if(name == "total") 
+// 				m_mesh.getMaterial(m)->setTotalXS(energyVec);
+// 			else if(name == "absorption") 
+// 				m_mesh.getMaterial(m)->setAbsXS(energyVec);
+// 			else if(name == "diffCoeff") 
+// 				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
+// 			else {;}
+// 		}
+// 	}
+
+// 	for(unsigned m = 0; m < m_cells; m++)
+//     {
+//         if(name == "ni") 
+// 			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL, false , false);
+// 		else if(name == "chi") 
+// 			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL, false , false);
+// 		else if(name == "fission") 
+// 			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL, false , false);
+// 		else if(name == "total") 
+// 			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL, false , false);
+// 		else if(name == "absorption") 
+// 			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL, false , false);
+// 		else if(name == "diffCoeff") 
+// 			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL, false , false);
+// 		else {;}
+// 	}
+// }

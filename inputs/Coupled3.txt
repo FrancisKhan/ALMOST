@@ -1,10 +1,15 @@
-% Test input 2
+% Steady-state, cylinder geometry, heat-diffusion coupled calculation
+% One neutron energy group
+% Reactor thermal power = 100.0 kW
+% temperature-dependent thermal conductivity
+% Heat boundary condition: T(L) = T2
+% Diffusion boundary condition: zero incoming flux at the boundary
 
 solvers heat diffusion
 
 geometry  cylinder
 mesh 50 1.0 M1
-thermal_power 00000000.0
+thermal_power 100000.0
 temperatures 323.75 50 
 
 material M1
@@ -14,7 +19,7 @@ total(1)          1.1041841159099983e+000 +3.1991613333335125e-004 -1.9955555555
 fission(1)        5.2065890875687476e-003 -4.7201507499999920e-006 +2.9919444444444392e-009
 diffCoeff(1)      1.0279444275348752e+000 -5.5794483500000566e-004 +3.4177222222223083e-007
 scattMatrix(1, 1) 1.0893011093499998e+000 +3.3176466666667197e-004 -2.0666666666667593e-007
-thermal_conductivity 22.0
+thermal_conductivity 22.0 0.001
 
 solver heat
 accuracy 1.0E-8
@@ -23,7 +28,7 @@ heat_boundary_conditions 1.0 0.0 323.75
 
 solver diffusion
 accuracy 1.0E-5
-max_iteration_number 500
+max_iteration_number 100
 albedo 0.0
 energies 1
 

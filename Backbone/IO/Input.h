@@ -46,9 +46,8 @@ private:
 	std::vector<double> setManyParameters(std::string name, 
 										  std::string prefix = "");
 
-    void setXS(std::string name, std::string outputName);
-	Numerics::Tensor3d setMatrixXS(std::string name, std::string outputName);
-	void setXSThermalDependence(std::string name, std::string outputName);
+	void setXS(std::string name, std::string outputName);
+	void setMatrixXS(std::string name, std::string outputName);
 
 	void setTemperatures();
 	void setHeatSources();

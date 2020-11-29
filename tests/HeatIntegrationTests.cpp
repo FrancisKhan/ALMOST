@@ -257,10 +257,13 @@ TEST_F(HeatIntegrationTests, heat8)
   EXPECT_TRUE(areEqual);
 }
 
-// Steady-state, temperature-dependent conductivity, slab geometry with different cell sizes
+// Steady-state, constant parameters, slab geometry
+// non-uniform grid
+// with internal generation
 // Boundary conditions:
 // T(0) = T1
 // T(L) = T2
+
 
 TEST_F(HeatIntegrationTests, heat9)
 {	
@@ -303,7 +306,7 @@ TEST_F(HeatIntegrationTests, heat9)
   EXPECT_TRUE(areEqual);
 }
 
-// Steady-state, tconstant conductivity, slab geometry
+// Steady-state, constant conductivity, slab geometry
 // 2 materials with the same cell sizes with internal generation
 // Boundary conditions:
 // T(0) = T1
