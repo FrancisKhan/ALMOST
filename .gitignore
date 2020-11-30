@@ -42,12 +42,8 @@ _deps
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
-
-# Installers
-*.deb
 
 ~$*
 
@@ -56,7 +52,6 @@ app/almost
 tests/test_almost
 tests/outputs
 outputs/*
-installers/*
 outputs_experimental/*
 tests/testLog.txt
 tests/tests/
@@ -66,3 +61,5 @@ external/spdlog-lib
 external/googletest*
 git-version.h
 **build
+almost-1.2.0-Linux.deb
+!/*installers/almost-1.2.0-Linux.deb
