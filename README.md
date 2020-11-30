@@ -3,10 +3,22 @@
 
 # ALMOST
 
-ALMOST, is a C++ opensource code for nuclear multi-physics simulation. The ALMOST project aims to provide a simple and user-friendly code package where physics solvers can be used standalone or coupled together.
+ALMOST, is a C++ open source code for nuclear multi-physics simulations. The ALMOST project aims to provide a simple and user-friendly code package where physics solvers can be used standalone or coupled together.
+
+ALMOST is being developed on Linux, however, it can be cross-compiled for Windows as well. You don't need to compile it if you just want to play with it,  installers for Ubuntu and Windows are available in the installers folder.
+
+The code makes use of free-format text input files. If you want to see ALMOST capabilities and start running some simulations please have a look at the input folder within the repository, it contains ALMOST integrations tests.
+
+Every solver is continuously tested via GitHub workflows, at the moment there are more than 100 integration tests.
 
 ## Solvers list:
 * *1-D Collision Probability Method (CPM) solver for neutron transport calculation*
 * *1-D Neutron diffusion solver*
-* *1-D Heat transfer*
-* *0-D Point kinetics code*
+* *1-D Heat transfer solver*
+* *0-D Point kinetics solver*
+
+For more info on the compilation steps: [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation). \
+For more info on how to run almost or its tests: [Run](https://github.com/FrancisKhan/ALMOST/wiki/Run-ALMOST).
+
+The neutron cross sections need to be provided in the input. However, there is a python script in the scripts folder that generates them automatical from a Serpent output file.
+
