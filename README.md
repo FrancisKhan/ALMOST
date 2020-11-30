@@ -3,18 +3,14 @@ Advanced Lightweight Multi-physics Object-oriented Simulation Tool
 
 Dependencies for Ubuntu 18.04 and 20.04:
 
-sudo apt-get install -y git\
-sudo apt-get install -y cmake\
-sudo apt-get install -y g++\
+sudo apt-get install -y cmake \
+sudo apt-get install -y g++ \
 sudo apt-get install -y valgrind \
-sudo apt-get install -y mingw-w64 
-
-Choose posix after the following commands:
-
-sudo update-alternatives --config i686-w64-mingw32-gcc \
-sudo update-alternatives --config i686-w64-mingw32-g++ \
-sudo update-alternatives --config x86_64-w64-mingw32-gcc \
-sudo update-alternatives --config x86_64-w64-mingw32-g++
+sudo apt-get install -y mingw-w64 \
+sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix \
+sudo update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix \
+sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix \
+sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix 
 
 Download and compilation on Linux:
 
