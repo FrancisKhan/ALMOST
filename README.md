@@ -1,51 +1,12 @@
+[![Actions Status](https://github.com/FrancisKhan/ALMOST/workflows/CI-Linux/badge.svg)](https://github.com/FrancisKhan/ALMOST/actions)
+[![Actions Status](https://github.com/FrancisKhan/ALMOST/workflows/CI-Cross-Compilation/badge.svg)](https://github.com/FrancisKhan/ALMOST/actions)
+
 # ALMOST
-Advanced Lightweight Multi-physics Object-oriented Simulation Tool
 
-Dependencies for Ubuntu 18.04 and 20.04:
+ALMOST, is a C++ opensource code for nuclear multi-physics simulation. The ALMOST project aims to provide a simple and user-friendly code package where physics solvers can be used standalone or coupled together.
 
-sudo apt-get install -y cmake \
-sudo apt-get install -y g++ \
-sudo apt-get install -y valgrind \
-sudo apt-get install -y mingw-w64 \
-sudo update-alternatives --set i686-w64-mingw32-gcc /usr/bin/i686-w64-mingw32-gcc-posix \
-sudo update-alternatives --set i686-w64-mingw32-g++ /usr/bin/i686-w64-mingw32-g++-posix \
-sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix \
-sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix 
-
-Download and compilation on Linux:
-
-git clone https://github.com/FrancisKhan/ALMOST_src.git \
-cd ALMOST_src\
-cmake -DCMAKE_BUILD_TYPE=Release . \
-make \
-cpack
-
-Download and compilation on Windows:
-
-git clone https://github.com/FrancisKhan/ALMOST_src.git \
-cd ALMOST_src \
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=mingw-w64_toolchain.cmake . \
-make
-
-To run all the google tests on Linux:
-
-ctest -VV 
-
-To run an almost calculation on Linux:
-
-./app/almost inputs/coupledTest1.txt outputs/Out_coupledTest1.txt CRITICAL
-
-To run an almost calculation on Windows:
-
-almost.exe inputs/coupledTest1.txt outputs/Out_coupledTest1.txt CRITICAL
-
-There are 5 different levels of logging:
-
-CRITICAL \
-ERROR \
-WARN \
-INFO \
-DEBUG \
-TRACE
-
-
+## Solvers list:
+* *1-D Collision Probability Method (CPM) solver for neutron transport calculation*
+* *1-D Neutron diffusion solver*
+* *1-D Heat transfer*
+* *0-D Point kinetics code*
