@@ -20,5 +20,6 @@ Every solver is continuously tested via GitHub workflows, at the moment there ar
 For more info on the compilation steps: [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation). \
 For more info on how to run almost or its tests: [Run](https://github.com/FrancisKhan/ALMOST/wiki/Run-ALMOST).
 
-The neutron cross sections need to be provided in the input. However, there is a python script in the scripts folder that generates them automatical from a Serpent output file.
+The neutron cross sections need to be provided in the input. However, there is a python script in the scripts folder that generates them automatically from a Serpent output file.
 
+Author's email: tntfnc3@gmail.com

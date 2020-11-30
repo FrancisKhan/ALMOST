@@ -16,7 +16,7 @@ install(TARGETS almost
 )
 
 SET(CPACK_GENERATOR "DEB")
-SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Francesco Tantillo")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "FrancisKhan")
 SET(CPACK_PACKAGE_DESCRIPTION "Advanced Lightweight Multi-physics Object-oriented Simulation Tool")
 #SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "It's a service menu for dolphin that allow you to open folders skipping no-text files")
 SET(CPACK_PACKAGE_CONTACT "tntfnc3@gmail.com")
