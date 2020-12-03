@@ -17,12 +17,12 @@ Every solver is continuously tested via GitHub workflows, at the moment there ar
 * *1-D Heat transfer solver*
 * *0-D Point kinetics solver*
 
-The 1-D solvers have been implemented for spherical, cylindrical and slag geometries.
+The 1-D solvers have been implemented for spherical, cylindrical and slab geometries.
 
 For more detailed information visit the **wiki** page:
-* [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation)
-* [Tests](https://github.com/FrancisKhan/ALMOST/wiki/Tests)
 * [Examples](https://github.com/FrancisKhan/ALMOST/wiki/Examples)
+* [Tests](https://github.com/FrancisKhan/ALMOST/wiki/Tests)
+* [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation)
 
 The neutron cross sections need to be provided in the input. However, there is a python script in the *scripts* folder that generates them automatically from a Serpent output file.
 
