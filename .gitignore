@@ -52,6 +52,7 @@ app/almost
 tests/test_almost
 tests/outputs
 outputs/*
+inputs_experimental/*
 outputs_experimental/*
 tests/testLog.txt
 tests/tests/
