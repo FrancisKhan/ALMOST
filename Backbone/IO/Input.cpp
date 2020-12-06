@@ -597,14 +597,14 @@ std::vector<std::string> Input::readManyParameters(std::string name)
 
 void Input::setKineticsParameters()
 { 
-    double alpha = std::stod(readOneParameter("alpha"));
-    out.print(TraceLevel::CRITICAL, "Alpha [s]: {} \n", stringFormat(alpha, "%7.6e"));
+    double alpha = std::stod(readOneParameter("generation_time"));
+    out.print(TraceLevel::CRITICAL, "Mean generation time of the reactor [s]: {} \n", stringFormat(alpha, "%7.6e"));
 
-    double power = std::stod(readOneParameter("power"));
+    double power = std::stod(readOneParameter("initial_power"));
     out.print(TraceLevel::CRITICAL, "Initial power [W]: {} \n", stringFormat(alpha, "%7.6e"));
 
-    std::vector<double> lambda = setManyParameters("lambda", "Input lambdas [1/s]");
-    std::vector<double> beta = setManyParameters("beta", "Input betas");
+    std::vector<double> lambda = setManyParameters("delayed_constants", "Input delayed neutrons group decay constants [1/s]");
+    std::vector<double> beta = setManyParameters("delayed_fractions", "Input delayed neutrons group fractions");
 	std::vector<double> times = setManyParameters("times", "Input times [s]");
 	std::vector<double> reactivities = setManyParameters("reactivities", "Input reactivities");
 
