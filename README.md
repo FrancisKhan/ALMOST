@@ -22,7 +22,7 @@ The 1-D solvers have been implemented for spherical, cylindrical and slab geomet
 For more detailed information visit the **wiki** page:
 * [Examples](https://github.com/FrancisKhan/ALMOST/wiki/Examples)
 * [Tests](https://github.com/FrancisKhan/ALMOST/wiki/Tests)
-* [Input sintax](https://github.com/FrancisKhan/ALMOST/wiki/Input-sintax)
+* [Input syntax](https://github.com/FrancisKhan/ALMOST/wiki/Input-syntax)
 * [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation)
 
 The neutron cross sections need to be provided in the input. However, there is a python script in the *scripts* folder that generates them automatically from a Serpent output file.
