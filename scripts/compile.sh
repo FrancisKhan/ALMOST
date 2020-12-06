@@ -7,7 +7,7 @@ build_linux () {
   cd $parentdir
   
   if [ $1 == "clean" ]; then
-    git clean -x -f -d -e installers
+    git clean -x -f -d -e installers -e inputs_experimental
   else
     echo "git clean not used" 
   fi
@@ -25,7 +25,7 @@ build_windows () {
   cd $parentdir
   
   if [ $1 == "clean" ]; then
-    git clean -x -f -d -e installers
+    git clean -x -f -d -e installers -e inputs_experimental
   else
     echo "git clean not used" 
   fi

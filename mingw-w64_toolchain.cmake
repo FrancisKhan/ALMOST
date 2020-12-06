@@ -25,5 +25,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_FIND_ROOT_PATH}/usr CACHE FILEPATH
 # initialize required linker flags
 set(CMAKE_EXE_LINKER_FLAGS_INIT "-static-libgcc -static-libstdc++")
 
+add_definitions(-D_USE_MATH_DEFINES)
+
 # end of toolchain file
 
