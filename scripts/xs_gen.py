@@ -87,7 +87,7 @@ def main(argv):
                 if(transportCorrection):
                     print("diffCoeff(", i+1, ")  ", "{:.5e}".format(diffCoeff[i]), sep="", file=f)
                 else:  
-                    D = scatt0[i] / (3.0 * total[i] **2)
+                    D[i] = scatt0[i] / (3.0 * total[i] **2)
                     print("diffCoeff(", i+1, ")  ", "{:.5e}".format(D), sep="", file=f)
             
             else:

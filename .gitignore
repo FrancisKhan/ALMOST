@@ -63,4 +63,5 @@ external/googletest*
 git-version.h
 **build
 almost-1.2.0-Linux.deb
+*_ALMOST.txt
 !/*installers/almost-1.2.0-Linux.deb
