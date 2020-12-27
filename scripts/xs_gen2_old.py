@@ -394,6 +394,6 @@ def main():
     printAlmostOutput(fileObject)
 
     fileObject.close()
-
+    
 if __name__ == "__main__":
     main()
