@@ -24,14 +24,8 @@ class Generator:
 
         self.mesh = Mesh()
 
-        for key in inputFilesAndTemps:
-            print(key, inputFilesAndTemps[key])
-
         self.prepareSerpentFiles()
-
         self.fileObject = open(self.outputFile, 'w')
-        #self.fileObject = open(self.setOutputName(), 'w')
-    
         self.printHeader()
 
         for temp in self.serpentFilesAndTemps: 
@@ -273,16 +267,6 @@ class Generator:
             mat = Material(key[0])
             self.mesh.addMaterial(mat)
 
-    def setOutputName(self):  
-        firstSerpentOutput = self.serpentFilesAndTemps[list(self.serpentFilesAndTemps.keys())[0]]
-        nameBegin = firstSerpentOutput.rfind("/")
-        nameEnd   = firstSerpentOutput.rfind(".")
-        nameTemp = firstSerpentOutput[nameBegin+1:nameEnd]
-        nameEnd = nameTemp.rfind(".")
-        name = nameTemp[0:nameEnd]
-
-        return os.getcwd() + "/" + name + "_ALMOST.txt"
-
     def printHeader(self):
         print(datetime.now().strftime("%d %b %Y %H:%M:%S"), file=self.fileObject)
         print("\nSolver:               ", self.solver, file=self.fileObject)
@@ -408,7 +392,9 @@ def main():
                           56.0 : "/home/why/Serpent/input/cyl_water_reactor_two_materials_600.txt_res.m",
                           96.0 : "/home/why/Serpent/input/cyl_water_reactor_two_materials_900.txt_res.m"}
 
-    Generator(True, True, "Diffusion", inputFilesAndTemps)
+    outputFile = os.getcwd() + "/output.txt"
+
+    Generator(True, True, "Diffusion", inputFilesAndTemps, outputFile)
     
 if __name__ == "__main__":
     main()
