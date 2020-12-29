@@ -25,6 +25,6 @@ For more detailed information visit the **wiki** page:
 * [Input syntax](https://github.com/FrancisKhan/ALMOST/wiki/Input-syntax)
 * [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation)
 
-The neutron cross sections need to be provided in the input. However, there is a python script in the *scripts* folder that generates them automatically from a Serpent output file.
+The neutron cross sections need to be provided in the input. They can be also generated automatically through a Python application that can be found in the *scripts* folder.
 
 Author's email: tntfnc3@gmail.com
