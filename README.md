@@ -28,3 +28,4 @@ For more detailed information visit the **wiki** page:
 The neutron cross sections need to be provided in the input. However, there is a python script in the *scripts* folder that generates them automatically from a Serpent output file.
 
 Author's email: tntfnc3@gmail.com
+# Wiki
