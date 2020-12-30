@@ -25,7 +25,7 @@ class GeneratorGUI:
         self.outputFiles = ""
 
         frameInputs = tk.Frame()
-        lbl_value = tk.Label(master=frameInputs, text="Serpent inputs:", font=('Helvetica', 15, 'bold'))
+        lbl_value = tk.Label(master=frameInputs, text="Serpent files:", font=('Helvetica', 15, 'bold'))
         lbl_value.grid(row=0, column=0)
         self.createInputLines(frameInputs)
         frameInputs.grid(row=1, column=0)
