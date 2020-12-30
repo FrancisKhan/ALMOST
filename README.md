@@ -25,6 +25,8 @@ For more detailed information visit the **wiki** page:
 * [Input syntax](https://github.com/FrancisKhan/ALMOST/wiki/Input-syntax)
 * [Compilation](https://github.com/FrancisKhan/ALMOST/wiki/Compilation)
 
+## Serpent to Almost Input Generator GUI application:
+
 The neutron cross sections need to be provided in the input. They can be also generated automatically through a Python application, Serpent to Almost Input Generator, that can be found in the *scripts* folder. More info to be found in [Serpent to Almost Input Generator](https://github.com/FrancisKhan/ALMOST/wiki/Serpent-to-Almost-Input-Generator)
 
 ![Serpent-to-Almost-Input-Generator](https://github.com/FrancisKhan/Wiki/blob/main/GUI_Picture.png)
