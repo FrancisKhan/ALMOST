@@ -10,21 +10,23 @@ solvers heat diffusion
 geometry  cylinder
 mesh 50 1.0 M1
 thermal_power 100000.0
-temperatures 323.75 50 
+temperatures 2.68500e+01 50 
 
 material M1
-ni(1)         2.43753e+00
-chi(1)        1.00000e+00
-total(1)          1.1041841159099983e+000 +3.1991613333335125e-004 -1.9955555555558068e-007
-fission(1)        5.2065890875687476e-003 -4.7201507499999920e-006 +2.9919444444444392e-009
-diffCoeff(1)      1.0279444275348752e+000 -5.5794483500000566e-004 +3.4177222222223083e-007
-scattMatrix(1, 1) 1.0893011093499998e+000 +3.3176466666667197e-004 -2.0666666666667593e-007
+
+ni(1)         2.43752e+00 5.29833e-08 -5.55556e-11 
+chi(1)        1.00000e+00 
+total(1)      1.10424e+00 3.18734e-04 -1.97722e-07 
+fission(1)    5.20715e-03 -4.72660e-06 3.00133e-09 
+diffCoeff(1)  1.02796e+00 -5.53810e-04 3.35622e-07 
+scattMatrix(1, 1) 1.08938e+00 3.30477e-04 -2.04722e-07 
+xs_reference_temperature  2.68500e+01 
 thermal_conductivity 22.0
 
 solver heat
 accuracy 1.0E-8
 max_iteration_number 20
-heat_boundary_conditions 1.0 0.0 323.75
+heat_boundary_conditions 1.0 0.0 2.68500e+01
 
 solver diffusion
 accuracy 1.0E-5

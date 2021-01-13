@@ -51,6 +51,13 @@ namespace Numerics
     std::vector<double> poly_roots(std::vector<double> &p);
 
     template <typename T>
+    T round_to(const T &number, const int precision)
+    {
+        int decimals = std::pow(10, precision);
+        return (std::round(number * decimals)) / decimals;
+    }
+
+    template <typename T>
     inline bool is_equal(const T &x, const T &y)
     {
     	return fabs(x - y) < 10.0 * std::numeric_limits<double>::epsilon();

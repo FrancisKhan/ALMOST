@@ -197,7 +197,8 @@ class Generator:
                 for j in range(energyGroups):
                     print("scattMatrix(", i+1, ", ", j+1, ") ", scientific(mat.crossSectionMatrixSet.matrix["scattMatrix0"][(i, j)]),  sep="", file=self.fileObject)
 
-            print("", file=self.fileObject)
+            print("\nxs_reference_temperature ", scientific(mat.getMinimumTemperature()), "\n", file=self.fileObject)
+
 
     def readSerpentOutput(self, output, temp):
     
@@ -339,6 +340,9 @@ class Material:
 
     def getTemperatures(self):
         return self.temperatures
+
+    def getMinimumTemperature(self):
+        return np.amin(self.temperatures)
 
     def getEnergiesNumber(self):
         return len(self.crossSectionset.xs["total"])

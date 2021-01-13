@@ -22,6 +22,8 @@ namespace Numerics
 	void diagonalDominanceCheck(Eigen::MatrixXd &matrix)
 	{
 		Eigen::VectorXd rowSum = Eigen::VectorXd::Zero(matrix.rows());
+
+		bool isWarningPrinted = false;
 	
 		for(unsigned i = 0; i < rowSum.size(); i++)
 		{
@@ -33,8 +35,9 @@ namespace Numerics
 	
 		for(unsigned i = 0; i < rowSum.size(); i++)
 		{
-			if(is_lower(matrix(i, i), (rowSum(i) - matrix(i, i))))
+			if((is_lower(matrix(i, i), (rowSum(i) - matrix(i, i)))) && !isWarningPrinted)
 			{
+				isWarningPrinted = true;
 				out.print(TraceLevel::CRITICAL, "The convergence is not guaranteed, the matrix is not strictly diagonally dominant");
 			}
 		}

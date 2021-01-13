@@ -62,6 +62,8 @@ external/spdlog-lib
 external/googletest*
 git-version.h
 **build
+**__pycache__
 almost-1.2.0-Linux.deb
 *_ALMOST.txt
+output.txt
 !/*installers/almost-1.2.0-Linux.deb

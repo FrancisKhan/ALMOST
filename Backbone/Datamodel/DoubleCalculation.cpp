@@ -52,14 +52,14 @@ void DoubleCalculation::solve()
 	
 	if(iter + 1 > maxIterNumber)
 	{
-		out.print(TraceLevel::CRITICAL, "Number of coupled iteration: {}", iter + 1);
+		out.print(TraceLevel::CRITICAL, "\nNumber of coupled iteration: {}", iter + 1);
 		out.print(TraceLevel::CRITICAL, "The coupled calculation did not converge!");
 		exit(-1);
 	}
 
 	if(m_reactor.getLogLevel() == TraceLevel::CRITICAL)
 	{
-		out.print(TraceLevel::CRITICAL, "Number of coupled iteration: {} \n", iter + 1);
+		out.print(TraceLevel::CRITICAL, "\nNumber of coupled iteration: {} \n", iter + 1);
 		firstSolver->printResults(TraceLevel::CRITICAL);
 		secondSolver->printResults(TraceLevel::CRITICAL);
 	}
