@@ -1,0 +1,51 @@
+% Steady-state, cylinder geometry, heat-diffusion coupled calculation
+% Two neutron energy groups
+% Reactor thermal power = 100.0 kW
+% temperature-dependent thermal conductivity
+% Heat boundary condition: T(L) = T2
+% Diffusion boundary condition: zero incoming flux at the boundary
+
+solvers heat diffusion
+
+geometry  cylinder
+mesh 50 1.0 M1
+thermal_power 0.0
+temperatures 26.85 50 
+
+material M1
+
+ni(1)         2.49162e+00 4.36548e-06 -1.39444e-08 
+chi(1)        1.00000e+00 
+total(1)      6.04000e-01 -7.19362e-07 1.95722e-08 
+fission(1)    1.88365e-04 -8.12481e-09 3.55333e-11 
+diffCoeff(1)  1.91012e+00 4.51912e-05 -8.92222e-08 
+
+ni(2)         2.43670e+00 8.67362e-19 
+chi(2)        0.00000e+00 
+total(2)      1.45482e+00 2.00374e-05 -1.31111e-08 
+fission(2)    8.68666e-03 -1.17002e-05 8.42100e-09 
+diffCoeff(2)  4.08523e-01 -4.10486e-05 2.92111e-08 
+
+scattMatrix(1, 1) 5.68778e-01 9.53941e-06 -1.34278e-08 
+scattMatrix(1, 2) 3.37049e-02 -1.05488e-05 3.30511e-08 
+scattMatrix(2, 1) 1.55369e-04 -3.96135e-06 1.29606e-08 
+scattMatrix(2, 2) 1.43054e+00 5.42085e-05 -4.73333e-08 
+thermal_conductivity 22.0
+xs_reference_temperature 26.85
+
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20
+heat_boundary_conditions 1.0 0.0 26.85
+
+solver diffusion
+accuracy 1.0E-5
+max_iteration_number 100
+albedo 0.0
+energies 2
+
+solver coupled
+accuracy 1.0E-6
+max_iteration_number 40
+relaxation_parameter 0.6

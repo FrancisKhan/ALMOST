@@ -11,6 +11,7 @@ public:
 	m_coefficients(coeffs){}
 
     double calc(double x);
+	double calc(double x, double base);
 
 private:
 	std::vector<double> m_coefficients;

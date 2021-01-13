@@ -17,7 +17,7 @@ using namespace HelperTools;
 
 void Input::getArguments(int argc, char** argv)
 {
-	if(argc < 2)
+	if(argc < 3)
 	{
 		std::cout << "Missing input arguments!" << std::endl;
 		exit(-1);
@@ -127,9 +127,11 @@ void Input::readData()
 			setMaterials(i.getKind());
 			setTemperatures();
 		}
-		else
+		else if(i.getKind() == SolverKind::COUPLED)
 		{
+			setMaterials(i.getKind());
 		}
+		else {}
 	}
 }
 
@@ -408,6 +410,10 @@ void Input::setMaterials(SolverKind solver)
    	{
 	   	setMaterialProperties("thermal_conductivity");
    	}
+	else if(solver == SolverKind::COUPLED)
+   	{
+		setMaterialProperties("xs_reference_temperature");
+   	}
 	else {;}
 }
 
@@ -416,6 +422,10 @@ void Input::setMaterialProperties(std::string name)
 	if(name == "thermal_conductivity")
 	{
 		out.print(TraceLevel::CRITICAL, "Input thermal conductivity [W/(m*K)]:");
+	}
+	else if(name == "xs_reference_temperature")
+	{
+		out.print(TraceLevel::CRITICAL, "\nNeutron cross section reference temperature [C]:");
 	}
 	else
 	{
@@ -439,6 +449,10 @@ void Input::setMaterialProperties(std::string name)
 			{
 				setThermalConductivity(values, m);
 			}
+			else if(name == "xs_reference_temperature")
+			{
+				setXSReferenceTemperature(values, m);
+			}
 			else
 			{
 				out.print(TraceLevel::CRITICAL, "{} is not a material property", name);
@@ -461,6 +475,25 @@ void Input::setThermalConductivity(std::vector<std::string> &values, unsigned in
 		std::vector<std::string> numberVec = std::vector<std::string>(values.begin() + 1, values.end());
 		m_mesh.setThermalConductivityLaw(index, numberVec);
 		printVector(numberVec, out, TraceLevel::CRITICAL, false);
+	}
+	else
+	{
+		out.print(TraceLevel::CRITICAL, "{} number of parameters exceeded!", values[0]);
+		exit(-1);
+	}
+}
+
+void Input::setXSReferenceTemperature(std::vector<std::string> &values, unsigned index)
+{
+	if(values.size() < 2) 
+	{
+		out.print(TraceLevel::CRITICAL, "{} has no parameters!", values[0]);
+	    exit(-1);
+	}
+	else if(values.size() == 2) 
+	{
+		m_mesh.setXSReferenceTemperature(index, values[1]);
+		out.print(TraceLevel::CRITICAL, stringFormat(values[1], "%7.6e"));
 	}
 	else
 	{
