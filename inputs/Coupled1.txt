@@ -2,7 +2,7 @@
 % One neutron energy group
 % Reactor thermal power = 0.0 W
 % Constant thermal conductivity
-% Heat boundary condition: T(L) = T2
+% Heat boundary condition: T(L) = T2 (300K)
 % Diffusion boundary condition: zero incoming flux at the boundary
 
 solvers heat diffusion
