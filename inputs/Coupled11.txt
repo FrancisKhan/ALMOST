@@ -1,0 +1,51 @@
+% Steady-state, water reactor with water reflector, heat-diffusion coupled calculation
+% One neutron energy group
+% Reactor thermal power = 100.0 kW
+% constant thermal conductivity
+% Heat boundary condition: T(L) = T2 (300K)
+% Diffusion boundary condition: Reflective
+
+solvers heat diffusion
+
+geometry  cylinder
+mesh 50 1.0 M1 50 1.0 M2
+thermal_power 100000.0
+temperatures 26.85 100 
+
+material M1
+
+ni(1)         2.43752e+00 5.29833e-08 -5.55556e-11 
+chi(1)        1.00000e+00 
+total(1)      1.11510e+00 3.15034e-04 -1.94611e-07 
+fission(1)    5.25824e-03 -4.79567e-06 3.05194e-09 
+diffCoeff(1)  1.00530e+00 -5.36677e-04 3.23533e-07 
+scattMatrix(1, 1) 1.10008e+00 3.27002e-04 -2.01778e-07 
+xs_reference_temperature  2.68500e+01 
+thermal_conductivity 22.0
+
+material M2
+
+ni(1)         0.00000e+00 
+chi(1)        0.00000e+00 
+total(1)      1.26391e+00 2.31940e-04 -1.50333e-07 
+fission(1)    0.00000e+00 
+diffCoeff(1)  8.32959e-01 -4.98411e-04 3.17344e-07 
+scattMatrix(1, 1) 1.25315e+00 2.42443e-04 -1.57222e-07 
+xs_reference_temperature  2.68500e+01 
+thermal_conductivity 22.0
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20
+heat_boundary_conditions 1.0 0.0 26.85
+
+solver diffusion
+accuracy 1.0E-5
+max_iteration_number 100
+albedo 1.0
+energies 1
+
+solver coupled
+accuracy 1.0E-6
+max_iteration_number 40
+relaxation_parameter 0.6

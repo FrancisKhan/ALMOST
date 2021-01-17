@@ -26,8 +26,9 @@ void HeatSolver::solve()
 
         newTemps = m_mesh.getTemperatures("C");
 
-        out.print(TraceLevel::DEBUG, "within solver temperatures [C]:");
-        printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::DEBUG);
+        out.print(TraceLevel::DEBUG, "Heat solver inside iteration: {}", i);
+        out.print(TraceLevel::DEBUG, "Heat solver temperatures [C]:");
+        printVector(newTemps, out, TraceLevel::DEBUG);
 
         // max difference between new and old temperatures
         double maxValue = 0.0;
@@ -43,7 +44,7 @@ void HeatSolver::solve()
         oldTemps = newTemps;
     }
 
-    out.print(TraceLevel::DEBUG, "Number of heat iteration: {}", i + 1);
+    out.print(TraceLevel::DEBUG, "TOtal number of heat iteration: {}", i + 1);
 
     if(i + 1 > m_solverData.getMaxIterNumber())
 	{

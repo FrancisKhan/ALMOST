@@ -1,5 +1,5 @@
 % Water reactor with water reflector, cylindrical geometry
-% Vacuum boundary on the right
+% Reflective boundary on the right
 % Two energy groups
 
 solvers diffusion

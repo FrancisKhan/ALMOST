@@ -1,6 +1,6 @@
 % Steady-state, cylinder geometry, heat-diffusion coupled calculation
 % Two neutron energy groups
-% Reactor thermal power = 100.0 kW
+% Reactor thermal power = 0.0
 % constant thermal conductivity
 % Heat boundary condition: T(L) = T2 (600K)
 % Diffusion boundary condition: zero incoming flux at the boundary
