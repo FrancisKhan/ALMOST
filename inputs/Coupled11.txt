@@ -20,7 +20,6 @@ total(1)      1.11510e+00 3.15034e-04 -1.94611e-07
 fission(1)    5.25824e-03 -4.79567e-06 3.05194e-09 
 diffCoeff(1)  1.00530e+00 -5.36677e-04 3.23533e-07 
 scattMatrix(1, 1) 1.10008e+00 3.27002e-04 -2.01778e-07 
-xs_reference_temperature  2.68500e+01 
 thermal_conductivity 22.0
 
 material M2
@@ -31,7 +30,6 @@ total(1)      1.26391e+00 2.31940e-04 -1.50333e-07
 fission(1)    0.00000e+00 
 diffCoeff(1)  8.32959e-01 -4.98411e-04 3.17344e-07 
 scattMatrix(1, 1) 1.25315e+00 2.42443e-04 -1.57222e-07 
-xs_reference_temperature  2.68500e+01 
 thermal_conductivity 22.0
 
 solver heat

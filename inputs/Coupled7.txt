@@ -31,8 +31,6 @@ scattMatrix(1, 2) 3.37049e-02 -1.05488e-05 3.30511e-08
 scattMatrix(2, 1) 1.55369e-04 -3.96135e-06 1.29606e-08 
 scattMatrix(2, 2) 1.43054e+00 5.42085e-05 -4.73333e-08 
 thermal_conductivity 22.0
-xs_reference_temperature 26.85
-
 
 solver heat
 accuracy 1.0E-8

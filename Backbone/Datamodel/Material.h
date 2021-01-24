@@ -12,8 +12,7 @@ class Material
 {
 public:
 	Material(const std::string& name) : 
-	m_name(name), m_energies(0), m_temperature(0.0), m_heatSource(0.0), 
-	m_xs_reference_temperature(0.0) {}
+	m_name(name), m_energies(0), m_temperature(0.0), m_heatSource(0.0) {}
 	std::string getName() {return m_name;}
 	void setTemperature(double T) {m_temperature = T;}
 	double getTemperature() {return m_temperature;}
@@ -42,15 +41,11 @@ public:
 	Eigen::VectorXd getTotalXS();
 	Eigen::MatrixXd getScattMatrix();
 
-	void setXSReferenceTemperature(std::string &str);
-	double getXSReferenceTemperature() {return m_xs_reference_temperature;}
-
 private:
 	const std::string m_name;
 	unsigned m_energies;
 	double m_temperature; // Celsius
 	double m_heatSource; // Watt/m3
-	double m_xs_reference_temperature; // Celsius
 
     Eigen::VectorXd m_neutronFlux; 
 

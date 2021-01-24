@@ -39,7 +39,6 @@ private:
    	void setSolvers();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
-	void setXSReferenceTemperature(std::vector<std::string> &values, unsigned index);
 
     std::string readOneParameter(std::string name);
 	std::vector<std::string> readManyParameters(std::string name);

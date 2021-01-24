@@ -1,0 +1,71 @@
+% Steady-state, water reactor with water reflector, heat-diffusion coupled calculation
+% Two neutron energy groups
+% Reactor thermal power = 0.0
+% constant thermal conductivity
+% Heat boundary condition: T(L) = T2 (300K)
+% Diffusion boundary condition: zero incoming flux at the boundary
+
+solvers heat diffusion
+
+geometry  cylinder
+mesh 50 1.0 M1 50 1.0 M2
+thermal_power 0.0
+temperatures 26.85 100 
+
+material M1
+
+ni(1)         2.49173e+00 -1.16667e-06 
+chi(1)        1.00000e+00 
+total(1)      6.13187e-01 6.17667e-06 
+fission(1)    1.90896e-04 4.81000e-09 
+diffCoeff(1)  1.87071e+00 6.53333e-06 
+
+ni(2)         2.43670e+00 
+chi(2)        0.00000e+00 
+total(2)      1.46307e+00 1.34000e-05 
+fission(2)    8.66128e-03 -8.78030e-06 
+diffCoeff(2)  4.05662e-01 -2.95533e-05 
+
+scattMatrix(1, 1) 5.77711e-01 4.73333e-06 
+scattMatrix(1, 2) 3.39392e-02 1.14933e-06 
+scattMatrix(2, 1) 4.15555e-05 6.26586e-07 
+scattMatrix(2, 2) 1.43895e+00 3.56333e-05 
+
+thermal_conductivity 22.0
+
+material M2
+
+ni(1)         0.00000e+00 
+chi(1)        0.00000e+00 
+total(1)      6.35034e-01 6.26667e-06 
+fission(1)    0.00000e+00 
+diffCoeff(1)  2.22411e+00 -2.87000e-05 
+
+ni(2)         0.00000e+00 
+chi(2)        0.00000e+00 
+total(2)      1.46122e+00 7.36667e-06 
+fission(2)    0.00000e+00 
+diffCoeff(2)  3.98479e-01 -8.01333e-06 
+
+scattMatrix(1, 1) 5.94771e-01 4.44333e-06 
+scattMatrix(1, 2) 3.98854e-02 1.77967e-06 
+scattMatrix(2, 1) 2.05032e-05 4.13330e-07 
+scattMatrix(2, 2) 1.44734e+00 1.98000e-05 
+
+thermal_conductivity 22.0
+
+solver heat
+accuracy 1.0E-8
+max_iteration_number 20
+heat_boundary_conditions 1.0 0.0 26.85
+
+solver diffusion
+accuracy 1.0E-5
+max_iteration_number 100
+albedo 0.0
+energies 2
+
+solver coupled
+accuracy 1.0E-6
+max_iteration_number 40
+relaxation_parameter 0.6

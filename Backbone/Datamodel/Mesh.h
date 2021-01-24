@@ -41,9 +41,6 @@ public:
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();
 
-	void setXSReferenceTemperature(unsigned i, std::string &str);
-	Eigen::VectorXd getXSReferenceTemperatures();
-
     void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
 	Eigen::MatrixXd getNeutronFluxes();
 

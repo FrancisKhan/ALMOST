@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import numpy as np
 import serpentTools
 import sys
@@ -120,9 +122,12 @@ class Generator:
                     for e in range(gc1.energyGroups):
 
                         xsSerpentValues = np.array([gc1.set[xskey][e], gc2.set[xskey][e], gc3.set[xskey][e]])
+                        
+                        print("temps: ", temps)
+                        print("e: ", e, xsSerpentValues)
 
-                        func = interpolate.lagrange(temps, xsSerpentValues)
-                        xsInterValues[e] = np.flipud(np.array(Polynomial(func).coef))
+                        func = np.polynomial.polynomial.polyfit(temps, xsSerpentValues, 2)
+                        xsInterValues[e] = np.array(Polynomial(func).coef)
 
                     mat.crossSectionset.xs[xskey] = xsInterValues
 
@@ -196,9 +201,6 @@ class Generator:
             for i in range(energyGroups):
                 for j in range(energyGroups):
                     print("scattMatrix(", i+1, ", ", j+1, ") ", scientific(mat.crossSectionMatrixSet.matrix["scattMatrix0"][(i, j)]),  sep="", file=self.fileObject)
-
-            print("\nxs_reference_temperature ", scientific(mat.getMinimumTemperature()), "\n", file=self.fileObject)
-
 
     def readSerpentOutput(self, output, temp):
     

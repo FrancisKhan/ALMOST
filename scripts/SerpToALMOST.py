@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import tkinter as tk
 import tkinter.filedialog
 import os.path
