@@ -26,17 +26,17 @@ class GeneratorGUI:
         self.inputFilesAndTemps = {}
         self.outputFiles = ""
 
-        frameInputs = tk.Frame()
+        frameInputs = tk.Frame(self.master)
         lbl_value = tk.Label(master=frameInputs, text="Serpent files:", font=('Helvetica', 15, 'bold'))
         lbl_value.grid(row=0, column=0)
         self.createInputLines(frameInputs)
         frameInputs.grid(row=1, column=0)
 
-        frameOutput = tk.Frame()
+        frameOutput = tk.Frame(self.master)
         self.createOutput(frameOutput)
         frameOutput.grid(row=2, column=0, sticky="w")
 
-        frameParam = tk.Frame()
+        frameParam = tk.Frame(self.master)
         self.createParametersAndGenerate(frameParam)
         frameParam.grid(row=3, column=0, sticky="w")
 
