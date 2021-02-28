@@ -14,7 +14,7 @@ public:
     BaseSpectrumCode(Reactor &reactor, Library &library, SolverData &solverData) :
 	m_reactor(reactor), m_library(library), m_solverData(solverData),
 	m_mesh(reactor.getMesh()), 
-	m_radii(m_mesh.getBoundaries("cm")),
+	m_radii(m_mesh.getRadialBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),

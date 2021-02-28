@@ -11,13 +11,13 @@ public:
 	BaseSpectrumCode(reactor, library, solverData),  
 	m_reactor(reactor), m_library(library), m_solverData(solverData),
 	m_mesh(reactor.getMesh()), 
-	m_radii(m_mesh.getBoundaries("cm")),
+	m_radii(m_mesh.getRadialBoundaries("cm")),
 	m_volumes(m_mesh.getVolumes("cm")),
 	m_totalXS(m_mesh.getTotalXSs()),
 	m_cells(m_mesh.getCellsNumber()),
 	m_energies(m_solverData.getEnergies()),
 	m_rays(sizeof(abscissa) / sizeof(abscissa[0])),
-	m_surface(m_mesh.getExternalSurface("cm")) {}
+	m_surface(m_mesh.getRadialExternalSurface("cm")) {}
 	
 	std::pair<Numerics::Tensor3d, Numerics::Tensor4d> calcTracks() override;
 	Numerics::Tensor3d calcCPs(std::pair<Numerics::Tensor3d, Numerics::Tensor4d> &pair) override;

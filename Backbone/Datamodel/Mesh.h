@@ -14,21 +14,21 @@ public:
 	Mesh() : pm_abGeom(nullptr){}
 	void setMeshKind(GeomKind kind);
 	GeomKind getGeometry() {return m_mode;}
-	void setBoundaries(Eigen::VectorXd &boundaries);
-	void setBoundaries(double meshes, unsigned meshNumber);
-	Eigen::VectorXd getBoundaries(std::string dim);
-	Eigen::VectorXd getCellSizes(std::string dim);
+	void setRadialBoundaries(Eigen::VectorXd &boundaries);
+	void setRadialBoundaries(double meshes, unsigned meshNumber);
+	Eigen::VectorXd getRadialBoundaries(std::string dim);
+	Eigen::VectorXd getRadialCellSizes(std::string dim);
 	unsigned getCellsNumber(){return m_meshNumber;}
 	Eigen::VectorXd getVolumes(std::string dim);
 	Eigen::VectorXd getSurfaces(std::string dim);
-	double getExternalSurface(std::string dim);
+	double getRadialExternalSurface(std::string dim);
 	void setEnergyGroupsNumber(unsigned n);
 	unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
 
 	void createMaterials(std::vector<std::string> materialMap);
 	std::vector< std::shared_ptr<Material> > getMaterials() {return m_materials;}
 	std::shared_ptr<Material> getMaterial(unsigned i) {return m_materials.at(i);}
-	Eigen::VectorXd getMeshMiddlePoints();
+	Eigen::VectorXd getRadialMeshMiddlePoints();
 
 	void setTemperatures(std::vector<double> &temperatures);
 	void setTemperatures(Eigen::VectorXd &temperatures);
@@ -53,7 +53,7 @@ public:
 	Numerics::Tensor3d getScattMatrices();
 	
 private:
-	Eigen::VectorXd m_boundaries;
+	Eigen::VectorXd m_radialBoundaries;
 	std::shared_ptr<AbstractGeometry> pm_abGeom;
 	GeomKind m_mode;
 	unsigned m_meshNumber;

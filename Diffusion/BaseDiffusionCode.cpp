@@ -122,7 +122,7 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
 {
-	VectorXd cellSizes = m_mesh.getCellSizes("cm");
+	VectorXd cellSizes = m_mesh.getRadialCellSizes("cm");
 	MatrixXd D         = m_mesh.getDiffusionConstants();
 	VectorXd surfaces  = m_mesh.getSurfaces("cm");
 
@@ -172,7 +172,7 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 {
     MatrixXd D          = m_mesh.getDiffusionConstants();
     MatrixXd totXS      = m_mesh.getTotalXSs();
-    VectorXd cellSizes  = m_mesh.getCellSizes("cm");
+    VectorXd cellSizes  = m_mesh.getRadialCellSizes("cm");
     VectorXd surfaces   = m_mesh.getSurfaces("cm");
     VectorXd volumes    = m_mesh.getVolumes("cm");
     MatrixXd DInterface = getInterfaceDiffcoefficients();

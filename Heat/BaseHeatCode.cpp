@@ -6,8 +6,8 @@ using namespace PrintFuncs;
 
 VectorXd BaseHeatCode::getInterfaceCellSizes()
 {
-    VectorXd interCellSizes  = m_mesh.getCellSizes("m");
-    VectorXd cellSizes       = m_mesh.getCellSizes("m");
+    VectorXd interCellSizes  = m_mesh.getRadialCellSizes("m");
+    VectorXd cellSizes       = m_mesh.getRadialCellSizes("m");
 
     for(int i = 1; i < m_cells - 1; i++)
     {
@@ -22,7 +22,7 @@ VectorXd BaseHeatCode::getInterfaceThermalConductivities()
 {
     VectorXd materialLambda  = m_mesh.getThermalConductivities();
     VectorXd interfaceLambda = m_mesh.getThermalConductivities();
-    VectorXd cellSizes       = m_mesh.getCellSizes("m");
+    VectorXd cellSizes       = m_mesh.getRadialCellSizes("m");
 
     interfaceLambda(0) *= m_surfaces(0); 
 

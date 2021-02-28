@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class GeomKind {UNDEFINED, SLAB, CYLINDER, SPHERE};
+enum class GeomKind {UNDEFINED, SLAB, CYLINDER, SPHERE, FUEL_ROD};
 
 inline std::ostream& operator << (std::ostream& stm, GeomKind geom)
 {
@@ -13,6 +13,7 @@ inline std::ostream& operator << (std::ostream& stm, GeomKind geom)
         case GeomKind::SLAB      : return stm << "SLAB";
         case GeomKind::CYLINDER  : return stm << "CYLINDER";
         case GeomKind::SPHERE    : return stm << "SPHERE";
+        case GeomKind::FUEL_ROD  : return stm << "FUEL ROD";
         default : return stm << "GeomKind{" << int(geom) << "}"; 
     }
 }

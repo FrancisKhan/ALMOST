@@ -14,20 +14,20 @@ void Mesh::setMeshKind(GeomKind kind)
 }
 
 // From cm to m
-void Mesh::setBoundaries(VectorXd &boundaries)
+void Mesh::setRadialBoundaries(VectorXd &boundaries)
 {
-	m_boundaries = boundaries;
-	m_meshNumber = m_boundaries.size() - 1;
+	m_radialBoundaries = boundaries;
+	m_meshNumber = m_radialBoundaries.size() - 1;
 }
 
 // From cm to m
-void Mesh::setBoundaries(double cellSide, unsigned meshNumber)
+void Mesh::setRadialBoundaries(double cellSide, unsigned meshNumber)
 {	
-    m_boundaries = VectorXd::Zero(meshNumber + 1);
+    m_radialBoundaries = VectorXd::Zero(meshNumber + 1);
 	
 	for(unsigned i = 0; i <= meshNumber; i++)
 	{
-		m_boundaries(i) = i * (cellSide / meshNumber);
+		m_radialBoundaries(i) = i * (cellSide / meshNumber);
 	}
 	
 	m_meshNumber = meshNumber;
@@ -39,7 +39,7 @@ VectorXd Mesh::getVolumes(std::string dim)
 	
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->volumes(m_boundaries, dim);
+		return pm_abGeom->volumes(m_radialBoundaries, dim);
 	}
 	else
 	{
@@ -53,7 +53,7 @@ VectorXd Mesh::getSurfaces(std::string dim)
 	
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->surfaces(m_boundaries, dim);
+		return pm_abGeom->surfaces(m_radialBoundaries, dim);
 	}
 	else
 	{
@@ -61,11 +61,11 @@ VectorXd Mesh::getSurfaces(std::string dim)
 	}
 }
 
-double Mesh::getExternalSurface(std::string dim)
+double Mesh::getRadialExternalSurface(std::string dim)
 {
 	if(pm_abGeom != nullptr)
 	{
-		return pm_abGeom->externalSurface(m_boundaries, dim);
+		return pm_abGeom->externalSurface(m_radialBoundaries, dim);
 	}
 	else
 	{
@@ -140,22 +140,22 @@ VectorXd Mesh::getHeatSources()
 	return result;
 }
 
-VectorXd Mesh::getBoundaries(std::string dim)
+VectorXd Mesh::getRadialBoundaries(std::string dim)
 {
 	if(dim == "m")  
-		return m_boundaries;
+		return m_radialBoundaries;
 	else if(dim == "cm") 
-		return m_boundaries * 100.0;
+		return m_radialBoundaries * 100.0;
 	else
-		return m_boundaries * -1.0;
+		return m_radialBoundaries * -1.0;
 }
 
-VectorXd Mesh::getMeshMiddlePoints()
+VectorXd Mesh::getRadialMeshMiddlePoints()
 {
-	VectorXd result = VectorXd::Zero(m_boundaries.size() - 1);
+	VectorXd result = VectorXd::Zero(m_radialBoundaries.size() - 1);
 
 	for(int i = 0; i < result.size(); i++)
-		result(i) = (m_boundaries(i) + m_boundaries(i + 1)) / 2.0;
+		result(i) = (m_radialBoundaries(i) + m_radialBoundaries(i + 1)) / 2.0;
    
     return result;
 }
@@ -196,13 +196,13 @@ Eigen::VectorXd Mesh::getThermalConductivities()
 	return result;
 }
 
-VectorXd Mesh::getCellSizes(std::string dim)
+VectorXd Mesh::getRadialCellSizes(std::string dim)
 {
 	VectorXd result = VectorXd::Zero(m_meshNumber);
 
 	for(size_t i = 0; i < m_meshNumber; i++)
 	{
-		result[i] = m_boundaries[i + 1] - m_boundaries[i];
+		result[i] = m_radialBoundaries[i + 1] - m_radialBoundaries[i];
 	}
 
 	if(dim == "m")  

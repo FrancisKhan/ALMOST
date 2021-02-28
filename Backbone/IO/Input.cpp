@@ -295,6 +295,11 @@ void Input::setGeometryKind()
 	   m_mesh.setMeshKind(GeomKind::SLAB);
 	   out.print(TraceLevel::CRITICAL, "Geometry: Cartesian \n");
 	}
+	else if(geometry == "fuel_rod") 
+	{
+	   m_mesh.setMeshKind(GeomKind::FUEL_ROD);
+	   out.print(TraceLevel::CRITICAL, "Geometry: Fuel rod 1.5D \n");
+	}
 	else
 	{
 	   out.print(TraceLevel::CRITICAL, "Geometry: {} not recognized!", geometry);
@@ -355,7 +360,7 @@ void Input::setMesh()
 
 	out.print(TraceLevel::CRITICAL, "Input boundaries [m]:");
 	printVector(boundaries, out, TraceLevel::CRITICAL);
-	m_mesh.setBoundaries(boundaries);
+	m_mesh.setRadialBoundaries(boundaries);
 
     Eigen::VectorXd volumes = m_mesh.getVolumes("m");
 	out.print(TraceLevel::CRITICAL, "Input volumes [m3]:");
@@ -375,7 +380,7 @@ void Input::setMesh()
 	printVector(m_materialMap, out, TraceLevel::CRITICAL, false);
 
 	out.print(TraceLevel::CRITICAL, "\nMesh middle points [m]:");
-    printVector(m_mesh.getMeshMiddlePoints(), out, TraceLevel::CRITICAL);
+    printVector(m_mesh.getRadialMeshMiddlePoints(), out, TraceLevel::CRITICAL);
 
 	std::sort(regionMaterial.begin(), regionMaterial.end());
     regionMaterial.erase(std::unique(regionMaterial.begin(), 
