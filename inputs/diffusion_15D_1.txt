@@ -1,6 +1,6 @@
 solvers diffusion
 
-geometry RZ
+geometry fuel_rod
 mesh_r 50 1.0  M1
 mesh_z 10 3.66 
 

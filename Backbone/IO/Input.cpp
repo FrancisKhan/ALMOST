@@ -317,7 +317,54 @@ void Input::setThermalPower()
 
 void Input::setMesh()
 { 
-    std::vector<std::string> values = readManyParameters("mesh");
+	std::vector<std::string> regionMaterial = setHorizontalMesh();
+
+	if(m_mesh.getGeometry() == GeomKind::FUEL_ROD)
+	{
+		setVerticalMesh();
+		size_t originalSize = m_materialMap.size();
+		size_t vertCells = m_mesh.getVerticalCellsNumber();
+		m_materialMap.resize(vertCells * originalSize);
+
+		for(size_t i = 1; i < vertCells; i++)
+		{
+			std::copy_n(m_materialMap.begin(), originalSize, m_materialMap.begin() + i * originalSize);
+		}
+	}
+
+	m_mesh.createMaterials(m_materialMap);
+
+	out.print(TraceLevel::CRITICAL, "Input radial boundaries [m]:");
+	printVector(m_mesh.getRadialBoundaries("m"), out, TraceLevel::CRITICAL);
+
+	out.print(TraceLevel::CRITICAL, "Input vertical boundaries [m]:");
+	printVector(m_mesh.getVerticalBoundaries("m"), out, TraceLevel::CRITICAL);
+
+    Eigen::VectorXd volumes = m_mesh.getVolumes("m");
+	out.print(TraceLevel::CRITICAL, "Input volumes [m3]:");
+    printVector(volumes, out, TraceLevel::CRITICAL);
+
+	out.print(TraceLevel::CRITICAL, "Input meshes:");
+	printVector(m_materialMap, out, TraceLevel::CRITICAL, false);
+
+	out.print(TraceLevel::CRITICAL, "\nMesh middle points [m]:");
+    printVector(m_mesh.getRadialMeshMiddlePoints(), out, TraceLevel::CRITICAL);
+
+	m_materialList = regionMaterial;
+}  
+
+std::vector<std::string> Input::setHorizontalMesh()
+{ 
+	std::vector<std::string> values;
+
+	if(m_mesh.getGeometry() != GeomKind::FUEL_ROD)
+	{
+		values = readManyParameters("mesh");
+	}
+	else
+	{
+		values = readManyParameters("mesh_r");
+	}
    
     std::vector<unsigned> regionNumber = {0};
 	std::vector<double> regionDistance = {0.0};
@@ -358,13 +405,7 @@ void Input::setMesh()
 		distanceSum += regionDistance[i];
 	}
 
-	out.print(TraceLevel::CRITICAL, "Input boundaries [m]:");
-	printVector(boundaries, out, TraceLevel::CRITICAL);
 	m_mesh.setRadialBoundaries(boundaries);
-
-    Eigen::VectorXd volumes = m_mesh.getVolumes("m");
-	out.print(TraceLevel::CRITICAL, "Input volumes [m3]:");
-    printVector(volumes, out, TraceLevel::CRITICAL);
 
 	for(size_t i = 1; i < regionNumber.size(); i++)
 	{
@@ -374,20 +415,55 @@ void Input::setMesh()
 		}
 	}
 
-	m_mesh.createMaterials(m_materialMap);
-
-	out.print(TraceLevel::CRITICAL, "Input meshes:");
-	printVector(m_materialMap, out, TraceLevel::CRITICAL, false);
-
-	out.print(TraceLevel::CRITICAL, "\nMesh middle points [m]:");
-    printVector(m_mesh.getRadialMeshMiddlePoints(), out, TraceLevel::CRITICAL);
-
 	std::sort(regionMaterial.begin(), regionMaterial.end());
     regionMaterial.erase(std::unique(regionMaterial.begin(), 
                          regionMaterial.end()), regionMaterial.end());
 
-	m_materialList = regionMaterial;
+	return regionMaterial;
 }  
+
+void Input::setVerticalMesh()
+{ 
+	std::vector<std::string> values = readManyParameters("mesh_z");
+   
+    std::vector<unsigned> regionNumber = {0};
+	std::vector<double> regionDistance = {0.0};
+
+	for(size_t i = 0; i < values.size(); i++)
+	{
+      switch (i % 2)
+	  {
+		  case 0:
+		  	regionNumber.push_back(std::stoi(values[i]));
+		  	break;
+		  case 1:
+		  	regionDistance.push_back(std::stod(values[i]));
+		  	break;
+	  }
+	}
+
+	int maxNumberMeshes = std::accumulate(regionNumber.begin(), regionNumber.end(), 0);
+	Eigen::VectorXd boundaries = Eigen::VectorXd::Zero(maxNumberMeshes + 1);
+
+    double distanceSum  = 0.0;
+	size_t indexCounter = 0;
+
+	for(size_t i = 1; i < regionNumber.size(); i++)
+	{
+      size_t lastValue = 1 ? i == regionNumber.size() - 1 : 0;
+
+		for(size_t j = 0; j < regionNumber[i] + lastValue; j++)
+		{
+		  boundaries(indexCounter) = j * regionDistance[i] / regionNumber[i] + distanceSum;
+		  indexCounter++;
+		}
+		  
+		distanceSum += regionDistance[i];
+	}
+
+	m_mesh.setVerticalBoundaries(boundaries);
+}  
+
 
 void Input::setMaterials(SolverKind solver)
 { 

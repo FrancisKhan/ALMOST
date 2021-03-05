@@ -17,7 +17,8 @@ void Mesh::setMeshKind(GeomKind kind)
 void Mesh::setRadialBoundaries(VectorXd &boundaries)
 {
 	m_radialBoundaries = boundaries;
-	m_meshNumber = m_radialBoundaries.size() - 1;
+	m_radialMeshNumber = m_radialBoundaries.size() - 1;
+	m_meshNumber = m_radialMeshNumber;
 }
 
 // From cm to m
@@ -30,7 +31,19 @@ void Mesh::setRadialBoundaries(double cellSide, unsigned meshNumber)
 		m_radialBoundaries(i) = i * (cellSide / meshNumber);
 	}
 	
-	m_meshNumber = meshNumber;
+	m_radialMeshNumber = meshNumber;
+	m_meshNumber = m_radialMeshNumber;
+}
+
+void Mesh::setVerticalBoundaries(VectorXd &boundaries)
+{
+	m_verticalBoundaries = boundaries;
+	m_verticalMeshNumber = m_verticalBoundaries.size() - 1;
+	
+	if(m_verticalMeshNumber > 0)
+	{
+		m_meshNumber = m_radialMeshNumber * m_verticalMeshNumber;
+	}
 }
 
 VectorXd Mesh::getVolumes(std::string dim)
@@ -150,6 +163,16 @@ VectorXd Mesh::getRadialBoundaries(std::string dim)
 		return m_radialBoundaries * -1.0;
 }
 
+VectorXd Mesh::getVerticalBoundaries(std::string dim)
+{
+	if(dim == "m")  
+		return m_verticalBoundaries;
+	else if(dim == "cm") 
+		return m_verticalBoundaries * 100.0;
+	else
+		return m_verticalBoundaries * -1.0;
+}
+
 VectorXd Mesh::getRadialMeshMiddlePoints()
 {
 	VectorXd result = VectorXd::Zero(m_radialBoundaries.size() - 1);
@@ -198,9 +221,9 @@ Eigen::VectorXd Mesh::getThermalConductivities()
 
 VectorXd Mesh::getRadialCellSizes(std::string dim)
 {
-	VectorXd result = VectorXd::Zero(m_meshNumber);
+	VectorXd result = VectorXd::Zero(m_radialMeshNumber);
 
-	for(size_t i = 0; i < m_meshNumber; i++)
+	for(size_t i = 0; i < m_radialMeshNumber; i++)
 	{
 		result[i] = m_radialBoundaries[i + 1] - m_radialBoundaries[i];
 	}

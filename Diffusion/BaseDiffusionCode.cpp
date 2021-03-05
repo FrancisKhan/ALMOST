@@ -126,6 +126,13 @@ Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
 	MatrixXd D         = m_mesh.getDiffusionConstants();
 	VectorXd surfaces  = m_mesh.getSurfaces("cm");
 
+	std::cout << cellSizes.size() << std::endl;
+	for(auto i : cellSizes)
+		std::cout << i << std::endl;
+
+	std::cout << surfaces.size() << std::endl;
+	for(auto i : surfaces)
+		std::cout << i << std::endl;
 
 	MatrixXd DInterface = MatrixXd::Zero(m_energies, m_cells);
 

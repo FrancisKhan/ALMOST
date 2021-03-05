@@ -16,8 +16,12 @@ public:
 	GeomKind getGeometry() {return m_mode;}
 	void setRadialBoundaries(Eigen::VectorXd &boundaries);
 	void setRadialBoundaries(double meshes, unsigned meshNumber);
+	void setVerticalBoundaries(Eigen::VectorXd &boundaries);
 	Eigen::VectorXd getRadialBoundaries(std::string dim);
+	Eigen::VectorXd getVerticalBoundaries(std::string dim);
 	Eigen::VectorXd getRadialCellSizes(std::string dim);
+	unsigned getRadialCellsNumber(){return m_radialMeshNumber;}
+	unsigned getVerticalCellsNumber(){return m_verticalMeshNumber;}
 	unsigned getCellsNumber(){return m_meshNumber;}
 	Eigen::VectorXd getVolumes(std::string dim);
 	Eigen::VectorXd getSurfaces(std::string dim);
@@ -54,8 +58,11 @@ public:
 	
 private:
 	Eigen::VectorXd m_radialBoundaries;
+	Eigen::VectorXd m_verticalBoundaries;
 	std::shared_ptr<AbstractGeometry> pm_abGeom;
 	GeomKind m_mode;
+	unsigned m_radialMeshNumber;
+	unsigned m_verticalMeshNumber;
 	unsigned m_meshNumber;
 	unsigned m_energyGroupsNumber;
 	Eigen::VectorXd m_heatBoundaryConditions;
