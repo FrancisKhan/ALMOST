@@ -7,11 +7,12 @@
 class Library
 {
 public:
-	Library(){}
-	void readXSData();
-	void getXSNuclides();
+	Library() {}
+	std::vector<std::string> readXSFile(std::string &input);
+	void findNuclideBLocks();
+	std::pair<unsigned, unsigned> getXSNuclideBLock(const std::string &nuclide);
 
-	void funcTry();
+	void getNuclides();
 
 	//void setMatProperties(std::vector<MaterialKind> &matProperties);
 	//std::vector< std::shared_ptr<AbstractMaterial> > getMatProperties() {return m_matProperties;};
@@ -19,7 +20,8 @@ public:
 private:
 	//std::vector< std::shared_ptr<AbstractMaterial> > m_matProperties;
 	std::vector<std::string> m_xsDataFileLines;
-	std::vector<unsigned> findRepetitiveLine(std::string key);
+	std::vector<std::string> m_xsNuclides;
+	std::vector<unsigned> m_xsNuclideBlocks;
 };
 
 #endif

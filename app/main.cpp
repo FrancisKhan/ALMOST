@@ -11,19 +11,19 @@ int main(int argc, char** argv)
 	Reactor reactor;
 	Library library;
 
+	Input input(reactor, library);
+	input.getArguments(argc, argv);
+	out.printStart();
+
 	auto start = std::chrono::steady_clock::now();
-	library.funcTry();
+	library.getNuclides();
 	auto end = std::chrono::steady_clock::now();
 	auto diff = end - start;
 	std::cout << "Main, Timing: " 
 			  << std::chrono::duration <double, std::milli> (diff).count() / 1000.0 
 			  << std::endl;
 
-
-	// Input input(reactor, library);
-	// input.getArguments(argc, argv);
-
-	// out.printStart();
+	
 	// input.printData();
 	// input.readData();
 	// Problem problem(reactor, library, input.getSolvers());

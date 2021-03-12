@@ -1,6 +1,7 @@
 cmake_minimum_required (VERSION 3.10)
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(utilities_library numeric_tools.cpp PolynomialFunction.cpp additionalPrintFuncs.cpp)
+add_library(utilities_library numeric_tools.cpp PolynomialFunction.cpp 
+            additionalPrintFuncs.cpp inputParser.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(utilities_library PUBLIC .)
