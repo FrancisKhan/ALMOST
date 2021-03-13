@@ -32,7 +32,7 @@ std::vector<std::string> Library::readXSFile(std::string &input)
 	std::string noExtraSpacesline;
     while (std::getline(xsDataFile, line))
     {
-        data.push_back(InputParser::removeTrailingSpaces(line));
+        data.push_back(InputParser::removeSpaces(line));
     }
 
 	xsDataFile.close();
@@ -67,11 +67,10 @@ std::pair<unsigned, unsigned> Library::getXSNuclideBLock(const std::string &nucl
 
     if (lines.size() == 1)
     {
-        for(size_t i = 0; i < m_xsNuclideBlocks.size(); i++)
-            if (lines.front() > m_xsNuclideBlocks[i])
+        for(size_t i = 1; i < m_xsNuclideBlocks.size(); i++)
+            if (lines.front() < m_xsNuclideBlocks[i])
             {
-				blockLines = std::make_pair(m_xsNuclideBlocks[i], m_xsNuclideBlocks[i + 1]);
-                std::cout << "m_xsNuclideBlocks[i + 1] " << m_xsNuclideBlocks[i + 1] << std::endl;
+				blockLines = std::make_pair(m_xsNuclideBlocks[i - 1], m_xsNuclideBlocks[i]);
                 break;
             }
     }

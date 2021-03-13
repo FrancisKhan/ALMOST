@@ -14,6 +14,19 @@ namespace InputParser
 	    return input;
     }
 
+	std::string removeLeadingSpaces(std::string &input)
+	{
+		input.erase(input.begin(), std::find_if_not(input.begin(),input.end(),
+		[](int c){return isspace(c);}));
+		return input;
+	}
+
+	std::string removeSpaces(std::string &input)
+    {
+		std::string result = removeLeadingSpaces(input);
+	    return removeTrailingSpaces(result);
+    }
+
     std::vector<unsigned> findLine(std::vector<std::string> &dataVec, const std::string &key)
     {
         std::vector<unsigned> result {};

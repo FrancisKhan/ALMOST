@@ -6,6 +6,8 @@
 
 namespace InputParser
 {
+	std::string removeSpaces(std::string &input);
+	std::string removeLeadingSpaces(std::string &input);
     std::string removeTrailingSpaces(std::string &input);
 	std::vector<unsigned> findLine(std::vector<std::string> &dataVec, const std::string &key);
 	std::string findKeyword(std::string toSearch, unsigned lowLimit = 0, 
