@@ -13,6 +13,8 @@ namespace InputParser
 	std::string findKeyword(std::string toSearch, unsigned lowLimit = 0, 
 	unsigned topLimit = std::numeric_limits<unsigned>::max());
     std::string getLine(std::vector<std::string> &dataVec, unsigned i);
+	std::vector<std::string> splitLine(std::string line);
+	std::vector<double> fromStringVecToDoubleVec(std::vector<std::string> &strVec);
 }
 
 #endif

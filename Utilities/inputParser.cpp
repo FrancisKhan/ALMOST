@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
-
+#include <sstream>  
 
 namespace InputParser
 {
@@ -75,4 +75,28 @@ namespace InputParser
     {
 	    return dataVec[i];
     }
+
+	std::vector<std::string> splitLine(std::string line)
+	{ 
+		// ignore in line comments (that start with %)
+		std::size_t found = line.find("%");
+  		if (found != std::string::npos)
+    	{
+			line = line.substr(0, found);
+		}
+
+    	std::istringstream iss(line);
+    	std::vector<std::string> words(std::istream_iterator<std::string>{iss},
+                                   std::istream_iterator<std::string>());
+	
+		return words;
+	} 
+
+	std::vector<double> fromStringVecToDoubleVec(std::vector<std::string> &strVec)
+	{ 
+		std::vector<double> dVec(strVec.size(), 0.0);
+    	std::transform(strVec.begin(), strVec.end(), dVec.begin(), 
+    	[](std::string &i){return std::stod(i);});
+		return dVec;
+	}
 }
