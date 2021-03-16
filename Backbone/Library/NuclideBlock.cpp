@@ -13,8 +13,25 @@ unsigned NuclideBlock::getNumberOfValuesToRead(unsigned lineNumber)
 
 unsigned NuclideBlock::getNumberOfLinesToRead(unsigned lineNumber)
 {
-    unsigned valuesNumber = getNumberOfValuesToRead(lineNumber);
-    return ceil(valuesNumber / 5.0);
+    // Five is the maximun number of floats in a line for a text DRAGLIB format library
+    return ceil(getNumberOfValuesToRead(lineNumber) / 5.0);
+}
+
+std::vector<double> NuclideBlock::readParameters(const std::string &key)
+{
+    std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, key);
+    unsigned linesToRead = getNumberOfLinesToRead(lines.front() - 1);
+
+    std::vector<std::string> resultStringsFinal;
+    std::vector<std::string> resultStrings;
+
+    for(unsigned i = lines.front() + 1; i <= lines.front() + linesToRead; i++)
+    {
+        resultStrings = InputParser::splitLine(InputParser::getLine(m_xsDataLines, i));
+        resultStringsFinal.insert(resultStringsFinal.end(), resultStrings.begin(), resultStrings.end());     
+    } 
+
+    return InputParser::fromStringVecToDoubleVec(resultStringsFinal);
 }
 
 void NuclideBlock::setName()
@@ -24,22 +41,13 @@ void NuclideBlock::setName()
 
 void NuclideBlock::setAWR()
 {
-    m_awr = std::stod(InputParser::getLine(m_xsDataLines, 10));   
+    const std::string key = "AWR"; 
+    std::vector<double> results = readParameters(key);
+    m_awr = results.front();   
 }
 
 void NuclideBlock::setTemperatures()
 {
-    unsigned initialLine = 11;
-    unsigned linesNumber = getNumberOfLinesToRead(initialLine);
-    std::vector<std::string> tempStringsFinal;
-    std::vector<std::string> tempStrings;
-    initialLine++;
-
-    for(unsigned i = initialLine + 1; i <= initialLine + linesNumber; i++)
-    {
-        tempStrings = InputParser::splitLine(InputParser::getLine(m_xsDataLines, i));
-        tempStringsFinal.insert(tempStringsFinal.end(), tempStrings.begin(), tempStrings.end());     
-    } 
-
-    m_temperatures = InputParser::fromStringVecToDoubleVec(tempStringsFinal);
+    const std::string key = "TEMPERATURE"; 
+    m_temperatures = readParameters(key);
 }

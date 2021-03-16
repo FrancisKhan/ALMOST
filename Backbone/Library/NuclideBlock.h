@@ -31,6 +31,8 @@ public:
 private:
 	unsigned getNumberOfValuesToRead(unsigned line);
 	unsigned getNumberOfLinesToRead(unsigned line);
+	std::vector<double> readParameters(const std::string &key);
+
 	void setName();
 	std::string getName() {return m_name;}
 	void setAWR();
