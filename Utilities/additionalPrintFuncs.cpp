@@ -327,13 +327,13 @@ namespace PrintFuncs
 	std::string stringFormat(double number, std::string format)
 	{
 		char buffer[32];
- 	   memset(buffer, 0, sizeof(buffer));
- 	   snprintf(buffer, sizeof(buffer), format.c_str(), number);
- 	   std::string numberString(buffer);
+ 	    memset(buffer, 0, sizeof(buffer));
+ 	    snprintf(buffer, sizeof(buffer), format.c_str(), number);
+ 	    std::string numberString(buffer);
 		return numberString;
 	}
 
-	// These lines are needed to convert a double to a string 
+	// These lines are needed to a string (number) to a string 
 	// in a specific format
 	std::string stringFormat(std::string numberStr, std::string format)
 	{
@@ -344,6 +344,17 @@ namespace PrintFuncs
 		memset(buffer, 0, sizeof(buffer));
 	    snprintf(buffer, sizeof(buffer), format.c_str(), number);
 	    std::string numberString(buffer);
+		return numberString;
+	}
+
+	// These lines are needed to convert an unsigend to a string 
+	// in a specific format
+	std::string stringFormat(unsigned number, std::string format)
+	{
+		char buffer[32];
+ 	    memset(buffer, 0, sizeof(buffer));
+ 	    snprintf(buffer, sizeof(buffer), format.c_str(), number);
+ 	    std::string numberString(buffer);
 		return numberString;
 	}
 

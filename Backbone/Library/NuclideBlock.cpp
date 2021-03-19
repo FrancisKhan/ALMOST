@@ -1,6 +1,8 @@
 #include "NuclideBlock.h"
 #include "inputParser.h"
 #include "Output.h"
+#include "additionalPrintFuncs.h"
+#include "numeric_tools.h"
 
 #include <iostream>
 
@@ -17,9 +19,10 @@ unsigned NuclideBlock::getNumberOfLinesToRead(unsigned lineNumber)
     return ceil(getNumberOfValuesToRead(lineNumber) / 5.0);
 }
 
-std::vector<double> NuclideBlock::readParameters(const std::string &key)
+std::vector<double> NuclideBlock::readParameters(const std::string &key, unsigned lowerBound, unsigned upperBound)
 {
-    std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, key);
+    std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, key, lowerBound, upperBound);
+
     unsigned linesToRead = getNumberOfLinesToRead(lines.front() - 1);
 
     std::vector<std::string> resultStringsFinal;
@@ -34,20 +37,62 @@ std::vector<double> NuclideBlock::readParameters(const std::string &key)
     return InputParser::fromStringVecToDoubleVec(resultStringsFinal);
 }
 
-void NuclideBlock::setName()
+void NuclideBlock::readName()
 {
-    m_name = InputParser::getLine(m_xsDataLines, 1);   
+    m_nuclide.setName(InputParser::getLine(m_xsDataLines, 1));   
 }
 
-void NuclideBlock::setAWR()
+void NuclideBlock::readAWR()
 {
     const std::string key = "AWR"; 
     std::vector<double> results = readParameters(key);
-    m_awr = results.front();   
+    m_nuclide.setAWR(results.front());   
 }
 
-void NuclideBlock::setTemperatures()
+std::vector<double> NuclideBlock::readTemperatures()
 {
     const std::string key = "TEMPERATURE"; 
-    m_temperatures = readParameters(key);
+    std::vector<double> v = readParameters(key);
+    m_nuclide.setTemperatures(v);
+    return v;
+}
+
+std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks()
+{
+    const std::string key = "SUBTMP"; 
+    std::vector<unsigned> tempBLocklines;
+
+    for(unsigned i = 1; i <= readTemperatures().size(); i++)
+    {
+        std::string compositeKey = key + PrintFuncs::stringFormat(i, "%04d"); 
+        std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, compositeKey);
+
+        if(lines.size() == 1)
+            tempBLocklines.push_back(lines.front());
+    }
+
+    std::vector< std::pair<unsigned, unsigned> > blockLinesVec;
+
+    for(size_t i = 0; i <tempBLocklines.size() - 1; i++)
+        blockLinesVec.push_back(std::make_pair(tempBLocklines[i], tempBLocklines[i + 1]));
+
+    return blockLinesVec;
+}
+
+void NuclideBlock::readXSs()
+{
+    std::vector< std::pair<unsigned, unsigned> > temps = NuclideBlock::readTemperatureBlocks();
+
+    const std::string key = "NTOT0"; 
+    std::vector<double> tot = readParameters(key, temps.front().first, temps.front().second);
+
+    PrintFuncs::printVector(tot, out, TraceLevel::CRITICAL);
+}
+Nuclide* NuclideBlock::getNuclide()
+{
+    readName();
+    readAWR();
+	readTemperatureBlocks();
+	readXSs();
+    return &m_nuclide;
 }

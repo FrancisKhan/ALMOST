@@ -89,12 +89,14 @@ void Library::getNuclides()
     m_xsDataFileLines = readXSFile(inputPath);
     findNuclideBLocks();
 
-    std::vector<std::string> nucVec = {"La139", "U235"};
+    std::vector<std::string> nucVec = {"La139"};
 
 	for(const auto &nuc : nucVec)
 	{
 		std::pair<unsigned, unsigned> blockLines = getXSNuclideBLock(nuc);
 		std::vector<std::string> dataVec = Numerics::slice(m_xsDataFileLines, blockLines.first, blockLines.second);
 		NuclideBlock nuclideBlock(dataVec);
+        Nuclide* nuclide = nuclideBlock.getNuclide();
+        nuclide->printDebugData();
 	}
 }

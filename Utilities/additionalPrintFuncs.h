@@ -12,6 +12,7 @@ namespace PrintFuncs
     void printVector(std::vector<double> vec, Output output, TraceLevel level);
 
     std::string stringFormat(double number, std::string format);
+    std::string stringFormat(unsigned number, std::string format);
     std::string stringFormat(std::string numberStr, std::string format);
 
     bool isFloat(const std::string& s);

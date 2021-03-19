@@ -27,19 +27,33 @@ namespace InputParser
 	    return removeTrailingSpaces(result);
     }
 
-    std::vector<unsigned> findLine(std::vector<std::string> &dataVec, const std::string &key)
+    std::vector<unsigned> findLine(std::vector<std::string> &dataVec, const std::string &key, 
+								   unsigned inputLowerBound,  unsigned inputUpperBound)
     {
         std::vector<unsigned> result {};
-        unsigned lineNumber = 0;
+		unsigned lowerBound, upperBound, lineNumber; 
 
-	    for(auto itemLine : dataVec)
-	    {
-		    if(itemLine == key) 
+		if (inputUpperBound == std::numeric_limits<unsigned>::max())
+		{
+			lowerBound = 0;
+			upperBound = dataVec.size();
+			lineNumber = 0;
+		}
+    	else
+		{
+			lowerBound = inputLowerBound;
+			upperBound = inputUpperBound;
+			lineNumber = inputLowerBound;
+		}
+
+		for(unsigned i = lowerBound; i < upperBound; i++)
+		{
+			if(dataVec[i] == key) 
 		    {
 			    result.push_back(lineNumber);
 		    }
 		    lineNumber++;
-	    }
+		}
 
 	    return result;
     }
