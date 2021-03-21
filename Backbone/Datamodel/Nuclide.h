@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 
+typedef std::vector< std::pair<double, std::vector<double> > > XSType;
+
 class Nuclide
 {
 public:
@@ -20,6 +22,8 @@ public:
     double getAWR() {return m_awr;}
     void setTemperatures(std::vector<double> &temps) {m_temperatures = temps;}
     std::vector<double> getTemperatures() {return m_temperatures;}
+    void setTotalXS(XSType &xs) {m_totXS = xs;}
+    XSType getTotalXS() {return m_totXS;}
 
     void printDebugData();
 
@@ -27,6 +31,8 @@ private:
     std::string m_name;
     double m_awr;
     std::vector<double> m_temperatures;
+
+    XSType m_totXS;
 };
 
 #endif
