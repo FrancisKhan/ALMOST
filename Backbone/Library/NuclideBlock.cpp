@@ -3,6 +3,7 @@
 #include "Output.h"
 #include "additionalPrintFuncs.h"
 #include "numeric_tools.h"
+#include "XSKind.h"
 
 #include <iostream>
 
@@ -92,7 +93,7 @@ XSType NuclideBlock::readXS(std::string key)
 {
     std::vector< std::pair<unsigned, unsigned> > temps = NuclideBlock::readTemperatureBlocks();
     std::vector<double> temperatures = m_nuclide.getTemperatures();
-    std::vector< std::pair<double, std::vector<double> > > tempXSVec;
+    XSType tempXSVec;
 
     for(size_t i = 0; i < temperatures.size(); i++)
     {
@@ -105,8 +106,50 @@ XSType NuclideBlock::readXS(std::string key)
 
 void NuclideBlock::readGroupConstants()
 {
-    XSType totXS = readXS("NTOT0");
+    // for (const auto& kind : XSKind())
+    // {
+    //     XSType xs = readXS(get_name(kind));
+    //     m_nuclide.setTotalXS(xs);
+    // }
+
+    XSType totXS = readXS(get_name(XSKind::NTOT0));
     m_nuclide.setTotalXS(totXS);
+
+    XSType elasticXS = readXS("NELAS");
+    m_nuclide.setElasticXS(elasticXS);
+
+    XSType inelasticXS = readXS("NINEL");
+    m_nuclide.setInelasticXS(inelasticXS);
+
+    XSType n2nXS = readXS("N2N");
+    m_nuclide.setN2nXS(n2nXS);
+
+    XSType n3nXS = readXS("N3N");
+    m_nuclide.setN3nXS(n3nXS);
+
+    XSType nnpXS = readXS("NNP");
+    m_nuclide.setNnpXS(nnpXS);
+
+    XSType ngXS = readXS("NG");
+    m_nuclide.setNgXS(ngXS);
+
+    XSType npXS = readXS("NP");
+    m_nuclide.setNpXS(npXS);
+
+    XSType ndXS = readXS("ND");
+    m_nuclide.setNdXS(ndXS);
+
+    XSType ntXS = readXS("NT");
+    m_nuclide.setNtXS(ntXS);
+
+    XSType naXS = readXS("NA");
+    m_nuclide.setNaXS(naXS);
+
+    XSType scattXS = readXS("SCAT00");
+    m_nuclide.setScattXS(scattXS);
+
+    // for (const auto& kind : XSKind()) 
+    //     std::cout << "int(kind): " << int(kind) << std::endl;
 }
 
 Nuclide* NuclideBlock::getNuclide()
