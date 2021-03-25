@@ -45,7 +45,7 @@ inline std::string get_name(XSKind solver)
   }
 }
 
-inline XSKind operator++( XSKind& x ) 
+inline XSKind operator++(XSKind& x) 
 { 
     return x = (XSKind)(((int)(x) + 1)); 
 }

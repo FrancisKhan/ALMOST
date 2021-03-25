@@ -2,13 +2,7 @@
 #include "Output.h"
 #include "additionalPrintFuncs.h"
 
-void Nuclide::setTotalXS(XSType &xs) 
-{
-    m_totXS = xs;
-    setEnergyGroupsNumber(m_totXS[0].second.size());
-}
-
-XSType Nuclide::setXS(XSType &xs) 
+XSType Nuclide::populateXS(XSType &xs) 
 {
     XSType result;
 
@@ -35,54 +29,85 @@ XSType Nuclide::setXS(XSType &xs)
     return result;
 }
 
-void Nuclide::setInelasticXS(XSType &xs) 
+void Nuclide::setXS(XSKind kind, XSType &xs) 
 {
-    m_inelasticXS = setXS(xs);
+    switch(kind) 
+    {
+        case XSKind::NTOT0:
+            m_totXS = xs;
+            setEnergyGroupsNumber(m_totXS[0].second.size());
+            break;
+        case XSKind::NELAS:
+            m_elasticXS = populateXS(xs);
+            break;
+        case XSKind::NINEL:
+            m_inelasticXS = populateXS(xs);
+            break;
+        case XSKind::N2N:
+            m_n2nXS = populateXS(xs);
+            break;
+        case XSKind::N3N:
+            m_n3nXS = populateXS(xs);
+            break;
+        case XSKind::NNP:
+            m_nnpXS = populateXS(xs);
+            break;
+        case XSKind::NG:
+            m_ngXS = populateXS(xs);
+            break;
+        case XSKind::NP:
+            m_npXS = populateXS(xs);
+            break;
+        case XSKind::ND:
+            m_ndXS = populateXS(xs);
+            break;
+        case XSKind::NT:
+            m_ntXS = populateXS(xs);
+            break;
+        case XSKind::NA:
+            m_naXS = populateXS(xs);
+            break;
+        case XSKind::SCAT00:
+            m_scattXS = populateXS(xs);
+            break;
+        default:
+            out.print(TraceLevel::CRITICAL, "Error {} XS not recognized!", get_name(kind));
+            exit(-1);
+    }
+    
 }
 
-void Nuclide::setN2nXS(XSType &xs) 
+XSType Nuclide::getXS(XSKind kind) 
 {
-    m_n2nXS = setXS(xs);
+    switch(kind) 
+    {
+        case XSKind::NTOT0:  return m_totXS;
+        case XSKind::NELAS:  return m_elasticXS;
+        case XSKind::NINEL:  return m_inelasticXS;
+        case XSKind::N2N:    return m_n2nXS;
+        case XSKind::N3N:    return m_n3nXS;
+        case XSKind::NNP:    return m_nnpXS;
+        case XSKind::NG:     return m_ngXS;
+        case XSKind::NP:     return m_npXS;
+        case XSKind::ND:     return m_ndXS;
+        case XSKind::NT:     return m_ntXS;
+        case XSKind::NA:     return m_naXS;
+        case XSKind::SCAT00: return m_scattXS;
+        default: return XSType {};
+    }
 }
 
-void Nuclide::setN3nXS(XSType &xs) 
+std::vector<double> Nuclide::getXS(XSKind kind, unsigned tempIndex) 
 {
-    m_n3nXS = setXS(xs);
-}
+    XSType selectedXS = getXS(kind);
 
-void Nuclide::setNnpXS(XSType &xs) 
-{
-    m_nnpXS = setXS(xs);
-}
+    auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
+        [this, tempIndex] (const auto& p) {return p.first == getTemperatures()[tempIndex];});
 
-void Nuclide::setNgXS(XSType &xs) 
-{
-    m_ngXS = setXS(xs);
-}
-
-void Nuclide::setNpXS(XSType &xs) 
-{
-    m_npXS = setXS(xs);
-}
-
-void Nuclide::setNdXS(XSType &xs) 
-{
-    m_ndXS = setXS(xs);
-}
-
-void Nuclide::setNtXS(XSType &xs) 
-{
-    m_ntXS = setXS(xs);
-}
-
-void Nuclide::setNaXS(XSType &xs) 
-{
-    m_naXS = setXS(xs);
-}
-
-void Nuclide::setScattXS(XSType &xs) 
-{
-    m_scattXS = setXS(xs);
+    if(it != selectedXS.end())
+        return it->second;
+    else
+        return std::vector<double> {};
 }
 
 void Nuclide::printDebugData()
@@ -92,87 +117,87 @@ void Nuclide::printDebugData()
     out.print(TraceLevel::CRITICAL, "Temperatures:");
     PrintFuncs::printVector(getTemperatures(), out, TraceLevel::CRITICAL);
 
-    // out.print(TraceLevel::CRITICAL, "Total XS: {}", int(m_totXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_totXS[i].first);
-    //     PrintFuncs::printVector(m_totXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "Total XS: {}", int(getXS(XSKind::NTOT0, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_totXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NTOT0, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nElastic XS: {}", int(m_elasticXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_elasticXS[i].first);
-    //     PrintFuncs::printVector(m_elasticXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nElastic XS: {}", int(getXS(XSKind::NELAS, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_elasticXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NELAS, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nInelastic XS: {}", int(m_inelasticXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_inelasticXS[i].first);
-    //     PrintFuncs::printVector(m_inelasticXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nInelastic XS: {}", int(getXS(XSKind::NINEL, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_inelasticXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NINEL, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nn2n XS: {}", int(m_n2nXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_n2nXS[i].first);
-    //     PrintFuncs::printVector(m_n2nXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nn2n XS: {}", int(getXS(XSKind::N2N, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_n2nXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::N2N, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nn3n XS: {}", int(m_n3nXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_n3nXS[i].first);
-    //     PrintFuncs::printVector(m_n3nXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nn3n XS: {}", int(getXS(XSKind::N3N, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_n3nXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::N3N, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nnnp XS: {}", int(m_nnpXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_nnpXS[i].first);
-    //     PrintFuncs::printVector(m_nnpXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nnnp XS: {}", int(getXS(XSKind::NNP, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_nnpXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NNP, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nng XS: {}", int(m_ngXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ngXS[i].first);
-    //     PrintFuncs::printVector(m_ngXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nng XS: {}", int(getXS(XSKind::NG, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ngXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NG, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nnp XS: {}", int(m_npXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_npXS[i].first);
-    //     PrintFuncs::printVector(m_npXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nnp XS: {}", int(getXS(XSKind::NP, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_npXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NP, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nnd XS: {}", int(m_ndXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ndXS[i].first);
-    //     PrintFuncs::printVector(m_ndXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nnd XS: {}", int(getXS(XSKind::ND, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ndXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::ND, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nnt XS: {}", int(m_ntXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ntXS[i].first);
-    //     PrintFuncs::printVector(m_ntXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nnt XS: {}", int(getXS(XSKind::NT, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_ntXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NT, i), out, TraceLevel::CRITICAL);
+    }
 
-    // out.print(TraceLevel::CRITICAL, "\n\nna XS: {}", int(m_naXS[0].second.size()));
-    // for(size_t i = 0; i < m_temperatures.size(); i++)
-    // {
-    //     out.print(TraceLevel::CRITICAL, "Temperature: {}", m_naXS[i].first);
-    //     PrintFuncs::printVector(m_naXS[i].second, out, TraceLevel::CRITICAL);
-    // }
+    out.print(TraceLevel::CRITICAL, "\n\nna XS: {}", int(getXS(XSKind::NA, 0).size()));
+    for(size_t i = 0; i < m_temperatures.size(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", m_naXS[i].first);
+        PrintFuncs::printVector(getXS(XSKind::NA, i), out, TraceLevel::CRITICAL);
+    }
 
-    out.print(TraceLevel::CRITICAL, "\n\nscatt XS: {}", int(m_scattXS[0].second.size()));
+    out.print(TraceLevel::CRITICAL, "\n\nscatt XS: {}", int(getXS(XSKind::SCAT00, 0).size()));
     for(size_t i = 0; i < m_temperatures.size(); i++)
     {
         out.print(TraceLevel::CRITICAL, "Temperature: {}", m_scattXS[i].first);
-        PrintFuncs::printVector(m_scattXS[i].second, out, TraceLevel::CRITICAL);
+        PrintFuncs::printVector(getXS(XSKind::SCAT00, i), out, TraceLevel::CRITICAL);
     }
 }
