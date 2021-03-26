@@ -97,7 +97,8 @@ XSSetType NuclideBlock::readXS(std::string key)
     for(size_t i = 0; i < temperatures.size(); i++)
     {
         std::vector<double> xsVec = readParameters(key, temps[i].first, temps[i].second);
-        tempXSVec.push_back(std::make_pair(temperatures[i], xsVec));
+        CrossSection crossSection(temperatures[i], 0.0, xsVec);
+        tempXSVec.push_back(crossSection);
     }
     
     return tempXSVec;

@@ -3,8 +3,6 @@
 
 #include <vector>
 
-typedef std::tuple<double, double, std::vector<double> > XSType;
-
 class CrossSection
 {
 public:
@@ -17,6 +15,7 @@ public:
     double getBackgroundXS() {return m_backgroundXS;}
     void setValues(std::vector<double> &v) {m_values = v;}
     std::vector<double> getValues() {return m_values;}
+    unsigned getSize() {return m_values.size();}
 
 private:
     double m_temperature;

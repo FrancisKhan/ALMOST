@@ -8,17 +8,22 @@ XSSetType Nuclide::populateXS(XSSetType &xs)
 
     for(size_t i = 0; i < m_temperatures.size(); i++)
     {
-        size_t inputSize = xs[i].second.size(); 
+        size_t inputSize = xs[i].getSize(); 
 
         if (inputSize < getEnergyGroupsNumber())
         {
             std::vector<double> xsVec(getEnergyGroupsNumber() - inputSize, 0.0);
-            xsVec.insert(xsVec.end(), xs[i].second.begin(), xs[i].second.end()); 
-            result.push_back(std::make_pair(xs[i].first, xsVec));
+            std::vector<double> xsInputVec(xs[i].getValues());
+
+            xsVec.insert(xsVec.end(), xsInputVec.begin(), xsInputVec.end()); 
+            CrossSection crossSection(xs[i].getTemperature(), 0.0, xsVec);
+            result.push_back(crossSection);
         }
         else if(inputSize == getEnergyGroupsNumber())
         {
-            result.push_back(std::make_pair(xs[i].first, xs[i].second));
+            std::vector<double> xsVec = xs[i].getValues();
+            CrossSection crossSection(xs[i].getTemperature(), 0.0, xsVec);
+            result.push_back(crossSection);
         }
         else
         {
@@ -35,7 +40,7 @@ void Nuclide::setXS(XSKind kind, XSSetType &xs)
     {
         case XSKind::NTOT0:
             m_totXS = xs;
-            setEnergyGroupsNumber(m_totXS[0].second.size());
+            setEnergyGroupsNumber(m_totXS[0].getSize());
             break;
         case XSKind::NELAS:
             m_elasticXS = populateXS(xs);
@@ -102,10 +107,10 @@ std::vector<double> Nuclide::getXS(XSKind kind, unsigned tempIndex)
     XSSetType selectedXS = getXS(kind);
 
     auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
-        [this, tempIndex] (const auto& p) {return p.first == getTemperature(tempIndex);});
+        [this, tempIndex] (auto& c) {return c.getTemperature() == getTemperature(tempIndex);});
 
     if(it != selectedXS.end())
-        return it->second;
+        return it->getValues();
     else
         return std::vector<double> {};
 }
@@ -115,10 +120,10 @@ double Nuclide::getXSTemp(XSKind kind, unsigned tempIndex)
     XSSetType selectedXS = getXS(kind);
 
     auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
-        [this, tempIndex] (const auto& p) {return p.first == getTemperature(tempIndex);});
+        [this, tempIndex] (auto& c) {return c.getTemperature() == getTemperature(tempIndex);});
 
     if(it != selectedXS.end())
-        return it->first;
+        return it->getTemperature();
     else
         return 0.0;
 }

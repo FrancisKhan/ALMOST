@@ -3,13 +3,14 @@
 
 #include "PolynomialFunction.h"
 #include "numeric_tools.h"
+#include "CrossSection.h"
 #include "XSKind.h"
 
 #include <memory>
 #include <vector>
 #include <string>
 
-typedef std::vector< std::pair<double, std::vector<double> > > XSSetType;
+typedef std::vector<CrossSection> XSSetType;
 
 class Nuclide
 {
