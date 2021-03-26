@@ -26,7 +26,7 @@ private:
 	void readAWR();
 	std::vector<double> readTemperatures();
 	void readGroupConstants();
-	XSType readXS(std::string key);
+	XSSetType readXS(std::string key);
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;

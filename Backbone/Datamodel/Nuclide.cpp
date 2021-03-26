@@ -2,9 +2,9 @@
 #include "Output.h"
 #include "additionalPrintFuncs.h"
 
-XSType Nuclide::populateXS(XSType &xs) 
+XSSetType Nuclide::populateXS(XSSetType &xs) 
 {
-    XSType result;
+    XSSetType result;
 
     for(size_t i = 0; i < m_temperatures.size(); i++)
     {
@@ -29,7 +29,7 @@ XSType Nuclide::populateXS(XSType &xs)
     return result;
 }
 
-void Nuclide::setXS(XSKind kind, XSType &xs) 
+void Nuclide::setXS(XSKind kind, XSSetType &xs) 
 {
     switch(kind) 
     {
@@ -77,7 +77,7 @@ void Nuclide::setXS(XSKind kind, XSType &xs)
     
 }
 
-XSType Nuclide::getXS(XSKind kind) 
+XSSetType Nuclide::getXS(XSKind kind) 
 {
     switch(kind) 
     {
@@ -93,13 +93,13 @@ XSType Nuclide::getXS(XSKind kind)
         case XSKind::NT:     return m_ntXS;
         case XSKind::NA:     return m_naXS;
         case XSKind::SCAT00: return m_scattXS;
-        default: return XSType {};
+        default: return XSSetType {};
     }
 }
 
 std::vector<double> Nuclide::getXS(XSKind kind, unsigned tempIndex) 
 {
-    XSType selectedXS = getXS(kind);
+    XSSetType selectedXS = getXS(kind);
 
     auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
         [this, tempIndex] (const auto& p) {return p.first == getTemperature(tempIndex);});
@@ -112,7 +112,7 @@ std::vector<double> Nuclide::getXS(XSKind kind, unsigned tempIndex)
 
 double Nuclide::getXSTemp(XSKind kind, unsigned tempIndex) 
 {
-    XSType selectedXS = getXS(kind);
+    XSSetType selectedXS = getXS(kind);
 
     auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
         [this, tempIndex] (const auto& p) {return p.first == getTemperature(tempIndex);});

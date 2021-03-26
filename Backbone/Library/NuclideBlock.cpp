@@ -88,11 +88,11 @@ std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks
     return blockLinesVec;
 }
 
-XSType NuclideBlock::readXS(std::string key)
+XSSetType NuclideBlock::readXS(std::string key)
 {
     std::vector< std::pair<unsigned, unsigned> > temps = NuclideBlock::readTemperatureBlocks();
     std::vector<double> temperatures = m_nuclide.getTemperatures();
-    XSType tempXSVec;
+    XSSetType tempXSVec;
 
     for(size_t i = 0; i < temperatures.size(); i++)
     {
@@ -107,7 +107,7 @@ void NuclideBlock::readGroupConstants()
 {
     for (const auto& xsKind : XSKind())
     {
-        XSType xs = readXS(get_name(xsKind));
+        XSSetType xs = readXS(get_name(xsKind));
         m_nuclide.setXS(xsKind, xs);
     }
 }

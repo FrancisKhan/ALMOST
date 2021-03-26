@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 
-typedef std::vector< std::pair<double, std::vector<double> > > XSType;
+typedef std::vector< std::pair<double, std::vector<double> > > XSSetType;
 
 class Nuclide
 {
@@ -25,8 +25,8 @@ public:
     std::vector<double> getTemperatures() {return m_temperatures;}
     double getTemperature(unsigned i) {return m_temperatures.at(i);}
 
-    void setXS(XSKind xsKind, XSType &xs);
-    XSType getXS(XSKind xsKind);
+    void setXS(XSKind xsKind, XSSetType &xs);
+    XSSetType getXS(XSKind xsKind);
     std::vector<double> getXS(XSKind xsKind, unsigned tempIndex);
     double getXSTemp(XSKind xsKind, unsigned tempIndex);
 
@@ -36,25 +36,25 @@ public:
 private:
     void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
     unsigned getEnergyGroupsNumber() {return m_energyGroupsNumber;}
-    XSType populateXS(XSType &xs);
+    XSSetType populateXS(XSSetType &xs);
 
     std::string m_name;
     double m_awr;
     std::vector<double> m_temperatures;
     unsigned m_energyGroupsNumber;
 
-    XSType m_totXS;
-    XSType m_elasticXS;
-    XSType m_inelasticXS;
-    XSType m_n2nXS;
-    XSType m_n3nXS;
-    XSType m_nnpXS;
-    XSType m_ngXS;
-    XSType m_npXS;
-    XSType m_ndXS;
-    XSType m_ntXS;
-    XSType m_naXS;
-    XSType m_scattXS;
+    XSSetType m_totXS;
+    XSSetType m_elasticXS;
+    XSSetType m_inelasticXS;
+    XSSetType m_n2nXS;
+    XSSetType m_n3nXS;
+    XSSetType m_nnpXS;
+    XSSetType m_ngXS;
+    XSSetType m_npXS;
+    XSSetType m_ndXS;
+    XSSetType m_ntXS;
+    XSSetType m_naXS;
+    XSSetType m_scattXS;
 };
 
 #endif

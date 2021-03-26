@@ -7,7 +7,7 @@ add_library(backbone_library Datamodel/Material.cpp Datamodel/Mesh.cpp
 			Datamodel/Problem.cpp Datamodel/BaseCalculation.cpp
 			Datamodel/SingleCalculation.cpp Datamodel/DoubleCalculation.cpp
 			Datamodel/SolverData.cpp Library/NuclideBlock.cpp
-			Datamodel/Nuclide.cpp)
+			Datamodel/Nuclide.cpp Datamodel/CrossSection.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC Datamodel)
