@@ -23,12 +23,15 @@ public:
     double getAWR() {return m_awr;}
     void setTemperatures(std::vector<double> &temps) {m_temperatures = temps;}
     std::vector<double> getTemperatures() {return m_temperatures;}
+    double getTemperature(unsigned i) {return m_temperatures.at(i);}
 
-    void setXS(XSKind kind, XSType &xs);
-    XSType getXS(XSKind kind);
-    std::vector<double> getXS(XSKind kind, unsigned tempIndex);
+    void setXS(XSKind xsKind, XSType &xs);
+    XSType getXS(XSKind xsKind);
+    std::vector<double> getXS(XSKind xsKind, unsigned tempIndex);
+    double getXSTemp(XSKind xsKind, unsigned tempIndex);
 
     void printDebugData();
+    void printXS(XSKind kind);
 
 private:
     void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
