@@ -21,7 +21,6 @@ private:
     double m_temperature;
     double m_backgroundXS;
     std::vector<double> m_values;
-
 };
 
 #endif

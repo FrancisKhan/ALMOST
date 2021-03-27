@@ -26,7 +26,7 @@ private:
 	void readAWR();
 	std::vector<double> readTemperatures();
 	void readGroupConstants();
-	XSSetType readXS(std::string key);
+	CrossSectionSet readXS(XSKind xsKind);
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;

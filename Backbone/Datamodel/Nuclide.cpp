@@ -2,28 +2,28 @@
 #include "Output.h"
 #include "additionalPrintFuncs.h"
 
-XSSetType Nuclide::populateXS(XSSetType &xs) 
+CrossSectionSet Nuclide::populateXS(XSKind xsKind, CrossSectionSet &xsSet) 
 {
-    XSSetType result;
+    CrossSectionSet crossSectionSet(xsKind);
 
     for(size_t i = 0; i < m_temperatures.size(); i++)
     {
-        size_t inputSize = xs[i].getSize(); 
+        size_t inputSize = xsSet.getXS(i).getSize(); 
 
         if (inputSize < getEnergyGroupsNumber())
         {
             std::vector<double> xsVec(getEnergyGroupsNumber() - inputSize, 0.0);
-            std::vector<double> xsInputVec(xs[i].getValues());
+            std::vector<double> xsInputVec(xsSet.getXS(i).getValues());
 
             xsVec.insert(xsVec.end(), xsInputVec.begin(), xsInputVec.end()); 
-            CrossSection crossSection(xs[i].getTemperature(), 0.0, xsVec);
-            result.push_back(crossSection);
+            CrossSection crossSection(xsSet.getXS(i).getTemperature(), 0.0, xsVec);
+            crossSectionSet.addXS(crossSection);
         }
         else if(inputSize == getEnergyGroupsNumber())
         {
-            std::vector<double> xsVec = xs[i].getValues();
-            CrossSection crossSection(xs[i].getTemperature(), 0.0, xsVec);
-            result.push_back(crossSection);
+            std::vector<double> xsVec = xsSet.getXS(i).getValues();
+            CrossSection crossSection(xsSet.getXS(i).getTemperature(), 0.0, xsVec);
+            crossSectionSet.addXS(crossSection);
         }
         else
         {
@@ -31,49 +31,49 @@ XSSetType Nuclide::populateXS(XSSetType &xs)
         }
     }
 
-    return result;
+    return crossSectionSet;
 }
 
-void Nuclide::setXS(XSKind kind, XSSetType &xs) 
+void Nuclide::setXS(XSKind kind, CrossSectionSet &xsSet) 
 {
     switch(kind) 
     {
         case XSKind::NTOT0:
-            m_totXS = xs;
-            setEnergyGroupsNumber(m_totXS[0].getSize());
+            setEnergyGroupsNumber(xsSet.getXS(0).getSize());
+            m_totXS = populateXS(kind, xsSet);
             break;
         case XSKind::NELAS:
-            m_elasticXS = populateXS(xs);
+            m_elasticXS = populateXS(kind, xsSet);
             break;
         case XSKind::NINEL:
-            m_inelasticXS = populateXS(xs);
+            m_inelasticXS = populateXS(kind, xsSet);
             break;
         case XSKind::N2N:
-            m_n2nXS = populateXS(xs);
+            m_n2nXS = populateXS(kind, xsSet);
             break;
         case XSKind::N3N:
-            m_n3nXS = populateXS(xs);
+            m_n3nXS = populateXS(kind, xsSet);
             break;
         case XSKind::NNP:
-            m_nnpXS = populateXS(xs);
+            m_nnpXS = populateXS(kind, xsSet);
             break;
         case XSKind::NG:
-            m_ngXS = populateXS(xs);
+            m_ngXS = populateXS(kind, xsSet);
             break;
         case XSKind::NP:
-            m_npXS = populateXS(xs);
+            m_npXS = populateXS(kind, xsSet);
             break;
         case XSKind::ND:
-            m_ndXS = populateXS(xs);
+            m_ndXS = populateXS(kind, xsSet);
             break;
         case XSKind::NT:
-            m_ntXS = populateXS(xs);
+            m_ntXS = populateXS(kind, xsSet);
             break;
         case XSKind::NA:
-            m_naXS = populateXS(xs);
+            m_naXS = populateXS(kind, xsSet);
             break;
         case XSKind::SCAT00:
-            m_scattXS = populateXS(xs);
+            m_scattXS = populateXS(kind, xsSet);
             break;
         default:
             out.print(TraceLevel::CRITICAL, "Error {} XS not recognized!", get_name(kind));
@@ -82,7 +82,7 @@ void Nuclide::setXS(XSKind kind, XSSetType &xs)
     
 }
 
-XSSetType Nuclide::getXS(XSKind kind) 
+CrossSectionSet Nuclide::getXSSet(XSKind kind) 
 {
     switch(kind) 
     {
@@ -98,43 +98,17 @@ XSSetType Nuclide::getXS(XSKind kind)
         case XSKind::NT:     return m_ntXS;
         case XSKind::NA:     return m_naXS;
         case XSKind::SCAT00: return m_scattXS;
-        default: return XSSetType {};
+        default: return CrossSectionSet {};
     }
 }
 
-std::vector<double> Nuclide::getXS(XSKind kind, unsigned tempIndex) 
+void Nuclide::printXSs(XSKind xsKind)
 {
-    XSSetType selectedXS = getXS(kind);
-
-    auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
-        [this, tempIndex] (auto& c) {return c.getTemperature() == getTemperature(tempIndex);});
-
-    if(it != selectedXS.end())
-        return it->getValues();
-    else
-        return std::vector<double> {};
-}
-
-double Nuclide::getXSTemp(XSKind kind, unsigned tempIndex) 
-{
-    XSSetType selectedXS = getXS(kind);
-
-    auto it = std::find_if(selectedXS.begin(), selectedXS.end(), 
-        [this, tempIndex] (auto& c) {return c.getTemperature() == getTemperature(tempIndex);});
-
-    if(it != selectedXS.end())
-        return it->getTemperature();
-    else
-        return 0.0;
-}
-
-void Nuclide::printXS(XSKind xsKind)
-{
-    out.print(TraceLevel::CRITICAL, "{} XS: {}", get_name(xsKind), int(getXS(xsKind, 0).size()));
+    out.print(TraceLevel::CRITICAL, "{} XS: {}", get_name(xsKind), getXSSet(xsKind).getXS(0).getSize());
     for(size_t i = 0; i < m_temperatures.size(); i++)
     {
-        out.print(TraceLevel::CRITICAL, "Temperature: {}", getXSTemp(xsKind, i));
-        PrintFuncs::printVector(getXS(xsKind, i), out, TraceLevel::CRITICAL);
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", getXSSet(xsKind).getXS(i).getTemperature());
+        PrintFuncs::printVector(getXSSet(xsKind).getXS(i).getValues(), out, TraceLevel::CRITICAL);
     }
 }
 
@@ -146,5 +120,5 @@ void Nuclide::printDebugData()
     PrintFuncs::printVector(getTemperatures(), out, TraceLevel::CRITICAL);
 
     for (const auto& xsKind : XSKind())
-        printXS(xsKind);
+        printXSs(xsKind);
 }
