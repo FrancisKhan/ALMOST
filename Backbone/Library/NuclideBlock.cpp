@@ -21,20 +21,27 @@ unsigned NuclideBlock::getNumberOfLinesToRead(unsigned lineNumber)
 
 std::vector<double> NuclideBlock::readParameters(const std::string &key, unsigned lowerBound, unsigned upperBound)
 {
+    std::vector<double> result;
+
     std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, key, lowerBound, upperBound);
 
-    unsigned linesToRead = getNumberOfLinesToRead(lines.front() - 1);
-
-    std::vector<std::string> resultStringsFinal;
-    std::vector<std::string> resultStrings;
-
-    for(unsigned i = lines.front() + 1; i <= lines.front() + linesToRead; i++)
+    if (lines.size() > 0)
     {
-        resultStrings = InputParser::splitLine(InputParser::getLine(m_xsDataLines, i));
-        resultStringsFinal.insert(resultStringsFinal.end(), resultStrings.begin(), resultStrings.end());     
-    } 
+        unsigned linesToRead = getNumberOfLinesToRead(lines.front() - 1);
 
-    return InputParser::fromStringVecToDoubleVec(resultStringsFinal);
+        std::vector<std::string> resultStringsFinal;
+        std::vector<std::string> resultStrings;
+
+        for(unsigned i = lines.front() + 1; i <= lines.front() + linesToRead; i++)
+        {
+            resultStrings = InputParser::splitLine(InputParser::getLine(m_xsDataLines, i));
+            resultStringsFinal.insert(resultStringsFinal.end(), resultStrings.begin(), resultStrings.end());     
+        } 
+
+        result = InputParser::fromStringVecToDoubleVec(resultStringsFinal);
+    }
+
+    return result;
 }
 
 void NuclideBlock::readName()
@@ -90,7 +97,7 @@ std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks
 
 CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
 {
-    std::vector< std::pair<unsigned, unsigned> > temps = NuclideBlock::readTemperatureBlocks();
+    std::vector< std::pair<unsigned, unsigned> > temps = readTemperatureBlocks();
     std::vector<double> temperatures = m_nuclide.getTemperatures();
     CrossSectionSet crossSectionSet(xsKind);
 
@@ -113,10 +120,19 @@ void NuclideBlock::readGroupConstants()
     }
 }
 
+void NuclideBlock::isNuclideResonant()
+{
+    const std::string key = "DILUTION"; 
+    std::vector<double> parVec = readParameters(key);
+    bool value = parVec.size() > 0 ? true : false;
+    m_nuclide.setIsResonant(value);
+}
+
 Nuclide* NuclideBlock::getNuclide()
 {
     readName();
     readAWR();
+    isNuclideResonant();
 	readTemperatureBlocks();
 	readGroupConstants();
     return &m_nuclide;

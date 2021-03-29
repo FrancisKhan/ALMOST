@@ -116,6 +116,7 @@ void Nuclide::printDebugData()
 {
     out.print(TraceLevel::CRITICAL, "Nuclide name: {}", getName());
     out.print(TraceLevel::CRITICAL, "Nuclide AWR: {}", getAWR());
+    out.print(TraceLevel::CRITICAL, "Is nuclide resonant: {}", isResonant());
     out.print(TraceLevel::CRITICAL, "Temperatures:");
     PrintFuncs::printVector(getTemperatures(), out, TraceLevel::CRITICAL);
 

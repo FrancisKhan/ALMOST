@@ -27,6 +27,7 @@ private:
 	std::vector<double> readTemperatures();
 	void readGroupConstants();
 	CrossSectionSet readXS(XSKind xsKind);
+	void isNuclideResonant();
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;
