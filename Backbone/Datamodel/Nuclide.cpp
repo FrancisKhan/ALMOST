@@ -6,7 +6,8 @@ CrossSectionSet Nuclide::populateXS(XSKind xsKind, CrossSectionSet &xsSet)
 {
     CrossSectionSet crossSectionSet(xsKind);
 
-    for(size_t i = 0; i < m_temperatures.size(); i++)
+    //for(size_t i = 0; i < m_temperatures.size(); i++)
+    for(size_t i = 0; i < 1; i++)
     {
         size_t inputSize = xsSet.getXS(i).getSize(); 
 
@@ -27,7 +28,10 @@ CrossSectionSet Nuclide::populateXS(XSKind xsKind, CrossSectionSet &xsSet)
         }
         else
         {
-            out.print(TraceLevel::CRITICAL, "Error {} read in the XS library!", int(inputSize));
+            //out.print(TraceLevel::CRITICAL, "Error {} read in the XS library!", int(inputSize));
+            std::vector<double> xsVec = xsSet.getXS(i).getValues();
+            CrossSection crossSection(xsSet.getXS(i).getTemperature(), 0.0, xsVec);
+            crossSectionSet.addXS(crossSection);
         }
     }
 
@@ -104,8 +108,9 @@ CrossSectionSet Nuclide::getXSSet(XSKind kind)
 
 void Nuclide::printXSs(XSKind xsKind)
 {
-    out.print(TraceLevel::CRITICAL, "{} XS: {}", get_name(xsKind), getXSSet(xsKind).getXS(0).getSize());
-    for(size_t i = 0; i < m_temperatures.size(); i++)
+    out.print(TraceLevel::CRITICAL, "{} XS: {}",  get_name(xsKind), getXSSet(xsKind).getXS(0).getSize());
+    //for(size_t i = 0; i < m_temperatures.size(); i++)
+    for(size_t i = 0; i < 1; i++)
     {
         out.print(TraceLevel::CRITICAL, "Temperature: {}", getXSSet(xsKind).getXS(i).getTemperature());
         PrintFuncs::printVector(getXSSet(xsKind).getXS(i).getValues(), out, TraceLevel::CRITICAL);

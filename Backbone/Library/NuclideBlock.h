@@ -22,9 +22,11 @@ private:
 	std::vector<double> readParameters(const std::string &key, unsigned lowerBound = 0, 
 	unsigned upperBound = std::numeric_limits<unsigned>::max());
 	std::vector< std::pair<unsigned, unsigned> > readTemperatureBlocks();
+	std::vector< std::pair<unsigned, unsigned> > readDilutionBlocks(std::pair<unsigned, unsigned> &block);
 	void readName();
 	void readAWR();
 	std::vector<double> readTemperatures();
+	std::vector<double> readDilutions(unsigned firstLine, unsigned lastLine);
 	void readGroupConstants();
 	CrossSectionSet readXS(XSKind xsKind);
 	void isNuclideResonant();

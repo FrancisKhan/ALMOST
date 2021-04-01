@@ -24,6 +24,9 @@ public:
     void setTemperatures(std::vector<double> &temps) {m_temperatures = temps;}
     std::vector<double> getTemperatures() {return m_temperatures;}
     double getTemperature(unsigned i) {return m_temperatures.at(i);}
+    void setDilutions(std::vector<double> &values) {m_dilutions = values;}
+    std::vector<double> getDilutions() {return m_dilutions;}
+    double getDilutions(unsigned i) {return m_dilutions.at(i);}
 
     void setXS(XSKind xsKind, CrossSectionSet &xsSet);
     CrossSectionSet getXSSet(XSKind xsKind);
@@ -39,6 +42,7 @@ private:
     std::string m_name;
     double m_awr;
     std::vector<double> m_temperatures;
+    std::vector<double> m_dilutions;
     unsigned m_energyGroupsNumber;
     bool m_isResonant;
 

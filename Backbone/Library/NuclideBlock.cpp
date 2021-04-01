@@ -67,7 +67,7 @@ std::vector<double> NuclideBlock::readTemperatures()
 std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks()
 {
     const std::string key = "SUBTMP"; 
-    std::vector<unsigned> tempBLocklines;
+    std::vector<unsigned> tempBlocklines;
 
     for(unsigned i = 0; i < readTemperatures().size(); i++)
     {
@@ -76,7 +76,7 @@ std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks
 
         if(lines.size() == 1)
         {
-            tempBLocklines.push_back(lines.front());
+            tempBlocklines.push_back(lines.front());
         }
         else
         {
@@ -87,11 +87,51 @@ std::vector< std::pair<unsigned, unsigned> > NuclideBlock::readTemperatureBlocks
 
     std::vector< std::pair<unsigned, unsigned> > blockLinesVec;
 
-    for(size_t i = 0; i < tempBLocklines.size() - 1; i++)
-        blockLinesVec.push_back(std::make_pair(tempBLocklines[i], tempBLocklines[i + 1]));
+    for(size_t i = 0; i < tempBlocklines.size() - 1; i++)
+        blockLinesVec.push_back(std::make_pair(tempBlocklines[i], tempBlocklines[i + 1]));
 
-    blockLinesVec.push_back(std::make_pair(tempBLocklines[tempBLocklines.size() - 1], m_xsDataLines.size()));
+    blockLinesVec.push_back(std::make_pair(tempBlocklines[tempBlocklines.size() - 1], m_xsDataLines.size()));
 
+    return blockLinesVec;
+}
+
+std::vector<double> NuclideBlock::readDilutions(unsigned firstLine, unsigned lastLine)
+{
+    const std::string key = "DILUTION"; 
+    std::vector<double> v = readParameters(key, firstLine, lastLine);
+    m_nuclide.setDilutions(v);
+    return v;
+}
+
+std::vector< std::pair<unsigned, unsigned> > 
+NuclideBlock::readDilutionBlocks(std::pair<unsigned, unsigned> &block)
+{
+    const std::string key = "SUBMAT"; 
+    std::vector<unsigned> dilBlocklines;
+
+    for(unsigned i = 0; i < readDilutions(block.first, block.second).size(); i++)
+    {
+        std::string compositeKey = key + PrintFuncs::stringFormat(i + 1, "%04d"); 
+        std::vector<unsigned> lines = InputParser::findLine(m_xsDataLines, compositeKey, block.first, block.second);
+
+        if(lines.size() == 1)
+        {
+            dilBlocklines.push_back(lines.front());
+        }
+        else
+        {
+            out.print(TraceLevel::CRITICAL, "Error {} seems to repeat in the XS library!", key);
+            exit(-1);
+        }
+    }
+
+    std::vector< std::pair<unsigned, unsigned> > blockLinesVec;
+
+    for(size_t i = 0; i < dilBlocklines.size() - 1; i++)
+        blockLinesVec.push_back(std::make_pair(dilBlocklines[i], dilBlocklines[i + 1]));
+
+    blockLinesVec.push_back(std::make_pair(dilBlocklines[dilBlocklines.size() - 1], m_xsDataLines.size()));
+    
     return blockLinesVec;
 }
 
@@ -101,11 +141,24 @@ CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
     std::vector<double> temperatures = m_nuclide.getTemperatures();
     CrossSectionSet crossSectionSet(xsKind);
 
-    for(size_t i = 0; i < temperatures.size(); i++)
+    if(m_nuclide.isResonant())
     {
-        std::vector<double> xsVec = readParameters(get_name(xsKind), temps[i].first, temps[i].second);
-        CrossSection crossSection(temperatures[i], 0.0, xsVec);
+        std::cout <<  m_nuclide.getName() <<  " is resonant!" << std::endl;
+
+        std::vector< std::pair<unsigned, unsigned> > dilutions = readDilutionBlocks(temps.front());
+
+        std::vector<double> xsVec = readParameters(get_name(xsKind), dilutions[0].first, dilutions[0].second);
+        CrossSection crossSection(temperatures[0], 0.0, xsVec);
         crossSectionSet.addXS(crossSection);
+    }
+    else
+    {
+        for(size_t i = 0; i < temperatures.size(); i++)
+        {
+            std::vector<double> xsVec = readParameters(get_name(xsKind), temps[i].first, temps[i].second);
+            CrossSection crossSection(temperatures[i], 0.0, xsVec);
+            crossSectionSet.addXS(crossSection);
+        }
     }
     
     return crossSectionSet;
