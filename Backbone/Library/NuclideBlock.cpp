@@ -99,6 +99,16 @@ std::vector<double> NuclideBlock::readDilutions(unsigned firstLine, unsigned las
 {
     const std::string key = "DILUTION"; 
     std::vector<double> v = readParameters(key, firstLine, lastLine);
+    
+    std::vector<double> dilutions = m_nuclide.getDilutions();
+    if((dilutions.size() != 0) && (v != dilutions))
+    {
+        out.print(TraceLevel::CRITICAL, "Error {} seems to have temperature-dependent dilution values!", 
+        m_nuclide.getName());
+        
+        exit(-1);
+    }
+
     m_nuclide.setDilutions(v);
     return v;
 }
@@ -135,34 +145,125 @@ NuclideBlock::readDilutionBlocks(std::pair<unsigned, unsigned> &block)
     return blockLinesVec;
 }
 
+std::pair<unsigned, unsigned> NuclideBlock::readInfDilutionBlock(std::pair<unsigned, unsigned> &block)
+{
+    const std::string key1 = "->      -4       0       0       0";
+    const std::string key2 = "->       3      12       2     172"; 
+
+    std::vector<unsigned> key1Lines = InputParser::findLine(m_xsDataLines, key1, block.first, block.second);
+
+    std::vector<unsigned> key2Lines;
+    for(auto i : key1Lines)
+    {
+        key2Lines = InputParser::findLine(m_xsDataLines, key2, i, i + 2);
+        if (key2Lines.size() > 0) break;
+    }
+
+    return std::make_pair(key2Lines.front(), block.second);
+}
+
 CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
 {
-    std::vector< std::pair<unsigned, unsigned> > temps = readTemperatureBlocks();
+    std::vector< std::pair<unsigned, unsigned> > tempBlocks = readTemperatureBlocks();
     std::vector<double> temperatures = m_nuclide.getTemperatures();
     CrossSectionSet crossSectionSet(xsKind);
 
     if(m_nuclide.isResonant())
     {
-        std::cout <<  m_nuclide.getName() <<  " is resonant!" << std::endl;
+        // Infinite dilution XSs
+        
+        if(xsKind == XSKind::NTOT0)
+        {
+            for(size_t i = 0; i < temperatures.size(); i++)
+            {
+                std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
+                CrossSection crossSection(temperatures[i], Numerics::DINF, xsVec);
+                crossSectionSet.addXS(crossSection);
+            }
+        }
+        else
+        {
+            for(size_t i = 0; i < temperatures.size(); i++)
+            {
+                std::pair<unsigned, unsigned> infDilutionBlock = readInfDilutionBlock(tempBlocks[i]);
+                std::vector<double> xsVec = readParameters(get_name(xsKind), infDilutionBlock.first, infDilutionBlock.second);
+                CrossSection crossSection(temperatures[i], Numerics::DINF, xsVec);
+                crossSectionSet.addXS(crossSection);
+            }
+        }
 
-        std::vector< std::pair<unsigned, unsigned> > dilutions = readDilutionBlocks(temps.front());
+        // other dilutions XSs
 
-        std::vector<double> xsVec = readParameters(get_name(xsKind), dilutions[0].first, dilutions[0].second);
-        CrossSection crossSection(temperatures[0], 0.0, xsVec);
-        crossSectionSet.addXS(crossSection);
+        for(size_t i = 0; i < temperatures.size(); i++)
+        {
+            std::vector< std::pair<unsigned, unsigned> > dilutionBlocks = readDilutionBlocks(tempBlocks[i]);
+            std::vector<double> dilutions = readDilutions(tempBlocks[i].first, tempBlocks[i].second);
+
+            for(size_t j = 0; j < dilutions.size(); j++)
+            {
+                std::vector<double> xsVec = readParameters(get_name(xsKind), dilutionBlocks[j].first, dilutionBlocks[j].second);
+                CrossSection crossSection(temperatures[i], dilutions[j], xsVec);
+                crossSectionSet.addXS(crossSection);
+            }
+        }
     }
     else
     {
         for(size_t i = 0; i < temperatures.size(); i++)
         {
-            std::vector<double> xsVec = readParameters(get_name(xsKind), temps[i].first, temps[i].second);
-            CrossSection crossSection(temperatures[i], 0.0, xsVec);
+            std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
+            CrossSection crossSection(temperatures[i], Numerics::DINF, xsVec);
             crossSectionSet.addXS(crossSection);
         }
     }
     
     return crossSectionSet;
 }
+
+// CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
+// {
+//     std::vector< std::pair<unsigned, unsigned> > tempBlocks = readTemperatureBlocks();
+//     std::vector<double> temperatures = m_nuclide.getTemperatures();
+//     CrossSectionSet crossSectionSet(xsKind);
+
+    // if(xsKind == XSKind::NTOT0)
+    // {
+    //     for(size_t i = 0; i < temperatures.size(); i++)
+    //     {
+    //         std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
+    //         CrossSection crossSection(temperatures[i], 0.0, xsVec);
+    //         crossSectionSet.addXS(crossSection);
+    //     }
+    // }
+//     else
+//     {
+//         if(m_nuclide.isResonant())
+//         {
+//             for(size_t i = 0; i < temperatures.size(); i++)
+//             {
+//                 std::vector< std::pair<unsigned, unsigned> > dilutionBlocks = readDilutionBlocks(tempBlocks[i]);
+
+//                 for(size_t i = 0; i < dilutionBlocks.size(); i++)
+//                 {
+//                     std::vector<double> xsVec = readParameters(get_name(xsKind), dilutionBlocks[i].first, dilutionBlocks[i].second);
+//                     CrossSection crossSection(temperatures[i], 0.0, xsVec);
+//                     crossSectionSet.addXS(crossSection);
+//                 }
+//             }
+//         }
+//         else
+//         {
+//             for(size_t i = 0; i < temperatures.size(); i++)
+//             {
+//                 std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
+//                 CrossSection crossSection(temperatures[i], 0.0, xsVec);
+//                 crossSectionSet.addXS(crossSection);
+//             }
+//         }
+//     }
+    
+//     return crossSectionSet;
+// }
 
 void NuclideBlock::readGroupConstants()
 {

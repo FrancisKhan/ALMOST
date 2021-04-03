@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class XSKind {NTOT0, NELAS, NINEL, N2N, N3N, NNP, NG, NP, ND, NT, NA, SCAT00};
+enum class XSKind {NTOT0, NELAS, NINEL, N2N, N3N, NNP, NG, NP, ND, NT, NA};
 
 inline std::ostream& operator << (std::ostream& stm, XSKind geom)
 {
@@ -20,14 +20,13 @@ inline std::ostream& operator << (std::ostream& stm, XSKind geom)
         case XSKind::ND     : return stm << "ND";
         case XSKind::NT     : return stm << "NT";
         case XSKind::NA     : return stm << "NA";
-        case XSKind::SCAT00 : return stm << "SCAT00";
         default : return stm << "XSKind{" << int(geom) << "}"; 
     }
 }
 
-inline std::string get_name(XSKind solver) 
+inline std::string get_name(XSKind xsKind) 
 {
-  switch (solver) 
+  switch (xsKind) 
   {
     case XSKind::NTOT0  : return std::string("NTOT0");
     case XSKind::NELAS  : return std::string("NELAS");
@@ -40,7 +39,6 @@ inline std::string get_name(XSKind solver)
     case XSKind::ND     : return std::string("ND");
     case XSKind::NT     : return std::string("NT");
     case XSKind::NA     : return std::string("NA");
-    case XSKind::SCAT00 : return std::string("SCAT00");
     default : return std::string("");
   }
 }
@@ -62,7 +60,7 @@ inline XSKind begin(XSKind r)
 
 inline XSKind end(XSKind r)   
 {
-    return XSKind(int(XSKind::SCAT00) + 1);
+    return XSKind(int(XSKind::NA) + 1);
 }
 
 #endif

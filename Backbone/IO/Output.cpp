@@ -301,6 +301,23 @@ void Output::print(TraceLevel level, std::string str, int input1, int input2, in
 	else {}
 }
 
+void print(TraceLevel level, std::string str, std::string input1, double input2, double input3)
+{
+	if (level == TraceLevel::CRITICAL)
+		out.getLogger()->critical(str, input1, input2, input3);
+	else if (level == TraceLevel::ERR)
+		out.getLogger()->error(str, input1, input2, input3);
+	else if (level == TraceLevel::WARN)
+		out.getLogger()->warn(str, input1, input2, input3);
+	else if (level == TraceLevel::INFO)
+		out.getLogger()->info(str, input1, input2, input3);
+	else if(level == TraceLevel::DEBUG)
+		out.getLogger()->debug(str, input1, input2, input3);
+	else if(level == TraceLevel::TRACE)
+		out.getLogger()->trace(str, input1, input2, input3);
+	else {}
+}
+
 void Output::print(TraceLevel level, std::string str, std::string input1, 
                    std::string input2, std::string input3, std::string input4)
 {

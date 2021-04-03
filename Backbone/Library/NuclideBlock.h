@@ -23,6 +23,7 @@ private:
 	unsigned upperBound = std::numeric_limits<unsigned>::max());
 	std::vector< std::pair<unsigned, unsigned> > readTemperatureBlocks();
 	std::vector< std::pair<unsigned, unsigned> > readDilutionBlocks(std::pair<unsigned, unsigned> &block);
+	std::pair<unsigned, unsigned> readInfDilutionBlock(std::pair<unsigned, unsigned> &block);
 	void readName();
 	void readAWR();
 	std::vector<double> readTemperatures();

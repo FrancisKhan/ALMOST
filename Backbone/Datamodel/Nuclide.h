@@ -26,7 +26,9 @@ public:
     double getTemperature(unsigned i) {return m_temperatures.at(i);}
     void setDilutions(std::vector<double> &values) {m_dilutions = values;}
     std::vector<double> getDilutions() {return m_dilutions;}
-    double getDilutions(unsigned i) {return m_dilutions.at(i);}
+    double getDilution(unsigned i) {return m_dilutions.at(i);}
+
+    unsigned getXSsNumber() {return isResonant() ? (getDilutions().size() * getTemperatures().size()) : getTemperatures().size();}
 
     void setXS(XSKind xsKind, CrossSectionSet &xsSet);
     CrossSectionSet getXSSet(XSKind xsKind);

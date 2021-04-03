@@ -20,6 +20,10 @@
 namespace Numerics
 {
 
+    // Constants
+
+    const double DINF = std::numeric_limits<double>::max();
+
     typedef struct SourceIterResults_
     { 
         const Eigen::VectorXd meshNeutronFluxes;
