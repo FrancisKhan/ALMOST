@@ -2,9 +2,11 @@
 #include "Output.h"
 #include "additionalPrintFuncs.h"
 
-CrossSectionSet Nuclide::populateXS(XSKind xsKind, CrossSectionSet &xsSet) 
+
+
+CrossSectionSet Nuclide::populateXS(CrossSectionSet &xsSet) 
 {
-    CrossSectionSet crossSectionSet(xsKind);
+    CrossSectionSet crossSectionSet(xsSet.getKind());
 
     for(size_t i = 0; i < getXSsNumber(); i++)
     {
@@ -35,49 +37,55 @@ CrossSectionSet Nuclide::populateXS(XSKind xsKind, CrossSectionSet &xsSet)
     return crossSectionSet;
 }
 
-void Nuclide::setXS(XSKind kind, CrossSectionSet &xsSet) 
+void Nuclide::setXS(CrossSectionSet &xsSet) 
 {
-    switch(kind) 
+    switch(xsSet.getKind()) 
     {
         case XSKind::NTOT0:
             setEnergyGroupsNumber(xsSet.getXS(0).getSize());
-            m_totXS = populateXS(kind, xsSet);
-            break;
-        case XSKind::NELAS:
-            m_elasticXS = populateXS(kind, xsSet);
+            m_totXS = populateXS(xsSet);
+            m_totXS.calcXS();
             break;
         case XSKind::NINEL:
-            m_inelasticXS = populateXS(kind, xsSet);
+            m_inelasticXS = populateXS(xsSet);
+            m_inelasticXS.calcXS();
             break;
         case XSKind::N2N:
-            m_n2nXS = populateXS(kind, xsSet);
+            m_n2nXS = populateXS(xsSet);
+            m_n2nXS.calcXS();
             break;
         case XSKind::N3N:
-            m_n3nXS = populateXS(kind, xsSet);
+            m_n3nXS = populateXS(xsSet);
+            m_n3nXS.calcXS();
             break;
         case XSKind::NNP:
-            m_nnpXS = populateXS(kind, xsSet);
+            m_nnpXS = populateXS(xsSet);
+            m_nnpXS.calcXS();
             break;
         case XSKind::NG:
-            m_ngXS = populateXS(kind, xsSet);
+            m_ngXS = populateXS(xsSet);
+            m_ngXS.calcXS();
             break;
         case XSKind::NP:
-            m_npXS = populateXS(kind, xsSet);
+            m_npXS = populateXS(xsSet);
+            m_npXS.calcXS();
             break;
         case XSKind::ND:
-            m_ndXS = populateXS(kind, xsSet);
+            m_ndXS = populateXS(xsSet);
+            m_ndXS.calcXS();
             break;
         case XSKind::NT:
-            m_ntXS = populateXS(kind, xsSet);
+            m_ntXS = populateXS(xsSet);
+            m_ntXS.calcXS();
             break;
         case XSKind::NA:
-            m_naXS = populateXS(kind, xsSet);
+            m_naXS = populateXS(xsSet);
+            m_naXS.calcXS();
             break;
         default:
-            out.print(TraceLevel::CRITICAL, "Error {} XS not recognized!", get_name(kind));
+            out.print(TraceLevel::CRITICAL, "Error {} XS not recognized!", get_name(xsSet.getKind()));
             exit(-1);
     }
-    
 }
 
 CrossSectionSet Nuclide::getXSSet(XSKind kind) 
@@ -85,7 +93,6 @@ CrossSectionSet Nuclide::getXSSet(XSKind kind)
     switch(kind) 
     {
         case XSKind::NTOT0:  return m_totXS;
-        case XSKind::NELAS:  return m_elasticXS;
         case XSKind::NINEL:  return m_inelasticXS;
         case XSKind::N2N:    return m_n2nXS;
         case XSKind::N3N:    return m_n3nXS;

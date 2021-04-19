@@ -3,14 +3,13 @@
 
 #include <iostream>
 
-enum class XSKind {NTOT0, NELAS, NINEL, N2N, N3N, NNP, NG, NP, ND, NT, NA};
+enum class XSKind {NTOT0, NINEL, N2N, N3N, NNP, NG, NP, ND, NT, NA};
 
-inline std::ostream& operator << (std::ostream& stm, XSKind geom)
+inline std::ostream& operator << (std::ostream& stm, XSKind xsKind)
 {
-    switch(geom)
+    switch(xsKind)
     {
         case XSKind::NTOT0  : return stm << "NTOT0";
-        case XSKind::NELAS  : return stm << "NELAS";
         case XSKind::NINEL  : return stm << "NINEL";
         case XSKind::N2N    : return stm << "N2N";
         case XSKind::N3N    : return stm << "N3N";
@@ -20,7 +19,7 @@ inline std::ostream& operator << (std::ostream& stm, XSKind geom)
         case XSKind::ND     : return stm << "ND";
         case XSKind::NT     : return stm << "NT";
         case XSKind::NA     : return stm << "NA";
-        default : return stm << "XSKind{" << int(geom) << "}"; 
+        default : return stm << "XSKind{" << int(xsKind) << "}"; 
     }
 }
 
@@ -29,7 +28,6 @@ inline std::string get_name(XSKind xsKind)
   switch (xsKind) 
   {
     case XSKind::NTOT0  : return std::string("NTOT0");
-    case XSKind::NELAS  : return std::string("NELAS");
     case XSKind::NINEL  : return std::string("NINEL");
     case XSKind::N2N    : return std::string("N2N");
     case XSKind::N3N    : return std::string("N3N");

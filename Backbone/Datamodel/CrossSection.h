@@ -6,6 +6,8 @@
 class CrossSection
 {
 public:
+    CrossSection() : m_temperature(0.0), m_backgroundXS(0.0), m_values(std::vector<double> {}) {}
+    
 	CrossSection(double temperature, double backgroundXS, std::vector<double> &values) :
     m_temperature(temperature), m_backgroundXS(backgroundXS), m_values(values) {}
 

@@ -30,7 +30,9 @@ private:
 	std::vector<double> readDilutions(unsigned firstLine, unsigned lastLine);
 	void readGroupConstants();
 	CrossSectionSet readXS(XSKind xsKind);
+	CrossSectionSet readMatrix(XSMatrixKind xsKind);
 	void isNuclideResonant();
+	void assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj);
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;

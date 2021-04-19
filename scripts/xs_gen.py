@@ -6,7 +6,6 @@ import sys
 import os.path
 from serpentTools.settings import rc
 from datetime import datetime
-import numpy as np
 from scipy import interpolate
 from numpy.polynomial.polynomial import Polynomial
 

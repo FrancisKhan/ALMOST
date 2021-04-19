@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+using namespace Eigen;
+
 unsigned NuclideBlock::getNumberOfValuesToRead(unsigned lineNumber)
 {
     std::string line = InputParser::getLine(m_xsDataLines, lineNumber);   
@@ -220,57 +222,47 @@ CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
     return crossSectionSet;
 }
 
-// CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
-// {
-//     std::vector< std::pair<unsigned, unsigned> > tempBlocks = readTemperatureBlocks();
-//     std::vector<double> temperatures = m_nuclide.getTemperatures();
-//     CrossSectionSet crossSectionSet(xsKind);
+CrossSectionSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
+{
+    std::vector< std::pair<unsigned, unsigned> > tempBlocks = readTemperatureBlocks();
+    std::vector<double> temperatures = m_nuclide.getTemperatures();
+    CrossSectionSet crossSectionSet(XSKind::NTOT0);
 
-    // if(xsKind == XSKind::NTOT0)
-    // {
-    //     for(size_t i = 0; i < temperatures.size(); i++)
-    //     {
-    //         std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
-    //         CrossSection crossSection(temperatures[i], 0.0, xsVec);
-    //         crossSectionSet.addXS(crossSection);
-    //     }
-    // }
-//     else
-//     {
-//         if(m_nuclide.isResonant())
-//         {
-//             for(size_t i = 0; i < temperatures.size(); i++)
-//             {
-//                 std::vector< std::pair<unsigned, unsigned> > dilutionBlocks = readDilutionBlocks(tempBlocks[i]);
+    if(m_nuclide.isResonant())
+    {
+       
+    }
+    else
+    {
+        //for(size_t i = 0; i < temperatures.size(); i++)
+        for(size_t i = 0; i < 1; i++)
+        {
+            std::vector<double> xsVec     = readParameters("SCAT00", tempBlocks[i].first, tempBlocks[i].second);
+            std::vector<double> njjDouble = readParameters("NJJS00", tempBlocks[i].first, tempBlocks[i].second);
+            std::vector<double> ijjDouble = readParameters("IJJS00", tempBlocks[i].first, tempBlocks[i].second);
 
-//                 for(size_t i = 0; i < dilutionBlocks.size(); i++)
-//                 {
-//                     std::vector<double> xsVec = readParameters(get_name(xsKind), dilutionBlocks[i].first, dilutionBlocks[i].second);
-//                     CrossSection crossSection(temperatures[i], 0.0, xsVec);
-//                     crossSectionSet.addXS(crossSection);
-//                 }
-//             }
-//         }
-//         else
-//         {
-//             for(size_t i = 0; i < temperatures.size(); i++)
-//             {
-//                 std::vector<double> xsVec = readParameters(get_name(xsKind), tempBlocks[i].first, tempBlocks[i].second);
-//                 CrossSection crossSection(temperatures[i], 0.0, xsVec);
-//                 crossSectionSet.addXS(crossSection);
-//             }
-//         }
-//     }
+            std::vector<unsigned> njj(begin(njjDouble), end(njjDouble));
+            std::vector<unsigned> ijj(begin(ijjDouble), end(ijjDouble));
+
+            assembleMatrixXS(xsVec, njj, ijj);
+        }
+    }
     
-//     return crossSectionSet;
-// }
+    return crossSectionSet;
+}
+
+void NuclideBlock::assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj)
+{
+    MatrixXd M = MatrixXd::Zero(m_nuclide.getEnergyGroupsNumber(), m_nuclide.getEnergyGroupsNumber());
+
+}
 
 void NuclideBlock::readGroupConstants()
 {
     for (const auto& xsKind : XSKind())
     {
         CrossSectionSet xs = readXS(xsKind);
-        m_nuclide.setXS(xsKind, xs);
+        m_nuclide.setXS(xs);
     }
 }
 
