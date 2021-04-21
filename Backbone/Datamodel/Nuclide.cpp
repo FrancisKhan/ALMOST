@@ -88,6 +88,22 @@ void Nuclide::setXS(CrossSectionSet &xsSet)
     }
 }
 
+void Nuclide::setXSMatrix(CrossSectionMatrixSet &xsMatrixSet) 
+{
+    switch(xsMatrixSet.getKind()) 
+    {
+        case XSMatrixKind::SCATT00:
+            m_scattMatrix00 = xsMatrixSet;
+            break;
+        case XSMatrixKind::SCATT01:
+            m_scattMatrix01 = xsMatrixSet;
+            break;
+        default:
+            out.print(TraceLevel::CRITICAL, "Error {} XS matrix not recognized!", get_name(xsMatrixSet.getKind()));
+            exit(-1);
+    }
+}
+
 CrossSectionSet Nuclide::getXSSet(XSKind kind) 
 {
     switch(kind) 
@@ -106,6 +122,16 @@ CrossSectionSet Nuclide::getXSSet(XSKind kind)
     }
 }
 
+CrossSectionMatrixSet Nuclide::getXSMatrixSet(XSMatrixKind kind) 
+{
+    switch(kind) 
+    {
+        case XSMatrixKind::SCATT00:  return m_scattMatrix00;
+        case XSMatrixKind::SCATT01:  return m_scattMatrix01;
+        default: return CrossSectionMatrixSet {};
+    }
+}
+
 void Nuclide::printXSs(XSKind xsKind)
 {
     for(size_t i = 0; i < getXSsNumber(); i++)
@@ -118,14 +144,30 @@ void Nuclide::printXSs(XSKind xsKind)
     }
 }
 
+void Nuclide::printMatrixXSs(XSMatrixKind xsKind)
+{
+    for(size_t i = 0; i < getXSsNumber(); i++)
+    {
+        out.print(TraceLevel::CRITICAL, "{} XS Matrix: {}",  get_name(xsKind), getXSMatrixSet(xsKind).getXSMatrix(0).getSize());
+        out.print(TraceLevel::CRITICAL, "Temperature: {}, Background XS: {}", 
+        getXSMatrixSet(xsKind).getXSMatrix(i).getTemperature(), getXSMatrixSet(xsKind).getXSMatrix(i).getBackgroundXS());
+
+        PrintFuncs::printMatrix(getXSMatrixSet(xsKind).getXSMatrix(i).getValues(), out, TraceLevel::CRITICAL);
+    }
+}
+
 void Nuclide::printDebugData()
 {
     out.print(TraceLevel::CRITICAL, "Nuclide name: {}", getName());
     out.print(TraceLevel::CRITICAL, "Nuclide AWR: {}", getAWR());
     out.print(TraceLevel::CRITICAL, "Is nuclide resonant: {}", isResonant());
     out.print(TraceLevel::CRITICAL, "Temperatures:");
+    out.print(TraceLevel::CRITICAL, "getXSsNumber(): {}", int(getXSsNumber()));
     PrintFuncs::printVector(getTemperatures(), out, TraceLevel::CRITICAL);
 
-    for (const auto& xsKind : XSKind())
-        printXSs(xsKind);
+    // for (const auto& xsKind : XSKind())
+    //     printXSs(xsKind);
+
+    for (const auto& xsKind : XSMatrixKind())
+        printMatrixXSs(xsKind);
 }

@@ -12,8 +12,8 @@ public:
 
     void addXS(CrossSectionMatrix &xs) {m_XSSet.push_back(xs);}
     void setXS(unsigned i, CrossSectionMatrix &xs) {m_XSSet[i] = xs;}
-    CrossSectionMatrix getXS(unsigned i) {return m_XSSet.at(i);}
-    //CrossSectionMatrix getXS(double t, double b);
+    CrossSectionMatrix getXSMatrix(unsigned i) {return m_XSSet.at(i);}
+    CrossSectionMatrix getXSMatrix(double t, double b);
     unsigned getSize() {return m_XSSet.size();}
     XSMatrixKind getKind() {return m_kind;}
     //void calcXS();

@@ -4,6 +4,7 @@
 #include "PolynomialFunction.h"
 #include "numeric_tools.h"
 #include "CrossSectionSet.h"
+#include "CrossSectionMatrixSet.h"
 
 #include <memory>
 #include <vector>
@@ -31,12 +32,15 @@ public:
     unsigned getXSsNumber() {return isResonant() ? (getDilutions().size() * getTemperatures().size()) : getTemperatures().size();}
 
     void setXS(CrossSectionSet &xsSet);
+    void setXSMatrix(CrossSectionMatrixSet &xsMatrixSet);
     CrossSectionSet getXSSet(XSKind xsKind);
+    CrossSectionMatrixSet getXSMatrixSet(XSMatrixKind kind);
 
     void calcXS(CrossSectionSet &xsSet);
 
     void printDebugData();
     void printXSs(XSKind kind);
+    void printMatrixXSs(XSMatrixKind xsKind);
 
 private:
     void setEnergyGroupsNumber(unsigned n) {m_energyGroupsNumber = n;}
@@ -61,6 +65,9 @@ private:
     CrossSectionSet m_ntXS;
     CrossSectionSet m_naXS;
     CrossSectionSet m_scattXS;
+
+    CrossSectionMatrixSet m_scattMatrix00;
+    CrossSectionMatrixSet m_scattMatrix01;
 };
 
 #endif

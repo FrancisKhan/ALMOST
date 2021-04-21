@@ -2,7 +2,6 @@
 #define CROSSSECTIONSET_H
 
 #include "CrossSection.h"
-#include "XSMatrixKind.h"
 #include "XSKind.h"
 
 #include <vector>

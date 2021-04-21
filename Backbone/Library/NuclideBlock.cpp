@@ -8,17 +8,40 @@
 
 using namespace Eigen;
 
-unsigned NuclideBlock::getNumberOfValuesToRead(unsigned lineNumber)
+std::pair<unsigned, unsigned> NuclideBlock::getNumberOfValuesToRead(unsigned lineNumber)
 {
     std::string line = InputParser::getLine(m_xsDataLines, lineNumber);   
     std::vector<std::string> lineVec = InputParser::splitLine(line);
-    return std::stoi(lineVec.back());
+
+    unsigned kind    = std::stoi(lineVec.end()[-2]); // int or float
+    unsigned numbers = std::stoi(lineVec.end()[-1]); // number of values
+
+    return std::make_pair(kind, numbers);
 }
 
 unsigned NuclideBlock::getNumberOfLinesToRead(unsigned lineNumber)
 {
-    // Five is the maximun number of floats in a line for a text DRAGLIB format library
-    return ceil(getNumberOfValuesToRead(lineNumber) / 5.0);
+    unsigned numberOfLines = 0;
+    std::pair<unsigned, unsigned> valuePair = getNumberOfValuesToRead(lineNumber);
+
+    double numberOfValues = static_cast<double>(valuePair.second); // to avoid an integer division
+
+    if(valuePair.first == 1) // it is a vector of integers in 8-column rows
+    {
+        numberOfLines = ceil(numberOfValues / 8);
+    }
+    else if(valuePair.first == 2) // it is a vector of doubles in 5-column rows
+    {
+        numberOfLines = ceil(numberOfValues / 5);
+    }
+    else
+    {
+        out.print(TraceLevel::CRITICAL, "Error NuclideBlock::getNumberOfLinesToRead, {} value kind not recognized!", 
+                  int(valuePair.first));
+        exit(-1);
+    }
+
+    return numberOfLines;
 }
 
 std::vector<double> NuclideBlock::readParameters(const std::string &key, unsigned lowerBound, unsigned upperBound)
@@ -222,11 +245,11 @@ CrossSectionSet NuclideBlock::readXS(XSKind xsKind)
     return crossSectionSet;
 }
 
-CrossSectionSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
+CrossSectionMatrixSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
 {
     std::vector< std::pair<unsigned, unsigned> > tempBlocks = readTemperatureBlocks();
     std::vector<double> temperatures = m_nuclide.getTemperatures();
-    CrossSectionSet crossSectionSet(XSKind::NTOT0);
+    CrossSectionMatrixSet crossSectionMatrixSet(xsKind);
 
     if(m_nuclide.isResonant())
     {
@@ -234,8 +257,7 @@ CrossSectionSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
     }
     else
     {
-        //for(size_t i = 0; i < temperatures.size(); i++)
-        for(size_t i = 0; i < 1; i++)
+        for(size_t i = 0; i < temperatures.size(); i++)
         {
             std::vector<double> xsVec     = readParameters("SCAT00", tempBlocks[i].first, tempBlocks[i].second);
             std::vector<double> njjDouble = readParameters("NJJS00", tempBlocks[i].first, tempBlocks[i].second);
@@ -244,17 +266,23 @@ CrossSectionSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
             std::vector<unsigned> njj(begin(njjDouble), end(njjDouble));
             std::vector<unsigned> ijj(begin(ijjDouble), end(ijjDouble));
 
-            assembleMatrixXS(xsVec, njj, ijj);
+            MatrixXd matrix = assembleMatrixXS(xsVec, njj, ijj);
+            CrossSectionMatrix crossSectionMatrix(temperatures[i], Numerics::DINF, matrix);
+            crossSectionMatrixSet.addXS(crossSectionMatrix);
         }
     }
     
-    return crossSectionSet;
+    return crossSectionMatrixSet;
 }
 
-void NuclideBlock::assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj)
+MatrixXd NuclideBlock::assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj)
 {
     MatrixXd M = MatrixXd::Zero(m_nuclide.getEnergyGroupsNumber(), m_nuclide.getEnergyGroupsNumber());
 
+    for(unsigned i = 0; i < m_nuclide.getEnergyGroupsNumber(); i++)
+		M(i, i) = matrix[i];
+
+    return M;
 }
 
 void NuclideBlock::readGroupConstants()
@@ -263,6 +291,12 @@ void NuclideBlock::readGroupConstants()
     {
         CrossSectionSet xs = readXS(xsKind);
         m_nuclide.setXS(xs);
+    }
+
+    for (const auto& xsKind : XSMatrixKind())
+    {
+        CrossSectionMatrixSet matrix = readMatrix(xsKind);
+        m_nuclide.setXSMatrix(matrix);
     }
 }
 

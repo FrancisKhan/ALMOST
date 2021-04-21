@@ -17,7 +17,7 @@ public:
 	Nuclide* getNuclide();
 	
 private:
-	unsigned getNumberOfValuesToRead(unsigned line);
+	std::pair<unsigned, unsigned> getNumberOfValuesToRead(unsigned line);
 	unsigned getNumberOfLinesToRead(unsigned line);
 	std::vector<double> readParameters(const std::string &key, unsigned lowerBound = 0, 
 	unsigned upperBound = std::numeric_limits<unsigned>::max());
@@ -30,9 +30,9 @@ private:
 	std::vector<double> readDilutions(unsigned firstLine, unsigned lastLine);
 	void readGroupConstants();
 	CrossSectionSet readXS(XSKind xsKind);
-	CrossSectionSet readMatrix(XSMatrixKind xsKind);
+	CrossSectionMatrixSet readMatrix(XSMatrixKind xsKind);
 	void isNuclideResonant();
-	void assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj);
+	Eigen::MatrixXd assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj);
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;
