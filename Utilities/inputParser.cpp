@@ -28,7 +28,7 @@ namespace InputParser
     }
 
     std::vector<unsigned> findLine(std::vector<std::string> &dataVec, const std::string &key, 
-								   unsigned inputLowerBound,  unsigned inputUpperBound)
+								   unsigned inputLowerBound, unsigned inputUpperBound)
     {
         std::vector<unsigned> result {};
 		unsigned lowerBound, upperBound, lineNumber; 
@@ -113,4 +113,15 @@ namespace InputParser
     	[](std::string &i){return std::stod(i);});
 		return dVec;
 	}
+
+	bool isKeywordPresent(std::vector<std::string> &dataVec, const std::string &key, 
+						  unsigned inputLowerBound, unsigned inputUpperBound)
+    {
+        std::vector<unsigned> lines = findLine(dataVec, key, inputLowerBound, inputUpperBound);
+
+		if(lines.empty())
+			return false;
+		else
+			return true;
+    }
 }

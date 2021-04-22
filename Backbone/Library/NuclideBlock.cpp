@@ -259,14 +259,7 @@ CrossSectionMatrixSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
     {
         for(size_t i = 0; i < temperatures.size(); i++)
         {
-            std::vector<double> xsVec     = readParameters("SCAT00", tempBlocks[i].first, tempBlocks[i].second);
-            std::vector<double> njjDouble = readParameters("NJJS00", tempBlocks[i].first, tempBlocks[i].second);
-            std::vector<double> ijjDouble = readParameters("IJJS00", tempBlocks[i].first, tempBlocks[i].second);
-
-            std::vector<unsigned> njj(begin(njjDouble), end(njjDouble));
-            std::vector<unsigned> ijj(begin(ijjDouble), end(ijjDouble));
-
-            MatrixXd matrix = assembleMatrixXS(xsVec, njj, ijj);
+            MatrixXd matrix = assembleMatrixXS(xsKind, tempBlocks[i].first, tempBlocks[i].second);
             CrossSectionMatrix crossSectionMatrix(temperatures[i], Numerics::DINF, matrix);
             crossSectionMatrixSet.addXS(crossSectionMatrix);
         }
@@ -275,14 +268,41 @@ CrossSectionMatrixSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
     return crossSectionMatrixSet;
 }
 
-MatrixXd NuclideBlock::assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj)
+MatrixXd NuclideBlock::assembleMatrixXS(XSMatrixKind xsKind, unsigned lowBound, unsigned upperBound)
 {
-    MatrixXd M = MatrixXd::Zero(m_nuclide.getEnergyGroupsNumber(), m_nuclide.getEnergyGroupsNumber());
+    if(InputParser::isKeywordPresent(m_xsDataLines, get_name(xsKind), lowBound, upperBound))
+    {
+        MatrixXd M = MatrixXd::Zero(m_nuclide.getEnergyGroupsNumber(), m_nuclide.getEnergyGroupsNumber());
 
-    for(unsigned i = 0; i < m_nuclide.getEnergyGroupsNumber(); i++)
-		M(i, i) = matrix[i];
+        std::vector<double> xsVec = readParameters(get_name(xsKind), lowBound, upperBound);
 
-    return M;
+        std::string key1, key2;
+        if(xsKind == XSMatrixKind::SCAT00)
+        {
+            key1 = "NJJS00";
+            key2 = "IJJS00";
+        }
+        else
+        {
+            key1 = "NJJS01";
+            key2 = "IJJS01";
+        }
+
+        std::vector<double> njjDouble = readParameters(key1, lowBound, upperBound);
+        std::vector<double> ijjDouble = readParameters(key2, lowBound, upperBound);
+
+        std::vector<unsigned> njj(begin(njjDouble), end(njjDouble));
+        std::vector<unsigned> ijj(begin(ijjDouble), end(ijjDouble));
+
+        for(unsigned i = 0; i < m_nuclide.getEnergyGroupsNumber(); i++)
+		    M(i, i) = xsVec[i];
+
+        return M;
+    }
+    else
+    {
+        return MatrixXd::Zero(1, 1);
+    } 
 }
 
 void NuclideBlock::readGroupConstants()

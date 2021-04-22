@@ -15,6 +15,14 @@ CrossSectionMatrix CrossSectionMatrixSet::getXSMatrix(double t, double b)
         return CrossSectionMatrix {};
 }
 
+CrossSectionMatrix CrossSectionMatrixSet::getXSMatrix(unsigned i)
+{
+    if(!m_XSSet.empty())
+        return m_XSSet.at(i);
+    else
+        return CrossSectionMatrix {};
+}
+
 // void CrossSectionMatrixSet::calcXS() 
 // {
 // }

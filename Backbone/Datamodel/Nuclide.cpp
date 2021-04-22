@@ -92,10 +92,10 @@ void Nuclide::setXSMatrix(CrossSectionMatrixSet &xsMatrixSet)
 {
     switch(xsMatrixSet.getKind()) 
     {
-        case XSMatrixKind::SCATT00:
+        case XSMatrixKind::SCAT00:
             m_scattMatrix00 = xsMatrixSet;
             break;
-        case XSMatrixKind::SCATT01:
+        case XSMatrixKind::SCAT01:
             m_scattMatrix01 = xsMatrixSet;
             break;
         default:
@@ -126,8 +126,8 @@ CrossSectionMatrixSet Nuclide::getXSMatrixSet(XSMatrixKind kind)
 {
     switch(kind) 
     {
-        case XSMatrixKind::SCATT00:  return m_scattMatrix00;
-        case XSMatrixKind::SCATT01:  return m_scattMatrix01;
+        case XSMatrixKind::SCAT00:  return m_scattMatrix00;
+        case XSMatrixKind::SCAT01:  return m_scattMatrix01;
         default: return CrossSectionMatrixSet {};
     }
 }

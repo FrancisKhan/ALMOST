@@ -32,7 +32,7 @@ private:
 	CrossSectionSet readXS(XSKind xsKind);
 	CrossSectionMatrixSet readMatrix(XSMatrixKind xsKind);
 	void isNuclideResonant();
-	Eigen::MatrixXd assembleMatrixXS(std::vector<double> &matrix, std::vector<unsigned> &njj, std::vector<unsigned> &ijj);
+	Eigen::MatrixXd assembleMatrixXS(XSMatrixKind xsKind, unsigned lowBound, unsigned upperBound);
 
 	std::vector<std::string> m_xsDataLines;
 	Nuclide m_nuclide;
