@@ -293,14 +293,14 @@ MatrixXd NuclideBlock::assembleMatrixXS(XSMatrixKind xsKind, unsigned lowBound, 
             {
                 int32_t k = 0;
 
-                for(int32_t hh = 0; hh < g - 1; hh++)
+                for(int32_t hh = 0; hh <= g - 1; hh++)
                 {
                     k += njj[hh];
                 }
 
-                if(!(h > ijj[g] - 1) && !(h < ijj[g] - njj[g] - 1))
+                if(!(h > ijj[g] - 1) && !(h < ijj[g] - njj[g]))
                 {
-                    M(h, g) = xsVec[k + ijj[g] - 1 - h];
+                    M(h, g) = xsVec[k + ijj[g] - h - 1];
                 }
             }
         }
