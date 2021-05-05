@@ -254,9 +254,29 @@ CrossSectionMatrixSet NuclideBlock::readMatrix(XSMatrixKind xsKind)
 
     if(m_nuclide.isResonant())
     {
+        // Infinite dilution XSs
+
         for(size_t i = 0; i < temperatures.size(); i++)
         {
-            MatrixXd matrix = assembleMatrixXS(xsKind, tempBlocks[i].first, tempBlocks[i].second);
+            std::pair<unsigned, unsigned> infDilutionBlock = readInfDilutionBlock(tempBlocks[i]);
+            MatrixXd matrix = assembleMatrixXS(xsKind, infDilutionBlock.first, infDilutionBlock.second);
+            CrossSectionMatrix crossSectionMatrix(temperatures[i], Numerics::DINF, matrix);
+            crossSectionMatrixSet.addXS(crossSectionMatrix);
+        }
+
+        // other dilutions XSs
+
+        for(size_t i = 0; i < temperatures.size(); i++)
+        {
+            std::vector< std::pair<unsigned, unsigned> > dilutionBlocks = readDilutionBlocks(tempBlocks[i]);
+            std::vector<double> dilutions = readDilutions(tempBlocks[i].first, tempBlocks[i].second);
+
+            for(size_t j = 0; j < dilutions.size(); j++)
+            {
+                MatrixXd matrix = assembleMatrixXS(xsKind, dilutionBlocks[j].first, dilutionBlocks[j].second);
+                CrossSectionMatrix crossSectionMatrix(temperatures[i], dilutions[j], matrix);
+                crossSectionMatrixSet.addXS(crossSectionMatrix);
+            }
         }
     }
     else

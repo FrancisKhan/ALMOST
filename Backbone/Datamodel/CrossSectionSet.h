@@ -20,6 +20,9 @@ public:
     XSKind getKind() {return m_kind;}
     void calcXS();
 
+    void debugCalcXS(std::vector<double> &newValues, std::vector<double> &infValues,
+    std::vector<double> &dilValues, double temp, double sigma0);
+
 private:
     XSKind m_kind;
     std::vector<CrossSection> m_XSSet;

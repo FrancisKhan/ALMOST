@@ -31,29 +31,35 @@ void CrossSectionSet::calcXS()
             std::vector<double> dilValues = getXS(i).getValues();
             std::vector<double> newValues = infValues + dilValues;
 
-            auto it = std::find_if(newValues.begin(), newValues.end(), [] (auto &v) {return is_lower(v, 0.0);});
-            if (it != newValues.end())
-            {
-                out.print(TraceLevel::CRITICAL, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                out.print(TraceLevel::CRITICAL, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                out.print(TraceLevel::CRITICAL, "XS kind: {}", get_name(getKind()));
-                out.print(TraceLevel::CRITICAL, "Temperature: {}", temp);
-                out.print(TraceLevel::CRITICAL, "Background XS: {}", sigma0);
-
-                out.print(TraceLevel::CRITICAL, "\nInfinite XS:");
-                PrintFuncs::printVector(infValues, out, TraceLevel::CRITICAL);
-
-                out.print(TraceLevel::CRITICAL, "Diluted XS:");
-                PrintFuncs::printVector(dilValues, out, TraceLevel::CRITICAL);
-
-                out.print(TraceLevel::CRITICAL, "New XS:");
-                PrintFuncs::printVector(newValues, out, TraceLevel::CRITICAL);
-
-                exit(-1);
-            }
+            debugCalcXS(newValues, infValues, dilValues, temp, sigma0);
 
             CrossSection xs(temp, sigma0, newValues);
             setXS(i, xs);
         }
+    }
+}
+
+void CrossSectionSet::debugCalcXS(std::vector<double> &newValues, std::vector<double> &infValues,
+        std::vector<double> &dilValues, double temp, double sigma0) 
+{
+    auto it = std::find_if(newValues.begin(), newValues.end(), [] (auto &v) {return is_lower(v, 0.0);});
+    if (it != newValues.end())
+    {
+        out.print(TraceLevel::CRITICAL, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        out.print(TraceLevel::CRITICAL, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        out.print(TraceLevel::CRITICAL, "XS kind: {}", get_name(getKind()));
+        out.print(TraceLevel::CRITICAL, "Temperature: {}", temp);
+        out.print(TraceLevel::CRITICAL, "Background XS: {}", sigma0);
+
+        out.print(TraceLevel::CRITICAL, "\nInfinite XS:");
+        PrintFuncs::printVector(infValues, out, TraceLevel::CRITICAL);
+
+        out.print(TraceLevel::CRITICAL, "Diluted XS:");
+        PrintFuncs::printVector(dilValues, out, TraceLevel::CRITICAL);
+
+        out.print(TraceLevel::CRITICAL, "New XS:");
+        PrintFuncs::printVector(newValues, out, TraceLevel::CRITICAL);
+
+        exit(-1);
     }
 }
