@@ -16,7 +16,7 @@ public:
     CrossSectionMatrix getXSMatrix(double t, double b);
     unsigned getSize() {return m_XSSet.size();}
     XSMatrixKind getKind() {return m_kind;}
-    //void calcXS();
+    void calcXS();
 
 private:
     XSMatrixKind m_kind;

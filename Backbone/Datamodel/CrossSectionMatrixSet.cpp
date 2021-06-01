@@ -3,6 +3,27 @@
 
 using namespace Numerics;
 
+void CrossSectionMatrixSet::calcXS() 
+{
+    for(unsigned i = 0; i < getSize(); i++)
+    {
+        double sigma0 = getXSMatrix(i).getBackgroundXS();
+        double temp   = getXSMatrix(i).getTemperature();
+
+        if(not_equal(sigma0, DINF))
+        {
+            Eigen::MatrixXd infValues = getXSMatrix(temp, DINF).getValues();
+            Eigen::MatrixXd dilValues = getXSMatrix(i).getValues();
+            Eigen::MatrixXd newValues = infValues + dilValues;
+
+            //debugCalcXS(newValues, infValues, dilValues, temp, sigma0);
+
+            CrossSectionMatrix matrix(temp, sigma0, newValues);
+            setXS(i, matrix);
+        }
+    }
+}
+
 CrossSectionMatrix CrossSectionMatrixSet::getXSMatrix(double t, double b)
 {
     std::vector<CrossSectionMatrix>::iterator it = std::find_if(m_XSSet.begin(), m_XSSet.end(), 

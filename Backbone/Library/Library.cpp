@@ -89,8 +89,9 @@ void Library::getNuclides()
     m_xsDataFileLines = readXSFile(inputPath);
     findNuclideBLocks();
 
-    std::vector<std::string> nucVec = {"Pu239"};
+    //std::vector<std::string> nucVec = {"Pu239"};
     //std::vector<std::string> nucVec = {"La139"};
+    std::vector<std::string> nucVec = {"Pu239", "La139"};
 
 	for(const auto &nuc : nucVec)
 	{
