@@ -165,8 +165,8 @@ void Nuclide::printDebugData()
     out.print(TraceLevel::CRITICAL, "getXSsNumber(): {}", int(getXSsNumber()));
     PrintFuncs::printVector(getTemperatures(), out, TraceLevel::CRITICAL);
 
-    // for (const auto& xsKind : XSKind())
-    //     printXSs(xsKind);
+    for (const auto& xsKind : XSKind())
+        printXSs(xsKind);
 
     for (const auto& xsKind : XSMatrixKind())
         printMatrixXSs(xsKind);

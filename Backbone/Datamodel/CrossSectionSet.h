@@ -18,6 +18,7 @@ public:
     CrossSection getXS(double t, double b);
     unsigned getSize() {return m_XSSet.size();}
     XSKind getKind() {return m_kind;}
+    void setKind(XSKind xsKind) {m_kind = xsKind;}
     void calcXS();
 
     void debugCalcXS(std::vector<double> &newValues, std::vector<double> &infValues,

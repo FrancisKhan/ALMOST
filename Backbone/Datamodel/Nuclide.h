@@ -14,7 +14,7 @@ class Nuclide
 {
 public:
 	Nuclide() : m_isResonant(false) {}
-    Nuclide(std::string name) : m_isResonant(false) {m_name = name;}
+    Nuclide(std::string name) : m_name(name), m_isResonant(false) {}
 
     void setName(std::string name) {m_name = name;}
     std::string getName() {return m_name;}
@@ -35,6 +35,7 @@ public:
     void setXSMatrix(CrossSectionMatrixSet &xsMatrixSet);
     CrossSectionSet getXSSet(XSKind xsKind);
     CrossSectionMatrixSet getXSMatrixSet(XSMatrixKind kind);
+
 
     void calcXS(CrossSectionSet &xsSet);
 
