@@ -14,7 +14,7 @@ ExternalProject_Add(
 ExternalProject_Add(
     boost 
     PREFIX "boost-lib"
-    URL https://vorboss.dl.sourceforge.net/project/boost/boost/1.72.0/boost_1_72_0.tar.bz2
+    URL https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2/download
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
