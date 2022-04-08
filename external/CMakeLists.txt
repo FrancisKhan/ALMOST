@@ -5,7 +5,8 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 ExternalProject_Add(
     eigen 
     PREFIX "eigen-lib"
-    URL https://gitlab.com/libeigen/eigen/-/archive/master/eigen-master.tar.gz
+    GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+    GIT_TAG origin/3.4
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
@@ -14,7 +15,7 @@ ExternalProject_Add(
 ExternalProject_Add(
     boost 
     PREFIX "boost-lib"
-    URL https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2/download
+    URL https://boostorg.jfrog.io/artifactory/main/release/1.72.0/source/boost_1_72_0.tar.gz
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
