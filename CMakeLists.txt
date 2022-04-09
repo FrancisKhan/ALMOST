@@ -3,6 +3,9 @@ cmake_minimum_required (VERSION 3.10)
 include( Munkei.cmake )
 include( MunkeiVersionFromGit )
 
+# Set to FALSE if do not intend to download or use googletest library
+set(GOOGLE_TEST FALSE CACHE INTERNAL "")
+
 # Use it
 version_from_git(
   LOG       ON
@@ -42,7 +45,10 @@ if (NOT "${VERSION}" STREQUAL "${VERSION_}")
     file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/Backbone/IO/git-version.h "${VERSION}")
 endif()
 
-include(CTest)
+
+if(GOOGLE_TEST)
+  include(CTest)
+endif()
 
 # External library directory
 add_subdirectory(external)
@@ -69,16 +75,6 @@ add_subdirectory(Utilities)
 add_subdirectory(app)
 
 # Tests are here
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING AND GOOGLE_TEST)
     add_subdirectory(tests)
 endif()
-
-# experimental stuff
-
-#install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
-#    DESTINATION ${CMAKE_SOURCE_DIR}/include
-#    FILES_MATCHING PATTERN "*.h*")
-	
-#install(DIRECTORY ${CMAKE_SOURCE_DIR}/src/
-#    DESTINATION ${CMAKE_SOURCE_DIR}/lib
-#    FILES_MATCHING PATTERN "*.a")
