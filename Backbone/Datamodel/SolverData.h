@@ -2,6 +2,7 @@
 #define SOLVERDATA_H
 
 #include "SolverKind.h"
+#include "DirectionKind.h"
 
 #include <Eigen/Dense>
 #include<vector>
@@ -10,7 +11,8 @@ class SolverData
 {
 public:
     SolverData(const SolverKind &kind) : m_kind(kind), m_accuracy(0.0), 
-    m_maxIterNumber(0), m_relaxParam(0.0), m_albedo(1, 0.0), m_energies(0) {}
+    m_maxIterNumber(0), m_relaxParam(0.0), m_albedo(1, 0.0), m_energies(0),
+    m_DirKind(DirectionKind::UNDEFINED) {}
 	
     void setKind(SolverKind kind) {m_kind = kind;}
     SolverKind getKind() {return m_kind;}
@@ -26,6 +28,8 @@ public:
     std::pair<Eigen::VectorXd, Eigen::VectorXd> getHeatBoundaryConditions();
     void setEnergies(int energies) {m_energies = energies;}
     int getEnergies() {return m_energies;}
+    void setDirection(DirectionKind kind) {m_DirKind = kind;}
+    DirectionKind getDirection() {return m_DirKind;}
 	
 private:
     SolverKind m_kind;
@@ -35,6 +39,7 @@ private:
     std::vector<double> m_albedo;
     Eigen::VectorXd m_heatBoundaryConditions;
     int m_energies;
+    DirectionKind m_DirKind;
 };
 
 #endif

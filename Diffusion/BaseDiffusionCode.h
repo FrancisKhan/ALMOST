@@ -21,8 +21,8 @@ public:
 	~BaseDiffusionCode(){}
 	
 	Eigen::MatrixXd calcDiffOperatorMatrix();
-	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix);
-	Eigen::MatrixXd calcFMatrix();
+	virtual Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix) = 0;
+	virtual Eigen::MatrixXd calcFMatrix() = 0;
 	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &M);
 
 	Eigen::VectorXd calcFissionPowerDistribution();

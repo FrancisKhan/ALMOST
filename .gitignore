@@ -45,9 +45,14 @@ _deps
 *.out
 *.app
 
+# Odd ones
 ~$*
-
+configurationCache.log
+dryrun.log
+targets.log
 DartConfiguration.tcl
+
+# Specific ones
 app/almost
 tests/test_almost
 tests/outputs

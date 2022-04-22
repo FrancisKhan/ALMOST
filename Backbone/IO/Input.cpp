@@ -3,6 +3,7 @@
 #include "Output.h"
 #include "GeomKind.h"
 #include "KineticsSet.h"
+#include "DirectionKind.h"
 #include "additionalPrintFuncs.h"
 
 #include <algorithm>
@@ -95,6 +96,7 @@ void Input::readData()
 	setSolverProperties("heat_boundary_conditions", SolverKind::HEAT);
 	setSolverProperties("energies", SolverKind::TRANSPORT);
 	setSolverProperties("energies", SolverKind::DIFFUSION);
+	setSolverProperties("direction", SolverKind::DIFFUSION);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -791,6 +793,32 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					{
 						std::vector<double> albedo{std::stod(values[1])}; 
 						solver.setAlbedo(albedo);
+					}
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}
+				
+						
+			}
+			else if(values[0] == "direction")
+			{
+				if(inputSolver == SolverKind::DIFFUSION)
+				{
+					if(values[1] == "forward")
+					{
+						solver.setDirection(DirectionKind::FORWARD);
+					}
+					else if(values[1] == "adjoint")
+					{
+						solver.setDirection(DirectionKind::ADJOINT);
+					}
+					else
+					{
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+						exit(-1);
 					}
 				}
 				else

@@ -31,3 +31,4 @@ accuracy 1.0E-6
 max_iteration_number 200
 albedo 0.0
 energies  2
+direction forward

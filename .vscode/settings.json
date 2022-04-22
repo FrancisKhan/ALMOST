@@ -22,9 +22,7 @@
             }
         ]
     },
-    "gtest-adapter.debugConfig": [
-        "(gdb) Launch"
-    ],
+    "gtest-adapter.debugConfig": "(gdb) Launch",
     "gtest-adapter.supportLocation": true,
     "files.associations": {
         "*.ipp": "cpp",
