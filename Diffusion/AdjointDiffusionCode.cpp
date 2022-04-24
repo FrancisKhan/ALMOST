@@ -1,10 +1,10 @@
-#include "ForwardDiffusionCode.h"
+#include "AdjointDiffusionCode.h"
 
 using namespace Eigen;
 using namespace Numerics;
 using namespace PrintFuncs;
 
-MatrixXd ForwardDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
+MatrixXd AdjointDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
 {
     MatrixXd MMatrix = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
@@ -19,7 +19,7 @@ MatrixXd ForwardDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
 	        for(int k = 0; k < m_cells; k++)
 	        {
 	      	    MMatrix(k + (i + j) % m_energies * m_cells, k + j * m_cells) = 
-				scattMatrix(j % m_energies, (i + j) % m_energies, k) * m_volumes(k);
+				scattMatrix((i + j) % m_energies, j % m_energies, k) * m_volumes(k);
 		    }
 	    }
 	}
@@ -32,7 +32,7 @@ MatrixXd ForwardDiffusionCode::calcMMatrix(Eigen::MatrixXd &diffMatrix)
 	return MMatrix;
 }
 
-MatrixXd ForwardDiffusionCode::calcFMatrix()
+MatrixXd AdjointDiffusionCode::calcFMatrix()
 {
     MatrixXd FMatrix = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
@@ -60,7 +60,7 @@ MatrixXd ForwardDiffusionCode::calcFMatrix()
 			{
 				for(int j = n * m_cells; j < (n + 1) * m_cells; j++)
 				{
-					FMatrix(i, j) = FMatrix(i + (n - k) * m_cells, j);
+					FMatrix(i, j) = FMatrix(i, j + (k - n) * m_cells);
 				}
 			}
 		}
@@ -70,12 +70,12 @@ MatrixXd ForwardDiffusionCode::calcFMatrix()
     {
 	    for(int j = 0; j < m_cells * m_energies; j++)
 	    {
-			FMatrix(i, j) *= chiMatrix(i);
+			FMatrix(i, j) *= chiMatrix(j);
 		}
 	}
-   
-   out.print(TraceLevel::INFO, "FMatrix");
-   printMatrix(FMatrix, out, TraceLevel::INFO);
+
+    out.print(TraceLevel::INFO, "FMatrix");
+    printMatrix(FMatrix, out, TraceLevel::INFO);
 
    return FMatrix;
 }

@@ -1,12 +1,12 @@
-#ifndef FORWARDSPECTRUMCODE_H
-#define FORWARDSPECTRUMCODE_H
+#ifndef ADJOINTSPECTRUMCODE_H
+#define ADJOINTSPECTRUMCODE_H
 
 #include "BaseDiffusionCode.h"
 
-class ForwardDiffusionCode : public BaseDiffusionCode
+class AdjointDiffusionCode : public BaseDiffusionCode
 {
 public:
-    ForwardDiffusionCode(Reactor &reactor, Library &library, SolverData &solverData) : 
+    AdjointDiffusionCode(Reactor &reactor, Library &library, SolverData &solverData) : 
     BaseDiffusionCode(reactor, library, solverData),
 	m_reactor(reactor), m_library(library), m_solverData(solverData),
 	m_mesh(reactor.getMesh()), m_radii(m_mesh.getBoundaries("cm")),
@@ -14,7 +14,7 @@ public:
 	m_cells(m_mesh.getCellsNumber()),
 	m_energies(m_solverData.getEnergies()) {}
 
-	~ForwardDiffusionCode(){}
+	~AdjointDiffusionCode(){}
 	
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix) override;
 	Eigen::MatrixXd calcFMatrix() override;

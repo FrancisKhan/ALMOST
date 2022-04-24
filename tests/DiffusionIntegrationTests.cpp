@@ -408,7 +408,7 @@ TEST_F(DiffIntegrationTests, diff5)
   const std::string inputPath  = "inputs/diff5.txt";
   const std::string outputPath = "outputs/Out_diff5.txt";
   const std::string traceLevel = "DEBUG";
-  const double kEffRef = 1.332284e+00 ;
+  const double kEffRef = 1.332284e+00;
   std::vector<double> refFlux = {7.341561e-03,
                                  7.334526e-03,
                                  7.320462e-03,
@@ -2506,6 +2506,247 @@ TEST_F(DiffIntegrationTests, diff20)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+// Graphite reactor with graphite reflector, slab geometry
+// Zero in-current at both boundaries
+// One energy groups
+// Adjoint calculation
+
+TEST_F(DiffIntegrationTests, diff21)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff21.txt";
+  const std::string outputPath = "outputs/Out_diff21.txt";
+  const std::string traceLevel = "DEBUG";
+  const double kEffRef = 9.693342e-01;
+  std::vector<double> refFlux = {7.933976e-04,
+                                 1.198040e-03,
+                                 1.602875e-03,
+                                 2.007970e-03,
+                                 2.413389e-03,
+                                 2.819197e-03,
+                                 3.225461e-03,
+                                 3.632245e-03,
+                                 4.039617e-03,
+                                 4.447640e-03,
+                                 4.856382e-03,
+                                 5.265908e-03,
+                                 5.676285e-03,
+                                 6.087578e-03,
+                                 6.499854e-03,
+                                 6.913181e-03,
+                                 7.327623e-03,
+                                 7.743249e-03,
+                                 8.160125e-03,
+                                 8.578319e-03,
+                                 8.997899e-03,
+                                 9.418931e-03,
+                                 9.841485e-03,
+                                 1.026563e-02,
+                                 1.069143e-02,
+                                 1.109939e-02,
+                                 1.147572e-02,
+                                 1.183957e-02,
+                                 1.219054e-02,
+                                 1.252826e-02,
+                                 1.285235e-02,
+                                 1.316246e-02,
+                                 1.345826e-02,
+                                 1.373944e-02,
+                                 1.400567e-02,
+                                 1.425669e-02,
+                                 1.449221e-02,
+                                 1.471198e-02,
+                                 1.491577e-02,
+                                 1.510335e-02,
+                                 1.527453e-02,
+                                 1.542912e-02,
+                                 1.556695e-02,
+                                 1.568788e-02,
+                                 1.579178e-02,
+                                 1.587853e-02,
+                                 1.594804e-02,
+                                 1.600024e-02,
+                                 1.603507e-02,
+                                 1.605249e-02,
+                                 1.605249e-02,
+                                 1.603507e-02,
+                                 1.600024e-02,
+                                 1.594804e-02,
+                                 1.587853e-02,
+                                 1.579178e-02,
+                                 1.568788e-02,
+                                 1.556695e-02,
+                                 1.542912e-02,
+                                 1.527453e-02,
+                                 1.510335e-02,
+                                 1.491577e-02,
+                                 1.471198e-02,
+                                 1.449221e-02,
+                                 1.425669e-02,
+                                 1.400567e-02,
+                                 1.373944e-02,
+                                 1.345826e-02,
+                                 1.316246e-02,
+                                 1.285235e-02,
+                                 1.252826e-02,
+                                 1.219054e-02,
+                                 1.183957e-02,
+                                 1.147572e-02,
+                                 1.109939e-02,
+                                 1.069143e-02,
+                                 1.026563e-02,
+                                 9.841485e-03,
+                                 9.418931e-03,
+                                 8.997899e-03,
+                                 8.578319e-03,
+                                 8.160125e-03,
+                                 7.743249e-03,
+                                 7.327623e-03,
+                                 6.913181e-03,
+                                 6.499854e-03,
+                                 6.087578e-03,
+                                 5.676285e-03,
+                                 5.265908e-03,
+                                 4.856382e-03,
+                                 4.447640e-03,
+                                 4.039617e-03,
+                                 3.632245e-03,
+                                 3.225461e-03,
+                                 2.819197e-03,
+                                 2.413389e-03,
+                                 2.007970e-03,
+                                 1.602875e-03,
+                                 1.198040e-03,
+                                 7.933976e-04};
+                                 
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+TEST_F(DiffIntegrationTests, diff22)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff22.txt";
+  const std::string outputPath = "outputs/Out_diff22.txt";
+  const std::string traceLevel = "DEBUG";
+  const double kEffRef = 1.332284e+00;
+  std::vector<double> refFlux = {1.445836e-02,
+                                 1.444450e-02,
+                                 1.441680e-02,
+                                 1.437529e-02,
+                                 1.432000e-02,
+                                 1.425098e-02,
+                                 1.416831e-02,
+                                 1.407206e-02,
+                                 1.396232e-02,
+                                 1.383920e-02,
+                                 1.370282e-02,
+                                 1.355332e-02,
+                                 1.339082e-02,
+                                 1.321549e-02,
+                                 1.302750e-02,
+                                 1.282703e-02,
+                                 1.261427e-02,
+                                 1.238942e-02,
+                                 1.215271e-02,
+                                 1.190435e-02,
+                                 1.164460e-02,
+                                 1.137370e-02,
+                                 1.109191e-02,
+                                 1.079950e-02,
+                                 1.049677e-02,
+                                 1.018399e-02,
+                                 9.861485e-03,
+                                 9.529557e-03,
+                                 9.188534e-03,
+                                 8.838750e-03,
+                                 8.480549e-03,
+                                 8.114285e-03,
+                                 7.740321e-03,
+                                 7.359032e-03,
+                                 6.970800e-03,
+                                 6.576019e-03,
+                                 6.175093e-03,
+                                 5.768436e-03,
+                                 5.356474e-03,
+                                 4.939647e-03,
+                                 4.518404e-03,
+                                 4.093212e-03,
+                                 3.664551e-03,
+                                 3.232921e-03,
+                                 2.798839e-03,
+                                 2.362846e-03,
+                                 1.925511e-03,
+                                 1.487430e-03,
+                                 1.049234e-03,
+                                 6.115988e-04,
+                                 1.649772e-02,
+                                 1.648191e-02,
+                                 1.645030e-02,
+                                 1.640293e-02,
+                                 1.633983e-02,
+                                 1.626108e-02,
+                                 1.616674e-02,
+                                 1.605690e-02,
+                                 1.593168e-02,
+                                 1.579118e-02,
+                                 1.563556e-02,
+                                 1.546494e-02,
+                                 1.527950e-02,
+                                 1.507942e-02,
+                                 1.486489e-02,
+                                 1.463610e-02,
+                                 1.439329e-02,
+                                 1.413668e-02,
+                                 1.386651e-02,
+                                 1.358306e-02,
+                                 1.328658e-02,
+                                 1.297736e-02,
+                                 1.265570e-02,
+                                 1.232191e-02,
+                                 1.197629e-02,
+                                 1.161919e-02,
+                                 1.125094e-02,
+                                 1.087190e-02,
+                                 1.048241e-02,
+                                 1.008286e-02,
+                                 9.673630e-03,
+                                 9.255096e-03,
+                                 8.827660e-03,
+                                 8.391724e-03,
+                                 7.947699e-03,
+                                 7.496002e-03,
+                                 7.037055e-03,
+                                 6.571286e-03,
+                                 6.099126e-03,
+                                 5.621009e-03,
+                                 5.137373e-03,
+                                 4.648656e-03,
+                                 4.155295e-03,
+                                 3.657728e-03,
+                                 3.156388e-03,
+                                 2.651704e-03,
+                                 2.144098e-03,
+                                 1.633984e-03,
+                                 1.121763e-03,
+                                 6.078209e-04};
+
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+  
   std::vector<double> flux = test.getVector("Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 

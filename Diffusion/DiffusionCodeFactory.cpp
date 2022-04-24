@@ -1,5 +1,6 @@
 #include "DiffusionCodeFactory.h"
 #include "ForwardDiffusionCode.h"
+#include "AdjointDiffusionCode.h"
 
 std::shared_ptr<BaseDiffusionCode> DiffusionCodeFactory::setDiffusionCode(Reactor &reactor, Library &library, SolverData &solverData)
 {
@@ -9,9 +10,7 @@ std::shared_ptr<BaseDiffusionCode> DiffusionCodeFactory::setDiffusionCode(Reacto
   }
   else if (solverData.getDirection() == DirectionKind::ADJOINT)
   {
-    out.print(TraceLevel::CRITICAL, "Not ready for adjoint diffusion calculations!");
-	  exit(-1);
-    return std::shared_ptr<BaseDiffusionCode>(nullptr);
+    return std::make_shared<AdjointDiffusionCode>(reactor, library, solverData);
   }
   else
   {
