@@ -18,9 +18,7 @@ void SpectrumSolver::solve()
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
  
-	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, 
-										 m_solverData, m_reactor.getMesh().getVolumes("cm"));
-
+	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix,m_solverData);
 	spectrumCode->setNewHeatSource(result);
 }
 

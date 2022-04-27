@@ -17,6 +17,8 @@ namespace PrintFuncs
     bool isFloat(const std::string& s);
     bool isInteger(const std::string& s);
     bool isString(const std::string& s);
+
+    std::vector<std::string> createCppVector(const std::vector<double>& vec, std::string format);
 }
 
 #endif

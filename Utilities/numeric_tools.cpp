@@ -5,6 +5,8 @@
 #include <unsupported/Eigen/Polynomials>
 #include <iostream>
 
+#include "additionalPrintFuncs.h"
+
 namespace Numerics
 {
 	double bickley3f(double x)
@@ -169,7 +171,7 @@ namespace Numerics
 	}
 
 	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData, Eigen::VectorXd volumes)
+                                      SolverData &solverData)
 	{
 		diagonalDominanceCheck(Mmatrix);
 	
@@ -185,13 +187,6 @@ namespace Numerics
 		Eigen::VectorXd source2      = Eigen::VectorXd::Ones(size);	
 		Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
 		Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
-
-		Eigen::VectorXd volumesVec = volumes;
-
-		int energyGroups = double(size) / volumes.size();
-
-		for(auto i = 0; i < energyGroups - 1; i++)
-			volumesVec = ConcatenateEigenVectors(volumesVec, volumes);
 
 		double kFactor1 = 1.0;
 		double kFactor2 = 0.0;
@@ -216,12 +211,6 @@ namespace Numerics
 			double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
 		
 			kFactor2 = kFactor1 * (sum2 / sum1);
-
-			if(solverData.getKind() == SolverKind::DIFFUSION)
-			{
-				source2 = source2.cwiseProduct(volumesVec);	
-			}
-
 			source2 /= kFactor2;
 		
 			// exit condition
@@ -242,6 +231,33 @@ namespace Numerics
 
 		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
 		double kFactor = kFactor2;
+
+		SourceIterResults result(neutronFlux, kFactor);
+		return result;
+	}
+
+	SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+                                       SolverData &solverData)
+	{
+		using namespace PrintFuncs;
+	
+		unsigned size = Mmatrix.rows();
+		
+		Eigen::VectorXd neutronFlux = Eigen::VectorXd::Ones(size);
+		double kFactor = 1.0;
+
+		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix);
+		Eigen::VectorXcd eigenvalues = es.eigenvalues();
+		eigenvalues = eigenvalues.cwiseInverse();
+
+		if(hasImagValues(eigenvalues))
+		{
+			out.print(TraceLevel::CRITICAL, "Generalized Eigen Solver found a complex eigenvalue!");
+			exit(-1);
+		}
+
+		std::cout << "The eigenvalues are:" << std::endl << eigenvalues << std::endl;
+		//std::cout << "The matrix of eigenvectors, V, is:" << std::endl << es.eigenvectors() << std::endl << std::endl;
 
 		SourceIterResults result(neutronFlux, kFactor);
 		return result;

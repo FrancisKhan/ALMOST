@@ -17,8 +17,7 @@ void DiffusionSolver::solve()
     MatrixXd MMatrix  = diffCode->calcMMatrix(DMatrix2);
     MatrixXd FMatrix  = diffCode->calcFMatrix();
 
-    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, 
-                                         m_solverData, m_reactor.getMesh().getVolumes("cm"));
+    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
     diffCode->setNewHeatSource(result);
 }
 

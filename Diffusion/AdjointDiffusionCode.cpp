@@ -47,7 +47,7 @@ MatrixXd AdjointDiffusionCode::calcFMatrix()
     {
 	    for(int i = 0; i < m_cells; i++)
 	    {
-            FMatrix(i + j * m_cells, i + j * m_cells) = fissXS(j, i) * niXS(j, i);
+            FMatrix(i + j * m_cells, i + j * m_cells) = fissXS(j, i) * niXS(j, i) * m_volumes(i);
             chiMatrix(i + j * m_cells)                = chiXS(j, i);
 		}
 	}

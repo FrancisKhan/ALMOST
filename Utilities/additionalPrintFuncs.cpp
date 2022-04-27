@@ -413,4 +413,71 @@ namespace PrintFuncs
 
 		return result;
 	}
+
+	std::vector<std::string> createCppVector(const std::vector<double>& vec, std::string format)
+	{
+		unsigned firstRowValues = 3;
+		unsigned valuesPerRow   = 5;
+		std::vector<std::string> result;
+
+		unsigned counter = 1;
+
+		std::string str;
+		for(unsigned i = 0; i < vec.size(); i++)
+		{
+			if(i == 0) 
+				str = "std::vector<double> ref {";
+
+			str += stringFormat(vec[i], format) + ", ";
+
+			if(i < firstRowValues - 1)
+			{
+
+			}
+			else if(i == firstRowValues - 1)
+			{
+				result.push_back(str);
+				str.erase();
+			}
+			else
+			{
+				if(counter % valuesPerRow == 0)
+				{
+					result.push_back(str);
+					str.erase();
+				}
+
+				counter++;
+			}
+		}
+
+		// take care of last row values
+		size_t remainingValues = (vec.size() - firstRowValues) % valuesPerRow;
+		str.erase();
+
+		if(remainingValues > 0)
+		{
+			for(unsigned i = vec.size() -remainingValues; i < vec.size(); i++)
+			{
+				str += stringFormat(vec[i], format) + ", ";
+			}
+
+			result.push_back(str);
+		}
+
+		// close parenthesis, first delete comma
+		std::string lastStr = result.back();
+		result.pop_back();
+		lastStr.pop_back();
+		lastStr.pop_back();
+		lastStr += "};";
+		result.push_back(lastStr);
+
+		std::cout << " " << std::endl;
+		for(const auto& i : result)
+        	std::cout << "\t" << i << std::endl;
+		std::cout << " " << std::endl;
+
+		return result;
+	}
 }

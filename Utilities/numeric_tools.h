@@ -215,15 +215,28 @@ namespace Numerics
        return vector;
     }
 
+    inline bool hasImagValues(const Eigen::VectorXcd& a)
+    {
+      bool result = false;
+
+      if(std::any_of(a.begin(), a.end(), [](std::complex<double> i){return is_equal(i.imag(), 0.0);}))
+        result = true;
+
+      return result;
+    }
+
     Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 
                                    const Eigen::VectorXd &b, 
                   	               const Eigen::VectorXd &c, 
                                    const Eigen::VectorXd &d);
 
     SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData, Eigen::VectorXd volumes);
+                                      SolverData &solverData);
 
     Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
+
+    SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+                                       SolverData &solverData);
 }
 
 #endif

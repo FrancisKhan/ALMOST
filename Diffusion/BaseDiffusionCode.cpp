@@ -70,7 +70,6 @@ MatrixXd BaseDiffusionCode::calcDiffOperatorMatrix()
     MatrixXd M = MatrixXd::Zero(m_cells * m_energies, m_cells * m_energies);
 
     MatrixXd totXS      = m_mesh.getTotalXSs();
-    VectorXd volumes    = m_mesh.getVolumes("cm");
     MatrixXd DInterface = getInterfaceDiffcoefficients();
 
     for(int e = 0; e < m_energies; e++)
@@ -81,7 +80,7 @@ MatrixXd BaseDiffusionCode::calcDiffOperatorMatrix()
             {             
                 M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
                 M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
-                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * volumes(m));
+                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * m_volumes(m));
             } 
         }
     }
@@ -98,7 +97,6 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
     MatrixXd totXS      = m_mesh.getTotalXSs();
     VectorXd cellSizes  = m_mesh.getCellSizes("cm");
     VectorXd surfaces   = m_mesh.getSurfaces("cm");
-    VectorXd volumes    = m_mesh.getVolumes("cm");
     MatrixXd DInterface = getInterfaceDiffcoefficients();
 
 	double albedoL, albedoR, B;
@@ -120,7 +118,7 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 
         B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));     
         M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
-        M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * volumes(0));
+        M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * m_volumes(0));
 
 		// Right boundary condition
 
@@ -128,7 +126,7 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 
 		B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));          
         M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
-        M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * volumes(l));
+        M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
     }
 
     out.print(TraceLevel::DEBUG, "M matrix [] (after boundary conditions):");
