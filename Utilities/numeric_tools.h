@@ -219,7 +219,7 @@ namespace Numerics
     {
       bool result = false;
 
-      if(std::any_of(a.begin(), a.end(), [](std::complex<double> i){return is_equal(i.imag(), 0.0);}))
+      if(std::any_of(a.begin(), a.end(), [](std::complex<double> i){return is_greater(i.imag(), 0.0);}))
         result = true;
 
       return result;
@@ -234,6 +234,11 @@ namespace Numerics
                                       SolverData &solverData);
 
     Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
+    Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v);
+    Eigen::MatrixXd fromComplexToDouble(Eigen::MatrixXcd const &m);
+
+    std::vector< std::tuple< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+	                                                                   const Eigen::MatrixXcd& evectors);
 
     SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                                        SolverData &solverData);

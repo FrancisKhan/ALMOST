@@ -170,6 +170,27 @@ namespace Numerics
 		return result;
 	}
 
+	Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v) 
+    {
+       Eigen::VectorXd result = Eigen::VectorXd::Zero(v.size());
+
+       std::transform(v.begin(), v.end(), result.begin(), 
+                      [](auto i){return i.real();});
+
+       return result;
+    }
+
+	Eigen::MatrixXd fromComplexToDouble(Eigen::MatrixXcd const &m) 
+    {
+       Eigen::MatrixXd result = Eigen::MatrixXd::Zero(m.rows(), m.cols());
+
+       for(auto i = 0; i < m.rows(); i++)
+	      for(auto j = 0; j < m.cols(); j++)
+		  	result(i, j) = m(i, j).real();
+
+       return result;
+    }
+
 	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                                       SolverData &solverData)
 	{
@@ -239,27 +260,48 @@ namespace Numerics
 	SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                                        SolverData &solverData)
 	{
-		using namespace PrintFuncs;
-	
-		unsigned size = Mmatrix.rows();
+		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
+		Eigen::VectorXcd eigenvaluesComplex = es.eigenvalues();
+		eigenvaluesComplex = eigenvaluesComplex.cwiseInverse();
 		
-		Eigen::VectorXd neutronFlux = Eigen::VectorXd::Ones(size);
-		double kFactor = 1.0;
+		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
 
-		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix);
-		Eigen::VectorXcd eigenvalues = es.eigenvalues();
-		eigenvalues = eigenvalues.cwiseInverse();
+		std::vector<std::tuple< double, Eigen::VectorXd> > eigenVectorsAndValues = 
+		                sortEigenmodes(eigenvaluesComplex, eigenvectors);
 
-		if(hasImagValues(eigenvalues))
+		double kFactor = std::get<0>(eigenVectorsAndValues[0]);
+		Eigen::VectorXd neutronFlux = std::get<1>(eigenVectorsAndValues[0]);
+
+		SourceIterResults result(neutronFlux, kFactor);
+		return result;
+	}
+
+	std::vector<std::tuple< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+	                                                                  const Eigen::MatrixXcd& evectors)
+	{
+		if(hasImagValues(evalues))
 		{
 			out.print(TraceLevel::CRITICAL, "Generalized Eigen Solver found a complex eigenvalue!");
 			exit(-1);
 		}
 
-		std::cout << "The eigenvalues are:" << std::endl << eigenvalues << std::endl;
-		//std::cout << "The matrix of eigenvectors, V, is:" << std::endl << es.eigenvectors() << std::endl << std::endl;
+		Eigen::VectorXd eigenvalues  = fromComplexToDouble(evalues);
+		Eigen::MatrixXd eigenvectors = fromComplexToDouble(evectors);
 
-		SourceIterResults result(neutronFlux, kFactor);
-		return result;
+		// Sort eigenvalues and eigenvectors at the same time
+
+		std::vector<std::tuple< double, Eigen::VectorXd> > eigenVectorsAndValues;
+		
+    	for(int i=0; i<eigenvalues.size(); i++)
+		{
+        	std::tuple<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.row(i));
+        	eigenVectorsAndValues.push_back(vec_and_val);
+    	}
+
+    	std::sort(eigenVectorsAndValues.begin(), eigenVectorsAndValues.end(), 
+        [&](const std::tuple<double, Eigen::VectorXd>& a, const std::tuple<double, Eigen::VectorXd>& b) -> bool
+		{return std::get<0>(a) > std::get<0>(b);});
+
+		return eigenVectorsAndValues;
 	}
 }
