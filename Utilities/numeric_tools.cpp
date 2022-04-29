@@ -266,18 +266,18 @@ namespace Numerics
 		
 		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
 
-		std::vector<std::tuple< double, Eigen::VectorXd> > eigenVectorsAndValues = 
+		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
 		                sortEigenmodes(eigenvaluesComplex, eigenvectors);
 
-		double kFactor = std::get<0>(eigenVectorsAndValues[0]);
-		Eigen::VectorXd neutronFlux = std::get<1>(eigenVectorsAndValues[0]);
+		double kFactor = eigenVectorsAndValues[0].first;
+		Eigen::VectorXd neutronFlux = eigenVectorsAndValues[0].second;
 
 		SourceIterResults result(neutronFlux, kFactor);
 		return result;
 	}
-
-	std::vector<std::tuple< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
-	                                                                  const Eigen::MatrixXcd& evectors)
+	
+	std::vector< std::pair<double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+	                                                                 const Eigen::MatrixXcd& evectors)
 	{
 		if(hasImagValues(evalues))
 		{
@@ -290,17 +290,33 @@ namespace Numerics
 
 		// Sort eigenvalues and eigenvectors at the same time
 
-		std::vector<std::tuple< double, Eigen::VectorXd> > eigenVectorsAndValues;
+		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues;
 		
     	for(int i=0; i<eigenvalues.size(); i++)
 		{
-        	std::tuple<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.row(i));
+        	std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.row(i));
         	eigenVectorsAndValues.push_back(vec_and_val);
     	}
 
     	std::sort(eigenVectorsAndValues.begin(), eigenVectorsAndValues.end(), 
-        [&](const std::tuple<double, Eigen::VectorXd>& a, const std::tuple<double, Eigen::VectorXd>& b) -> bool
-		{return std::get<0>(a) > std::get<0>(b);});
+        [&](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) -> bool
+		{return a.first > b.first;});
+
+		return eigenVectorsAndValues;
+	}
+
+	std::vector< std::pair<double, Eigen::VectorXd> > GeneralizedEigenSolver(
+	                                                    const Eigen::MatrixXd& Mmatrix, 
+	                                                    const Eigen::MatrixXd& Fmatrix)
+	{
+		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
+		Eigen::VectorXcd eigenvaluesComplex = es.eigenvalues();
+		eigenvaluesComplex = eigenvaluesComplex.cwiseInverse();
+		
+		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
+
+		std::vector< std::pair< double, Eigen::VectorXd> > eigenVectorsAndValues = 
+		                sortEigenmodes(eigenvaluesComplex, eigenvectors);
 
 		return eigenVectorsAndValues;
 	}

@@ -237,11 +237,15 @@ namespace Numerics
     Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v);
     Eigen::MatrixXd fromComplexToDouble(Eigen::MatrixXcd const &m);
 
-    std::vector< std::tuple< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+    std::vector< std::pair< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
 	                                                                   const Eigen::MatrixXcd& evectors);
 
-    SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                       SolverData &solverData);
+    SourceIterResults sourceIteration2(Eigen::MatrixXd& Mmatrix, Eigen::MatrixXd& Fmatrix, 
+                                       SolverData& solverData);
+
+    std::vector< std::pair<double, Eigen::VectorXd> > GeneralizedEigenSolver(
+                                                       const Eigen::MatrixXd& Mmatrix, 
+	                                                   const Eigen::MatrixXd& Fmatrix);
 }
 
 #endif
