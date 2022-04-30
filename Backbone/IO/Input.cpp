@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Output.h"
 #include "GeomKind.h"
+#include "EigenmodesKind.h"
 #include "KineticsSet.h"
 #include "DirectionKind.h"
 #include "additionalPrintFuncs.h"
@@ -97,6 +98,8 @@ void Input::readData()
 	setSolverProperties("energies", SolverKind::TRANSPORT);
 	setSolverProperties("energies", SolverKind::DIFFUSION);
 	setSolverProperties("direction", SolverKind::DIFFUSION);
+	setSolverProperties("eigenmodes", SolverKind::TRANSPORT);
+	setSolverProperties("eigenmodes", SolverKind::DIFFUSION);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -825,9 +828,31 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				{
 					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
 					exit(-1);
+				}			
+			}
+			else if(values[0] == "eigenmodes")
+			{
+				if((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::TRANSPORT))
+				{
+					if(values[1] == "first")
+					{
+						solver.setEigenmodes(EigenmodesKind::FIRST);
+					}
+					else if(values[1] == "all")
+					{
+						solver.setEigenmodes(EigenmodesKind::ALL);
+					}
+					else
+					{
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+						exit(-1);
+					}
 				}
-				
-						
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}			
 			}
 			else {;}
 		}

@@ -18,7 +18,19 @@ void SpectrumSolver::solve()
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
  
-	Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix,m_solverData);
+	Numerics::eigenmodesResults result;
+
+    if(m_solverData.getEigenmodes() == EigenmodesKind::FIRST)
+    {
+        result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
+    }
+    else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
+    {
+        result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
+    }
+    else{;}
+
+
 	spectrumCode->setNewHeatSource(result);
 }
 

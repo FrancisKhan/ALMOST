@@ -3,6 +3,7 @@
 
 #include "SolverKind.h"
 #include "DirectionKind.h"
+#include "EigenmodesKind.h"
 
 #include <Eigen/Dense>
 #include<vector>
@@ -12,7 +13,7 @@ class SolverData
 public:
     SolverData(const SolverKind &kind) : m_kind(kind), m_accuracy(0.0), 
     m_maxIterNumber(0), m_relaxParam(0.0), m_albedo(1, 0.0), m_energies(0),
-    m_DirKind(DirectionKind::UNDEFINED) {}
+    m_DirKind(DirectionKind::UNDEFINED), m_EigenKind(EigenmodesKind::UNDEFINED) {}
 	
     void setKind(SolverKind kind) {m_kind = kind;}
     SolverKind getKind() {return m_kind;}
@@ -30,6 +31,8 @@ public:
     int getEnergies() {return m_energies;}
     void setDirection(DirectionKind kind) {m_DirKind = kind;}
     DirectionKind getDirection() {return m_DirKind;}
+    void setEigenmodes(EigenmodesKind kind) {m_EigenKind = kind;}
+    EigenmodesKind getEigenmodes() {return m_EigenKind;}
 	
 private:
     SolverKind m_kind;
@@ -40,6 +43,7 @@ private:
     Eigen::VectorXd m_heatBoundaryConditions;
     int m_energies;
     DirectionKind m_DirKind;
+    EigenmodesKind m_EigenKind;
 };
 
 #endif

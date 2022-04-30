@@ -25,16 +25,16 @@ VectorXd BaseDiffusionCode::calcFissionPowerDistribution()
 	return powerDistribution;
 }
 
-void BaseDiffusionCode::setNewHeatSource(Numerics::SourceIterResults result)
+void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 {
 	MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
 
 	for(int i = 0; i < m_cells; i++)
 		for(int j = 0; j < m_energies; j++)
-				meshNeutronFluxes(j, i) = result.getNeutronFLux()(i + j * m_cells);
+				meshNeutronFluxes(j, i) = result.getFundamentalNeutronFLux()(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
-	m_reactor.setKFactor(result.getKFactor());
+	m_reactor.setKFactor(result.getFundamentalKFactor());
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 

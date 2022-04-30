@@ -52,3 +52,4 @@ max_iteration_number 80
 albedo 0.0
 energies  2
 direction forward
+eigenmodes first

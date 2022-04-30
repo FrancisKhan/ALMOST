@@ -191,7 +191,7 @@ namespace Numerics
        return result;
     }
 
-	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+	eigenmodesResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                                       SolverData &solverData)
 	{
 		diagonalDominanceCheck(Mmatrix);
@@ -253,26 +253,22 @@ namespace Numerics
 		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
 		double kFactor = kFactor2;
 
-		SourceIterResults result(neutronFlux, kFactor);
+		eigenmodesResults result(neutronFlux, kFactor);
 		return result;
 	}
 
-	SourceIterResults sourceIteration2(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                       SolverData &solverData)
+	eigenmodesResults GeneralizedEigenSolver(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix)
 	{
 		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
-		Eigen::VectorXcd eigenvaluesComplex = es.eigenvalues();
-		eigenvaluesComplex = eigenvaluesComplex.cwiseInverse();
+		Eigen::VectorXcd eigenvalues = es.eigenvalues();
+		eigenvalues = eigenvalues.cwiseInverse();
 		
 		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
 
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
-		                sortEigenmodes(eigenvaluesComplex, eigenvectors);
+		                sortEigenmodes(eigenvalues, eigenvectors);
 
-		double kFactor = eigenVectorsAndValues[0].first;
-		Eigen::VectorXd neutronFlux = eigenVectorsAndValues[0].second;
-
-		SourceIterResults result(neutronFlux, kFactor);
+		eigenmodesResults result(eigenVectorsAndValues);
 		return result;
 	}
 	
@@ -301,22 +297,6 @@ namespace Numerics
     	std::sort(eigenVectorsAndValues.begin(), eigenVectorsAndValues.end(), 
         [&](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) -> bool
 		{return a.first > b.first;});
-
-		return eigenVectorsAndValues;
-	}
-
-	std::vector< std::pair<double, Eigen::VectorXd> > GeneralizedEigenSolver(
-	                                                    const Eigen::MatrixXd& Mmatrix, 
-	                                                    const Eigen::MatrixXd& Fmatrix)
-	{
-		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
-		Eigen::VectorXcd eigenvaluesComplex = es.eigenvalues();
-		eigenvaluesComplex = eigenvaluesComplex.cwiseInverse();
-		
-		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
-
-		std::vector< std::pair< double, Eigen::VectorXd> > eigenVectorsAndValues = 
-		                sortEigenmodes(eigenvaluesComplex, eigenvectors);
 
 		return eigenVectorsAndValues;
 	}

@@ -19,20 +19,34 @@
 
 namespace Numerics
 {
-
-    typedef struct SourceIterResults_
+    typedef struct eigenmodesResults_
     { 
-        const Eigen::VectorXd meshNeutronFluxes;
-        const double kFactor;
+        Eigen::VectorXd fundamentalNeutronFlux;
+        double fundamentalKFactor;
+        std::vector< std::pair<double, Eigen::VectorXd> > eigenmodes;
 
-        SourceIterResults_(const Eigen::VectorXd& flux, const double& kFactor): 
-        meshNeutronFluxes(flux), 
-        kFactor(kFactor) {}
+        eigenmodesResults_() 
+        {
+            fundamentalNeutronFlux = Eigen::VectorXd::Zero(1);
+            fundamentalKFactor = 0.0;
+        } 
 
-        const Eigen::VectorXd getNeutronFLux() {return meshNeutronFluxes;}
-        const double getKFactor() {return kFactor;}
+        eigenmodesResults_(const Eigen::VectorXd& flux, const double& kFactor): 
+        fundamentalNeutronFlux(flux), 
+        fundamentalKFactor(kFactor) {}
 
-    } SourceIterResults;
+        eigenmodesResults_(const std::vector< std::pair<double, Eigen::VectorXd> >& modes)
+        {
+            eigenmodes = modes;
+            fundamentalKFactor = eigenmodes.front().first;
+            fundamentalNeutronFlux = eigenmodes.front().second;
+        }
+
+        const Eigen::VectorXd getFundamentalNeutronFLux() {return fundamentalNeutronFlux;}
+        const double getFundamentalKFactor() {return fundamentalKFactor;}
+        const std::vector< std::pair<double, Eigen::VectorXd> > getModes() {return eigenmodes;}
+
+    } eigenmodesResults;
 
     typedef Eigen::Tensor<double, 2> Tensor2d;
     typedef Eigen::Tensor<double, 3> Tensor3d;
@@ -230,7 +244,7 @@ namespace Numerics
                   	               const Eigen::VectorXd &c, 
                                    const Eigen::VectorXd &d);
 
-    SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
+    eigenmodesResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
                                       SolverData &solverData);
 
     Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
@@ -240,12 +254,7 @@ namespace Numerics
     std::vector< std::pair< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
 	                                                                   const Eigen::MatrixXcd& evectors);
 
-    SourceIterResults sourceIteration2(Eigen::MatrixXd& Mmatrix, Eigen::MatrixXd& Fmatrix, 
-                                       SolverData& solverData);
-
-    std::vector< std::pair<double, Eigen::VectorXd> > GeneralizedEigenSolver(
-                                                       const Eigen::MatrixXd& Mmatrix, 
-	                                                   const Eigen::MatrixXd& Fmatrix);
+    eigenmodesResults GeneralizedEigenSolver(Eigen::MatrixXd& Mmatrix, Eigen::MatrixXd& Fmatrix);
 }
 
 #endif

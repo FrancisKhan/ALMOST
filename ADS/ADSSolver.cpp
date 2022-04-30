@@ -17,7 +17,19 @@ void ADSSolver::solve()
     MatrixXd MMatrix  = adsCode->calcMMatrix(DMatrix2);
     MatrixXd FMatrix  = adsCode->calcFMatrix();
 
-    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
+    Numerics::eigenmodesResults result;
+
+    if(m_solverData.getEigenmodes() == EigenmodesKind::FIRST)
+    {
+        result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
+    }
+    else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
+    {
+        result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
+    }
+    else{;}
+
+
     adsCode->setNewHeatSource(result);
 }
 

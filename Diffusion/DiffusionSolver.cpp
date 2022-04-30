@@ -17,7 +17,18 @@ void DiffusionSolver::solve()
     MatrixXd MMatrix  = diffCode->calcMMatrix(DMatrix2);
     MatrixXd FMatrix  = diffCode->calcFMatrix();
 
-    Numerics::SourceIterResults result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
+    Numerics::eigenmodesResults result;
+
+    if(m_solverData.getEigenmodes() == EigenmodesKind::FIRST)
+    {
+        result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
+    }
+    else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
+    {
+        result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
+    }
+    else{;}
+
     diffCode->setNewHeatSource(result);
 }
 

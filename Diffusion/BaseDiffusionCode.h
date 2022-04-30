@@ -26,7 +26,7 @@ public:
 	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &M);
 
 	Eigen::VectorXd calcFissionPowerDistribution();
-	void setNewHeatSource(Numerics::SourceIterResults result);
+	void setNewHeatSource(Numerics::eigenmodesResults result);
 
 protected:
 	Eigen::MatrixXd getInterfaceDiffcoefficients();
