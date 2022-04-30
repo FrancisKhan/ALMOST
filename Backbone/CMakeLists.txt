@@ -6,7 +6,7 @@ add_library(backbone_library Datamodel/Material.cpp Datamodel/Mesh.cpp
 			Datamodel/AbstractSolver.cpp Datamodel/Reactor.cpp Library/Library.cpp
 			Datamodel/Problem.cpp Datamodel/BaseCalculation.cpp
 			Datamodel/SingleCalculation.cpp Datamodel/DoubleCalculation.cpp
-			Datamodel/SolverData.cpp)
+			Datamodel/ADSCalculation.cpp Datamodel/SolverData.cpp)
 
 # We need this directory, and users of our library will need it too
 target_include_directories(backbone_library PUBLIC Datamodel)
@@ -17,6 +17,7 @@ target_include_directories(backbone_library PUBLIC ../CPM)
 target_include_directories(backbone_library PUBLIC ../CORE)
 target_include_directories(backbone_library PUBLIC ../Heat)
 target_include_directories(backbone_library PUBLIC ../Diffusion)
+target_include_directories(backbone_library PUBLIC ../ADS)
 
 # This depends on (header only) boost
 #target_link_libraries(cpm_library PRIVATE Boost::boost)

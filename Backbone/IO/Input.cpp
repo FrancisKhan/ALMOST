@@ -79,11 +79,12 @@ void Input::readData()
     storeInput();
 	setSolvers();
 
-	// Check if geometry or mesh need to be set before anything else
+	// Check if geometry or meshs need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
     if(isElementHere(m_solvers, SolverKind::TRANSPORT) || 
 	   isElementHere(m_solvers, SolverKind::DIFFUSION) || 
+	   isElementHere(m_solvers, SolverKind::ADS) ||
 	   isElementHere(m_solvers, SolverKind::HEAT))
 	{
 		setGeometryKind();
@@ -260,6 +261,12 @@ void Input::setSolvers()
 			SolverData solver(SolverKind::DIFFUSION);
 			solvers.push_back(solver);
 			solverStr += "diffusion ";
+		}
+		else if(i == "ADS")
+		{
+			SolverData solver(SolverKind::ADS);
+			solvers.push_back(solver);
+			solverStr += "ADS ";
 		}
 		else
 		{
