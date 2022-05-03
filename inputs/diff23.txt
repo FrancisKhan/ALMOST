@@ -1,9 +1,9 @@
 % Graphite reactor with graphite reflector, slab geometry
 % Zero in-current at both boundaries
 % One energy groups
-% ADS first try
+% All eigenmodes calculation
 
-solvers ads
+solvers diffusion
 
 geometry  slab
 mesh 25 0.5 M2 50 1.0 M1 25 0.5 M2
@@ -29,8 +29,10 @@ diffCoeff(1)  1.46136e+00
 
 scattMatrix(1, 1) 2.49171e-01
 
-solver ADS
+solver diffusion
 accuracy 1.0E-6
 max_iteration_number 80
 albedo 0.0 0.0
 energies  1
+direction forward
+eigenmodes all

@@ -19,7 +19,7 @@ void ADSSolver::solve()
 
     Numerics::eigenmodesResults result;
 
-    if(m_solverData.getEigenmodes() == EigenmodesKind::FIRST)
+    if(m_solverData.getEigenmodes() == EigenmodesKind::FUNDAMENTAL)
     {
         result = Numerics::sourceIteration(MMatrix, FMatrix, m_solverData);
     }
@@ -28,7 +28,6 @@ void ADSSolver::solve()
         result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
     }
     else{;}
-
 
     adsCode->setNewHeatSource(result);
 }
@@ -55,7 +54,7 @@ void ADSSolver::printResults(TraceLevel level)
 	
     VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 
-	if (powerDistribution.maxCoeff() > 0.0)
+	if(Numerics::is_greater(powerDistribution.maxCoeff(), 0.0))
 	{
 		out.print(level, "Thermal power density [W/m3]:");
         printVector(powerDistribution, out, level);

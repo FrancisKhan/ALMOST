@@ -262,7 +262,6 @@ namespace Numerics
 		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
 		Eigen::VectorXcd eigenvalues = es.eigenvalues();
 		eigenvalues = eigenvalues.cwiseInverse();
-		
 		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
 
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
@@ -288,9 +287,9 @@ namespace Numerics
 
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues;
 		
-    	for(int i=0; i<eigenvalues.size(); i++)
+    	for(int i = 0; i<eigenvalues.size(); i++)
 		{
-        	std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.row(i));
+        	std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.col(i));
         	eigenVectorsAndValues.push_back(vec_and_val);
     	}
 
@@ -298,6 +297,13 @@ namespace Numerics
         [&](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) -> bool
 		{return a.first > b.first;});
 
-		return eigenVectorsAndValues;
+		// eliminate inf eigenmodes
+		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValuesFinal;
+
+		for(const auto& i : eigenVectorsAndValues)
+			if(!std::isnan(i.first))
+				eigenVectorsAndValuesFinal.push_back(i);
+
+		return eigenVectorsAndValuesFinal;
 	}
 }

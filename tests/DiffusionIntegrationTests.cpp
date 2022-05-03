@@ -1987,6 +1987,52 @@ TEST_F(DiffIntegrationTests, diff22)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor with graphite reflector, slab geometry
+// Zero in-current at both boundaries
+// One energy groups
+// All eigenmodes calculation
+
+TEST_F(DiffIntegrationTests, diff23)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff23.txt";
+  const std::string outputPath = "outputs/Out_diff23.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double kEffRef = 9.693342e-01;
+
+	std::vector<double> refFlux {7.121772e-03, 1.075396e-02, 1.438788e-02, 
+	1.802413e-02, 2.166329e-02, 2.530595e-02, 2.895269e-02, 3.260411e-02, 
+	3.626080e-02, 3.992334e-02, 4.359232e-02, 4.726835e-02, 5.095201e-02, 
+	5.464390e-02, 5.834462e-02, 6.205476e-02, 6.577491e-02, 6.950569e-02, 
+	7.324770e-02, 7.700153e-02, 8.076780e-02, 8.454712e-02, 8.834008e-02, 
+	9.214732e-02, 9.596943e-02, 9.963144e-02, 1.030096e-01, 1.062759e-01, 
+	1.094267e-01, 1.124586e-01, 1.153684e-01, 1.181528e-01, 1.208089e-01, 
+	1.233337e-01, 1.257245e-01, 1.279788e-01, 1.300940e-01, 1.320679e-01, 
+	1.338983e-01, 1.355833e-01, 1.371209e-01, 1.385096e-01, 1.397478e-01, 
+	1.408342e-01, 1.417676e-01, 1.425470e-01, 1.431716e-01, 1.436406e-01, 
+	1.439535e-01, 1.441101e-01, 1.441101e-01, 1.439535e-01, 1.436406e-01, 
+	1.431716e-01, 1.425470e-01, 1.417676e-01, 1.408342e-01, 1.397478e-01, 
+	1.385096e-01, 1.371209e-01, 1.355833e-01, 1.338983e-01, 1.320679e-01, 
+	1.300940e-01, 1.279788e-01, 1.257245e-01, 1.233337e-01, 1.208089e-01, 
+	1.181528e-01, 1.153684e-01, 1.124586e-01, 1.094267e-01, 1.062759e-01, 
+	1.030096e-01, 9.963144e-02, 9.596943e-02, 9.214732e-02, 8.834008e-02, 
+	8.454712e-02, 8.076780e-02, 7.700153e-02, 7.324770e-02, 6.950569e-02, 
+	6.577491e-02, 6.205476e-02, 5.834462e-02, 5.464390e-02, 5.095201e-02, 
+	4.726835e-02, 4.359232e-02, 3.992334e-02, 3.626080e-02, 3.260411e-02, 
+	2.895269e-02, 2.530595e-02, 2.166329e-02, 1.802413e-02, 1.438788e-02, 
+	1.075396e-02, 7.121772e-03};
+  
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
 // slab geometry, memory test
 
 TEST_F(DiffIntegrationTests, memTestDiffSlab)

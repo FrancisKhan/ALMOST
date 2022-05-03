@@ -95,9 +95,11 @@ void Input::readData()
 	setSolverProperties("max_iteration_number");
 	setSolverProperties("albedo", SolverKind::TRANSPORT);
 	setSolverProperties("albedo", SolverKind::DIFFUSION);
+	setSolverProperties("albedo", SolverKind::ADS);
 	setSolverProperties("heat_boundary_conditions", SolverKind::HEAT);
 	setSolverProperties("energies", SolverKind::TRANSPORT);
 	setSolverProperties("energies", SolverKind::DIFFUSION);
+	setSolverProperties("energies", SolverKind::ADS);
 	setSolverProperties("direction", SolverKind::DIFFUSION);
 	setSolverProperties("eigenmodes", SolverKind::TRANSPORT);
 	setSolverProperties("eigenmodes", SolverKind::DIFFUSION);
@@ -111,7 +113,8 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION))
+		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION) ||
+		   (i.getKind() == SolverKind::ADS))
 		{
 			setMaterials(i.getKind());
 		}
@@ -262,11 +265,11 @@ void Input::setSolvers()
 			solvers.push_back(solver);
 			solverStr += "diffusion ";
 		}
-		else if(i == "ADS")
+		else if(i == "ads")
 		{
 			SolverData solver(SolverKind::ADS);
 			solvers.push_back(solver);
-			solverStr += "ADS ";
+			solverStr += "ads ";
 		}
 		else
 		{
@@ -409,7 +412,7 @@ void Input::setMaterials(SolverKind solver)
    		setXS("total", "\nInput total XS [1/cm]:");	
 		setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 	}
-	else if(solver == SolverKind::DIFFUSION)
+	else if((solver == SolverKind::DIFFUSION) || (solver == SolverKind::ADS))
 	{
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
@@ -792,7 +795,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					std::vector<double> albedo{std::stod(values[1])}; 
 					solver.setAlbedo(albedo);
 				}
-				else if(inputSolver == SolverKind::DIFFUSION)
+				else if((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::ADS))
 				{
 					if(m_mesh.getGeometry() == GeomKind::SLAB)
 					{
@@ -843,7 +846,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				{
 					if(values[1] == "first")
 					{
-						solver.setEigenmodes(EigenmodesKind::FIRST);
+						solver.setEigenmodes(EigenmodesKind::FUNDAMENTAL);
 					}
 					else if(values[1] == "all")
 					{
@@ -869,7 +872,8 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 
 			if(values[0] == "albedo")
 			{
-				if((inputSolver == SolverKind::DIFFUSION) && (m_mesh.getGeometry() == GeomKind::SLAB))
+				if(((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::ADS)) && 
+				    (m_mesh.getGeometry() == GeomKind::SLAB))
 				{
 					std::vector<double> albedo{std::stod(values[1]), std::stod(values[2])}; 
 					solver.setAlbedo(albedo);
