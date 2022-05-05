@@ -18,7 +18,6 @@ diffCoeff(1)  1.60857e+00
 
 scattMatrix(1, 1) 2.36603e-01
 
-
 material M2 % second material
 
 ni(1)         0.00000e+00

@@ -16,7 +16,7 @@ TEST_F(ADSIntegrationTests, ads1)
   const std::string codePath   = "app/almost";
   const std::string inputPath  = "inputs/ADS1.txt";
   const std::string outputPath = "outputs/Out_ADS1.txt";
-  const std::string traceLevel = "DEBUG";
+  const std::string traceLevel = "CRITICAL";
   //const double kEffRef = 9.693342e-01;
   
   TestHelper test(codePath, inputPath, outputPath, traceLevel);

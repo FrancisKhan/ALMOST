@@ -1,9 +1,9 @@
 % Graphite reactor with graphite reflector, slab geometry
 % Reflective boundary at right end
 % Two energy groups
-% ADS first try
+% Forward direction
 
-solvers ads
+solvers diffusion
 
 geometry  slab
 mesh 25 0.5 M1 25 0.5 M2
@@ -47,8 +47,10 @@ scattMatrix(1, 2) 3.30876e-03
 scattMatrix(2, 1) 7.63203e-06
 scattMatrix(2, 2) 2.58804e-01
 
-solver ads
+solver diffusion
 accuracy 1.0E-8
 max_iteration_number 20
 albedo 1.0 0.0
 energies  2
+direction forward
+eigenmodes all

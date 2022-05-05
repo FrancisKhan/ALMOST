@@ -264,6 +264,8 @@ namespace Numerics
 		eigenvalues = eigenvalues.cwiseInverse();
 		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
 
+		Eigen::VectorXd eigenvalues2 = fromComplexToDouble(eigenvalues);
+
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
 		                sortEigenmodes(eigenvalues, eigenvectors);
 
@@ -283,27 +285,22 @@ namespace Numerics
 		Eigen::VectorXd eigenvalues  = fromComplexToDouble(evalues);
 		Eigen::MatrixXd eigenvectors = fromComplexToDouble(evectors);
 
-		// Sort eigenvalues and eigenvectors at the same time
-
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues;
 		
-    	for(int i = 0; i<eigenvalues.size(); i++)
+    	for(int i = 0; i < eigenvalues.size(); i++)
 		{
-        	std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.col(i));
-        	eigenVectorsAndValues.push_back(vec_and_val);
+			if(!std::isnan(eigenvalues[i]))
+			{
+				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.col(i));
+        		eigenVectorsAndValues.push_back(vec_and_val);
+			}
     	}
 
+		// Sort eigenvalues and eigenvectors at the same time
     	std::sort(eigenVectorsAndValues.begin(), eigenVectorsAndValues.end(), 
-        [&](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b) -> bool
+        [](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b)
 		{return a.first > b.first;});
 
-		// eliminate inf eigenmodes
-		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValuesFinal;
-
-		for(const auto& i : eigenVectorsAndValues)
-			if(!std::isnan(i.first))
-				eigenVectorsAndValuesFinal.push_back(i);
-
-		return eigenVectorsAndValuesFinal;
+		return eigenVectorsAndValues;
 	}
 }

@@ -10,8 +10,7 @@ IF (WIN32)
 ENDIF()
 
 target_link_libraries(almost PRIVATE utilities_library backbone_library cpm_library 
-                                    core_library heat_library diffusion_library
-                                    ads_library)
+                                    core_library heat_library diffusion_library)
 
 install(TARGETS almost
     DESTINATION "/usr/bin/"

@@ -43,10 +43,13 @@ void ADSCalculation::solve()
     else
     {
         out.print(TraceLevel::CRITICAL, "\nFor ADS calculations the second solver has to be");
-		out.print(TraceLevel::CRITICAL, "an adjointdiffusion one");
+		out.print(TraceLevel::CRITICAL, "an adjoint diffusion one");
 		exit(-1);
     }
 
 	forwardDiffSolver->solve(); 
 	forwardDiffSolver->printResults(TraceLevel::CRITICAL);
+
+    AdjointDiffSolver->solve(); 
+	AdjointDiffSolver->printResults(TraceLevel::CRITICAL);
 }

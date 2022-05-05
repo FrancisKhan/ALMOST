@@ -68,9 +68,6 @@ add_subdirectory(Heat)
 # Heat transfer directory
 add_subdirectory(Diffusion)
 
-# ADS directory
-add_subdirectory(ADS)
-
 # Utilities files are here
 add_subdirectory(Utilities)
 
