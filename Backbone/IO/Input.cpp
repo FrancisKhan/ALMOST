@@ -844,7 +844,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 			{
 				if((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::TRANSPORT))
 				{
-					if(values[1] == "first")
+					if(values[1] == "fundamental")
 					{
 						solver.setEigenmodes(EigenmodesKind::FUNDAMENTAL);
 					}

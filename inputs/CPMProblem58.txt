@@ -49,4 +49,4 @@ accuracy 1.0E-8
 max_iteration_number 20
 albedo 0.0
 energies  2
-eigenmodes first
+eigenmodes fundamental

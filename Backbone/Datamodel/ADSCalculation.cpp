@@ -33,7 +33,7 @@ void ADSCalculation::solve()
     std::shared_ptr<AbstractSolver> AdjointDiffSolver;
 
 	// EigenmodesKind is set to ALL in order to make use of the same solver (for consistency)
-	// however, we only needed the first eigenvalue
+	// however, we only need the first eigenvalue
     if((AdjointDiff.getKind() == SolverKind::DIFFUSION) && 
        (AdjointDiff.getDirection() == DirectionKind::ADJOINT) &&
 	   (AdjointDiff.getEigenmodes() == EigenmodesKind::ALL))
