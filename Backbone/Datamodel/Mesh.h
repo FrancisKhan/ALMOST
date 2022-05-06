@@ -44,6 +44,12 @@ public:
     void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
 	Eigen::MatrixXd getNeutronFluxes();
 
+	void setEigenmodes(const std::vector< std::pair<double, Eigen::VectorXd> >& modes) 
+	{m_eigenmodes = modes;}
+
+	std::vector< std::pair<double, Eigen::VectorXd> > getEigenmodes() 
+	{return m_eigenmodes;}
+
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();
 	Eigen::MatrixXd getFissionXSs();
@@ -60,6 +66,7 @@ private:
 	unsigned m_energyGroupsNumber;
 	Eigen::VectorXd m_heatBoundaryConditions;
     std::vector< std::shared_ptr<Material> > m_materials;
+	std::vector< std::pair<double, Eigen::VectorXd> > m_eigenmodes;
 };
 
 #endif

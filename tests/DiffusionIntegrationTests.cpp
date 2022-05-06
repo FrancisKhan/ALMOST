@@ -1862,7 +1862,7 @@ TEST_F(DiffIntegrationTests, diff21)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
   
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1980,7 +1980,7 @@ TEST_F(DiffIntegrationTests, diff22)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
   
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -2118,7 +2118,7 @@ TEST_F(DiffIntegrationTests, diff25)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);

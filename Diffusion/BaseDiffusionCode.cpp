@@ -44,6 +44,11 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }
 
+void BaseDiffusionCode::setEigenmodes(Numerics::eigenmodesResults& result)
+{
+	m_mesh.setEigenmodes(result.getModes());
+}
+
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
 {
 	VectorXd cellSizes = m_mesh.getCellSizes("cm");

@@ -1,5 +1,5 @@
 #include "ADSCalculation.h"
-#include "AbstractSolver.h"
+#include "DiffusionSolver.h"
 
 using namespace Eigen;
 
@@ -10,46 +10,20 @@ void ADSCalculation::solve()
 	ForwardDiff.setDirection(DirectionKind::FORWARD);
 	ForwardDiff.setEigenmodes(EigenmodesKind::ALL);	
 
-    std::shared_ptr<AbstractSolver> forwardDiffSolver;
+    DiffusionSolver forwardDiffSolver(m_reactor, m_library, ForwardDiff);
 
-    if((ForwardDiff.getKind() == SolverKind::DIFFUSION) && 
-       (ForwardDiff.getDirection() == DirectionKind::FORWARD) && 
-       (ForwardDiff.getEigenmodes() == EigenmodesKind::ALL))
-    {
-        forwardDiffSolver = AbstractSolver::getSolver(ForwardDiff, m_reactor, m_library);
-    }
-    else
-    {
-        out.print(TraceLevel::CRITICAL, "\nFor ADS calculations the first solver has to be");
-		out.print(TraceLevel::CRITICAL, "a forward all eigenmodes diffusion one");
-		exit(-1);
-    }
-
+    // EigenmodesKind is set to ALL in order to make use of the same solver (for consistency)
+	// however, we only need the first eigenvalue
 	SolverData AdjointDiff = m_solver;
 	AdjointDiff.setKind(SolverKind::DIFFUSION);
 	AdjointDiff.setDirection(DirectionKind::ADJOINT);
 	AdjointDiff.setEigenmodes(EigenmodesKind::ALL);	
 
-    std::shared_ptr<AbstractSolver> AdjointDiffSolver;
+    DiffusionSolver AdjointDiffSolver(m_reactor, m_library, AdjointDiff);
 
-	// EigenmodesKind is set to ALL in order to make use of the same solver (for consistency)
-	// however, we only need the first eigenvalue
-    if((AdjointDiff.getKind() == SolverKind::DIFFUSION) && 
-       (AdjointDiff.getDirection() == DirectionKind::ADJOINT) &&
-	   (AdjointDiff.getEigenmodes() == EigenmodesKind::ALL))
-    {
-        AdjointDiffSolver = AbstractSolver::getSolver(AdjointDiff, m_reactor, m_library);
-    }
-    else
-    {
-        out.print(TraceLevel::CRITICAL, "\nFor ADS calculations the second solver has to be");
-		out.print(TraceLevel::CRITICAL, "an adjoint diffusion one");
-		exit(-1);
-    }
+	forwardDiffSolver.solve(); 
+	forwardDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);
 
-	forwardDiffSolver->solve(); 
-	forwardDiffSolver->printResults(TraceLevel::CRITICAL);
-
-    AdjointDiffSolver->solve(); 
-	AdjointDiffSolver->printResults(TraceLevel::CRITICAL);
+    AdjointDiffSolver.solve(); 
+	AdjointDiffSolver.printResults(TraceLevel::CRITICAL);
 }

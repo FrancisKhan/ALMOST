@@ -26,6 +26,7 @@ void DiffusionSolver::solve()
     else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
     {
         result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
+        diffCode->setEigenmodes(result);
     }
     else{;}
 
@@ -48,7 +49,16 @@ void DiffusionSolver::relaxResults(double par)
 void DiffusionSolver::printResults(TraceLevel level)
 {
     out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
-	out.print(level, "Neutron Flux [1/(cm2*s)]:");
+
+    if(m_solverData.getDirection() == DirectionKind::FORWARD)
+    {
+        out.print(level, "Neutron Flux [1/(cm2*s)]:");
+    }
+    else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
+    {
+        out.print(level, "Adjoint Flux [arbitrary]:");
+    }
+    else{;}
 
 	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
 	
@@ -59,4 +69,18 @@ void DiffusionSolver::printResults(TraceLevel level)
 		out.print(level, "Thermal power density [W/m3]:");
         printVector(powerDistribution, out, level);
 	}
+}
+
+void DiffusionSolver::printEigenmodesResults(TraceLevel level)
+{
+    std::vector< std::pair<double, Eigen::VectorXd> > modes = m_reactor.getMesh().getEigenmodes();
+
+    int i = 0;
+    for(const auto& m : modes)
+    {
+        out.print(level, "\nEigenvalue {:3d}: {:7.6e} \n", i, m.first);
+	    out.print(level, "Neutron Flux [1/(cm2*s)]:");
+        printVector(m.second, out, level, true);
+        i++;
+    }
 }
