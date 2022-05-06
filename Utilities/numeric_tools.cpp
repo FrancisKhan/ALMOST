@@ -289,9 +289,10 @@ namespace Numerics
 		
     	for(int i = 0; i < eigenvalues.size(); i++)
 		{
-			if(!std::isnan(eigenvalues[i]))
+			if(!std::isnan(eigenvalues[i]) && is_greater(eigenvalues[i], 0.0))
 			{
-				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvectors.col(i));
+				Eigen::VectorXd eigenvector = eigenvectors.col(i) / eigenvectors.col(i).sum();
+				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvector);
         		eigenVectorsAndValues.push_back(vec_and_val);
 			}
     	}
