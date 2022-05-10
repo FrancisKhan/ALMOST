@@ -103,6 +103,7 @@ void Input::readData()
 	setSolverProperties("direction", SolverKind::DIFFUSION);
 	setSolverProperties("eigenmodes", SolverKind::TRANSPORT);
 	setSolverProperties("eigenmodes", SolverKind::DIFFUSION);
+	setSolverProperties("ext_source", SolverKind::ADS);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -883,6 +884,19 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
 					exit(-1);
 				}
+			}
+			else if(values[0] == "ext_source")
+			{
+				if((inputSolver == SolverKind::ADS))
+				{
+					std::pair<double, int> source = std::make_pair(std::stod(values[1]), std::stoi(values[2]));
+					m_mesh.setExtSource(source);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}			
 			}
 			else {;}
 		}

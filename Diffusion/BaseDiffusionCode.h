@@ -27,7 +27,7 @@ public:
 
 	Eigen::VectorXd calcFissionPowerDistribution();
 	void setNewHeatSource(Numerics::eigenmodesResults result);
-	void setEigenmodes(Numerics::eigenmodesResults& result);
+	void setEigenmodes(const Numerics::eigenmodesResults& result, const DirectionKind& dir);
 
 protected:
 	Eigen::MatrixXd getInterfaceDiffcoefficients();

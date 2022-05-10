@@ -44,9 +44,14 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }
 
-void BaseDiffusionCode::setEigenmodes(Numerics::eigenmodesResults& result)
+void BaseDiffusionCode::setEigenmodes(const Numerics::eigenmodesResults& result, 
+                                      const DirectionKind& dir)
 {
-	m_mesh.setEigenmodes(result.getModes());
+	if(dir == DirectionKind::FORWARD)
+		m_mesh.setForwardEigenmodes(result.getModes());
+	else if(dir == DirectionKind::ADJOINT)
+		m_mesh.setAdjointEigenmodes(result.getModes());
+	else{;}
 }
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()

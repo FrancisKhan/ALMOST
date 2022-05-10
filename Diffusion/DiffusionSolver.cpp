@@ -26,7 +26,7 @@ void DiffusionSolver::solve()
     else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
     {
         result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
-        diffCode->setEigenmodes(result);
+        diffCode->setEigenmodes(result, m_solverData.getDirection());
     }
     else{;}
 
@@ -73,13 +73,33 @@ void DiffusionSolver::printResults(TraceLevel level)
 
 void DiffusionSolver::printEigenmodesResults(TraceLevel level)
 {
-    std::vector< std::pair<double, Eigen::VectorXd> > modes = m_reactor.getMesh().getEigenmodes();
+    std::vector< std::pair<double, Eigen::VectorXd> > modes;
 
-    int i = 0;
+    if(m_solverData.getDirection() == DirectionKind::FORWARD)
+    {
+        modes = m_reactor.getMesh().getForwardEigenmodes();
+    }
+    else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
+    {
+        modes = m_reactor.getMesh().getAdjointEigenmodes();
+    }
+    else{;}
+
+    int i = 1;
     for(const auto& m : modes)
     {
         out.print(level, "\nEigenvalue {:3d}: {:7.6e} \n", i, m.first);
-	    out.print(level, "Neutron Flux [1/(cm2*s)]:");
+
+        if(m_solverData.getDirection() == DirectionKind::FORWARD)
+        {
+            out.print(level, "Neutron Flux [1/(cm2*s)]:");
+        }
+        else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
+        {
+            out.print(level, "Adjoint Flux [arbitrary]:");
+        }
+        else{;}
+
         printVector(m.second, out, level, true);
         i++;
     }

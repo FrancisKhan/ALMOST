@@ -367,3 +367,14 @@ MatrixXd Mesh::getNeutronFluxes()
 
 	return neutronFluxes;
 }
+
+void Mesh::setExtSource(std::pair<double, int>& source)
+{
+	m_extSourceDistribution = VectorXd::Zero(getCellsNumber());
+
+	for(int i = 0; i < static_cast<int>(getCellsNumber()); i++)
+		if(i == source.second)
+			m_extSourceDistribution(i) = source.first;
+
+	m_extSourceDistribution.cwiseProduct(getVolumes("cm"));
+}

@@ -6,7 +6,7 @@
 #include "EigenmodesKind.h"
 
 #include <Eigen/Dense>
-#include<vector>
+#include <vector>
 
 class SolverData
 {
@@ -44,6 +44,7 @@ private:
     int m_energies;
     DirectionKind m_DirKind;
     EigenmodesKind m_EigenKind;
+    std::pair<double, int> m_extSource;
 };
 
 #endif

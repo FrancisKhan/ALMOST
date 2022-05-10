@@ -42,9 +42,11 @@ namespace Numerics
             fundamentalNeutronFlux = eigenmodes.front().second;
         }
 
-        const Eigen::VectorXd getFundamentalNeutronFLux() {return fundamentalNeutronFlux;}
-        const double getFundamentalKFactor() {return fundamentalKFactor;}
-        const std::vector< std::pair<double, Eigen::VectorXd> > getModes() {return eigenmodes;}
+        Eigen::VectorXd getFundamentalNeutronFLux() {return fundamentalNeutronFlux;}
+        double getFundamentalKFactor() {return fundamentalKFactor;}
+        std::vector< std::pair<double, Eigen::VectorXd> > getModes() const {return eigenmodes;}
+
+        size_t getEigenmodesNumber(){return eigenmodes.size();}
 
     } eigenmodesResults;
 
