@@ -6,7 +6,7 @@ using namespace PrintFuncs;
 
 VectorXd BaseDiffusionCode::calcFissionPowerDistribution()
 {
-	MatrixXd neutronFluxes = m_mesh.getNeutronFluxes();
+	MatrixXd neutronFluxes = m_mesh.getFundamentalNeutronFluxes();
 	MatrixXd fissXSs = m_mesh.getFissionXSs();
 
 	MatrixXd product = neutronFluxes.cwiseProduct(fissXSs);
@@ -27,19 +27,22 @@ VectorXd BaseDiffusionCode::calcFissionPowerDistribution()
 
 void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 {
-	MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
+	int eigenmodesNumber = result.getEigenmodesNumber();
+	Tensor3d meshNeutronFluxes(m_energies, m_cells, eigenmodesNumber);
+    meshNeutronFluxes.setZero();
 
-	for(int i = 0; i < m_cells; i++)
-		for(int j = 0; j < m_energies; j++)
-				meshNeutronFluxes(j, i) = result.getFundamentalNeutronFLux()(i + j * m_cells);
+	for(int n = 0; n < eigenmodesNumber; n++)
+		for(int i = 0; i < m_cells; i++)
+			for(int j = 0; j < m_energies; j++)
+				meshNeutronFluxes(j, i, n) = result.getModes().at(n).second(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	m_reactor.setKFactor(result.getFundamentalKFactor());
+	m_mesh.setEigenmodesNumber(eigenmodesNumber);
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 
 	// The heat diffusion code expects the power density in W/m3
-
 	VectorXd volumes = m_mesh.getVolumes("m");
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }

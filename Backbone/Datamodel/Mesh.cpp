@@ -342,27 +342,45 @@ Tensor3d Mesh::getScattMatrices()
 	return scatts;
 }
 
-void Mesh::setNeutronFluxes(Eigen::MatrixXd &neutronFluxes)
+void Mesh::setNeutronFluxes(Tensor3d& neutronFluxes)
 {
-    for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+    for(int m = 0; m < neutronFluxes.dimension(1); m++)
 	{
-		m_materials[m]->setNeutronFlux(neutronFluxes.col(m));
+		MatrixXd matNeutronFluxes = fromTensor2dToMatrixXd(neutronFluxes.chip(m, 1));
+		m_materials[m]->setNeutronFlux(matNeutronFluxes);
 	}
 }
 
-MatrixXd Mesh::getNeutronFluxes()
+Tensor3d Mesh::getNeutronFluxes()
 {
-    MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
-	VectorXd neutronFlux   = VectorXd::Zero(m_energyGroupsNumber);
+	unsigned nModes = getEigenmodesNumber();
+    Tensor3d neutronFluxes(m_energyGroupsNumber, m_meshNumber, nModes);
+	MatrixXd matNeutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
 	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
 	{
-		neutronFlux = m_materials[m]->getNeutronFlux();
+		matNeutronFluxes = m_materials[m]->getNeutronFlux();
+
+		for(unsigned n = 0; n < nModes; n++)
+			for(unsigned i = 0; i < m_energyGroupsNumber; i++)
+				neutronFluxes(i, m, n) = matNeutronFluxes(i, n);
+	}
+
+	return neutronFluxes;
+}
+
+MatrixXd Mesh::getFundamentalNeutronFluxes()
+{
+	unsigned nModes = getEigenmodesNumber();
+    MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	MatrixXd matNeutronFluxes  = MatrixXd::Zero(m_energyGroupsNumber, nModes);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		matNeutronFluxes = m_materials[m]->getNeutronFlux();
 
 		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
-		{
-			neutronFluxes(i, m) = neutronFlux(i);
-		}
+			neutronFluxes(i, m) = matNeutronFluxes(i, 0);
 	}
 
 	return neutronFluxes;

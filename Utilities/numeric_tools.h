@@ -31,9 +31,12 @@ namespace Numerics
             fundamentalKFactor = 0.0;
         } 
 
-        eigenmodesResults_(const Eigen::VectorXd& flux, const double& kFactor): 
-        fundamentalNeutronFlux(flux), 
-        fundamentalKFactor(kFactor) {}
+        eigenmodesResults_(const Eigen::VectorXd& flux, const double& kFactor) 
+        {
+            fundamentalNeutronFlux = flux; 
+            fundamentalKFactor = kFactor;
+            eigenmodes.push_back(std::make_pair(kFactor, flux));
+        }
 
         eigenmodesResults_(const std::vector< std::pair<double, Eigen::VectorXd> >& modes)
         {
@@ -239,6 +242,17 @@ namespace Numerics
         result = true;
 
       return result;
+    }
+
+    inline Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t)
+    {
+        Eigen::MatrixXd result = Eigen::MatrixXd::Zero(t.dimension(0), t.dimension(1));
+
+        for(auto i = 0; i < t.dimension(0); i++)
+            for(auto j = 0; j < t.dimension(1); j++)
+                result(i, j) = t(i, j);
+
+        return result;
     }
 
     Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 

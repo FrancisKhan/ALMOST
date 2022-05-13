@@ -14,7 +14,7 @@ public:
 	Material(const std::string& name) : 
 	m_name(name), m_energies(0), m_temperature(0.0), m_heatSource(0.0) {}
 	std::string getName() {return m_name;}
-	void setTemperature(double T) {m_temperature = T;}
+ 	void setTemperature(double T) {m_temperature = T;}
 	double getTemperature() {return m_temperature;}
 	void setThermalConductivityLaw(std::vector<std::string> &vec);
 	double getThermalConductivity();
@@ -22,9 +22,9 @@ public:
 	double getHeatSource() {return m_heatSource;}
 	void setEnergies(unsigned n) {m_energies = n;}
 
-    void setNeutronFlux(const Eigen::VectorXd &neutronFlux) 
+    void setNeutronFlux(const Eigen::MatrixXd &neutronFlux) 
 	{m_neutronFlux = neutronFlux;}
-	Eigen::VectorXd getNeutronFlux() {return m_neutronFlux;}
+	Eigen::MatrixXd getNeutronFlux() {return m_neutronFlux;}
 
 	// Neutron cross section
 	void setTotalXSTempDependenceLaws(std::vector<std::string> &vec);
@@ -47,7 +47,7 @@ private:
 	double m_temperature; // Celsius
 	double m_heatSource; // Watt/m3
 
-    Eigen::VectorXd m_neutronFlux; 
+    Eigen::MatrixXd m_neutronFlux; 
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
 	std::vector< std::shared_ptr<PolynomialFunction> > m_totalXSTempDependenceLaws;

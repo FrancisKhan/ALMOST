@@ -52,7 +52,7 @@ void SpectrumSolver::printResults(TraceLevel level)
     out.print(level, "K-factor:  {:7.6e} \n", m_reactor.getKFactor());
 	out.print(level, "Neutron Flux [1/(cm2*s)]:");
 
-	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
+	printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
 	
 	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 

@@ -11,7 +11,7 @@
 class Mesh
 {
 public:
-	Mesh() : pm_abGeom(nullptr){}
+	Mesh() : pm_abGeom(nullptr), m_nModes(1) {}
 	void setMeshKind(GeomKind kind);
 	GeomKind getGeometry() {return m_mode;}
 	void setBoundaries(Eigen::VectorXd &boundaries);
@@ -41,8 +41,9 @@ public:
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();
 
-    void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
-	Eigen::MatrixXd getNeutronFluxes();
+    void setNeutronFluxes(Numerics::Tensor3d& neutronFluxes);
+	Numerics::Tensor3d getNeutronFluxes();
+	Eigen::MatrixXd getFundamentalNeutronFluxes();
 
 	void setForwardEigenmodes(const std::vector< std::pair<double, Eigen::VectorXd> >& modes) 
 	{m_forwardEigenmodes = modes;}
@@ -69,6 +70,9 @@ public:
 
 	void setExtSource(std::pair<double, int>& source);
     Eigen::VectorXd getExtSourceDistribution() {return m_extSourceDistribution;}
+
+	void setEigenmodesNumber(unsigned nModes) {m_nModes = m_nModes;}
+    unsigned getEigenmodesNumber() {return m_nModes;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -81,6 +85,7 @@ private:
 	std::vector< std::pair<double, Eigen::VectorXd> > m_forwardEigenmodes;
 	std::vector< std::pair<double, Eigen::VectorXd> > m_adjointEigenmodes;
 	Eigen::VectorXd m_extSourceDistribution;
+	unsigned m_nModes;
 };
 
 #endif

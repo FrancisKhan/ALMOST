@@ -26,10 +26,10 @@ void DiffusionSolver::solve()
     else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
     {
         result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
-        diffCode->setEigenmodes(result, m_solverData.getDirection());
     }
     else{;}
 
+    diffCode->setEigenmodes(result, m_solverData.getDirection());
     diffCode->setNewHeatSource(result);
 }
 
@@ -60,7 +60,7 @@ void DiffusionSolver::printResults(TraceLevel level)
     }
     else{;}
 
-	printMatrix(m_reactor.getMesh().getNeutronFluxes(), out, level, true);
+	printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
 	
     VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 
