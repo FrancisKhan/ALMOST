@@ -357,7 +357,7 @@ Tensor3d Mesh::getNeutronFluxes()
     Tensor3d neutronFluxes(m_energyGroupsNumber, m_meshNumber, nModes);
 	MatrixXd matNeutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
-	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	for(unsigned m = 0; m < m_meshNumber; m++)
 	{
 		matNeutronFluxes = m_materials[m]->getNeutronFlux();
 
@@ -375,15 +375,59 @@ MatrixXd Mesh::getFundamentalNeutronFluxes()
     MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	MatrixXd matNeutronFluxes  = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
-	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	for(unsigned m = 0; m < m_meshNumber; m++)
 	{
 		matNeutronFluxes = m_materials[m]->getNeutronFlux();
 
-		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		for(unsigned i = 0; i < m_energyGroupsNumber; i++)
 			neutronFluxes(i, m) = matNeutronFluxes(i, 0);
 	}
 
 	return neutronFluxes;
+}
+
+void Mesh::setAdjointFluxes(Tensor3d& adjointFluxes)
+{
+    for(int m = 0; m < adjointFluxes.dimension(1); m++)
+	{
+		MatrixXd matAdjointFluxes = fromTensor2dToMatrixXd(adjointFluxes.chip(m, 1));
+		m_materials[m]->setAdjointFlux(matAdjointFluxes);
+	}
+}
+
+Tensor3d Mesh::getAdjointFluxes()
+{
+	unsigned nModes = getEigenmodesNumber();
+    Tensor3d adjointFluxes(m_energyGroupsNumber, m_meshNumber, nModes);
+	MatrixXd matAdjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
+
+	for(unsigned m = 0; m < m_meshNumber; m++)
+	{
+		matAdjointFluxes = m_materials[m]->getAdjointFlux();
+
+		for(unsigned n = 0; n < nModes; n++)
+			for(unsigned i = 0; i < m_energyGroupsNumber; i++)
+				adjointFluxes(i, m, n) = matAdjointFluxes(i, n);
+	}
+
+	return adjointFluxes;
+}
+
+MatrixXd Mesh::getFundamentalAdjointFluxes()
+{
+	unsigned nModes = getEigenmodesNumber();
+    MatrixXd adjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	MatrixXd matAdjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
+
+	for(unsigned m = 0; m < m_meshNumber; m++)
+	{
+		matAdjointFluxes = m_materials[m]->getAdjointFlux();
+
+		for(unsigned i = 0; i < m_energyGroupsNumber; i++)
+			adjointFluxes(i, m) = matAdjointFluxes(i, 0);
+	}
+
+	return adjointFluxes;
 }
 
 void Mesh::setExtSource(std::pair<double, int>& source)

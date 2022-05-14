@@ -22,9 +22,13 @@ public:
 	double getHeatSource() {return m_heatSource;}
 	void setEnergies(unsigned n) {m_energies = n;}
 
-    void setNeutronFlux(const Eigen::MatrixXd &neutronFlux) 
+    void setNeutronFlux(const Eigen::MatrixXd& neutronFlux) 
 	{m_neutronFlux = neutronFlux;}
 	Eigen::MatrixXd getNeutronFlux() {return m_neutronFlux;}
+
+	void setAdjointFlux(const Eigen::MatrixXd& adjointFlux) 
+	{m_adjointFlux = adjointFlux;}
+	Eigen::MatrixXd getAdjointFlux() {return m_adjointFlux;}
 
 	// Neutron cross section
 	void setTotalXSTempDependenceLaws(std::vector<std::string> &vec);
@@ -48,6 +52,7 @@ private:
 	double m_heatSource; // Watt/m3
 
     Eigen::MatrixXd m_neutronFlux; 
+	Eigen::MatrixXd m_adjointFlux;
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
 	std::vector< std::shared_ptr<PolynomialFunction> > m_totalXSTempDependenceLaws;

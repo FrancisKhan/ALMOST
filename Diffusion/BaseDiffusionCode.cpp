@@ -37,7 +37,7 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 				meshNeutronFluxes(j, i, n) = result.getModes().at(n).second(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
-	m_reactor.setKFactor(result.getFundamentalKFactor());
+	m_reactor.setForwardEigenValues(result.getEigenvalues());
 	m_mesh.setEigenmodesNumber(eigenmodesNumber);
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
@@ -47,14 +47,20 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }
 
-void BaseDiffusionCode::setEigenmodes(const Numerics::eigenmodesResults& result, 
-                                      const DirectionKind& dir)
+void BaseDiffusionCode::setAdjointModes(const Numerics::eigenmodesResults& result)
 {
-	if(dir == DirectionKind::FORWARD)
-		m_mesh.setForwardEigenmodes(result.getModes());
-	else if(dir == DirectionKind::ADJOINT)
-		m_mesh.setAdjointEigenmodes(result.getModes());
-	else{;}
+	int eigenmodesNumber = result.getEigenmodesNumber();
+	Tensor3d meshAdjointFluxes(m_energies, m_cells, eigenmodesNumber);
+    meshAdjointFluxes.setZero();
+
+	for(int n = 0; n < eigenmodesNumber; n++)
+		for(int i = 0; i < m_cells; i++)
+			for(int j = 0; j < m_energies; j++)
+				meshAdjointFluxes(j, i, n) = result.getModes().at(n).second(i + j * m_cells);
+
+	m_mesh.setAdjointFluxes(meshAdjointFluxes);
+	m_reactor.setAdjointEigenValues(result.getEigenvalues());
+	m_mesh.setEigenmodesNumber(eigenmodesNumber);
 }
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
@@ -62,7 +68,6 @@ Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()
 	VectorXd cellSizes = m_mesh.getCellSizes("cm");
 	MatrixXd D         = m_mesh.getDiffusionConstants();
 	VectorXd surfaces  = m_mesh.getSurfaces("cm");
-
 
 	MatrixXd DInterface = MatrixXd::Zero(m_energies, m_cells);
 

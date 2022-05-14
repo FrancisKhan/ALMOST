@@ -29,8 +29,16 @@ void DiffusionSolver::solve()
     }
     else{;}
 
-    diffCode->setEigenmodes(result, m_solverData.getDirection());
-    diffCode->setNewHeatSource(result);
+    if(m_solverData.getDirection() == DirectionKind::FORWARD)
+    {
+        diffCode->setNewHeatSource(result);
+    }
+    else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
+    {
+        diffCode->setAdjointModes(result);
+    }
+    else{;}
+
 }
 
 void DiffusionSolver::relaxResults(double par)
@@ -48,19 +56,19 @@ void DiffusionSolver::relaxResults(double par)
 
 void DiffusionSolver::printResults(TraceLevel level)
 {
-    out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
-
     if(m_solverData.getDirection() == DirectionKind::FORWARD)
     {
+        out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
         out.print(level, "Neutron Flux [1/(cm2*s)]:");
+        printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
     }
     else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
     {
+        out.print(level, "K-factor: {:7.6e} \n", m_reactor.getAdjointKFactor());
         out.print(level, "Adjoint Flux [arbitrary]:");
+        printMatrix(m_reactor.getMesh().getFundamentalAdjointFluxes(), out, level, true);
     }
     else{;}
-
-	printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
 	
     VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 
@@ -73,22 +81,26 @@ void DiffusionSolver::printResults(TraceLevel level)
 
 void DiffusionSolver::printEigenmodesResults(TraceLevel level)
 {
-    std::vector< std::pair<double, Eigen::VectorXd> > modes;
+    Numerics::Tensor3d modeFluxes;
+    std::vector<double> eigenvalues;
 
     if(m_solverData.getDirection() == DirectionKind::FORWARD)
     {
-        modes = m_reactor.getMesh().getForwardEigenmodes();
+        modeFluxes  = m_reactor.getMesh().getNeutronFluxes();
+        eigenvalues = m_reactor.getForwardEigenValues();
     }
     else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
     {
-        modes = m_reactor.getMesh().getAdjointEigenmodes();
+        modeFluxes = m_reactor.getMesh().getAdjointFluxes();
+        eigenvalues = m_reactor.getAdjointEigenValues();
     }
     else{;}
 
-    int i = 1;
-    for(const auto& m : modes)
+    for(unsigned n = 0; n < modeFluxes.dimension(2); n++)
     {
-        out.print(level, "\nEigenvalue {:3d}: {:7.6e} \n", i, m.first);
+		MatrixXd matrixFluxes = Numerics::fromTensor2dToMatrixXd(modeFluxes.chip(n, 2));
+
+        out.print(level, "\nEigenvalue {:3d}: {:7.6e} \n", int(n + 1), eigenvalues[n]);
 
         if(m_solverData.getDirection() == DirectionKind::FORWARD)
         {
@@ -100,7 +112,6 @@ void DiffusionSolver::printEigenmodesResults(TraceLevel level)
         }
         else{;}
 
-        printVector(m.second, out, level, true);
-        i++;
+        printMatrix(matrixFluxes, out, level, true);
     }
 }

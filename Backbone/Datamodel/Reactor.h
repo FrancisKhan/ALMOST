@@ -19,8 +19,12 @@ public:
 
     KineticsSet getKineticsSet() {return m_kineticsSet;}
 
-    void setKFactor(double kFactor) {m_kFactor = kFactor;}
-	double getKFactor() {return m_kFactor;}
+    void setForwardEigenValues(const std::vector<double>& v) {m_forwardEigenValues = v;}
+	void setAdjointEigenValues(const std::vector<double>& v) {m_adjointEigenValues = v;}
+	std::vector<double> getForwardEigenValues() {return m_forwardEigenValues;}
+	std::vector<double> getAdjointEigenValues() {return m_adjointEigenValues;}
+	double getKFactor() {return m_forwardEigenValues.front();}
+	double getAdjointKFactor() {return m_adjointEigenValues.front();}
 
 	void setThermalPower(double thermalPower) {m_thermalPower = thermalPower;}
 	double getThermalPower() {return m_thermalPower;}
@@ -38,9 +42,10 @@ public:
 private:
 	KineticsSet m_kineticsSet;
 	Mesh m_mesh;
-	double m_kFactor;
 	double m_thermalPower;
 	double m_albedo;
+	std::vector<double> m_forwardEigenValues;
+	std::vector<double> m_adjointEigenValues;
 
 	// to be placed elsewere
 	bool m_isMultiSolver;

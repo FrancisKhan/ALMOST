@@ -180,7 +180,7 @@ void BaseSpectrumCode::setNewHeatSource(Numerics::eigenmodesResults result)
 				//meshNeutronFluxes(j, i, n) = result.getFundamentalNeutronFLux()(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
-	m_reactor.setKFactor(result.getFundamentalKFactor());
+	m_reactor.setForwardEigenValues(result.getEigenvalues());
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 

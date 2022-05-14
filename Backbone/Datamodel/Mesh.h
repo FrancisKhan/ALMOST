@@ -45,17 +45,9 @@ public:
 	Numerics::Tensor3d getNeutronFluxes();
 	Eigen::MatrixXd getFundamentalNeutronFluxes();
 
-	void setForwardEigenmodes(const std::vector< std::pair<double, Eigen::VectorXd> >& modes) 
-	{m_forwardEigenmodes = modes;}
-
-	std::vector< std::pair<double, Eigen::VectorXd> > getForwardEigenmodes() 
-	{return m_forwardEigenmodes;}
-
-	void setAdjointEigenmodes(const std::vector< std::pair<double, Eigen::VectorXd> >& modes) 
-	{m_adjointEigenmodes = modes;}
-
-	std::vector< std::pair<double, Eigen::VectorXd> > getAdjointEigenmodes() 
-	{return m_adjointEigenmodes;}
+	void setAdjointFluxes(Numerics::Tensor3d& adjointFluxes);
+	Numerics::Tensor3d getAdjointFluxes();
+	Eigen::MatrixXd getFundamentalAdjointFluxes();
 
 	void setExternaSourceDistribution(int cell);
 	Eigen::VectorXd getExternaSourceDistribution() {return m_extSourceDistribution;}
@@ -71,7 +63,7 @@ public:
 	void setExtSource(std::pair<double, int>& source);
     Eigen::VectorXd getExtSourceDistribution() {return m_extSourceDistribution;}
 
-	void setEigenmodesNumber(unsigned nModes) {m_nModes = m_nModes;}
+	void setEigenmodesNumber(unsigned nModes) {m_nModes = nModes;}
     unsigned getEigenmodesNumber() {return m_nModes;}
 	
 private:
@@ -82,8 +74,6 @@ private:
 	unsigned m_energyGroupsNumber;
 	Eigen::VectorXd m_heatBoundaryConditions;
     std::vector< std::shared_ptr<Material> > m_materials;
-	std::vector< std::pair<double, Eigen::VectorXd> > m_forwardEigenmodes;
-	std::vector< std::pair<double, Eigen::VectorXd> > m_adjointEigenmodes;
 	Eigen::VectorXd m_extSourceDistribution;
 	unsigned m_nModes;
 };
