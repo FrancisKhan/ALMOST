@@ -5,19 +5,19 @@ using namespace Eigen;
 
 void ADSCalculation::solve()
 {
-	SolverData ForwardDiff = m_solver;
-	ForwardDiff.setKind(SolverKind::DIFFUSION);
-	ForwardDiff.setDirection(DirectionKind::FORWARD);
-	ForwardDiff.setEigenmodes(EigenmodesKind::ALL);	
+	SolverData ForwardDiffSolverData = m_solver;
+	ForwardDiffSolverData.setKind(SolverKind::DIFFUSION);
+	ForwardDiffSolverData.setDirection(DirectionKind::FORWARD);
+	ForwardDiffSolverData.setEigenmodes(EigenmodesKind::ALL);	
 
-    DiffusionSolver forwardDiffSolver(m_reactor, m_library, ForwardDiff);
+    DiffusionSolver forwardDiffSolver(m_reactor, m_library, ForwardDiffSolverData);
 
-	SolverData AdjointDiff = m_solver;
-	AdjointDiff.setKind(SolverKind::DIFFUSION);
-	AdjointDiff.setDirection(DirectionKind::ADJOINT);
-	AdjointDiff.setEigenmodes(EigenmodesKind::ALL);	
+	SolverData AdjointDiffSolverData = m_solver;
+	AdjointDiffSolverData.setKind(SolverKind::DIFFUSION);
+	AdjointDiffSolverData.setDirection(DirectionKind::ADJOINT);
+	AdjointDiffSolverData.setEigenmodes(EigenmodesKind::ALL);	
 
-    DiffusionSolver AdjointDiffSolver(m_reactor, m_library, AdjointDiff);
+    DiffusionSolver AdjointDiffSolver(m_reactor, m_library, AdjointDiffSolverData);
 
 	forwardDiffSolver.solve(); 
 	forwardDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);

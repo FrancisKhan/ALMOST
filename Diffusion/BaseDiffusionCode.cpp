@@ -92,14 +92,11 @@ MatrixXd BaseDiffusionCode::calcDiffOperatorMatrix()
 
     for(int e = 0; e < m_energies; e++)
     {
-        for(int m = 0; m < m_cells; m++)
-        {
-            if((m != 0) && (m != m_cells - 1))
-            {             
-                M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
-                M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
-                M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * m_volumes(m));
-            } 
+        for(int m = 1; m < m_cells - 1; m++)
+        {        
+            M(m + e * m_cells, m - 1 + e * m_cells) = - 2.0 * DInterface(e, m - 1);
+            M(m + e * m_cells, m + 1 + e * m_cells) = - 2.0 * DInterface(e, m);
+            M(m + e * m_cells, m + e * m_cells) = 2.0 * (DInterface(e, m) + DInterface(e, m - 1) + 0.5 * totXS(e, m) * m_volumes(m));
         }
     }
         
@@ -130,22 +127,41 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
     	albedoR = m_solverData.getAlbedo()[0];
 	}
 
-	for(int e = 0; e < m_energies; e++)
-    {
-		// Left boundary condition
+	int l = m_cells - 1;
 
-        B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));     
-        M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
-        M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * m_volumes(0));
+	bool isPeriodic = is_equal(albedoL, 2.0) && is_equal(albedoR, 2.0);
 
-		// Right boundary condition
+	if(!isPeriodic) // Albedo boundary conditions
+	{
+		for(int e = 0; e < m_energies; e++)
+		{
+			// Left boundary condition
+			B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));     
+			M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
+			M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * m_volumes(0));
 
-		int l = m_cells - 1;
+			// Right boundary condition
+			B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));          
+			M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
+			M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
+		}
+	}
+	else // Periodic boundary conditions
+	{
+		for(int e = 0; e < m_energies; e++)
+		{
+			// Left boundary condition
+			M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
+			M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + DInterface(e, l - 1) + 0.5 * totXS(e, 0) * m_volumes(0));
 
-		B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));          
-        M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
-        M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
-    }
+			// Right boundary condition
+			M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
+			M(l + e * m_cells, l + e * m_cells) = 2.0 * (DInterface(e, 0) + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
+
+			M(e * m_cells, l + e * m_cells) = M(l - 1 + e * m_cells, l + e * m_cells);
+			M(l + e * m_cells, e * m_cells) = M(e * m_cells, 1 + e * m_cells);
+		}
+	}
 
     out.print(TraceLevel::DEBUG, "M matrix [] (after boundary conditions):");
     printMatrix(M, out, TraceLevel::DEBUG);

@@ -2171,6 +2171,98 @@ TEST_F(DiffIntegrationTests, diff26)
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
 }
 
+// Graphite reactor with graphite reflector, slab geometry
+// Periodic boundary conditions (albedo = 2.0)
+// One energy group
+// Forward direction, fundamental eigenmode
+
+TEST_F(DiffIntegrationTests, diff27)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff27.txt";
+  const std::string outputPath = "outputs/Out_diff27.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double kEffRef = 1.229634;
+
+	std::vector<double> refFlux {9.528265e-03, 9.529803e-03, 9.532881e-03, 
+	9.537498e-03, 9.543656e-03, 9.551355e-03, 9.560596e-03, 9.571381e-03, 
+	9.583712e-03, 9.597590e-03, 9.613019e-03, 9.630000e-03, 9.648536e-03, 
+	9.668631e-03, 9.690286e-03, 9.713507e-03, 9.738296e-03, 9.764658e-03, 
+	9.792597e-03, 9.822118e-03, 9.853224e-03, 9.885922e-03, 9.920216e-03, 
+	9.956113e-03, 9.993617e-03, 1.003095e-02, 1.006509e-02, 1.009785e-02, 
+	1.012921e-02, 1.015917e-02, 1.018772e-02, 1.021486e-02, 1.024059e-02, 
+	1.026490e-02, 1.028780e-02, 1.030927e-02, 1.032933e-02, 1.034795e-02, 
+	1.036516e-02, 1.038093e-02, 1.039527e-02, 1.040818e-02, 1.041966e-02, 
+	1.042971e-02, 1.043832e-02, 1.044550e-02, 1.045125e-02, 1.045556e-02, 
+	1.045843e-02, 1.045986e-02, 1.045986e-02, 1.045843e-02, 1.045556e-02, 
+	1.045125e-02, 1.044550e-02, 1.043832e-02, 1.042971e-02, 1.041966e-02, 
+	1.040818e-02, 1.039527e-02, 1.038093e-02, 1.036516e-02, 1.034795e-02, 
+	1.032933e-02, 1.030927e-02, 1.028780e-02, 1.026490e-02, 1.024059e-02, 
+	1.021486e-02, 1.018772e-02, 1.015917e-02, 1.012921e-02, 1.009785e-02, 
+	1.006509e-02, 1.003095e-02, 9.993617e-03, 9.956113e-03, 9.920216e-03, 
+	9.885922e-03, 9.853224e-03, 9.822118e-03, 9.792597e-03, 9.764658e-03, 
+	9.738296e-03, 9.713507e-03, 9.690286e-03, 9.668631e-03, 9.648536e-03, 
+	9.630000e-03, 9.613019e-03, 9.597590e-03, 9.583712e-03, 9.571381e-03, 
+	9.560596e-03, 9.551355e-03, 9.543656e-03, 9.537498e-03, 9.532881e-03, 
+	9.529803e-03, 9.528265e-03};
+  
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+// Graphite reactor with graphite reflector, slab geometry
+// Periodic boundary conditions (albedo = 2.0)
+// Two energy groups
+// Forward direction, only fundamental mode
+
+TEST_F(DiffIntegrationTests, diff28)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff28.txt";
+  const std::string outputPath = "outputs/Out_diff28.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double kEffRef = 1.508205;
+
+	std::vector<double> refFlux {6.115490e-03, 6.435628e-03, 6.714999e-03, 
+	6.957235e-03, 7.165511e-03, 7.342572e-03, 7.490774e-03, 7.612102e-03, 
+	7.708199e-03, 7.780381e-03, 7.829653e-03, 7.856723e-03, 7.862004e-03, 
+	7.845626e-03, 7.807431e-03, 7.746977e-03, 7.663529e-03, 7.556050e-03, 
+	7.423194e-03, 7.263286e-03, 7.074306e-03, 6.853863e-03, 6.599171e-03, 
+	6.307015e-03, 5.973716e-03, 5.580097e-03, 5.215455e-03, 4.891883e-03, 
+	4.606810e-03, 4.357969e-03, 4.143384e-03, 3.961349e-03, 3.810418e-03, 
+	3.689390e-03, 3.597304e-03, 3.533429e-03, 3.497255e-03, 3.488497e-03, 
+	3.507083e-03, 3.553162e-03, 3.627099e-03, 3.729483e-03, 3.861125e-03, 
+	4.023073e-03, 4.216612e-03, 4.443281e-03, 4.704881e-03, 5.003490e-03, 
+	5.341481e-03, 5.721540e-03, 1.406299e-02, 1.364847e-02, 1.328245e-02, 
+	1.296121e-02, 1.268151e-02, 1.244055e-02, 1.223593e-02, 1.206562e-02, 
+	1.192794e-02, 1.182153e-02, 1.174538e-02, 1.169875e-02, 1.168122e-02, 
+	1.169266e-02, 1.173322e-02, 1.180335e-02, 1.190380e-02, 1.203563e-02, 
+	1.220019e-02, 1.239921e-02, 1.263473e-02, 1.290920e-02, 1.322545e-02, 
+	1.358675e-02, 1.399685e-02, 1.445802e-02, 1.486707e-02, 1.522963e-02, 
+	1.554894e-02, 1.582787e-02, 1.606890e-02, 1.627418e-02, 1.644555e-02, 
+	1.658451e-02, 1.669227e-02, 1.676977e-02, 1.681764e-02, 1.683624e-02, 
+	1.682567e-02, 1.678575e-02, 1.671601e-02, 1.661571e-02, 1.648385e-02, 
+	1.631909e-02, 1.611983e-02, 1.588412e-02, 1.560971e-02, 1.529398e-02, 
+	1.493393e-02, 1.452620e-02};
+  
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
 // slab geometry, memory test
 
 TEST_F(DiffIntegrationTests, memTestDiffSlab)
