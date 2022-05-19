@@ -2,6 +2,7 @@
 #include "DiffusionSolver.h"
 
 using namespace Eigen;
+using namespace Numerics;
 
 void ADSCalculation::solve()
 {
@@ -25,16 +26,18 @@ void ADSCalculation::solve()
     AdjointDiffSolver.solve(); 
 	AdjointDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);
 
-	// Eigen::VectorXd q = m_reactor.getMesh().getExtSourceDistribution();
+	std::tuple<double, unsigned, unsigned> q = m_reactor.getExtSource();
+	Tensor3d forwardModes = m_reactor.getMesh().getNeutronFluxes();
+	Tensor3d adjointModes = m_reactor.getMesh().getAdjointFluxes();
+	VectorXd volumes = m_reactor.getMesh().getVolumes("cm");
 
-	// // Calculate <q adjoint>
-	// double qAdjointN = 0;
-	// unsigned cells = m_reactor.getMesh().getCellsNumber();
+	// Calculate <q x adjoint>
+	unsigned sourceEnergy   = std::get<2>(q) - 1;
+	unsigned sourcePosition = std::get<1>(q) - 1;
+	Tensor2d qAdjointModes2T = adjointModes.chip(sourceEnergy, 0);
+	Tensor1d qAdjointModes1T = qAdjointModes2T.chip(sourcePosition, 0);
+	VectorXd qAdjointModes1 = fromTensor1dToMatrixXd(qAdjointModes1T);
 
-	// for(size_t n = 0; n < m_reactor.getMesh().getForwardEigenmodes().size(); n++)
-	// 	for(size_t c = 0; c < cells; c++)
-	// 		for(size_t e = 0; e < m_reactor.getMesh().getEnergyGroupsNumber(); e++)
-	// 			qAdjointN = q(c + e * cells)
-
+	//q_x needs to be multiplied by the cell volume
 
 }

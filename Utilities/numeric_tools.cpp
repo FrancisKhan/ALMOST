@@ -304,4 +304,35 @@ namespace Numerics
 
 		return eigenVectorsAndValues;
 	}
+
+	bool hasImagValues(const Eigen::VectorXcd& a)
+    {
+      bool result = false;
+
+      if(std::any_of(a.begin(), a.end(), [](std::complex<double> i){return is_greater(i.imag(), 0.0);}))
+        result = true;
+
+      return result;
+    }
+
+    Eigen::VectorXd fromTensor1dToMatrixXd(const Tensor1d& t)
+    {
+        Eigen::VectorXd result = Eigen::VectorXd::Zero(t.dimension(0));
+
+        for(auto i = 0; i < t.dimension(0); i++)
+            result(i) = t(i);
+
+        return result;
+    }
+
+    Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t)
+    {
+        Eigen::MatrixXd result = Eigen::MatrixXd::Zero(t.dimension(0), t.dimension(1));
+
+        for(auto i = 0; i < t.dimension(0); i++)
+            for(auto j = 0; j < t.dimension(1); j++)
+                result(i, j) = t(i, j);
+
+        return result;
+    }
 }

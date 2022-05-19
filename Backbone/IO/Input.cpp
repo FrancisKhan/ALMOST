@@ -885,19 +885,6 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					exit(-1);
 				}
 			}
-			else if(values[0] == "ext_source")
-			{
-				if((inputSolver == SolverKind::ADS))
-				{
-					std::pair<double, int> source = std::make_pair(std::stod(values[1]), std::stoi(values[2]));
-					m_mesh.setExtSource(source);
-				}
-				else
-				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
-					exit(-1);
-				}			
-			}
 			else {;}
 		}
 		else if(values.size() == 4) 
@@ -916,6 +903,21 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					exit(-1);
 				}
 
+			}
+			else if(values[0] == "ext_source")
+			{
+				if((inputSolver == SolverKind::ADS))
+				{
+					std::tuple<double, unsigned, unsigned> source = 
+					         std::make_tuple(std::stod(values[1]), std::stoi(values[2]), std::stoi(values[3]));
+
+					m_reactor.setExtSource(source);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					exit(-1);
+				}			
 			}
 			else {;}
 		}

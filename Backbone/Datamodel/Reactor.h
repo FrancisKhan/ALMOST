@@ -39,6 +39,9 @@ public:
 	void setLogLevel(TraceLevel level) {m_logLevel = level;}
 	TraceLevel getLogLevel() {return m_logLevel;}
 
+	void setExtSource(std::tuple<double, unsigned, unsigned>& source) {m_extSource = source;}
+    std::tuple<double, unsigned, unsigned> getExtSource() {return m_extSource;}
+
 private:
 	KineticsSet m_kineticsSet;
 	Mesh m_mesh;
@@ -51,6 +54,7 @@ private:
 	bool m_isMultiSolver;
 	std::vector<SolverData> m_solvers;
 	TraceLevel m_logLevel;
+	std::tuple<double, unsigned, unsigned> m_extSource;
 };
 
 #endif

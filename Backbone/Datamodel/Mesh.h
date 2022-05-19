@@ -41,6 +41,8 @@ public:
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();
 
+	// Energy, Material, Mode
+
     void setNeutronFluxes(Numerics::Tensor3d& neutronFluxes);
 	Numerics::Tensor3d getNeutronFluxes();
 	Eigen::MatrixXd getFundamentalNeutronFluxes();
@@ -59,9 +61,6 @@ public:
 	Eigen::MatrixXd getDiffusionConstants();
 	Eigen::MatrixXd getRemovalXSs();
 	Numerics::Tensor3d getScattMatrices();
-
-	void setExtSource(std::pair<double, int>& source);
-    Eigen::VectorXd getExtSourceDistribution() {return m_extSourceDistribution;}
 
 	void setEigenmodesNumber(unsigned nModes) {m_nModes = nModes;}
     unsigned getEigenmodesNumber() {return m_nModes;}
