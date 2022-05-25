@@ -8,6 +8,7 @@
 
 #include "Output.h"
 #include "SolverData.h"
+#include "eigenmodesResults.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <Eigen/Dense>
@@ -19,50 +20,6 @@
 
 namespace Numerics
 {
-    typedef struct eigenmodesResults_
-    { 
-        Eigen::VectorXd fundamentalNeutronFlux;
-        double fundamentalKFactor;
-        std::vector< std::pair<double, Eigen::VectorXd> > eigenmodes;
-
-        eigenmodesResults_() 
-        {
-            fundamentalNeutronFlux = Eigen::VectorXd::Zero(1);
-            fundamentalKFactor = 0.0;
-        } 
-
-        eigenmodesResults_(const Eigen::VectorXd& flux, const double& kFactor) 
-        {
-            fundamentalNeutronFlux = flux; 
-            fundamentalKFactor = kFactor;
-            eigenmodes.push_back(std::make_pair(kFactor, flux));
-        }
-
-        eigenmodesResults_(const std::vector< std::pair<double, Eigen::VectorXd> >& modes)
-        {
-            eigenmodes = modes;
-            fundamentalKFactor = eigenmodes.front().first;
-            fundamentalNeutronFlux = eigenmodes.front().second;
-        }
-
-        Eigen::VectorXd getFundamentalNeutronFLux() const {return fundamentalNeutronFlux;}
-        double getFundamentalKFactor() const {return fundamentalKFactor;}
-        std::vector< std::pair<double, Eigen::VectorXd> > getModes() const {return eigenmodes;}
-
-        std::vector<double> getEigenvalues() const 
-        {
-            std::vector<double> result;
-            
-            for(const auto& i : eigenmodes)
-                result.push_back(i.first);
-
-            return result;
-        }
-
-        size_t getEigenmodesNumber() const {return eigenmodes.size();}
-
-    } eigenmodesResults;
-
     typedef Eigen::Tensor<double, 1> Tensor1d;
     typedef Eigen::Tensor<double, 2> Tensor2d;
     typedef Eigen::Tensor<double, 3> Tensor3d;
@@ -246,7 +203,7 @@ namespace Numerics
     }
 
     bool hasImagValues(const Eigen::VectorXcd& a);
-    Eigen::VectorXd fromTensor1dToMatrixXd(const Tensor1d& t);
+    Eigen::VectorXd fromTensor1dToVectorXd(const Tensor1d& t);
     Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t);
 
     Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 

@@ -25,7 +25,7 @@ VectorXd BaseDiffusionCode::calcFissionPowerDistribution()
 	return powerDistribution;
 }
 
-void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
+void BaseDiffusionCode::setNewHeatSource(const eigenmodesResults& result)
 {
 	int eigenmodesNumber = result.getEigenmodesNumber();
 	Tensor3d meshNeutronFluxes(m_energies, m_cells, eigenmodesNumber);
@@ -47,7 +47,7 @@ void BaseDiffusionCode::setNewHeatSource(Numerics::eigenmodesResults result)
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
 }
 
-void BaseDiffusionCode::setAdjointModes(const Numerics::eigenmodesResults& result)
+void BaseDiffusionCode::setAdjointModes(const eigenmodesResults& result)
 {
 	int eigenmodesNumber = result.getEigenmodesNumber();
 	Tensor3d meshAdjointFluxes(m_energies, m_cells, eigenmodesNumber);

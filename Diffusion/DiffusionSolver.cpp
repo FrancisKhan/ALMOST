@@ -17,7 +17,7 @@ void DiffusionSolver::solve()
     MatrixXd MMatrix  = diffCode->calcMMatrix(DMatrix2);
     MatrixXd FMatrix  = diffCode->calcFMatrix();
 
-    Numerics::eigenmodesResults result;
+    eigenmodesResults result;
 
     if(m_solverData.getEigenmodes() == EigenmodesKind::FUNDAMENTAL)
     {

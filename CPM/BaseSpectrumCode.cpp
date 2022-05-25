@@ -166,7 +166,7 @@ VectorXd BaseSpectrumCode::calcFissionPowerDistribution()
 }
 
 
-void BaseSpectrumCode::setNewHeatSource(Numerics::eigenmodesResults result)
+void BaseSpectrumCode::setNewHeatSource(const eigenmodesResults& result)
 {
 	//MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
 	int eigenmodesNumber = result.getEigenmodesNumber();

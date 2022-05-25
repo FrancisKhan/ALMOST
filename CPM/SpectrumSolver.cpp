@@ -18,7 +18,7 @@ void SpectrumSolver::solve()
 	MatrixXd MMatrix = spectrumCode->calcMMatrix(cpm);
 	MatrixXd FMatrix = spectrumCode->calcFMatrix(cpm);
  
-	Numerics::eigenmodesResults result;
+	eigenmodesResults result;
 
     if(m_solverData.getEigenmodes() == EigenmodesKind::FUNDAMENTAL)
     {

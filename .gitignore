@@ -51,6 +51,7 @@ configurationCache.log
 dryrun.log
 targets.log
 DartConfiguration.tcl
+*.pdf
 
 # Specific ones
 app/almost
@@ -64,6 +65,7 @@ tests/tests/
 external/eigen-lib
 external/boost-lib
 external/spdlog-lib
+external/sciplot-lib
 external/googletest*
 git-version.h
 **build
