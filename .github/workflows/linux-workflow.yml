@@ -15,6 +15,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y valgrind
+        sudo apt-get install -y gnuplot
            
     - name: Checkout Almost Repository
       uses: actions/checkout@v2
