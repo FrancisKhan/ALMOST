@@ -33,7 +33,7 @@ ExternalProject_Add(
 ExternalProject_Add(
     sciplot 
     PREFIX "sciplot-lib"
-    URL https://github.com/sciplot/sciplot/archive/refs/heads/master.zip
+    URL https://github.com/sciplot/sciplot/archive/refs/tags/v0.2.2.zip
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ""
     INSTALL_COMMAND ""
