@@ -58,4 +58,23 @@ namespace PlotFuncs
             plots[e].save(fileName);
         }
 	}
+
+    bool plotsContain(const std::vector<PlotKind>& vec, const PlotKind& kind)
+    {
+        if (std::find(vec.begin(), vec.end(), kind) != vec.end())
+            return true;
+        else
+            return false;
+    }
+
+	void generatePlots(const std::vector<PlotKind>& vec, Reactor& reactor)
+	{
+        if(plotsContain(vec, PlotKind::NEUTRONFLUX))
+            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), reactor.getMesh().getNeutronFluxes(), 5);
+        else if(plotsContain(vec, PlotKind::ADJOINTFLUX))
+            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), reactor.getMesh().getAdjointFluxes(), 5);
+        else {;}
+	}
 }
+
+

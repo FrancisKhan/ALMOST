@@ -82,5 +82,5 @@ void ADSCalculation::solve()
 	out.print(TraceLevel::CRITICAL, "Total Flux:");
     printMatrix(totalFluxes, out, TraceLevel::CRITICAL, true);
 
-	PlotFuncs::plot3DNeutronFluxes(m_reactor.getMesh().getMeshMiddlePoints(), forwardModes, 2);
+	PlotFuncs::generatePlots(Input::getPlots(), m_reactor);
 }

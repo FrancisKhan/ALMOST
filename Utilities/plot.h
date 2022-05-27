@@ -1,6 +1,7 @@
 #ifndef PLOT_H
 #define PLOT_H
 
+#include "Input.h"
 #include "numeric_tools.h"
 #include <sciplot/sciplot.hpp>
 
@@ -12,6 +13,9 @@ namespace PlotFuncs
     sciplot::Vec toSciplotVec(const Numerics::Tensor1d& t);
     sciplot::Vec toSciplotVec(const Eigen::VectorXd& vec);
     sciplot::Vec toSciplotVec(const std::vector<double>& stdVec);
+
+    void generatePlots(const std::vector<PlotKind>& vec, Reactor& reactor);
+    bool plotsContain(const std::vector<PlotKind>& vec, const PlotKind& kind);
 }
 
 #endif

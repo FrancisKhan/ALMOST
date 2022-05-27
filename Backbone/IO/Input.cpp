@@ -17,6 +17,8 @@ using namespace Numerics;
 using namespace PrintFuncs;
 using namespace HelperTools;
 
+std::vector<PlotKind> Input::m_plots {};
+
 void Input::getArguments(int argc, char** argv)
 {
 	if(argc < 3)
@@ -143,6 +145,8 @@ void Input::readData()
 		}
 		else {}
 	}
+
+	setPlots();
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -185,7 +189,8 @@ std::pair<unsigned, unsigned> Input::findBlock(std::string keyOne, std::string k
 	return std::make_pair(startLine, endLine);
 }
 
-std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned topLimit)
+std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned topLimit, 
+							   bool optional)
 {
 	bool keywordFound = false;
 	size_t pos = 0;
@@ -209,7 +214,7 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 		counter++;
 	}
 
-    if(keywordFound == false) 
+    if(keywordFound == false && optional == false) 
 	{
 		out.print(TraceLevel::CRITICAL, "{} is missing from the input!", toSearch);
 	    exit(-1);
@@ -595,12 +600,17 @@ std::string Input::readOneParameter(std::string name)
    return result;
 }
 
-std::vector<std::string> Input::readManyParameters(std::string name)
+std::vector<std::string> Input::readManyParameters(std::string name, bool optional)
 {
    std::vector<std::string> result;
-   std::vector<std::string> words = splitLine(findKeyword(name));
-   
-   if(words.size() == 1)
+   std::vector<std::string> words = splitLine(findKeyword(name, 0, 
+                                              std::numeric_limits<unsigned>::max(), 
+											  optional));
+   if(words.size() == 0)
+   {
+	   result.push_back("");
+   }
+   else if(words.size() == 1)
    {
 	   out.print(TraceLevel::CRITICAL, "{} is missing its parameters!", words[0]);
 	   exit(-1);
@@ -949,93 +959,21 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 	}
 }
 
+void Input::setPlots()
+{ 
+    std::vector<std::string> values = readManyParameters("plots", true); 
 
-// void Input::setMatrixXS(std::string name, std::string outputName)
-// {
-//     Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
-//     matrix.setZero();
-
-// 	for (auto matListItem : m_materialList)
-//     {
-//        std::string matStr = "material";
-// 	   readOneParameter(matStr + " " + matListItem);
-// 	   std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
-
-// 		for(unsigned m = 0; m < m_cells; m++)
-//     	{
-//         	if (m_materialMap[m] != matListItem) continue;
-
-// 			for (unsigned i = 1; i <= m_energies; i++)
-//     		{
-// 	    		for (unsigned j = 1; j <= m_energies; j++)
-// 	    		{
-// 					std::string str = name + "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
-// 					std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-// 					matrix(i - 1, j - 1, m) = std::stod(values[2]);
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	m_mesh.setScattMatrices(matrix);
-
-// 	out.print(TraceLevel::CRITICAL, outputName);
-//     printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
-// }
-
-// void Input::setXS(std::string name, std::string outputName)
-// {
-// 	VectorXd energyVec = VectorXd::Zero(m_energies);
-
-// 	out.print(TraceLevel::CRITICAL, outputName);
-
-// 	for (auto matListItem : m_materialList)
-//     {
-//         std::string matStr = "material";
-// 	    readOneParameter(matStr + " " + matListItem);
-// 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
-
-// 		for(unsigned m = 0; m < m_cells; m++)
-//     	{
-// 			if (m_materialMap[m] != matListItem) continue;
-
-// 			for (unsigned i = 1; i <= m_energies; i++)
-//    			{
-// 				std::string str = name + "(" + std::to_string(i) + ")";
-// 				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-// 				energyVec(i - 1) = std::stod(values[1]);
-// 			}
-
-//             if(name == "ni") 
-// 				m_mesh.getMaterial(m)->setNi(energyVec);
-// 			else if(name == "chi") 
-// 				m_mesh.getMaterial(m)->setChi(energyVec);
-// 			else if(name == "fission") 
-// 				m_mesh.getMaterial(m)->setFissionXS(energyVec);
-// 			else if(name == "total") 
-// 				m_mesh.getMaterial(m)->setTotalXS(energyVec);
-// 			else if(name == "absorption") 
-// 				m_mesh.getMaterial(m)->setAbsXS(energyVec);
-// 			else if(name == "diffCoeff") 
-// 				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
-// 			else {;}
-// 		}
-// 	}
-
-// 	for(unsigned m = 0; m < m_cells; m++)
-//     {
-//         if(name == "ni") 
-// 			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "chi") 
-// 			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "fission") 
-// 			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "total") 
-// 			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "absorption") 
-// 			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "diffCoeff") 
-// 			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL, false , false);
-// 		else {;}
-// 	}
-// }
+	if(values.size() != 0)
+	{
+		for(const auto& v : values)
+		{
+			if(v == "neutronflux")
+				m_plots.push_back(PlotKind::NEUTRONFLUX);
+			else if(v == "adjointflux")
+				m_plots.push_back(PlotKind::ADJOINTFLUX);
+			else if(v == "totalflux")
+				m_plots.push_back(PlotKind::TOTALFLUX);
+			else {;}
+		}
+	}  
+}  

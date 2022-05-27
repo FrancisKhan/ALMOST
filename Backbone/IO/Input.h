@@ -8,6 +8,8 @@
 #include "helper_tools.h"
 #include "numeric_tools.h"
 
+enum class PlotKind {NEUTRONFLUX, ADJOINTFLUX, TOTALFLUX};
+
 class Input
 {
     typedef std::pair<unsigned, unsigned> us_pair;
@@ -21,13 +23,15 @@ public:
 	void printData();
 	void getArguments(int argc, char** argv);
 	std::vector<SolverData> getSolvers() {return m_solvers;};
+
+	static std::vector<PlotKind> getPlots() {return m_plots;}
 	
 private:									  
     void removeExtraSpaces(const std::string &input, std::string &output);
     std::vector<std::string> splitLine(std::string line);
 
     std::string findKeyword(std::string toSearch, unsigned lowLimit = 0, 
-	unsigned topLimit = std::numeric_limits<unsigned>::max());
+	unsigned topLimit = std::numeric_limits<unsigned>::max(), bool optional = false);
 	
 	std::pair<unsigned, unsigned> findBlock(std::string keyOne, std::string keyTwo);
 	void setGeometryKind();
@@ -39,9 +43,10 @@ private:
    	void setSolvers();
 	void setMaterialProperties(std::string name);
 	void setThermalConductivity(std::vector<std::string> &values, unsigned index);
+	void setPlots();
 
     std::string readOneParameter(std::string name);
-	std::vector<std::string> readManyParameters(std::string name);
+	std::vector<std::string> readManyParameters(std::string name, bool optional = false);
 	
 	std::vector<double> setManyParameters(std::string name, 
 										  std::string prefix = "");
@@ -66,6 +71,7 @@ private:
 	std::vector<std::string> m_inputLines;
 	std::vector<std::string> m_materialMap;
 	std::vector<std::string> m_materialList;
+	static std::vector<PlotKind> m_plots;
 };
 
 #endif
