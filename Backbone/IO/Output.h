@@ -21,6 +21,7 @@ public:
 	TraceLevel getLevel() {return m_logLevel;}
 	std::string getInputPath() {return m_inputPath;}
 	std::string getInputName() {return m_inputName;}
+	std::string getInputNameNoExt();
 	std::string getOutputName() {return m_outputName;}
 
 	void print(TraceLevel level, std::string str);

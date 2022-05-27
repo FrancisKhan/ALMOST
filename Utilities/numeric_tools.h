@@ -29,7 +29,7 @@ namespace Numerics
     double bickley3f_old(const double x);
     double delk(int a, int b);
 
-    void diagonalDominanceCheck(Eigen::MatrixXd &matrix);
+    void diagonalDominanceCheck(const Eigen::MatrixXd& matrix);
 
     std::vector<double> multiply_poly(std::vector<double> &a, 
                                   std::vector<double> &b);
@@ -211,8 +211,9 @@ namespace Numerics
                   	               const Eigen::VectorXd &c, 
                                    const Eigen::VectorXd &d);
 
-    eigenmodesResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData);
+    eigenmodesResults sourceIteration(const Eigen::MatrixXd& Mmatrix, 
+                                      const Eigen::MatrixXd& Fmatrix, 
+                                      const SolverData& solverData);
 
     Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
     Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v);
@@ -221,7 +222,9 @@ namespace Numerics
     std::vector< std::pair< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
 	                                                                   const Eigen::MatrixXcd& evectors);
 
-    eigenmodesResults GeneralizedEigenSolver(Eigen::MatrixXd& Mmatrix, Eigen::MatrixXd& Fmatrix);
+    eigenmodesResults GeneralizedEigenSolver(const Eigen::MatrixXd& Mmatrix, 
+                                             const Eigen::MatrixXd& Fmatrix, 
+                                             const SolverData& solverData);
 }
 
 #endif

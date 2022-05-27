@@ -21,7 +21,7 @@ namespace Numerics
 		return a == b ? 1.0 : 0.0;
 	} 
 
-	void diagonalDominanceCheck(Eigen::MatrixXd &matrix)
+	void diagonalDominanceCheck(const Eigen::MatrixXd& matrix)
 	{
 		Eigen::VectorXd rowSum = Eigen::VectorXd::Zero(matrix.rows());
 
@@ -191,8 +191,9 @@ namespace Numerics
        return result;
     }
 
-	eigenmodesResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData)
+	eigenmodesResults sourceIteration(const Eigen::MatrixXd& Mmatrix, 
+	                                  const Eigen::MatrixXd& Fmatrix, 
+                                      const SolverData& solverData)
 	{
 		diagonalDominanceCheck(Mmatrix);
 	
@@ -253,11 +254,13 @@ namespace Numerics
 		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.lpNorm<1>(); 
 		double kFactor = kFactor2;
 
-		eigenmodesResults result(neutronFlux, kFactor);
+		eigenmodesResults result(neutronFlux, kFactor, solverData.getDirection());
 		return result;
 	}
 
-	eigenmodesResults GeneralizedEigenSolver(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix)
+	eigenmodesResults GeneralizedEigenSolver(const Eigen::MatrixXd& Mmatrix, 
+	                                         const Eigen::MatrixXd& Fmatrix, 
+											 const SolverData& solverData)
 	{
 		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
 		Eigen::VectorXcd eigenvalues = es.eigenvalues();
@@ -269,7 +272,7 @@ namespace Numerics
 		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
 		                sortEigenmodes(eigenvalues, eigenvectors);
 
-		eigenmodesResults result(eigenVectorsAndValues);
+		eigenmodesResults result(eigenVectorsAndValues, solverData.getDirection());
 		return result;
 	}
 	

@@ -113,6 +113,21 @@ void Output::removeOldOutputFile()
 	}
 }
 
+std::string Output::getInputNameNoExt()
+{
+	std::string inputName = getInputName();
+
+    std::string result("");
+	std::size_t found = inputName.find_last_of(".\\");
+
+	if (found != std::string::npos)
+	{
+	    result = inputName.substr(0, found);
+    }
+
+    return result;
+}
+
 void Output::print(TraceLevel level, std::string str)
 {
 	if (level == TraceLevel::CRITICAL)

@@ -16,11 +16,11 @@ public:
     m_DirKind(DirectionKind::UNDEFINED), m_EigenKind(EigenmodesKind::UNDEFINED) {}
 	
     void setKind(SolverKind kind) {m_kind = kind;}
-    SolverKind getKind() {return m_kind;}
+    SolverKind getKind() const {return m_kind;}
     void setAccuracy(double accuracy) {m_accuracy = accuracy;}
-    double getAccuracy() {return m_accuracy;}
+    double getAccuracy() const {return m_accuracy;}
     void setMaxIterNumber(int maxIterNumber) {m_maxIterNumber = maxIterNumber;}
-    int getMaxIterNumber() {return m_maxIterNumber;}
+    int getMaxIterNumber() const  {return m_maxIterNumber;}
     void setRelaxationParameter(double param) {m_relaxParam = param;}
     double getRelaxationParameter() {return m_relaxParam;}
     void setAlbedo(std::vector<double> albedo) {m_albedo = albedo;}
@@ -28,9 +28,9 @@ public:
     void setHeatBoundaryConditions(std::vector<std::string> &values);
     std::pair<Eigen::VectorXd, Eigen::VectorXd> getHeatBoundaryConditions();
     void setEnergies(int energies) {m_energies = energies;}
-    int getEnergies() {return m_energies;}
+    int getEnergies() const {return m_energies;}
     void setDirection(DirectionKind kind) {m_DirKind = kind;}
-    DirectionKind getDirection() {return m_DirKind;}
+    DirectionKind getDirection() const {return m_DirKind;}
     void setEigenmodes(EigenmodesKind kind) {m_EigenKind = kind;}
     EigenmodesKind getEigenmodes() {return m_EigenKind;}
 	

@@ -26,7 +26,7 @@ void SpectrumSolver::solve()
     }
     else if(m_solverData.getEigenmodes() == EigenmodesKind::ALL)
     {
-        result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix);
+        result = Numerics::GeneralizedEigenSolver(MMatrix, FMatrix, m_solverData);
     }
     else{;}
 

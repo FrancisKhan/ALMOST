@@ -1,4 +1,5 @@
 #include "plot.h"
+#include "Output.h"
 
 using namespace sciplot;
 using namespace Numerics;
@@ -6,31 +7,33 @@ using namespace Eigen;
 
 namespace PlotFuncs
 {
-    Vec fromSTDVecToSciplotVec(const std::vector<double>& stdVec)
+    Vec toSciplotVec(const std::vector<double>& stdVec)
     {
         return std::valarray(stdVec.data(), stdVec.size());
     }
 
-    Vec fromVectorXdToSciplotVec(const VectorXd& vec)
+    Vec toSciplotVec(const VectorXd& vec)
     {
         std::vector<double> stdVec(vec.data(), vec.data() + vec.size());
-        return fromSTDVecToSciplotVec(stdVec);
+        return toSciplotVec(stdVec);
     }
 
-    Vec fromTensor1dToSciplotVec(const Tensor1d& t)
+    Vec toSciplotVec(const Tensor1d& t)
     {
         Eigen::VectorXd eigenVec = fromTensor1dToVectorXd(t);
-        return fromVectorXdToSciplotVec(eigenVec);
+        return toSciplotVec(eigenVec);
     }
 
 	void plot3DNeutronFluxes(const VectorXd& xx, const Tensor3d& t, unsigned nModes)
 	{
         std::valarray<double> y(0.0, t.dimension(1));
 
-        Vec x = fromVectorXdToSciplotVec(xx);
+        Vec x = toSciplotVec(xx);
 
         std::vector<Plot> plots;
         plots.resize(t.dimension(0));
+
+        std::string inputName = out.getInputNameNoExt();
 
         for(auto e = 0; e < t.dimension(0); e++)
         {
@@ -51,8 +54,8 @@ namespace PlotFuncs
                 plots[e].drawCurve(x, y).label(label).lineWidth(2);
             }
 
-            std::string graphName = "FluxGroup" + std::to_string(e + 1) + ".pdf";
-            plots[e].save(graphName);
+            std::string fileName = inputName + "_EnergyGroup" + std::to_string(e + 1) + ".pdf";
+            plots[e].save(fileName);
         }
 	}
 }

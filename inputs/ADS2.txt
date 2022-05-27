@@ -5,7 +5,7 @@
 solvers ads
 
 geometry  slab
-mesh 50 2.0 M1
+mesh 25 1.0 M1
 
 material M1
 
@@ -29,6 +29,6 @@ scattMatrix(2, 2) 2.58622e-01
 solver ads
 accuracy 1.0E-8
 max_iteration_number 20
-albedo 0.0 0.0
+albedo 1.0 0.0
 energies  2
 ext_source 1.0 1 2
