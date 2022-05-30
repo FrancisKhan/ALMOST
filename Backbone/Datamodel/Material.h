@@ -30,6 +30,10 @@ public:
 	{m_adjointFlux = adjointFlux;}
 	Eigen::MatrixXd getAdjointFlux() {return m_adjointFlux;}
 
+	void setTotalFlux(const Eigen::VectorXd& totalFlux) 
+	{m_totalFlux = totalFlux;}
+	Eigen::MatrixXd getTotalFlux() {return m_totalFlux;}
+
 	// Neutron cross section
 	void setTotalXSTempDependenceLaws(std::vector<std::string> &vec);
 	void setFissionXSTempDependenceLaws(std::vector<std::string> &vec);
@@ -53,6 +57,7 @@ private:
 
     Eigen::MatrixXd m_neutronFlux; 
 	Eigen::MatrixXd m_adjointFlux;
+	Eigen::VectorXd m_totalFlux;
 
 	std::shared_ptr<PolynomialFunction> m_thermalConductivityLaw;
 	std::vector< std::shared_ptr<PolynomialFunction> > m_totalXSTempDependenceLaws;

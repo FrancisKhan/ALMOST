@@ -453,3 +453,29 @@ MatrixXd Mesh::getProductionOperator()
 
 	return result;
 }
+
+void Mesh::setTotalFluxes(MatrixXd &totalFluxes)
+{
+    for(unsigned m = 0; m < m_meshNumber; m++)
+	{
+		m_materials[m]->setTotalFlux(totalFluxes.col(m));
+	}
+}
+
+MatrixXd Mesh::getTotalFluxes()
+{
+    MatrixXd totalFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
+	VectorXd totalFlux   = VectorXd::Zero(m_energyGroupsNumber);
+
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	{
+		totalFlux = m_materials[m]->getTotalFlux();
+
+		for(unsigned i = 0; i < m_energyGroupsNumber; i++)
+		{
+			totalFluxes(i, m) = totalFlux(i);
+		}
+	}
+
+	return totalFluxes;
+}

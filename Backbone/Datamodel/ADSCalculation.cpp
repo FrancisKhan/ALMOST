@@ -79,6 +79,9 @@ void ADSCalculation::solve()
 				totalFluxes(e, m) += (forwardEigenvalues[n] / (1.0 - forwardEigenvalues[n])) * 
 									ratio(n) * forwardModes(e, m, n);
 
+	Mesh& mesh = m_reactor.getMesh();
+	mesh.setTotalFluxes(totalFluxes);
+
 	out.print(TraceLevel::CRITICAL, "Total Flux:");
     printMatrix(totalFluxes, out, TraceLevel::CRITICAL, true);
 

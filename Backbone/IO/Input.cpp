@@ -775,8 +775,8 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 
         std::string matStr = "solver";
-	    readOneParameter(matStr + " " + get_name(solver.getKind()));
-	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
+	    readOneParameter(matStr + " " + get_solver_name(solver.getKind()));
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_solver_name(solver.getKind()));
 		std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
 
 		if(values.size() < 1) 
@@ -786,7 +786,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 2) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_name(solver.getKind()), values[0], values[1]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_solver_name(solver.getKind()), values[0], values[1]);
 
 			if(values[0] == "accuracy")
 				solver.setAccuracy(std::stod(values[1]));
@@ -810,7 +810,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				{
 					if(m_mesh.getGeometry() == GeomKind::SLAB)
 					{
-						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));	
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));	
 						exit(-1);
 					}
 					else
@@ -821,7 +821,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 				
@@ -841,13 +841,13 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					}
 					else
 					{
-						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 						exit(-1);
 					}
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}			
 			}
@@ -865,13 +865,13 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					}
 					else
 					{
-						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 						exit(-1);
 					}
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}			
 			}
@@ -879,7 +879,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 3) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {}", get_name(solver.getKind()), values[0], values[1], values[2]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2]);
 
 			if(values[0] == "albedo")
 			{
@@ -891,7 +891,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 			}
@@ -899,7 +899,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 4) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2], values[3]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2], values[3]);
 
 			if(values[0] == "heat_boundary_conditions")
 			{
@@ -909,7 +909,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 
@@ -925,7 +925,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}			
 			}
@@ -933,7 +933,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 7) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {} {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2],
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {} {} {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2],
 			          values[3], values[4], values[5], values[6]);
 
 			if(values[0] == "heat_boundary_conditions")
@@ -944,7 +944,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 

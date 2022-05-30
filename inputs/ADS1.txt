@@ -33,4 +33,4 @@ albedo 0.0 0.0
 energies  2
 ext_source 1.0 1 2
 
-plots neutronflux
+plots totalflux neutronflux adjointflux

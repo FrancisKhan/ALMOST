@@ -24,7 +24,36 @@ namespace PlotFuncs
         return toSciplotVec(eigenVec);
     }
 
-	void plot3DNeutronFluxes(const VectorXd& xx, const Tensor3d& t, unsigned nModes)
+    void plotTotalFluxes(const VectorXd& xx, const MatrixXd& mat, PlotKind kind)
+	{
+        std::valarray<double> y(0.0, mat.cols());
+
+        Vec x = toSciplotVec(xx);
+
+        std::vector<Plot> plots;
+        plots.resize(mat.rows());
+
+        std::string inputName = out.getInputNameNoExt();
+
+        for(auto e = 0; e < mat.rows(); e++)
+        {
+            plots[e].palette("set2");
+
+            plots[e].xlabel("x [m]");
+
+            plots[e].ylabel("Total Flux [1/cm2/s]");
+
+            for(auto m = 0; m < mat.cols(); m++)
+                y[m] = mat(e, m);
+
+            plots[e].drawCurve(x, y).label("").lineWidth(2);
+
+            std::string fileName = inputName + "_" + get_plot_name(kind) + "_" + std::to_string(e + 1) + ".pdf";
+            plots[e].save(fileName);
+        }
+	}
+
+	void plot3DNeutronFluxes(const VectorXd& xx, const Tensor3d& t, PlotKind kind, unsigned nModes)
 	{
         std::valarray<double> y(0.0, t.dimension(1));
 
@@ -40,7 +69,13 @@ namespace PlotFuncs
             plots[e].palette("set2");
 
             plots[e].xlabel("x [m]");
-            plots[e].ylabel("Neutron Flux [1/cm2/s]");
+
+            if(kind == PlotKind::NEUTRONFLUX)
+                plots[e].ylabel("Neutron Flux [1/cm2/s]");
+            else if(kind == PlotKind::NEUTRONFLUX)
+                plots[e].ylabel("Adjoint Flux [arbitrary]");
+            else
+                plots[e].ylabel("");
 
             unsigned modesLimit = nModes == std::numeric_limits<unsigned>::max() ? t.dimension(2) : nModes;
             if(modesLimit > t.dimension(2)) modesLimit = t.dimension(2);
@@ -50,11 +85,11 @@ namespace PlotFuncs
                  for(auto m = 0; m < t.dimension(1); m++)
                     y[m] = t(e, m, n);
 
-                std::string label = n == 0 ? "fundamental" : "";
+                std::string label = n == 0 ? "fundamental" : std::to_string(n+1);
                 plots[e].drawCurve(x, y).label(label).lineWidth(2);
             }
 
-            std::string fileName = inputName + "_EnergyGroup" + std::to_string(e + 1) + ".pdf";
+            std::string fileName = inputName + "_" + get_plot_name(kind) + "_" + std::to_string(e + 1) + ".pdf";
             plots[e].save(fileName);
         }
 	}
@@ -70,10 +105,25 @@ namespace PlotFuncs
 	void generatePlots(const std::vector<PlotKind>& vec, Reactor& reactor)
 	{
         if(plotsContain(vec, PlotKind::NEUTRONFLUX))
-            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), reactor.getMesh().getNeutronFluxes(), 5);
-        else if(plotsContain(vec, PlotKind::ADJOINTFLUX))
-            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), reactor.getMesh().getAdjointFluxes(), 5);
-        else {;}
+        {
+            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), 
+                                reactor.getMesh().getNeutronFluxes(), 
+                                PlotKind::NEUTRONFLUX, 5);
+        }
+
+        if(plotsContain(vec, PlotKind::ADJOINTFLUX))
+        {
+            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(),
+                                reactor.getMesh().getAdjointFluxes(), 
+                                PlotKind::ADJOINTFLUX, 5);
+        }
+
+        if(plotsContain(vec, PlotKind::TOTALFLUX))
+        {
+            plotTotalFluxes(reactor.getMesh().getMeshMiddlePoints(), 
+                            reactor.getMesh().getTotalFluxes(), 
+                            PlotKind::TOTALFLUX);
+        }
 	}
 }
 

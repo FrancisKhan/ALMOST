@@ -7,8 +7,8 @@
 #include "SolverData.h"
 #include "helper_tools.h"
 #include "numeric_tools.h"
+#include "PlotKind.h"
 
-enum class PlotKind {NEUTRONFLUX, ADJOINTFLUX, TOTALFLUX};
 
 class Input
 {

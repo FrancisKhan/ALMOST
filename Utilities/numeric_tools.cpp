@@ -215,7 +215,7 @@ namespace Numerics
 
 		int max_iter_number = solverData.getMaxIterNumber();
 		double accuracy = solverData.getAccuracy();
-		std::string title = get_name(solverData.getKind());
+		std::string title = get_solver_name(solverData.getKind());
 	
 		int h;
 	

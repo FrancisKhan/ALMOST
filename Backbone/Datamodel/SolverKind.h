@@ -20,7 +20,7 @@ inline std::ostream& operator << (std::ostream& stm, SolverKind calc)
     }
 }
 
-inline std::string get_name(SolverKind solver) 
+inline std::string get_solver_name(SolverKind solver) 
 {
   switch (solver) 
   {

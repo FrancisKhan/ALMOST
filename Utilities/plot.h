@@ -8,7 +8,9 @@
 namespace PlotFuncs
 {
     void plot3DNeutronFluxes(const Eigen::VectorXd& xx, const Numerics::Tensor3d& t, 
-    unsigned nModes = std::numeric_limits<unsigned>::max());
+                             PlotKind kind, unsigned nModes = std::numeric_limits<unsigned>::max());
+
+    void plotTotalFluxes(const Eigen::VectorXd& xx, const Eigen::MatrixXd& mat, PlotKind kind);
 
     sciplot::Vec toSciplotVec(const Numerics::Tensor1d& t);
     sciplot::Vec toSciplotVec(const Eigen::VectorXd& vec);

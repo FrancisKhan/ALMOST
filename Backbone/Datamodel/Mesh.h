@@ -51,6 +51,9 @@ public:
 	Numerics::Tensor3d getAdjointFluxes();
 	Eigen::MatrixXd getFundamentalAdjointFluxes();
 
+	void setTotalFluxes(Eigen::MatrixXd& totalFluxes);
+	Eigen::MatrixXd getTotalFluxes();
+
 	void setExternaSourceDistribution(int cell);
 	Eigen::VectorXd getExternaSourceDistribution() {return m_extSourceDistribution;}
 	Eigen::MatrixXd getProductionOperator();
