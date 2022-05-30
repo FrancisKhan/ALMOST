@@ -32,6 +32,7 @@ public:
 	Eigen::MatrixXd calcFMatrix(Eigen::MatrixXd &cpm);
 	virtual void applyBoundaryConditions(Numerics::Tensor3d &gcpm) = 0; 
 	void setNewHeatSource(const eigenmodesResults& result);
+	void setAdjointModes(const eigenmodesResults& result);
 	
 protected:
 	Eigen::VectorXd calcFissionPowerDistribution();

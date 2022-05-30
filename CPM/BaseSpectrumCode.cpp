@@ -168,24 +168,38 @@ VectorXd BaseSpectrumCode::calcFissionPowerDistribution()
 
 void BaseSpectrumCode::setNewHeatSource(const eigenmodesResults& result)
 {
-	//MatrixXd meshNeutronFluxes = MatrixXd::Zero(m_energies, m_cells);
 	int eigenmodesNumber = result.getEigenmodesNumber();
-	Tensor3d meshNeutronFluxes(m_cells, m_cells, eigenmodesNumber);
+	Tensor3d meshNeutronFluxes(m_energies, m_cells, eigenmodesNumber);
     meshNeutronFluxes.setZero();
 
 	for(int n = 0; n < eigenmodesNumber; n++)
 		for(int i = 0; i < m_cells; i++)
 			for(int j = 0; j < m_energies; j++)
 				meshNeutronFluxes(j, i, n) = result.getModes().at(n).second(i + j * m_cells);
-				//meshNeutronFluxes(j, i, n) = result.getFundamentalNeutronFLux()(i + j * m_cells);
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	m_reactor.setForwardEigenValues(result.getEigenvalues());
+	m_mesh.setForwardEigenmodesNumber(eigenmodesNumber);
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 
 	// The heat diffusion code expects the power density in W/m3
-
 	VectorXd volumes = m_mesh.getVolumes("m");
 	m_mesh.setHeatSources(powerDistribution.cwiseQuotient(volumes));
+}
+
+void BaseSpectrumCode::setAdjointModes(const eigenmodesResults& result)
+{
+	int eigenmodesNumber = result.getEigenmodesNumber();
+	Tensor3d meshAdjointFluxes(m_energies, m_cells, eigenmodesNumber);
+    meshAdjointFluxes.setZero();
+
+	for(int n = 0; n < eigenmodesNumber; n++)
+		for(int i = 0; i < m_cells; i++)
+			for(int j = 0; j < m_energies; j++)
+				meshAdjointFluxes(j, i, n) = result.getModes().at(n).second(i + j * m_cells);
+
+	m_mesh.setAdjointFluxes(meshAdjointFluxes);
+	m_reactor.setAdjointEigenValues(result.getEigenvalues());
+	m_mesh.setAdjointEigenmodesNumber(eigenmodesNumber);
 }

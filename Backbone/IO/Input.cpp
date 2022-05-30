@@ -973,6 +973,8 @@ void Input::setPlots()
 				m_plots.push_back(PlotKind::ADJOINTFLUX);
 			else if(v == "totalflux")
 				m_plots.push_back(PlotKind::TOTALFLUX);
+			else if(v == "temperature")
+				m_plots.push_back(PlotKind::TEMPERATURE);
 			else {;}
 		}
 	}  

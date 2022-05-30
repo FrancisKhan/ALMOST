@@ -40,7 +40,6 @@ void DiffusionSolver::solve()
     }
     else{;}
 
-    PlotFuncs::generatePlots(Input::getPlots(), m_reactor);
 }
 
 void DiffusionSolver::relaxResults(double par)

@@ -84,6 +84,4 @@ void ADSCalculation::solve()
 
 	out.print(TraceLevel::CRITICAL, "Total Flux:");
     printMatrix(totalFluxes, out, TraceLevel::CRITICAL, true);
-
-	PlotFuncs::generatePlots(Input::getPlots(), m_reactor);
 }

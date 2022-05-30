@@ -35,3 +35,5 @@ albedo 0.0 0.0
 energies  1
 direction forward
 eigenmodes fundamental
+
+plots temperature

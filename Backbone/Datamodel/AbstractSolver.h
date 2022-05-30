@@ -5,6 +5,7 @@
 #include "SolverData.h"
 #include "Reactor.h"
 #include "Library.h"
+#include "PlotKind.h"
 
 #include <variant>
 
@@ -28,8 +29,10 @@ public:
 	
 	virtual void printResults(TraceLevel level) = 0; 
 
+	void plots(const std::vector<PlotKind>& vec);
+
 private:
-	Reactor m_reactor;
+	Reactor& m_reactor;
 	Library m_library;
 	SolverData m_solverData;
 };

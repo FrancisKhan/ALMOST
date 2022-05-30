@@ -24,6 +24,31 @@ namespace PlotFuncs
         return toSciplotVec(eigenVec);
     }
 
+    void plotEigenVectorXd(const VectorXd& xx, const VectorXd& vec, PlotKind kind)
+	{
+        // the vector is empty!
+        if(is_equal(vec.minCoeff(), 0.0)) return;
+
+        Vec x = toSciplotVec(xx);
+
+        Plot plot;
+
+        std::string inputName = out.getInputNameNoExt();
+
+        plot.palette("set2");
+
+        plot.xlabel("x [m]");
+
+        plot.ylabel("Total Flux [C]");
+
+        Vec y = toSciplotVec(vec);
+
+        plot.drawCurve(x, y).label("").lineWidth(2);
+
+        std::string fileName = inputName + "_" + get_plot_name(kind) + ".pdf";
+        plot.save(fileName);
+	}
+
     void plotEigenMatrixXd(const VectorXd& xx, const MatrixXd& mat, PlotKind kind)
 	{
         // the matrix is empty!
@@ -60,7 +85,7 @@ namespace PlotFuncs
 	{
         // the tensor is empty!
         if(t.dimension(2) == 0) return;
-     
+
         std::valarray<double> y(0.0, t.dimension(1));
 
         Vec x = toSciplotVec(xx);
@@ -107,30 +132,6 @@ namespace PlotFuncs
         else
             return false;
     }
-
-	void generatePlots(const std::vector<PlotKind>& vec, Reactor& reactor)
-	{
-        if(plotsContain(vec, PlotKind::NEUTRONFLUX))
-        {
-            plot3DEigenTensor(reactor.getMesh().getMeshMiddlePoints(), 
-                              reactor.getMesh().getNeutronFluxes(), 
-                              PlotKind::NEUTRONFLUX, 5);
-        }
-
-        if(plotsContain(vec, PlotKind::ADJOINTFLUX))
-        {
-            plot3DEigenTensor(reactor.getMesh().getMeshMiddlePoints(),
-                              reactor.getMesh().getAdjointFluxes(), 
-                              PlotKind::ADJOINTFLUX, 5);
-        }
-
-        if(plotsContain(vec, PlotKind::TOTALFLUX))
-        {
-            plotEigenMatrixXd(reactor.getMesh().getMeshMiddlePoints(), 
-                              reactor.getMesh().getTotalFluxes(), 
-                              PlotKind::TOTALFLUX);
-        }
-	}
 }
 
 

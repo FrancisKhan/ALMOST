@@ -30,8 +30,7 @@ void SpectrumSolver::solve()
     }
     else{;}
 
-
-	spectrumCode->setNewHeatSource(result);
+    spectrumCode->setNewHeatSource(result);
 }
 
 void SpectrumSolver::relaxResults(double par)
@@ -49,12 +48,11 @@ void SpectrumSolver::relaxResults(double par)
 
 void SpectrumSolver::printResults(TraceLevel level)
 {
-    out.print(level, "K-factor:  {:7.6e} \n", m_reactor.getKFactor());
-	out.print(level, "Neutron Flux [1/(cm2*s)]:");
-
-	printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
+    out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
+    out.print(level, "Neutron Flux [1/(cm2*s)]:");
+    printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
 	
-	VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
+    VectorXd powerDistribution = m_reactor.getMesh().getHeatSources();
 
 	if(Numerics::is_greater(powerDistribution.maxCoeff(), 0.0))
 	{
