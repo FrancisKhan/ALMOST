@@ -38,7 +38,7 @@ void BaseDiffusionCode::setNewHeatSource(const eigenmodesResults& result)
 
 	m_mesh.setNeutronFluxes(meshNeutronFluxes);
 	m_reactor.setForwardEigenValues(result.getEigenvalues());
-	m_mesh.setEigenmodesNumber(eigenmodesNumber);
+	m_mesh.setForwardEigenmodesNumber(eigenmodesNumber);
 
 	VectorXd powerDistribution = calcFissionPowerDistribution();
 
@@ -60,7 +60,7 @@ void BaseDiffusionCode::setAdjointModes(const eigenmodesResults& result)
 
 	m_mesh.setAdjointFluxes(meshAdjointFluxes);
 	m_reactor.setAdjointEigenValues(result.getEigenvalues());
-	m_mesh.setEigenmodesNumber(eigenmodesNumber);
+	m_mesh.setAdjointEigenmodesNumber(eigenmodesNumber);
 }
 
 Eigen::MatrixXd BaseDiffusionCode::getInterfaceDiffcoefficients()

@@ -11,7 +11,7 @@
 class Mesh
 {
 public:
-	Mesh() : pm_abGeom(nullptr), m_nModes(1) {}
+	Mesh() : pm_abGeom(nullptr), m_nForwardModes(0), m_nAdjointModes(0) {}
 	void setMeshKind(GeomKind kind);
 	GeomKind getGeometry() {return m_mode;}
 	void setBoundaries(Eigen::VectorXd &boundaries);
@@ -66,8 +66,11 @@ public:
 	Eigen::MatrixXd getRemovalXSs();
 	Numerics::Tensor3d getScattMatrices();
 
-	void setEigenmodesNumber(unsigned nModes) {m_nModes = nModes;}
-    unsigned getEigenmodesNumber() {return m_nModes;}
+	void setForwardEigenmodesNumber(unsigned nModes) {m_nForwardModes = nModes;}
+    unsigned getForwardEigenmodesNumber() {return m_nForwardModes;}
+
+	void setAdjointEigenmodesNumber(unsigned nModes) {m_nAdjointModes = nModes;}
+    unsigned getAdjointEigenmodesNumber() {return m_nAdjointModes;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -78,7 +81,8 @@ private:
 	Eigen::VectorXd m_heatBoundaryConditions;
     std::vector< std::shared_ptr<Material> > m_materials;
 	Eigen::VectorXd m_extSourceDistribution;
-	unsigned m_nModes;
+	unsigned m_nForwardModes;
+	unsigned m_nAdjointModes;
 };
 
 #endif

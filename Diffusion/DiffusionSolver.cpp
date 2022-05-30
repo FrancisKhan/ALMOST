@@ -1,6 +1,7 @@
 #include "BaseDiffusionCode.h"
 #include "DiffusionCodeFactory.h"
 #include "DiffusionSolver.h"
+#include "plot.h"
 
 #include <iostream>
 
@@ -39,6 +40,7 @@ void DiffusionSolver::solve()
     }
     else{;}
 
+    PlotFuncs::generatePlots(Input::getPlots(), m_reactor);
 }
 
 void DiffusionSolver::relaxResults(double par)

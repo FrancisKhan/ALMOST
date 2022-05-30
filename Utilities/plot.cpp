@@ -24,8 +24,11 @@ namespace PlotFuncs
         return toSciplotVec(eigenVec);
     }
 
-    void plotTotalFluxes(const VectorXd& xx, const MatrixXd& mat, PlotKind kind)
+    void plotEigenMatrixXd(const VectorXd& xx, const MatrixXd& mat, PlotKind kind)
 	{
+        // the matrix is empty!
+        if(is_equal(mat.minCoeff(), 0.0)) return;
+
         std::valarray<double> y(0.0, mat.cols());
 
         Vec x = toSciplotVec(xx);
@@ -53,8 +56,11 @@ namespace PlotFuncs
         }
 	}
 
-	void plot3DNeutronFluxes(const VectorXd& xx, const Tensor3d& t, PlotKind kind, unsigned nModes)
+	void plot3DEigenTensor(const VectorXd& xx, const Tensor3d& t, PlotKind kind, unsigned nModes)
 	{
+        // the tensor is empty!
+        if(t.dimension(2) == 0) return;
+     
         std::valarray<double> y(0.0, t.dimension(1));
 
         Vec x = toSciplotVec(xx);
@@ -106,23 +112,23 @@ namespace PlotFuncs
 	{
         if(plotsContain(vec, PlotKind::NEUTRONFLUX))
         {
-            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(), 
-                                reactor.getMesh().getNeutronFluxes(), 
-                                PlotKind::NEUTRONFLUX, 5);
+            plot3DEigenTensor(reactor.getMesh().getMeshMiddlePoints(), 
+                              reactor.getMesh().getNeutronFluxes(), 
+                              PlotKind::NEUTRONFLUX, 5);
         }
 
         if(plotsContain(vec, PlotKind::ADJOINTFLUX))
         {
-            plot3DNeutronFluxes(reactor.getMesh().getMeshMiddlePoints(),
-                                reactor.getMesh().getAdjointFluxes(), 
-                                PlotKind::ADJOINTFLUX, 5);
+            plot3DEigenTensor(reactor.getMesh().getMeshMiddlePoints(),
+                              reactor.getMesh().getAdjointFluxes(), 
+                              PlotKind::ADJOINTFLUX, 5);
         }
 
         if(plotsContain(vec, PlotKind::TOTALFLUX))
         {
-            plotTotalFluxes(reactor.getMesh().getMeshMiddlePoints(), 
-                            reactor.getMesh().getTotalFluxes(), 
-                            PlotKind::TOTALFLUX);
+            plotEigenMatrixXd(reactor.getMesh().getMeshMiddlePoints(), 
+                              reactor.getMesh().getTotalFluxes(), 
+                              PlotKind::TOTALFLUX);
         }
 	}
 }

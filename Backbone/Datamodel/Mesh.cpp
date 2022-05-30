@@ -353,7 +353,7 @@ void Mesh::setNeutronFluxes(Tensor3d& neutronFluxes)
 
 Tensor3d Mesh::getNeutronFluxes()
 {
-	unsigned nModes = getEigenmodesNumber();
+	unsigned nModes = getForwardEigenmodesNumber();
     Tensor3d neutronFluxes(m_energyGroupsNumber, m_meshNumber, nModes);
 	MatrixXd matNeutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
@@ -371,7 +371,7 @@ Tensor3d Mesh::getNeutronFluxes()
 
 MatrixXd Mesh::getFundamentalNeutronFluxes()
 {
-	unsigned nModes = getEigenmodesNumber();
+	unsigned nModes = getForwardEigenmodesNumber();
     MatrixXd neutronFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	MatrixXd matNeutronFluxes  = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
@@ -397,7 +397,7 @@ void Mesh::setAdjointFluxes(Tensor3d& adjointFluxes)
 
 Tensor3d Mesh::getAdjointFluxes()
 {
-	unsigned nModes = getEigenmodesNumber();
+	unsigned nModes = getAdjointEigenmodesNumber();
     Tensor3d adjointFluxes(m_energyGroupsNumber, m_meshNumber, nModes);
 	MatrixXd matAdjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
@@ -415,7 +415,7 @@ Tensor3d Mesh::getAdjointFluxes()
 
 MatrixXd Mesh::getFundamentalAdjointFluxes()
 {
-	unsigned nModes = getEigenmodesNumber();
+	unsigned nModes = getAdjointEigenmodesNumber();
     MatrixXd adjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	MatrixXd matAdjointFluxes = MatrixXd::Zero(m_energyGroupsNumber, nModes);
 
@@ -467,14 +467,13 @@ MatrixXd Mesh::getTotalFluxes()
     MatrixXd totalFluxes = MatrixXd::Zero(m_energyGroupsNumber, m_meshNumber);
 	VectorXd totalFlux   = VectorXd::Zero(m_energyGroupsNumber);
 
-	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
+	for(unsigned m = 0; m < m_meshNumber; m++)
 	{
 		totalFlux = m_materials[m]->getTotalFlux();
 
-		for(unsigned i = 0; i < m_energyGroupsNumber; i++)
-		{
-			totalFluxes(i, m) = totalFlux(i);
-		}
+		if(totalFlux.size() != 0)
+			for(unsigned i = 0; i < m_energyGroupsNumber; i++)
+				totalFluxes(i, m) = totalFlux(i);
 	}
 
 	return totalFluxes;
