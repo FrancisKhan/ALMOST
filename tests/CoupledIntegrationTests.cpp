@@ -54,7 +54,7 @@ TEST_F(CoupledIntegrationTests, coupledTest1)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -109,7 +109,7 @@ TEST_F(CoupledIntegrationTests, coupledTest2)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -164,7 +164,7 @@ TEST_F(CoupledIntegrationTests, coupledTest3)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -218,7 +218,7 @@ TEST_F(CoupledIntegrationTests, coupledTest4)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -282,7 +282,7 @@ TEST_F(CoupledIntegrationTests, coupledTest5)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -347,7 +347,7 @@ TEST_F(CoupledIntegrationTests, coupledTest6)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -412,7 +412,7 @@ TEST_F(CoupledIntegrationTests, coupledTest7)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -476,7 +476,7 @@ TEST_F(CoupledIntegrationTests, coupledTest8)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -550,7 +550,7 @@ TEST_F(CoupledIntegrationTests, coupledTest9)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -624,7 +624,7 @@ TEST_F(CoupledIntegrationTests, coupledTest10)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -698,7 +698,7 @@ TEST_F(CoupledIntegrationTests, coupledTest11)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -772,7 +772,7 @@ TEST_F(CoupledIntegrationTests, coupledTest12)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -846,7 +846,7 @@ TEST_F(CoupledIntegrationTests, coupledTest13)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -920,7 +920,7 @@ TEST_F(CoupledIntegrationTests, coupledTest14)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -1014,7 +1014,7 @@ TEST_F(CoupledIntegrationTests, coupledTest15)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 
@@ -1108,7 +1108,7 @@ TEST_F(CoupledIntegrationTests, coupledTest16)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual1 = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
   EXPECT_TRUE(areEqual1);
 

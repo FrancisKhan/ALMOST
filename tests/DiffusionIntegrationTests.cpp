@@ -130,7 +130,7 @@ TEST_F(DiffIntegrationTests, diff1)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -202,7 +202,7 @@ TEST_F(DiffIntegrationTests, diff2)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -274,7 +274,7 @@ TEST_F(DiffIntegrationTests, diff3)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -396,7 +396,7 @@ TEST_F(DiffIntegrationTests, diff4)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -518,7 +518,7 @@ TEST_F(DiffIntegrationTests, diff5)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -640,7 +640,7 @@ TEST_F(DiffIntegrationTests, diff6)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -813,7 +813,7 @@ TEST_F(DiffIntegrationTests, diff7)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1035,7 +1035,7 @@ TEST_F(DiffIntegrationTests, diff8)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1257,7 +1257,7 @@ TEST_F(DiffIntegrationTests, diff9)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1293,7 +1293,7 @@ TEST_F(DiffIntegrationTests, diff10)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1338,7 +1338,7 @@ TEST_F(DiffIntegrationTests, diff11)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1383,7 +1383,7 @@ TEST_F(DiffIntegrationTests, diff12)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1448,7 +1448,7 @@ TEST_F(DiffIntegrationTests, diff13)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1485,7 +1485,7 @@ TEST_F(DiffIntegrationTests, diff14)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1530,7 +1530,7 @@ TEST_F(DiffIntegrationTests, diff15)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1575,7 +1575,7 @@ TEST_F(DiffIntegrationTests, diff16)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1640,7 +1640,7 @@ TEST_F(DiffIntegrationTests, diff17)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1673,7 +1673,7 @@ TEST_F(DiffIntegrationTests, diff18)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1706,7 +1706,7 @@ TEST_F(DiffIntegrationTests, diff19)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1739,7 +1739,7 @@ TEST_F(DiffIntegrationTests, diff20)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1862,7 +1862,7 @@ TEST_F(DiffIntegrationTests, diff21)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
   
-  std::vector<double> flux = test.getVector("Adjoint Flux");
+  std::vector<double> flux = test.getVector("Fundamental Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1980,7 +1980,7 @@ TEST_F(DiffIntegrationTests, diff22)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
   
-  std::vector<double> flux = test.getVector("Adjoint Flux");
+  std::vector<double> flux = test.getVector("Fundamental Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -1999,38 +1999,38 @@ TEST_F(DiffIntegrationTests, diff23)
   const std::string outputPath = "outputs/Out_diff23.txt";
   const std::string traceLevel = "DEBUG";
 
-  const double kEffRef = 9.693342e-01;
+  const double kEffRef = 1.045040e-01;
 
-	std::vector<double> refFlux {7.933581e-04, 1.197980e-03, 1.602796e-03, 
-	2.007870e-03, 2.413269e-03, 2.819057e-03, 3.225300e-03, 3.632065e-03, 
-	4.039416e-03, 4.447419e-03, 4.856141e-03, 5.265646e-03, 5.676003e-03, 
-	6.087275e-03, 6.499531e-03, 6.912837e-03, 7.327259e-03, 7.742864e-03, 
-	8.159719e-03, 8.577893e-03, 8.997451e-03, 9.418463e-03, 9.840995e-03, 
-	1.026512e-02, 1.069090e-02, 1.109884e-02, 1.147517e-02, 1.183902e-02, 
-	1.219002e-02, 1.252778e-02, 1.285192e-02, 1.316210e-02, 1.345799e-02, 
-	1.373925e-02, 1.400559e-02, 1.425671e-02, 1.449234e-02, 1.471223e-02, 
-	1.491614e-02, 1.510384e-02, 1.527513e-02, 1.542983e-02, 1.556777e-02, 
-	1.568879e-02, 1.579277e-02, 1.587959e-02, 1.594917e-02, 1.600141e-02, 
-	1.603627e-02, 1.605371e-02, 1.605371e-02, 1.603627e-02, 1.600141e-02, 
-	1.594917e-02, 1.587959e-02, 1.579277e-02, 1.568879e-02, 1.556777e-02, 
-	1.542983e-02, 1.527513e-02, 1.510384e-02, 1.491614e-02, 1.471223e-02, 
-	1.449234e-02, 1.425671e-02, 1.400559e-02, 1.373925e-02, 1.345799e-02, 
-	1.316210e-02, 1.285192e-02, 1.252778e-02, 1.219002e-02, 1.183902e-02, 
-	1.147517e-02, 1.109884e-02, 1.069090e-02, 1.026512e-02, 9.840995e-03, 
-	9.418463e-03, 8.997451e-03, 8.577893e-03, 8.159719e-03, 7.742864e-03, 
-	7.327259e-03, 6.912837e-03, 6.499531e-03, 6.087275e-03, 5.676003e-03, 
-	5.265646e-03, 4.856141e-03, 4.447419e-03, 4.039416e-03, 3.632065e-03, 
-	3.225300e-03, 2.819057e-03, 2.413269e-03, 2.007870e-03, 1.602796e-03, 
-	1.197980e-03, 7.933581e-04};
+	std::vector<double> refFlux {1.225567e-03, 1.850621e-03, 2.475973e-03, 
+	3.101726e-03, 3.727979e-03, 4.354834e-03, 4.982393e-03, 5.610756e-03, 
+	6.240025e-03, 6.870302e-03, 7.501689e-03, 8.134287e-03, 8.768199e-03, 
+	9.403526e-03, 1.004037e-02, 1.067884e-02, 1.131903e-02, 1.196105e-02, 
+	1.260500e-02, 1.325099e-02, 1.389912e-02, 1.454949e-02, 1.520221e-02, 
+	1.585739e-02, 1.651513e-02, 1.714531e-02, 1.709090e-02, 1.638419e-02, 
+	1.505214e-02, 1.314561e-02, 1.073735e-02, 7.919282e-03, 4.798963e-03, 
+	1.495483e-03, -1.865074e-03, -5.154448e-03, -8.247094e-03, -1.102498e-02, 
+	-1.338207e-02, -1.522842e-02, -1.649355e-02, -1.712917e-02, -1.711103e-02, 
+	-1.643982e-02, -1.514116e-02, -1.326461e-02, -1.088180e-02, -8.083659e-03, 
+	-4.976996e-03, -1.680377e-03, 1.680377e-03, 4.976996e-03, 8.083659e-03, 
+	1.088180e-02, 1.326461e-02, 1.514116e-02, 1.643982e-02, 1.711103e-02, 
+	1.712917e-02, 1.649355e-02, 1.522842e-02, 1.338207e-02, 1.102498e-02, 
+	8.247094e-03, 5.154448e-03, 1.865074e-03, -1.495483e-03, -4.798963e-03, 
+	-7.919282e-03, -1.073735e-02, -1.314561e-02, -1.505214e-02, -1.638419e-02, 
+	-1.709090e-02, -1.714531e-02, -1.651513e-02, -1.585739e-02, -1.520221e-02, 
+	-1.454949e-02, -1.389912e-02, -1.325099e-02, -1.260500e-02, -1.196105e-02, 
+	-1.131903e-02, -1.067884e-02, -1.004037e-02, -9.403526e-03, -8.768199e-03, 
+	-8.134287e-03, -7.501689e-03, -6.870302e-03, -6.240025e-03, -5.610756e-03, 
+	-4.982393e-03, -4.354834e-03, -3.727979e-03, -3.101726e-03, -2.475973e-03, 
+	-1.850621e-03, -1.225567e-03};
   
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Neutron Flux 4");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
-  EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+  EXPECT_FLOAT_EQ(test.getEigenvalue(4), kEffRef);
 }
 
 // Graphite reactor with graphite reflector, slab geometry
@@ -2072,7 +2072,7 @@ TEST_F(DiffIntegrationTests, diff24)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -2118,7 +2118,7 @@ TEST_F(DiffIntegrationTests, diff25)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Adjoint Flux");
+  std::vector<double> flux = test.getVector("Fundamental Adjoint Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -2164,7 +2164,7 @@ TEST_F(DiffIntegrationTests, diff26)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -2210,7 +2210,7 @@ TEST_F(DiffIntegrationTests, diff27)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -2256,7 +2256,7 @@ TEST_F(DiffIntegrationTests, diff28)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);

@@ -1,5 +1,8 @@
 #include "gtest/gtest.h"
 #include "TestHelper.h"
+#include "additionalPrintFuncs.h"
+
+using namespace PrintFuncs;
 
 class CPMIntegrationTests : public ::testing::Test 
 {
@@ -7,6 +10,8 @@ class CPMIntegrationTests : public ::testing::Test
   virtual void SetUp() {}
   virtual void TearDown() {}
 };
+
+// PrintFuncs::createCppVector(flux, "%7.6e");
 
 // CYLINDER TESTS //
 
@@ -27,7 +32,7 @@ TEST_F(CPMIntegrationTests, Problem1CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux"); 
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -48,7 +53,7 @@ TEST_F(CPMIntegrationTests, Problem5CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -74,7 +79,7 @@ TEST_F(CPMIntegrationTests, Problem7)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -101,7 +106,7 @@ TEST_F(CPMIntegrationTests, Problem9)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -133,7 +138,7 @@ TEST_F(CPMIntegrationTests, Problem10)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -162,7 +167,7 @@ TEST_F(CPMIntegrationTests, Problem44CY)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -194,7 +199,7 @@ TEST_F(CPMIntegrationTests, Problem74)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -236,7 +241,7 @@ TEST_F(CPMIntegrationTests, Problem75)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -262,7 +267,7 @@ TEST_F(CPMIntegrationTests, Problem1SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -286,7 +291,7 @@ TEST_F(CPMIntegrationTests, Problem5SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -312,7 +317,7 @@ TEST_F(CPMIntegrationTests, Problem8)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -342,7 +347,7 @@ TEST_F(CPMIntegrationTests, Problem16)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -371,7 +376,7 @@ TEST_F(CPMIntegrationTests, Problem44SP)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -400,7 +405,7 @@ TEST_F(CPMIntegrationTests, Problem49)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -436,7 +441,7 @@ TEST_F(CPMIntegrationTests, Problem69)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -462,7 +467,7 @@ TEST_F(CPMIntegrationTests, Problem1SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -486,7 +491,7 @@ TEST_F(CPMIntegrationTests, Problem5SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -512,11 +517,36 @@ TEST_F(CPMIntegrationTests, Problem2)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(),  kEffRef);
+}
+
+// PUa-l-O-SL
+// Analytical Benchmark Test Set for Criticality Code Verification LA-13511
+
+TEST_F(CPMIntegrationTests, Problem2All)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/CPMProblem2All.txt";
+  const std::string outputPath = "outputs/Out_CPMProblem2All.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double kEffRef = 0.143151;
+  std::vector<double> refFlux {1.361528e-01, 6.353176e-02, -7.950818e-02, 
+	-1.478667e-01, -7.294054e-02, 7.294054e-02, 1.478667e-01, 7.950818e-02, 
+	-6.353176e-02, -1.361528e-01};
+ 
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Neutron Flux 4");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getEigenvalue(4),  kEffRef);
 }
 
 // PUa-H20(1)-l-0-SL
@@ -543,7 +573,7 @@ TEST_F(CPMIntegrationTests, Problem3)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -576,7 +606,7 @@ TEST_F(CPMIntegrationTests, Problem4)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -601,7 +631,7 @@ TEST_F(CPMIntegrationTests, Problem6)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -630,7 +660,7 @@ TEST_F(CPMIntegrationTests, Problem44SL)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -659,7 +689,7 @@ TEST_F(CPMIntegrationTests, Problem48)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -695,7 +725,7 @@ TEST_F(CPMIntegrationTests, Problem68)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 
   EXPECT_TRUE(areEqual);
@@ -817,7 +847,7 @@ TEST_F(CPMIntegrationTests, Problem58)
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
-  std::vector<double> flux = test.getVector("Neutron Flux");
+  std::vector<double> flux = test.getVector("Fundamental Neutron Flux");
 
   bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
 

@@ -19,7 +19,7 @@ public:
 	void relaxResults(double param) override;
 	void printResults(TraceLevel level) override;
 
-	void printEigenmodesResults(TraceLevel level);
+	void printEigenmodesResults(TraceLevel level) override;
 
 private:
 	Reactor &m_reactor;

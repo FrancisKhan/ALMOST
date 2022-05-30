@@ -59,14 +59,14 @@ void DiffusionSolver::printResults(TraceLevel level)
 {
     if(m_solverData.getDirection() == DirectionKind::FORWARD)
     {
-        out.print(level, "K-factor: {:7.6e} \n", m_reactor.getKFactor());
-        out.print(level, "Neutron Flux [1/(cm2*s)]:");
+        out.print(level, "Fundamental K-factor: {:7.6e} \n", m_reactor.getKFactor());
+        out.print(level, "Fundamental Neutron Flux [1/(cm2*s)]:");
         printMatrix(m_reactor.getMesh().getFundamentalNeutronFluxes(), out, level, true);
     }
     else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
     {
-        out.print(level, "K-factor: {:7.6e} \n", m_reactor.getAdjointKFactor());
-        out.print(level, "Adjoint Flux [arbitrary]:");
+        out.print(level, "Fundamental K-factor: {:7.6e} \n", m_reactor.getAdjointKFactor());
+        out.print(level, "Fundamental Adjoint Flux [arbitrary]:");
         printMatrix(m_reactor.getMesh().getFundamentalAdjointFluxes(), out, level, true);
     }
     else{;}
@@ -97,22 +97,25 @@ void DiffusionSolver::printEigenmodesResults(TraceLevel level)
     }
     else{;}
 
-    for(unsigned n = 0; n < modeFluxes.dimension(2); n++)
+    if(eigenvalues.size() > 1)
     {
-		MatrixXd matrixFluxes = Numerics::fromTensor2dToMatrixXd(modeFluxes.chip(n, 2));
-
-        out.print(level, "\nEigenvalue {:3d}: {:7.6e} \n", int(n + 1), eigenvalues[n]);
-
-        if(m_solverData.getDirection() == DirectionKind::FORWARD)
+        for(unsigned n = 0; n < modeFluxes.dimension(2); n++)
         {
-            out.print(level, "Neutron Flux [1/(cm2*s)]:");
-        }
-        else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
-        {
-            out.print(level, "Adjoint Flux [arbitrary]:");
-        }
-        else{;}
+            MatrixXd matrixFluxes = Numerics::fromTensor2dToMatrixXd(modeFluxes.chip(n, 2));
 
-        printMatrix(matrixFluxes, out, level, true);
+            out.print(level, "\nEigenvalue {}: {:7.6e} \n", int(n + 1), eigenvalues[n]);
+
+            if(m_solverData.getDirection() == DirectionKind::FORWARD)
+            {
+                out.print(level, "Neutron Flux {} {}", int(n + 1), " [1/(cm2*s)]:");
+            }
+            else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
+            {
+                out.print(level, "Adjoint Flux [arbitrary]:");
+            }
+            else{;}
+
+            printMatrix(matrixFluxes, out, level, true);
+        }
     }
 }

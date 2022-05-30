@@ -26,6 +26,8 @@ public:
 	
 	static std::shared_ptr<AbstractSolver> getSolver(SolverData &solver, 
 	       Reactor &reactor, Library &library);
+
+	virtual void printEigenmodesResults(TraceLevel level) {;}
 	
 	virtual void printResults(TraceLevel level) = 0; 
 
