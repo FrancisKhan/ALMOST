@@ -51,6 +51,13 @@ void AbstractSolver::plots(const std::vector<PlotKind>& vec)
                         PlotKind::TEMPERATURE);
   }
 
+  if(plotsContain(vec, PlotKind::POWERDENSITY))
+  {
+      plotEigenVectorXd(m_reactor.getMesh().getMeshMiddlePoints(), 
+                        m_reactor.getMesh().getHeatSources(), 
+                        PlotKind::POWERDENSITY);
+  }
+
   if(plotsContain(vec, PlotKind::TOTALFLUX))
   {
       plotEigenMatrixXd(m_reactor.getMesh().getMeshMiddlePoints(), 

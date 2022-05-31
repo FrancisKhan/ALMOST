@@ -39,7 +39,12 @@ namespace PlotFuncs
 
         plot.xlabel("x [m]");
 
-        plot.ylabel("Total Flux [C]");
+        if(kind == PlotKind::TEMPERATURE)
+            plot.ylabel("Temperature [C]");
+        else if(kind == PlotKind::POWERDENSITY)
+            plot.ylabel("Thermal Power Density [W/m3]");
+        else
+            plot.ylabel("");
 
         Vec y = toSciplotVec(vec);
 
@@ -103,7 +108,7 @@ namespace PlotFuncs
 
             if(kind == PlotKind::NEUTRONFLUX)
                 plots[e].ylabel("Neutron Flux [1/cm2/s]");
-            else if(kind == PlotKind::NEUTRONFLUX)
+            else if(kind == PlotKind::ADJOINTFLUX)
                 plots[e].ylabel("Adjoint Flux [arbitrary]");
             else
                 plots[e].ylabel("");

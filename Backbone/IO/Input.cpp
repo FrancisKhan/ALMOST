@@ -975,6 +975,8 @@ void Input::setPlots()
 				m_plots.push_back(PlotKind::TOTALFLUX);
 			else if(v == "temperature")
 				m_plots.push_back(PlotKind::TEMPERATURE);
+			else if(v == "powerdensity")
+				m_plots.push_back(PlotKind::POWERDENSITY);
 			else {;}
 		}
 	}  

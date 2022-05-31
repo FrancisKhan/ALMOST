@@ -1,5 +1,6 @@
 #include "DoubleCalculation.h"
 #include "AbstractSolver.h"
+#include "Input.h"
 
 using namespace Eigen;
 
@@ -57,18 +58,18 @@ void DoubleCalculation::solve()
 		exit(-1);
 	}
 
-	if(m_reactor.getLogLevel() == TraceLevel::CRITICAL)
-	{
-		out.print(TraceLevel::CRITICAL, "\nNumber of coupled iteration: {} \n", iter + 1);
-		firstSolver->printResults(TraceLevel::CRITICAL);
-		secondSolver->printResults(TraceLevel::CRITICAL);
-	}
+	out.print(TraceLevel::CRITICAL, "\nNumber of coupled iteration: {} \n", iter + 1);
+	firstSolver->printResults(TraceLevel::CRITICAL);
+	secondSolver->printResults(TraceLevel::CRITICAL);
+
+	firstSolver->plots(Input::getPlots());
+	secondSolver->plots(Input::getPlots());
 }
 
 SolverData DoubleCalculation::getCoupledSolver()
 {
 	std::vector<SolverData>::iterator it = find_if(m_solvers.begin(), m_solvers.end(), 
-		[] (SolverData s) { return s.getKind() == SolverKind::COUPLED;});
+		[] (SolverData s) {return s.getKind() == SolverKind::COUPLED;});
 
   	if (it != m_solvers.end())
 	  {

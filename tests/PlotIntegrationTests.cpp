@@ -30,8 +30,8 @@ TEST_F(PlotIntegrationTests, adjointfluxDiff22)
   const std::string outputPath = "outputs/Out_plotDiff22.txt";
   const std::string traceLevel = "DEBUG";
 
-  const std::string plotName1  = "plotDiff22_adjointflux_1.pdf";
-  const std::string plotName2  = "plotDiff22_adjointflux_2.pdf";
+  const std::string plotName1 = "plotDiff22_adjointflux_1.pdf";
+  const std::string plotName2 = "plotDiff22_adjointflux_2.pdf";
   
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
@@ -48,7 +48,7 @@ TEST_F(PlotIntegrationTests, neutronfluxCPM2)
   const std::string outputPath = "outputs/Out_plotCPM2.txt";
   const std::string traceLevel = "DEBUG";
 
-  const std::string plotName  = "plotCPM2_neutronflux_1.pdf";
+  const std::string plotName = "plotCPM2_neutronflux_1.pdf";
   
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
@@ -63,10 +63,31 @@ TEST_F(PlotIntegrationTests, temperatureHeat1)
   const std::string outputPath = "outputs/Out_plotHeat1.txt";
   const std::string traceLevel = "DEBUG";
 
-  const std::string plotName  = "plotHeat1_temperature.pdf";
+  const std::string plotName = "plotHeat1_temperature.pdf";
   
   TestHelper test(codePath, inputPath, outputPath, traceLevel);
   test.runCode();
 
   EXPECT_TRUE(TestHelper::fileExists(plotName));
+}
+
+TEST_F(PlotIntegrationTests, allCoupled3)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/plotCoupled3.txt";
+  const std::string outputPath = "outputs/Out_plotCoupled3.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const std::string plotName1 = "plotCoupled3_neutronflux_1.pdf";
+  const std::string plotName2 = "plotCoupled3_temperature.pdf";
+  const std::string plotName3 = "plotCoupled3_powerdensity.pdf";
+  
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  bool files = TestHelper::fileExists(plotName1) && 
+               TestHelper::fileExists(plotName2) &&
+               TestHelper::fileExists(plotName3);
+
+  EXPECT_TRUE(files);
 }
