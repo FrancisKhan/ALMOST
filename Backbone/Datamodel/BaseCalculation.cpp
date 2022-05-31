@@ -1,4 +1,5 @@
 #include "BaseCalculation.h"
+#include "ADSCalculation.h"
 #include "SingleCalculation.h"
 #include "DoubleCalculation.h"
 
@@ -11,9 +12,18 @@ std::shared_ptr<BaseCalculation> BaseCalculation::setCalculation(Reactor &reacto
 {
   if (solvers.size() == 1)
   {
-    return std::make_shared<SingleCalculation>(reactor, library, solvers[0]);
+
+	if(solvers.front().getKind() == SolverKind::ADS)
+	{
+		return std::make_shared<ADSCalculation>(reactor, library, solvers[0]);
+	}
+	else
+	{
+		return std::make_shared<SingleCalculation>(reactor, library, solvers[0]);
+	}
+	
   }
-  else if (solvers.size() == 3) // there is coupled solver as well
+  else if (solvers.size() == 3) // there is "coupled" solver as well
   {
     return std::make_shared<DoubleCalculation>(reactor, library, solvers);
   }

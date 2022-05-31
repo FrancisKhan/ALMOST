@@ -8,6 +8,7 @@
 
 #include "Output.h"
 #include "SolverData.h"
+#include "eigenmodesResults.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
 #include <Eigen/Dense>
@@ -19,21 +20,7 @@
 
 namespace Numerics
 {
-
-    typedef struct SourceIterResults_
-    { 
-        const Eigen::VectorXd meshNeutronFluxes;
-        const double kFactor;
-
-        SourceIterResults_(const Eigen::VectorXd& flux, const double& kFactor): 
-        meshNeutronFluxes(flux), 
-        kFactor(kFactor) {}
-
-        const Eigen::VectorXd getNeutronFLux() {return meshNeutronFluxes;}
-        const double getKFactor() {return kFactor;}
-
-    } SourceIterResults;
-
+    typedef Eigen::Tensor<double, 1> Tensor1d;
     typedef Eigen::Tensor<double, 2> Tensor2d;
     typedef Eigen::Tensor<double, 3> Tensor3d;
     typedef Eigen::Tensor<double, 4> Tensor4d;
@@ -42,7 +29,7 @@ namespace Numerics
     double bickley3f_old(const double x);
     double delk(int a, int b);
 
-    void diagonalDominanceCheck(Eigen::MatrixXd &matrix);
+    void diagonalDominanceCheck(const Eigen::MatrixXd& matrix);
 
     std::vector<double> multiply_poly(std::vector<double> &a, 
                                   std::vector<double> &b);
@@ -215,15 +202,29 @@ namespace Numerics
        return vector;
     }
 
+    bool hasImagValues(const Eigen::VectorXcd& a);
+    Eigen::VectorXd fromTensor1dToVectorXd(const Tensor1d& t);
+    Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t);
+
     Eigen::VectorXd tridiag_solver(const Eigen::VectorXd &a, 
                                    const Eigen::VectorXd &b, 
                   	               const Eigen::VectorXd &c, 
                                    const Eigen::VectorXd &d);
 
-    SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData, Eigen::VectorXd volumes);
+    eigenmodesResults sourceIteration(const Eigen::MatrixXd& Mmatrix, 
+                                      const Eigen::MatrixXd& Fmatrix, 
+                                      const SolverData& solverData);
 
     Eigen::VectorXd ConcatenateEigenVectors(Eigen::VectorXd a, Eigen::VectorXd b);
+    Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v);
+    Eigen::MatrixXd fromComplexToDouble(Eigen::MatrixXcd const &m);
+
+    std::vector< std::pair< double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+	                                                                   const Eigen::MatrixXcd& evectors);
+
+    eigenmodesResults GeneralizedEigenSolver(const Eigen::MatrixXd& Mmatrix, 
+                                             const Eigen::MatrixXd& Fmatrix, 
+                                             const SolverData& solverData);
 }
 
 #endif

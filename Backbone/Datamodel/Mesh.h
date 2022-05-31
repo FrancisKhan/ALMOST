@@ -11,7 +11,7 @@
 class Mesh
 {
 public:
-	Mesh() : pm_abGeom(nullptr){}
+	Mesh() : pm_abGeom(nullptr), m_nForwardModes(0), m_nAdjointModes(0) {}
 	void setMeshKind(GeomKind kind);
 	GeomKind getGeometry() {return m_mode;}
 	void setBoundaries(Eigen::VectorXd &boundaries);
@@ -41,8 +41,22 @@ public:
 	void setThermalConductivityLaw(unsigned i, std::vector<std::string> &strVec);
 	Eigen::VectorXd getThermalConductivities();
 
-    void setNeutronFluxes(Eigen::MatrixXd &neutronFluxes);
-	Eigen::MatrixXd getNeutronFluxes();
+	// Energy, Material, Mode
+
+    void setNeutronFluxes(Numerics::Tensor3d& neutronFluxes);
+	Numerics::Tensor3d getNeutronFluxes();
+	Eigen::MatrixXd getFundamentalNeutronFluxes();
+
+	void setAdjointFluxes(Numerics::Tensor3d& adjointFluxes);
+	Numerics::Tensor3d getAdjointFluxes();
+	Eigen::MatrixXd getFundamentalAdjointFluxes();
+
+	void setTotalFluxes(Eigen::MatrixXd& totalFluxes);
+	Eigen::MatrixXd getTotalFluxes();
+
+	void setExternaSourceDistribution(int cell);
+	Eigen::VectorXd getExternaSourceDistribution() {return m_extSourceDistribution;}
+	Eigen::MatrixXd getProductionOperator();
 
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();
@@ -51,6 +65,12 @@ public:
 	Eigen::MatrixXd getDiffusionConstants();
 	Eigen::MatrixXd getRemovalXSs();
 	Numerics::Tensor3d getScattMatrices();
+
+	void setForwardEigenmodesNumber(unsigned nModes) {m_nForwardModes = nModes;}
+    unsigned getForwardEigenmodesNumber() {return m_nForwardModes;}
+
+	void setAdjointEigenmodesNumber(unsigned nModes) {m_nAdjointModes = nModes;}
+    unsigned getAdjointEigenmodesNumber() {return m_nAdjointModes;}
 	
 private:
 	Eigen::VectorXd m_boundaries;
@@ -60,6 +80,9 @@ private:
 	unsigned m_energyGroupsNumber;
 	Eigen::VectorXd m_heatBoundaryConditions;
     std::vector< std::shared_ptr<Material> > m_materials;
+	Eigen::VectorXd m_extSourceDistribution;
+	unsigned m_nForwardModes;
+	unsigned m_nAdjointModes;
 };
 
 #endif

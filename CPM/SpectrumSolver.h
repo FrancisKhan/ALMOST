@@ -18,6 +18,8 @@ public:
 
 	void relaxResults(double param) override;
 
+	void printEigenmodesResults(TraceLevel level) override;
+
 	void printResults(TraceLevel level) override; 
 	
 private:

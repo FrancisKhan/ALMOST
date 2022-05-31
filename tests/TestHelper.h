@@ -97,7 +97,7 @@ public:
 
     double getKEff()
     {
-        const std::string pattern = "K-factor";
+        const std::string pattern = "Fundamental K-factor";
 
         for(auto itemLine : m_outputLines)
 	    {
@@ -106,7 +106,25 @@ public:
 		    if(pos != std::string::npos) 
             {
                 std::vector<std::string> words = splitLine(itemLine);
-                return std::stod(words[1]);
+                return std::stod(words[2]);
+            }
+	    }
+
+        return -1.0;
+    }
+
+    double getEigenvalue(unsigned n)
+    {
+        const std::string pattern = "Eigenvalue " + std::to_string(n);
+
+        for(auto itemLine : m_outputLines)
+	    {
+		    size_t pos = itemLine.find(pattern);
+
+		    if(pos != std::string::npos) 
+            {
+                std::vector<std::string> words = splitLine(itemLine);
+                return std::stod(words[2]);
             }
 	    }
 
@@ -190,6 +208,12 @@ std::vector<double> getVector(std::string keyword)
     }
 
     return path;
+}
+
+inline static bool fileExists(const std::string& name) 
+{
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
 }
 
 private:

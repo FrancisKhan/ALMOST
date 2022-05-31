@@ -19,6 +19,8 @@ public:
 	void relaxResults(double param) override;
 	void printResults(TraceLevel level) override;
 
+	void printEigenmodesResults(TraceLevel level) override;
+
 private:
 	Reactor &m_reactor;
 	Library &m_library;

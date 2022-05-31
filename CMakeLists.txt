@@ -4,7 +4,7 @@ include( Munkei.cmake )
 include( MunkeiVersionFromGit )
 
 # Set to FALSE if do not intend to download or use googletest library
-set(GOOGLE_TEST FALSE CACHE INTERNAL "")
+set(GOOGLE_TEST TRUE CACHE INTERNAL "")
 
 # Use it
 version_from_git(

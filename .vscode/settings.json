@@ -22,9 +22,7 @@
             }
         ]
     },
-    "gtest-adapter.debugConfig": [
-        "(gdb) Launch"
-    ],
+    "gtest-adapter.debugConfig": "(gdb) Launch",
     "gtest-adapter.supportLocation": true,
     "files.associations": {
         "*.ipp": "cpp",
@@ -122,6 +120,11 @@
         "*.evaluator": "cpp",
         "*.traits": "cpp",
         "*.expression": "cpp",
-        "bit": "cpp"
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp"
     }
 }

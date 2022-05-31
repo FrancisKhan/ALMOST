@@ -21,12 +21,13 @@ public:
 	~BaseDiffusionCode(){}
 	
 	Eigen::MatrixXd calcDiffOperatorMatrix();
-	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix);
-	Eigen::MatrixXd calcFMatrix();
+	virtual Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &diffMatrix) = 0;
+	virtual Eigen::MatrixXd calcFMatrix() = 0;
 	Eigen::MatrixXd applyBoundaryConditions(Eigen::MatrixXd &M);
 
 	Eigen::VectorXd calcFissionPowerDistribution();
-	void setNewHeatSource(Numerics::SourceIterResults result);
+	void setNewHeatSource(const eigenmodesResults& result);
+	void setAdjointModes(const eigenmodesResults& result);
 
 protected:
 	Eigen::MatrixXd getInterfaceDiffcoefficients();

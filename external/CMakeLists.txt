@@ -30,6 +30,15 @@ ExternalProject_Add(
     INSTALL_COMMAND ""
 )
 
+ExternalProject_Add(
+    sciplot 
+    PREFIX "sciplot-lib"
+    URL https://github.com/sciplot/sciplot/archive/refs/tags/v0.2.2.zip
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    INSTALL_COMMAND ""
+)
+
 if(GOOGLE_TEST)
     # Download and unpack googletest at configure time
     configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)

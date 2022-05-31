@@ -4,6 +4,7 @@
 #include "Reactor.h"
 #include "Library.h"
 #include "additionalPrintFuncs.h"
+#include "eigenmodesResults.h"
 #include "Output.h"
 
 #include <unsupported/Eigen/CXX11/Tensor>
@@ -30,7 +31,8 @@ public:
 	Eigen::MatrixXd calcMMatrix(Eigen::MatrixXd &cpm);
 	Eigen::MatrixXd calcFMatrix(Eigen::MatrixXd &cpm);
 	virtual void applyBoundaryConditions(Numerics::Tensor3d &gcpm) = 0; 
-	void setNewHeatSource(Numerics::SourceIterResults result);
+	void setNewHeatSource(const eigenmodesResults& result);
+	void setAdjointModes(const eigenmodesResults& result);
 	
 protected:
 	Eigen::VectorXd calcFissionPowerDistribution();

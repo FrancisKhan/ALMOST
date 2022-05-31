@@ -5,6 +5,8 @@
 #include <unsupported/Eigen/Polynomials>
 #include <iostream>
 
+#include "additionalPrintFuncs.h"
+
 namespace Numerics
 {
 	double bickley3f(double x)
@@ -19,7 +21,7 @@ namespace Numerics
 		return a == b ? 1.0 : 0.0;
 	} 
 
-	void diagonalDominanceCheck(Eigen::MatrixXd &matrix)
+	void diagonalDominanceCheck(const Eigen::MatrixXd& matrix)
 	{
 		Eigen::VectorXd rowSum = Eigen::VectorXd::Zero(matrix.rows());
 
@@ -168,8 +170,30 @@ namespace Numerics
 		return result;
 	}
 
-	SourceIterResults sourceIteration(Eigen::MatrixXd &Mmatrix, Eigen::MatrixXd &Fmatrix, 
-                                      SolverData &solverData, Eigen::VectorXd volumes)
+	Eigen::VectorXd fromComplexToDouble(Eigen::VectorXcd const &v) 
+    {
+       Eigen::VectorXd result = Eigen::VectorXd::Zero(v.size());
+
+       std::transform(v.begin(), v.end(), result.begin(), 
+                      [](auto i){return i.real();});
+
+       return result;
+    }
+
+	Eigen::MatrixXd fromComplexToDouble(Eigen::MatrixXcd const &m) 
+    {
+       Eigen::MatrixXd result = Eigen::MatrixXd::Zero(m.rows(), m.cols());
+
+       for(auto i = 0; i < m.rows(); i++)
+	      for(auto j = 0; j < m.cols(); j++)
+		  	result(i, j) = m(i, j).real();
+
+       return result;
+    }
+
+	eigenmodesResults sourceIteration(const Eigen::MatrixXd& Mmatrix, 
+	                                  const Eigen::MatrixXd& Fmatrix, 
+                                      const SolverData& solverData)
 	{
 		diagonalDominanceCheck(Mmatrix);
 	
@@ -186,19 +210,12 @@ namespace Numerics
 		Eigen::VectorXd neutronFlux1 = Eigen::VectorXd::Ones(size);
 		Eigen::VectorXd neutronFlux2 = Eigen::VectorXd::Zero(size);
 
-		Eigen::VectorXd volumesVec = volumes;
-
-		int energyGroups = double(size) / volumes.size();
-
-		for(auto i = 0; i < energyGroups - 1; i++)
-			volumesVec = ConcatenateEigenVectors(volumesVec, volumes);
-
 		double kFactor1 = 1.0;
 		double kFactor2 = 0.0;
 
 		int max_iter_number = solverData.getMaxIterNumber();
 		double accuracy = solverData.getAccuracy();
-		std::string title = get_name(solverData.getKind());
+		std::string title = get_solver_name(solverData.getKind());
 	
 		int h;
 	
@@ -216,12 +233,6 @@ namespace Numerics
 			double sum2 = std::inner_product(source2.begin(), source2.end(), source2.begin(), 0.0);
 		
 			kFactor2 = kFactor1 * (sum2 / sum1);
-
-			if(solverData.getKind() == SolverKind::DIFFUSION)
-			{
-				source2 = source2.cwiseProduct(volumesVec);	
-			}
-
 			source2 /= kFactor2;
 		
 			// exit condition
@@ -240,10 +251,93 @@ namespace Numerics
 			exit(-1);
 		}
 
-		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.sum(); 
+		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.lpNorm<1>(); 
 		double kFactor = kFactor2;
 
-		SourceIterResults result(neutronFlux, kFactor);
+		eigenmodesResults result(neutronFlux, kFactor, solverData.getDirection());
 		return result;
 	}
+
+	eigenmodesResults GeneralizedEigenSolver(const Eigen::MatrixXd& Mmatrix, 
+	                                         const Eigen::MatrixXd& Fmatrix, 
+											 const SolverData& solverData)
+	{
+		Eigen::GeneralizedEigenSolver<Eigen::MatrixXd> es(Mmatrix, Fmatrix, true);
+		Eigen::VectorXcd eigenvalues = es.eigenvalues();
+		eigenvalues = eigenvalues.cwiseInverse();
+		Eigen::MatrixXcd eigenvectors = es.eigenvectors();
+
+		Eigen::VectorXd eigenvalues2 = fromComplexToDouble(eigenvalues);
+
+		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues = 
+		                sortEigenmodes(eigenvalues, eigenvectors);
+
+		eigenmodesResults result(eigenVectorsAndValues, solverData.getDirection());
+		return result;
+	}
+	
+	std::vector< std::pair<double, Eigen::VectorXd> > sortEigenmodes(const Eigen::VectorXcd& evalues, 
+	                                                                 const Eigen::MatrixXcd& evectors)
+	{
+		if(hasImagValues(evalues))
+		{
+			out.print(TraceLevel::CRITICAL, "The Generalized Eigen Solver has found a complex eigenvalue!");
+			exit(-1);
+		}
+
+		Eigen::VectorXd eigenvalues  = fromComplexToDouble(evalues);
+		Eigen::MatrixXd eigenvectors = fromComplexToDouble(evectors);
+
+		std::vector< std::pair<double, Eigen::VectorXd> > eigenVectorsAndValues;
+		
+    	for(int i = 0; i < eigenvalues.size(); i++)
+		{
+			if(!std::isnan(eigenvalues[i]) && is_greater(eigenvalues[i], 0.0))
+			{
+				Eigen::VectorXd eigenvector = std::copysign(1.0, eigenvectors.col(i).sum()) * 
+											  eigenvectors.col(i) / eigenvectors.col(i).lpNorm<1>();
+
+				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvector);
+        		eigenVectorsAndValues.push_back(vec_and_val);
+			}
+    	}
+
+		// Sort eigenvalues and eigenvectors at the same time
+    	std::sort(eigenVectorsAndValues.begin(), eigenVectorsAndValues.end(), 
+        [](const std::pair<double, Eigen::VectorXd>& a, const std::pair<double, Eigen::VectorXd>& b)
+		{return a.first > b.first;});
+
+		return eigenVectorsAndValues;
+	}
+
+	bool hasImagValues(const Eigen::VectorXcd& a)
+    {
+      bool result = false;
+
+      if(std::any_of(a.begin(), a.end(), [](std::complex<double> i){return is_greater(i.imag(), 0.0);}))
+        result = true;
+
+      return result;
+    }
+
+    Eigen::VectorXd fromTensor1dToVectorXd(const Tensor1d& t)
+    {
+        Eigen::VectorXd result = Eigen::VectorXd::Zero(t.dimension(0));
+
+        for(auto i = 0; i < t.dimension(0); i++)
+            result(i) = t(i);
+
+        return result;
+    }
+
+    Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t)
+    {
+        Eigen::MatrixXd result = Eigen::MatrixXd::Zero(t.dimension(0), t.dimension(1));
+
+        for(auto i = 0; i < t.dimension(0); i++)
+            for(auto j = 0; j < t.dimension(1); j++)
+                result(i, j) = t(i, j);
+
+        return result;
+    }
 }

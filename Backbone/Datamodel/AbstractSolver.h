@@ -5,6 +5,7 @@
 #include "SolverData.h"
 #include "Reactor.h"
 #include "Library.h"
+#include "PlotKind.h"
 
 #include <variant>
 
@@ -25,11 +26,15 @@ public:
 	
 	static std::shared_ptr<AbstractSolver> getSolver(SolverData &solver, 
 	       Reactor &reactor, Library &library);
+
+	virtual void printEigenmodesResults(TraceLevel level) {;}
 	
 	virtual void printResults(TraceLevel level) = 0; 
 
+	void plots(const std::vector<PlotKind>& vec);
+
 private:
-	Reactor m_reactor;
+	Reactor& m_reactor;
 	Library m_library;
 	SolverData m_solverData;
 };

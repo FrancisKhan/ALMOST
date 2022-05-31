@@ -1,0 +1,38 @@
+% Graphite reactor with graphite reflector, slab geometry
+% Zero in-current at both boundaries
+% One energy groups
+% Adjoint calculation
+
+solvers diffusion
+
+geometry  slab
+mesh 25 0.5 M2 50 1.0 M1 25 0.5 M2
+
+material M1 % first material
+
+ni(1)         2.43774e+00
+chi(1)        1.00000e+00
+fission(1)    7.16492e-04
+total(1)      2.37968e-01
+diffCoeff(1)  1.60857e+00
+
+scattMatrix(1, 1) 2.36603e-01
+
+
+material M2 % second material
+
+ni(1)         0.00000e+00
+chi(1)        0.00000e+00
+fission(1)    0.00000e+00
+total(1)      2.49230e-01
+diffCoeff(1)  1.46136e+00
+
+scattMatrix(1, 1) 2.49171e-01
+
+solver diffusion
+accuracy 1.0E-6
+max_iteration_number 80
+albedo 0.0 0.0
+energies  1
+direction adjoint
+eigenmodes fundamental

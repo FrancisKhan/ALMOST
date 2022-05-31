@@ -2,7 +2,9 @@
 #include "Mesh.h"
 #include "Output.h"
 #include "GeomKind.h"
+#include "EigenmodesKind.h"
 #include "KineticsSet.h"
+#include "DirectionKind.h"
 #include "additionalPrintFuncs.h"
 
 #include <algorithm>
@@ -14,6 +16,8 @@ using namespace Eigen;
 using namespace Numerics;
 using namespace PrintFuncs;
 using namespace HelperTools;
+
+std::vector<PlotKind> Input::m_plots {};
 
 void Input::getArguments(int argc, char** argv)
 {
@@ -77,11 +81,12 @@ void Input::readData()
     storeInput();
 	setSolvers();
 
-	// Check if geometry or mesh need to be set before anything else
+	// Check if geometry or meshs need to be set before anything else
 	// this is done to set them only once, independently of the number of 
 	// different solvers requested
     if(isElementHere(m_solvers, SolverKind::TRANSPORT) || 
 	   isElementHere(m_solvers, SolverKind::DIFFUSION) || 
+	   isElementHere(m_solvers, SolverKind::ADS) ||
 	   isElementHere(m_solvers, SolverKind::HEAT))
 	{
 		setGeometryKind();
@@ -92,9 +97,15 @@ void Input::readData()
 	setSolverProperties("max_iteration_number");
 	setSolverProperties("albedo", SolverKind::TRANSPORT);
 	setSolverProperties("albedo", SolverKind::DIFFUSION);
+	setSolverProperties("albedo", SolverKind::ADS);
 	setSolverProperties("heat_boundary_conditions", SolverKind::HEAT);
 	setSolverProperties("energies", SolverKind::TRANSPORT);
 	setSolverProperties("energies", SolverKind::DIFFUSION);
+	setSolverProperties("energies", SolverKind::ADS);
+	setSolverProperties("direction", SolverKind::DIFFUSION);
+	setSolverProperties("eigenmodes", SolverKind::TRANSPORT);
+	setSolverProperties("eigenmodes", SolverKind::DIFFUSION);
+	setSolverProperties("ext_source", SolverKind::ADS);
 
 	if((isElementHere(m_solvers, SolverKind::TRANSPORT) || isElementHere(m_solvers, SolverKind::DIFFUSION))
 	&& isElementHere(m_solvers, SolverKind::HEAT) 
@@ -105,7 +116,8 @@ void Input::readData()
 
 	for(auto i : m_solvers)
 	{
-		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION))
+		if((i.getKind() == SolverKind::TRANSPORT) || (i.getKind() == SolverKind::DIFFUSION) ||
+		   (i.getKind() == SolverKind::ADS))
 		{
 			setMaterials(i.getKind());
 		}
@@ -133,6 +145,8 @@ void Input::readData()
 		}
 		else {}
 	}
+
+	setPlots();
 }
 
 void Input::removeExtraSpaces(const std::string &input, std::string &output)
@@ -175,7 +189,8 @@ std::pair<unsigned, unsigned> Input::findBlock(std::string keyOne, std::string k
 	return std::make_pair(startLine, endLine);
 }
 
-std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned topLimit)
+std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned topLimit, 
+							   bool optional)
 {
 	bool keywordFound = false;
 	size_t pos = 0;
@@ -199,7 +214,7 @@ std::string Input::findKeyword(std::string toSearch, unsigned lowLimit, unsigned
 		counter++;
 	}
 
-    if(keywordFound == false) 
+    if(keywordFound == false && optional == false) 
 	{
 		out.print(TraceLevel::CRITICAL, "{} is missing from the input!", toSearch);
 	    exit(-1);
@@ -255,6 +270,12 @@ void Input::setSolvers()
 			SolverData solver(SolverKind::DIFFUSION);
 			solvers.push_back(solver);
 			solverStr += "diffusion ";
+		}
+		else if(i == "ads")
+		{
+			SolverData solver(SolverKind::ADS);
+			solvers.push_back(solver);
+			solverStr += "ads ";
 		}
 		else
 		{
@@ -397,7 +418,7 @@ void Input::setMaterials(SolverKind solver)
    		setXS("total", "\nInput total XS [1/cm]:");	
 		setMatrixXS("scattMatrix", "\nInput scattering matrix [1/cm]:");
 	}
-	else if(solver == SolverKind::DIFFUSION)
+	else if((solver == SolverKind::DIFFUSION) || (solver == SolverKind::ADS))
 	{
 		setXS("ni", "\nInput ni:");
    		setXS("chi", "\nInput chi:");
@@ -579,12 +600,17 @@ std::string Input::readOneParameter(std::string name)
    return result;
 }
 
-std::vector<std::string> Input::readManyParameters(std::string name)
+std::vector<std::string> Input::readManyParameters(std::string name, bool optional)
 {
    std::vector<std::string> result;
-   std::vector<std::string> words = splitLine(findKeyword(name));
-   
-   if(words.size() == 1)
+   std::vector<std::string> words = splitLine(findKeyword(name, 0, 
+                                              std::numeric_limits<unsigned>::max(), 
+											  optional));
+   if(words.size() == 0)
+   {
+	   result.push_back("");
+   }
+   else if(words.size() == 1)
    {
 	   out.print(TraceLevel::CRITICAL, "{} is missing its parameters!", words[0]);
 	   exit(-1);
@@ -749,8 +775,8 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 
         std::string matStr = "solver";
-	    readOneParameter(matStr + " " + get_name(solver.getKind()));
-	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_name(solver.getKind()));
+	    readOneParameter(matStr + " " + get_solver_name(solver.getKind()));
+	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, get_solver_name(solver.getKind()));
 		std::vector<std::string> values = splitLine(findKeyword(name, matBlock.first, matBlock.second));
 
 		if(values.size() < 1) 
@@ -760,7 +786,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 2) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_name(solver.getKind()), values[0], values[1]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {}", get_solver_name(solver.getKind()), values[0], values[1]);
 
 			if(values[0] == "accuracy")
 				solver.setAccuracy(std::stod(values[1]));
@@ -780,11 +806,11 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 					std::vector<double> albedo{std::stod(values[1])}; 
 					solver.setAlbedo(albedo);
 				}
-				else if(inputSolver == SolverKind::DIFFUSION)
+				else if((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::ADS))
 				{
 					if(m_mesh.getGeometry() == GeomKind::SLAB)
 					{
-						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));	
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));	
 						exit(-1);
 					}
 					else
@@ -795,28 +821,77 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 				
 						
 			}
+			else if(values[0] == "direction")
+			{
+				if(inputSolver == SolverKind::DIFFUSION)
+				{
+					if(values[1] == "forward")
+					{
+						solver.setDirection(DirectionKind::FORWARD);
+					}
+					else if(values[1] == "adjoint")
+					{
+						solver.setDirection(DirectionKind::ADJOINT);
+					}
+					else
+					{
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
+						exit(-1);
+					}
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
+					exit(-1);
+				}			
+			}
+			else if(values[0] == "eigenmodes")
+			{
+				if((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::TRANSPORT))
+				{
+					if(values[1] == "fundamental")
+					{
+						solver.setEigenmodes(EigenmodesKind::FUNDAMENTAL);
+					}
+					else if(values[1] == "all")
+					{
+						solver.setEigenmodes(EigenmodesKind::ALL);
+					}
+					else
+					{
+						out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
+						exit(-1);
+					}
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
+					exit(-1);
+				}			
+			}
 			else {;}
 		}
 		else if(values.size() == 3) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {}", get_name(solver.getKind()), values[0], values[1], values[2]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2]);
 
 			if(values[0] == "albedo")
 			{
-				if((inputSolver == SolverKind::DIFFUSION) && (m_mesh.getGeometry() == GeomKind::SLAB))
+				if(((inputSolver == SolverKind::DIFFUSION) || (inputSolver == SolverKind::ADS)) && 
+				    (m_mesh.getGeometry() == GeomKind::SLAB))
 				{
 					std::vector<double> albedo{std::stod(values[1]), std::stod(values[2])}; 
 					solver.setAlbedo(albedo);
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 			}
@@ -824,7 +899,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 		}
 		else if(values.size() == 4) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2], values[3]);
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2], values[3]);
 
 			if(values[0] == "heat_boundary_conditions")
 			{
@@ -834,16 +909,31 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 
+			}
+			else if(values[0] == "ext_source")
+			{
+				if((inputSolver == SolverKind::ADS))
+				{
+					std::tuple<double, unsigned, unsigned> source = 
+					         std::make_tuple(std::stod(values[1]), std::stoi(values[2]), std::stoi(values[3]));
+
+					m_reactor.setExtSource(source);
+				}
+				else
+				{
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
+					exit(-1);
+				}			
 			}
 			else {;}
 		}
 		else if(values.size() == 7) 
 		{
-			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {} {} {} {}", get_name(solver.getKind()), values[0], values[1], values[2],
+			out.print(TraceLevel::CRITICAL, "{} solver {}: {} {} {} {} {} {}", get_solver_name(solver.getKind()), values[0], values[1], values[2],
 			          values[3], values[4], values[5], values[6]);
 
 			if(values[0] == "heat_boundary_conditions")
@@ -854,7 +944,7 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 				}
 				else
 				{
-					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_name(solver.getKind()));
+					out.print(TraceLevel::CRITICAL, "Error setting {} for {} solver!", values[0], get_solver_name(solver.getKind()));
 					exit(-1);
 				}
 
@@ -869,93 +959,25 @@ void Input::setSolverProperties(std::string name, SolverKind inputSolver)
 	}
 }
 
+void Input::setPlots()
+{ 
+    std::vector<std::string> values = readManyParameters("plots", true); 
 
-// void Input::setMatrixXS(std::string name, std::string outputName)
-// {
-//     Tensor3d matrix = Tensor3d(m_energies, m_energies, m_cells);
-//     matrix.setZero();
-
-// 	for (auto matListItem : m_materialList)
-//     {
-//        std::string matStr = "material";
-// 	   readOneParameter(matStr + " " + matListItem);
-// 	   std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
-
-// 		for(unsigned m = 0; m < m_cells; m++)
-//     	{
-//         	if (m_materialMap[m] != matListItem) continue;
-
-// 			for (unsigned i = 1; i <= m_energies; i++)
-//     		{
-// 	    		for (unsigned j = 1; j <= m_energies; j++)
-// 	    		{
-// 					std::string str = name + "(" + std::to_string(i) + ", " + std::to_string(j) + ")";
-// 					std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-// 					matrix(i - 1, j - 1, m) = std::stod(values[2]);
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	m_mesh.setScattMatrices(matrix);
-
-// 	out.print(TraceLevel::CRITICAL, outputName);
-//     printMatrix(matrix, out, TraceLevel::CRITICAL, "Mesh");
-// }
-
-// void Input::setXS(std::string name, std::string outputName)
-// {
-// 	VectorXd energyVec = VectorXd::Zero(m_energies);
-
-// 	out.print(TraceLevel::CRITICAL, outputName);
-
-// 	for (auto matListItem : m_materialList)
-//     {
-//         std::string matStr = "material";
-// 	    readOneParameter(matStr + " " + matListItem);
-// 	    std::pair<unsigned, unsigned> matBlock = findBlock(matStr, matListItem);
-
-// 		for(unsigned m = 0; m < m_cells; m++)
-//     	{
-// 			if (m_materialMap[m] != matListItem) continue;
-
-// 			for (unsigned i = 1; i <= m_energies; i++)
-//    			{
-// 				std::string str = name + "(" + std::to_string(i) + ")";
-// 				std::vector<std::string> values = splitLine(findKeyword(str, matBlock.first, matBlock.second));
-// 				energyVec(i - 1) = std::stod(values[1]);
-// 			}
-
-//             if(name == "ni") 
-// 				m_mesh.getMaterial(m)->setNi(energyVec);
-// 			else if(name == "chi") 
-// 				m_mesh.getMaterial(m)->setChi(energyVec);
-// 			else if(name == "fission") 
-// 				m_mesh.getMaterial(m)->setFissionXS(energyVec);
-// 			else if(name == "total") 
-// 				m_mesh.getMaterial(m)->setTotalXS(energyVec);
-// 			else if(name == "absorption") 
-// 				m_mesh.getMaterial(m)->setAbsXS(energyVec);
-// 			else if(name == "diffCoeff") 
-// 				m_mesh.getMaterial(m)->setDiffusionConstants(energyVec);
-// 			else {;}
-// 		}
-// 	}
-
-// 	for(unsigned m = 0; m < m_cells; m++)
-//     {
-//         if(name == "ni") 
-// 			printVector(m_mesh.getMaterial(m)->getNi(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "chi") 
-// 			printVector(m_mesh.getMaterial(m)->getChi(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "fission") 
-// 			printVector(m_mesh.getMaterial(m)->getFissionXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "total") 
-// 			printVector(m_mesh.getMaterial(m)->getTotalXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "absorption") 
-// 			printVector(m_mesh.getMaterial(m)->getAbsXS(), out, TraceLevel::CRITICAL, false , false);
-// 		else if(name == "diffCoeff") 
-// 			printVector(m_mesh.getMaterial(m)->getDiffusionConstants(), out, TraceLevel::CRITICAL, false , false);
-// 		else {;}
-// 	}
-// }
+	if(values.size() != 0)
+	{
+		for(const auto& v : values)
+		{
+			if(v == "neutronflux")
+				m_plots.push_back(PlotKind::NEUTRONFLUX);
+			else if(v == "adjointflux")
+				m_plots.push_back(PlotKind::ADJOINTFLUX);
+			else if(v == "totalflux")
+				m_plots.push_back(PlotKind::TOTALFLUX);
+			else if(v == "temperature")
+				m_plots.push_back(PlotKind::TEMPERATURE);
+			else if(v == "powerdensity")
+				m_plots.push_back(PlotKind::POWERDENSITY);
+			else {;}
+		}
+	}  
+}  

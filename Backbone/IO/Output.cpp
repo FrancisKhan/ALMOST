@@ -113,6 +113,21 @@ void Output::removeOldOutputFile()
 	}
 }
 
+std::string Output::getInputNameNoExt()
+{
+	std::string inputName = getInputName();
+
+    std::string result("");
+	std::size_t found = inputName.find_last_of(".\\");
+
+	if (found != std::string::npos)
+	{
+	    result = inputName.substr(0, found);
+    }
+
+    return result;
+}
+
 void Output::print(TraceLevel level, std::string str)
 {
 	if (level == TraceLevel::CRITICAL)
@@ -178,6 +193,23 @@ void Output::print(TraceLevel level, std::string str, std::string input)
 		out.getLogger()->debug(str, input);
 	else if(level == TraceLevel::TRACE)
 		out.getLogger()->trace(str, input);
+	else {}
+}
+
+void Output::print(TraceLevel level, std::string str, int input, std::string input1)
+{
+	if (level == TraceLevel::CRITICAL)
+		out.getLogger()->critical(str, input, input1);
+	else if (level == TraceLevel::ERR)
+		out.getLogger()->error(str, input, input1);
+	else if (level == TraceLevel::WARN)
+		out.getLogger()->warn(str, input, input1);
+	else if (level == TraceLevel::INFO)
+		out.getLogger()->info(str, input, input1);
+	else if(level == TraceLevel::DEBUG)
+		out.getLogger()->debug(str, input, input1);
+	else if(level == TraceLevel::TRACE)
+		out.getLogger()->trace(str, input, input1);
 	else {}
 }
 
