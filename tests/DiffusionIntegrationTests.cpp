@@ -2080,7 +2080,7 @@ TEST_F(DiffIntegrationTests, diff24)
 }
 
 // Graphite reactor with graphite reflector, slab geometry
-// Reflective boundary at both ends
+// Reflective boundary at right end
 // Two energy groups
 // Adjoint direction
 
@@ -2093,7 +2093,7 @@ TEST_F(DiffIntegrationTests, diff25)
 
   const double kEffRef = 1.01527;
 
-		std::vector<double> refFlux {1.198369e-02, 1.197400e-02, 1.195464e-02, 
+	std::vector<double> refFlux {1.198369e-02, 1.197400e-02, 1.195464e-02, 
 	1.192565e-02, 1.188711e-02, 1.183911e-02, 1.178175e-02, 1.171518e-02, 
 	1.163956e-02, 1.155508e-02, 1.146197e-02, 1.136047e-02, 1.125086e-02, 
 	1.113345e-02, 1.100860e-02, 1.087669e-02, 1.073815e-02, 1.059347e-02, 
@@ -2261,6 +2261,53 @@ TEST_F(DiffIntegrationTests, diff28)
 
   EXPECT_TRUE(areEqual);
   EXPECT_FLOAT_EQ(test.getKEff(), kEffRef);
+}
+
+// Graphite reactor with graphite reflector, slab geometry
+// Reflective boundary at left end
+// Two energy groups
+// Adjoint direction
+// All-eigenmode calculation
+
+TEST_F(DiffIntegrationTests, diff29)
+{	
+  const std::string codePath   = "app/almost";
+  const std::string inputPath  = "inputs/diff29.txt";
+  const std::string outputPath = "outputs/Out_diff29.txt";
+  const std::string traceLevel = "DEBUG";
+
+  const double kEffRef = 5.701913e-03;
+
+	std::vector<double> refFlux {-2.890064e-03, -2.511566e-03, -1.804045e-03, 
+	-8.599807e-04, 1.972455e-04, 1.229494e-03, 2.101943e-03, 2.700739e-03, 
+	2.947899e-03, 2.811537e-03, 2.310062e-03, 1.509803e-03, 5.163842e-04, 
+	-5.390338e-04, -1.516829e-03, -2.287083e-03, -2.746444e-03, -2.831481e-03, 
+	-2.526770e-03, -1.866637e-03, -9.303194e-04, 1.688478e-04, 1.298833e-03, 
+	2.326920e-03, 3.138024e-03, 3.671275e-03, 4.125853e-03, 4.490279e-03, 
+	4.772639e-03, 4.980333e-03, 5.120142e-03, 5.198277e-03, 5.220435e-03, 
+	5.191842e-03, 5.117295e-03, 5.001208e-03, 4.847639e-03, 4.660331e-03, 
+	4.442740e-03, 4.198063e-03, 3.929267e-03, 3.639111e-03, 3.330173e-03, 
+	3.004867e-03, 2.665468e-03, 2.314129e-03, 1.952897e-03, 1.583736e-03, 
+	1.208540e-03, 8.291503e-04, -4.155878e-02, -3.613962e-02, -2.601116e-02, 
+	-1.250035e-02, 2.622193e-03, 1.737359e-02, 2.981769e-02, 3.831797e-02, 
+	4.175095e-02, 3.965244e-02, 3.227730e-02, 2.056485e-02, 6.014414e-03, 
+	-9.512848e-03, -2.404005e-02, -3.573655e-02, -4.316182e-02, -4.545947e-02, 
+	-4.247656e-02, -3.479295e-02, -2.365742e-02, -1.083977e-02, 1.580809e-03, 
+	1.146228e-02, 1.684714e-02, 1.617931e-02, 1.551878e-02, 1.486248e-02, 
+	1.421022e-02, 1.356182e-02, 1.291709e-02, 1.227584e-02, 1.163790e-02, 
+	1.100309e-02, 1.037123e-02, 9.742138e-03, 9.115654e-03, 8.491602e-03, 
+	7.869813e-03, 7.250118e-03, 6.632350e-03, 6.016342e-03, 5.401930e-03, 
+	4.788948e-03, 4.177235e-03, 3.566626e-03, 2.956959e-03, 2.348073e-03, 
+	1.739805e-03, 1.131996e-03};
+  
+  TestHelper test(codePath, inputPath, outputPath, traceLevel);
+  test.runCode();
+
+  std::vector<double> flux = test.getVector("Adjoint Flux 4");
+  bool areEqual = std::equal(refFlux.begin(), refFlux.end(), flux.begin());
+
+  EXPECT_TRUE(areEqual);
+  EXPECT_FLOAT_EQ(test.getEigenvalue(4), kEffRef);
 }
 
 // slab geometry, memory test

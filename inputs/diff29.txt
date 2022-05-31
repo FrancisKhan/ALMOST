@@ -2,6 +2,7 @@
 % Reflective boundary at left end
 % Two energy groups
 % Adjoint direction
+% All-eigenmode calculation
 
 solvers diffusion
 
@@ -53,4 +54,4 @@ max_iteration_number 20
 albedo 1.0 0.0
 energies  2
 direction adjoint
-eigenmodes fundamental
+eigenmodes all

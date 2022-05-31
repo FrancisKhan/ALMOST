@@ -111,7 +111,7 @@ void DiffusionSolver::printEigenmodesResults(TraceLevel level)
             }
             else if(m_solverData.getDirection() == DirectionKind::ADJOINT)
             {
-                out.print(level, "Adjoint Flux [arbitrary]:");
+                out.print(level, "Adjoint Flux {} {}", int(n + 1), " [arbitrary]:");
             }
             else{;}
 
