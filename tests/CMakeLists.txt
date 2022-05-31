@@ -2,7 +2,7 @@
 add_executable(test_almost mathsTests.cpp CoreTests.cpp HeatIntegrationTests.cpp 
                CPMIntegrationTests.cpp CoreIntegrationTests.cpp
                CoupledIntegrationTests.cpp DiffusionIntegrationTests.cpp
-               ADSIntegrationTests.cpp)
+               PlotIntegrationTests.cpp ADSIntegrationTests.cpp)
 
 # I'm using C++17 in the test
 #target_compile_features(test_almost PRIVATE cxx_std_17)

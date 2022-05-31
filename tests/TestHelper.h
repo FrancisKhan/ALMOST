@@ -210,6 +210,12 @@ std::vector<double> getVector(std::string keyword)
     return path;
 }
 
+inline static bool fileExists(const std::string& name) 
+{
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
+}
+
 private:
     const std::string m_linuxCommand;
     const std::string m_codePath; 
