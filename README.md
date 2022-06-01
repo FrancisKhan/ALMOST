@@ -27,7 +27,7 @@ For more detailed information visit the **wiki** page:
 
 ## Plotting capabilites:
 
-Thanks to the C++ sciplot library, Almost is able to generate plots for neutron flux and power density spatial distributions.
+Thanks to the C++ [sciplot](https://github.com/sciplot/sciplot/) library, Almost is able to generate plots for neutron flux and power density spatial distributions.
 
 ![Neutron flux Almost plot](https://github.com/FrancisKhan/Wiki/blob/c64b2e447c19588091681c461ba999a606d418ed/neutronflux.jpg)
 
