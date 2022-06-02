@@ -1,5 +1,4 @@
 [![Actions Status](https://github.com/FrancisKhan/ALMOST/workflows/CI-Linux/badge.svg)](https://github.com/FrancisKhan/ALMOST/actions)
-[![Actions Status](https://github.com/FrancisKhan/ALMOST/workflows/CI-Cross-Compilation/badge.svg)](https://github.com/FrancisKhan/ALMOST/actions)
 
 # ALMOST
 
