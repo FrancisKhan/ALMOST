@@ -31,16 +31,17 @@ void ADSCalculation::solve()
 
 	// Calculate <adjoint x q>
 	std::tuple<double, unsigned, unsigned> q = m_reactor.getExtSource();
-	unsigned sourceStrength = std::get<0>(q);
+	double sourceStrength   = std::get<0>(q);
 	unsigned sourcePosition = std::get<1>(q) - 1;
 	unsigned sourceEnergy   = std::get<2>(q) - 1;
 
 	VectorXd volumes = m_reactor.getMesh().getVolumes("cm");
 
 	Tensor3d adjointModes = m_reactor.getMesh().getAdjointFluxes();
-	Tensor2d adjointModes2T = adjointModes.chip(sourceEnergy, 0);
-	Tensor1d adjointModes1T = adjointModes2T.chip(sourcePosition, 0);
-	VectorXd adjointModes1 = fromTensor1dToVectorXd(adjointModes1T);
+	VectorXd adjointModes1 = VectorXd::Zero(adjointModes.dimension(2));
+
+	for(unsigned n = 0; n < adjointModes.dimension(2); n++)
+		adjointModes1(n) = adjointModes(sourceEnergy, sourcePosition, n);
 
 	VectorXd adjoint_q = sourceStrength * volumes(sourcePosition) * adjointModes1;
 	out.print(TraceLevel::CRITICAL, "adjoint_q:");
@@ -79,9 +80,21 @@ void ADSCalculation::solve()
 				totalFluxes(e, m) += (forwardEigenvalues[n] / (1.0 - forwardEigenvalues[n])) * 
 									ratio(n) * forwardModes(e, m, n);
 
+	std::vector<double> totalFluxesSum(forwardModes.dimension(0), 0.0);
+
+	for(unsigned e = 0; e < forwardModes.dimension(0); e++)
+		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
+				totalFluxesSum[e] += totalFluxes(e, m); 
+	
+	for(unsigned e = 0; e < forwardModes.dimension(0); e++)
+		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
+				totalFluxes(e, m) /= totalFluxesSum[e]; 
+
 	Mesh& mesh = m_reactor.getMesh();
 	mesh.setTotalFluxes(totalFluxes);
 
 	out.print(TraceLevel::CRITICAL, "Total Flux:");
     printMatrix(totalFluxes, out, TraceLevel::CRITICAL, true);
+
+	forwardDiffSolver.plots(Input::getPlots());
 }
