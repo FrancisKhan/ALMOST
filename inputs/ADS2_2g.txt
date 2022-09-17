@@ -1,0 +1,55 @@
+% Graphite reactor with graphite reflector, slab geometry
+% Reflective boundary condition at the right end
+% Two energy groups
+
+solvers ads
+
+geometry  slab
+mesh 25 0.25 M2 100 1.0 M1 25 0.25 M2
+
+material M1
+
+ni(1)         2.45349e+00
+chi(1)        1.00000e+00
+total(1)      2.19920e-01
+fission(1)    8.13180e-05
+diffCoeff(1)  1.62515e+00
+
+ni(2)         2.43670e+00
+chi(2)        0.00000e+00
+total(2)      2.60050e-01
+fission(2)    1.54290e-03
+diffCoeff(2)  1.34739e+00
+
+scattMatrix(1, 1) 2.17344e-01
+scattMatrix(1, 2) 1.73017e-03
+scattMatrix(2, 1) 3.68299e-05
+scattMatrix(2, 2) 2.57948e-01
+
+material M2
+
+ni(1)         0.00000e+00
+chi(1)        0.00000e+00
+total(1)      2.24945e-01
+fission(1)    0.00000e+00
+diffCoeff(1)  1.58364e+00
+
+ni(2)         0.00000e+00
+chi(2)        0.00000e+00
+total(2)      2.57541e-01
+fission(2)    0.00000e+00
+diffCoeff(2)  1.36667e+00
+
+scattMatrix(1, 1) 2.22456e-01
+scattMatrix(1, 2) 2.48388e-03
+scattMatrix(2, 1) 3.45514e-05
+scattMatrix(2, 2) 2.57365e-01
+
+solver ads
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 0.0 0.0
+energies  2
+ext_source 1.0 26 2
+
+plots neutronflux totalflux

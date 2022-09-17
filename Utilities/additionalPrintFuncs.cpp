@@ -426,7 +426,7 @@ namespace PrintFuncs
 		for(unsigned i = 0; i < vec.size(); i++)
 		{
 			if(i == 0) 
-				str = "std::vector<double> ref {";
+				str = "std::vector<double> refFlux {";
 
 			str += stringFormat(vec[i], format) + ", ";
 

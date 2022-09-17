@@ -30,7 +30,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/app/almost",
-            "args": ["inputs/ADS1.txt", "outputs/Out_ADS1.txt", "DEBUG"],
+            "args": ["inputs/diff30.txt", "outputs/Out_diff30.txt", "DEBUG"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

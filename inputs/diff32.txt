@@ -1,0 +1,38 @@
+% Heterogeneous one-group diffusion benchmark (ISSA benchmark)
+% From "A nodal collocation method for the calculation of the lambda modes of the PL equations"
+% M. Capilla et al. 2005
+
+solvers diffusion
+
+geometry  slab
+mesh 100 0.02 M1 100 0.03 M2
+
+material M1
+
+ni(1)         2.5
+chi(1)        1.0
+fission(1)    0.4
+total(1)      1.0
+diffCoeff(1)  0.333333
+
+scattMatrix(1, 1) 0.5
+
+material M2
+
+ni(1)         0.0
+chi(1)        0.0
+fission(1)    0.0
+total(1)      0.8
+diffCoeff(1)  0.416666
+
+scattMatrix(1, 1) 0.4
+
+solver diffusion
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 1.0 0.0
+energies  1
+direction forward
+eigenmodes all
+
+plots neutronflux

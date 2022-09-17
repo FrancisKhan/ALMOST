@@ -129,24 +129,22 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 
 	int l = m_cells - 1;
 
-	bool isPeriodic = is_equal(albedoL, 2.0) && is_equal(albedoR, 2.0);
-
-	if(!isPeriodic) // Albedo boundary conditions
+	if(is_lower_equal(albedoL, 1.0) && is_lower_equal(albedoR, 1.0)) // Albedo boundary conditions
 	{
 		for(int e = 0; e < m_energies; e++)
 		{
 			// Left boundary condition
-			B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));     
+			B = D(e, 0) * (1.0 - albedoL) * surfaces(0) / (4.0 * D(e, 0) * (1.0 + albedoL) + cellSizes(0) * (1.0 - albedoL));   
 			M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
 			M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * m_volumes(0));
 
 			// Right boundary condition
-			B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));          
+			B = D(e, l) * (1.0 - albedoR) * surfaces(l + 1) / (4.0 * D(e, l) * (1.0 + albedoR) + cellSizes(l) * (1.0 - albedoR));      
 			M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
 			M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
 		}
 	}
-	else // Periodic boundary conditions
+	else if(is_equal(albedoL, 2.0) && is_equal(albedoR, 2.0)) // Periodic boundary conditions
 	{
 		for(int e = 0; e < m_energies; e++)
 		{
@@ -162,6 +160,27 @@ MatrixXd BaseDiffusionCode::applyBoundaryConditions(MatrixXd &M)
 			M(l + e * m_cells, e * m_cells) = M(e * m_cells, 1 + e * m_cells);
 		}
 	}
+	else if(is_equal(albedoL, 3.0) && is_equal(albedoR, 3.0)) // zero-flux conditions
+	{
+		for(int e = 0; e < m_energies; e++)
+		{
+			// Left boundary condition
+			B = D(e, 0) * surfaces(0) / cellSizes(0);     
+			M(e * m_cells, 1 + e * m_cells) = - 2.0 * DInterface(e, 0);
+			M(e * m_cells, e * m_cells) = 2.0 * (DInterface(e, 0) + B + 0.5 * totXS(e, 0) * m_volumes(0));
+
+			// Right boundary condition
+			B = D(e, l) * surfaces(l + 1) / cellSizes(l);          
+			M(l + e * m_cells, l - 1 + e * m_cells) = - 2.0 * DInterface(e, l - 1);
+			M(l + e * m_cells, l + e * m_cells) = 2.0 * (B + DInterface(e, l - 1) + 0.5 * totXS(e, l) * m_volumes(l));
+		}
+	}
+	else
+	{
+		out.print(TraceLevel::CRITICAL, "Error setting albedo values {} and{} not compatible with diffusion solver", albedoL, albedoR);
+		exit(-1);
+	}
+
 
     out.print(TraceLevel::DEBUG, "M matrix [] (after boundary conditions):");
     printMatrix(M, out, TraceLevel::DEBUG);

@@ -1,0 +1,36 @@
+% Graphite reactor, slab geometry
+% Zero-influx boundary conditions at both ends
+% Two energy groups
+
+solvers ads
+
+geometry  slab
+mesh 100 1.0 M1
+
+material M1
+
+ni(1)         2.45665E+00
+chi(1)        1.00000e+00
+total(1)      2.17287E-01
+fission(1)    7.60694E-05
+diffCoeff(1)  1.64624E+00
+
+ni(2)         2.43670E+00
+chi(2)        0.00000e+00
+total(2)      2.59519E-01
+fission(2)    1.47749E-03
+diffCoeff(2)  1.35065E+00
+
+scattMatrix(1, 1) 2.15016E-01
+scattMatrix(1, 2) 1.50445E-03
+scattMatrix(2, 1) 4.76997E-05
+scattMatrix(2, 2) 2.57499E-01
+
+solver ads
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 0.0 0.0
+energies 2
+ext_source 1.0 11 1
+
+plots neutronflux totalflux adjointflux

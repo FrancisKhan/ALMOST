@@ -1,0 +1,46 @@
+% Graphite reactor, slab geometry
+% Reflective boundary on the right
+% Two energy groups
+
+solvers diffusion
+
+geometry  slab
+mesh 50 0.2306264580 M1
+
+material M1
+
+ni(1)         2.5000000
+chi(1)        0.7112000
+fission(1)    0.0138124
+total(1)      2.8311e-1
+diffCoeff(1)  1.1773986
+
+ni(2)         2.5000000
+chi(2)        0.2886
+fission(2)    0.0131476
+total(2)      3.65360e-1
+diffCoeff(2)  0.91234216
+
+ni(3)         2.5000000
+chi(3)        0.0002
+fission(3)    0.048008
+total(3)      6.65500E-1
+diffCoeff(3)  0.50087653
+
+scattMatrix(1, 1) 2.36040E-1
+scattMatrix(1, 2) 3.31803E-2
+scattMatrix(1, 3) 1.16620E-5
+scattMatrix(2, 1) 0.0
+scattMatrix(2, 2) 3.48954E-1
+scattMatrix(2, 3) 3.45000E-5
+scattMatrix(3, 1) 0.0
+scattMatrix(3, 2) 0.0
+scattMatrix(3, 3) 5.95640E-1
+
+solver diffusion
+accuracy 1.0E-8
+max_iteration_number 20
+albedo 0.0 0.0
+energies  3
+direction forward
+eigenmodes fundamental

@@ -251,7 +251,7 @@ namespace Numerics
 			exit(-1);
 		}
 
-		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.lpNorm<1>(); 
+		Eigen::VectorXd neutronFlux = neutronFlux2 / neutronFlux2.maxCoeff(); 
 		double kFactor = kFactor2;
 
 		eigenmodesResults result(neutronFlux, kFactor, solverData.getDirection());
@@ -294,8 +294,10 @@ namespace Numerics
 		{
 			if(!std::isnan(eigenvalues[i]) && is_greater(eigenvalues[i], 0.0))
 			{
-				Eigen::VectorXd eigenvector = std::copysign(1.0, eigenvectors.col(i).sum()) * 
-											  eigenvectors.col(i) / eigenvectors.col(i).lpNorm<1>();
+				// Eigen::VectorXd eigenvector = std::copysign(1.0, eigenvectors.col(i).sum()) * 
+				// 							  eigenvectors.col(i) / eigenvectors.col(i).lpNorm<1>();
+
+				Eigen::VectorXd eigenvector = eigenvectors.col(i) / eigenvectors.col(i).maxCoeff();
 
 				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvector);
         		eigenVectorsAndValues.push_back(vec_and_val);

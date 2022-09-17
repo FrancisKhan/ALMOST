@@ -14,7 +14,7 @@ class Generator:
     def __init__(self, leakageCorrection, transportCorrection, solver, 
                  inputFilesAndTemps, outputFile):
 
-        rc.__setitem__("serpentVersion", "2.1.30")
+        rc.__setitem__("serpentVersion", "2.1.31")
 
         self.leakageCorrection   = leakageCorrection
         self.transportCorrection = transportCorrection

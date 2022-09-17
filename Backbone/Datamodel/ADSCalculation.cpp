@@ -21,13 +21,13 @@ void ADSCalculation::solve()
 	AdjointDiffSolverData.setDirection(DirectionKind::ADJOINT);
 	AdjointDiffSolverData.setEigenmodes(EigenmodesKind::ALL);
 
-    DiffusionSolver AdjointDiffSolver(m_reactor, m_library, AdjointDiffSolverData);
+    DiffusionSolver adjointDiffSolver(m_reactor, m_library, AdjointDiffSolverData);
 
 	forwardDiffSolver.solve(); 
 	forwardDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);
 
-    AdjointDiffSolver.solve(); 
-	AdjointDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);
+    adjointDiffSolver.solve(); 
+	adjointDiffSolver.printEigenmodesResults(TraceLevel::CRITICAL);
 
 	// Calculate <adjoint x q>
 	std::tuple<double, unsigned, unsigned> q = m_reactor.getExtSource();
@@ -38,21 +38,26 @@ void ADSCalculation::solve()
 	VectorXd volumes = m_reactor.getMesh().getVolumes("cm");
 
 	Tensor3d adjointModes = m_reactor.getMesh().getAdjointFluxes();
-	VectorXd adjointModes1 = VectorXd::Zero(adjointModes.dimension(2));
+
+	MatrixXd source = MatrixXd::Zero(adjointModes.dimension(0), adjointModes.dimension(1));
+	source(sourceEnergy, sourcePosition) = sourceStrength;
+
+	VectorXd adjoint_q = VectorXd::Zero(adjointModes.dimension(2));
 
 	for(unsigned n = 0; n < adjointModes.dimension(2); n++)
-		adjointModes1(n) = adjointModes(sourceEnergy, sourcePosition, n);
+		for(unsigned m = 0; m < adjointModes.dimension(1); m++)
+			for(unsigned e = 0; e < adjointModes.dimension(0); e++)
+					adjoint_q(n) += adjointModes(e, m, n) * source(e, m) * volumes(m);
 
-	VectorXd adjoint_q = sourceStrength * volumes(sourcePosition) * adjointModes1;
 	out.print(TraceLevel::CRITICAL, "adjoint_q:");
-    printVector(adjoint_q, out, TraceLevel::CRITICAL);
+    printMatrix(adjoint_q, out, TraceLevel::CRITICAL);
 
 	// Calculate <adjoint x P x forward>
 	Tensor3d forwardModes = m_reactor.getMesh().getNeutronFluxes();
 	
 	MatrixXd P = m_reactor.getMesh().getProductionOperator();
 
-	VectorXd adjoint_P_forward = VectorXd::Zero(adjoint_q.size());
+	VectorXd adjoint_P_forward = VectorXd::Zero(forwardModes.dimension(2));
 
 	for(unsigned n = 0; n < forwardModes.dimension(2); n++)
 		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
@@ -79,22 +84,17 @@ void ADSCalculation::solve()
 			for(unsigned n = 0; n < forwardModes.dimension(2); n++)
 				totalFluxes(e, m) += (forwardEigenvalues[n] / (1.0 - forwardEigenvalues[n])) * 
 									ratio(n) * forwardModes(e, m, n);
-
-	std::vector<double> totalFluxesSum(forwardModes.dimension(0), 0.0);
-
-	for(unsigned e = 0; e < forwardModes.dimension(0); e++)
-		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
-				totalFluxesSum[e] += totalFluxes(e, m); 
 	
-	for(unsigned e = 0; e < forwardModes.dimension(0); e++)
-		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
-				totalFluxes(e, m) /= totalFluxesSum[e]; 
+	totalFluxes /= totalFluxes.maxCoeff(); 
 
 	Mesh& mesh = m_reactor.getMesh();
 	mesh.setTotalFluxes(totalFluxes);
 
 	out.print(TraceLevel::CRITICAL, "Total Flux:");
     printMatrix(totalFluxes, out, TraceLevel::CRITICAL, true);
+
+	forwardDiffSolver.printResults(TraceLevel::CRITICAL);
+	adjointDiffSolver.printResults(TraceLevel::CRITICAL);
 
 	forwardDiffSolver.plots(Input::getPlots());
 }
