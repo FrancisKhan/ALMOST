@@ -294,11 +294,7 @@ namespace Numerics
 		{
 			if(!std::isnan(eigenvalues[i]) && is_greater(eigenvalues[i], 0.0))
 			{
-				// Eigen::VectorXd eigenvector = std::copysign(1.0, eigenvectors.col(i).sum()) * 
-				// 							  eigenvectors.col(i) / eigenvectors.col(i).lpNorm<1>();
-
-				Eigen::VectorXd eigenvector = eigenvectors.col(i) / eigenvectors.col(i).maxCoeff();
-
+				Eigen::VectorXd eigenvector = eigenvectors.col(i) / absMaxCoeff(eigenvectors.col(i));						
 				std::pair<double, Eigen::VectorXd> vec_and_val(eigenvalues[i], eigenvector);
         		eigenVectorsAndValues.push_back(vec_and_val);
 			}
@@ -341,5 +337,13 @@ namespace Numerics
                 result(i, j) = t(i, j);
 
         return result;
+    }
+
+	double absMaxCoeff(const Eigen::VectorXd& v)
+    {
+		Eigen::VectorXd r = Eigen::VectorXd::Zero(v.size());
+		std::transform(v.begin(), v.end(), r.begin(), [](auto i){return abs(i);});
+		unsigned max_elem = std::distance(r.begin(), std::max_element(r.begin(), r.end()));
+		return std::copysign(1.0, v[max_elem]) * abs(r[max_elem]);
     }
 }

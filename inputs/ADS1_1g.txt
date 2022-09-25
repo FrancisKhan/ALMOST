@@ -5,7 +5,7 @@
 solvers ads
 
 geometry  slab
-mesh 100 0.1 M1
+mesh 100 1.0 M1
 
 material M1
 
@@ -20,8 +20,8 @@ scattMatrix(1, 1) 2.29759E-01
 solver ads
 accuracy 1.0E-8
 max_iteration_number 20
-albedo 1.0 0.0
+albedo 3.0 3.0
 energies 1
-ext_source 1.0 1 1
+ext_source 1.0 10 1
 
-plots neutronflux totalflux adjointflux
+plots totalflux

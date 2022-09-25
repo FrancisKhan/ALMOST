@@ -202,6 +202,7 @@ namespace Numerics
        return vector;
     }
 
+    double absMaxCoeff(const Eigen::VectorXd& v);
     bool hasImagValues(const Eigen::VectorXcd& a);
     Eigen::VectorXd fromTensor1dToVectorXd(const Tensor1d& t);
     Eigen::MatrixXd fromTensor2dToMatrixXd(const Tensor2d& t);

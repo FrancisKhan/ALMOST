@@ -23,13 +23,13 @@ diffCoeff(2)  1.35065E+00
 
 scattMatrix(1, 1) 2.15016E-01
 scattMatrix(1, 2) 1.50445E-03
-scattMatrix(2, 1) 4.76997E-05
+scattMatrix(2, 1) 0.0
 scattMatrix(2, 2) 2.57499E-01
 
 solver ads
 accuracy 1.0E-8
 max_iteration_number 20
-albedo 0.0 0.0
+albedo 3.0 3.0
 energies 2
 ext_source 1.0 11 1
 
