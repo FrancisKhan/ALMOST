@@ -430,25 +430,51 @@ MatrixXd Mesh::getFundamentalAdjointFluxes()
 	return adjointFluxes;
 }
 
-MatrixXd Mesh::getProductionOperator()
+// MatrixXd Mesh::getProductionOperator()
+// {
+// 	unsigned cells = getCellsNumber();
+// 	MatrixXd result = MatrixXd::Zero(m_energyGroupsNumber, cells);
+
+// 	Eigen::VectorXd chi, ni, fissionXS;
+
+// 	for(unsigned m = 0; m < m_meshNumber; m++)
+// 	{
+// 		ni        = m_materials[m]->getNi();
+// 		chi       = m_materials[m]->getChi();
+// 		fissionXS = m_materials[m]->getFissionXS();
+
+// 		double totalFission = 0.0;
+// 		for(unsigned e = 0; e < m_energyGroupsNumber; e++)
+// 			totalFission += ni(e) * fissionXS(e); 
+		
+// 		for(unsigned e = 0; e < m_energyGroupsNumber; e++)
+// 			result(e, m) = chi(e) * totalFission;
+// 	}
+
+// 	return result;
+// }
+
+Tensor3d Mesh::getProductionOperator()
 {
 	unsigned cells = getCellsNumber();
-	MatrixXd result = MatrixXd::Zero(m_energyGroupsNumber, cells);
+	Tensor3d result(m_energyGroupsNumber, m_energyGroupsNumber, cells);
 
 	Eigen::VectorXd chi, ni, fissionXS;
 
-	for(unsigned m = 0; m < m_meshNumber; m++)
+	for(int m = 0; m < static_cast<int>(m_meshNumber); m++)
 	{
+
 		ni        = m_materials[m]->getNi();
 		chi       = m_materials[m]->getChi();
 		fissionXS = m_materials[m]->getFissionXS();
 
-		double totalFission = 0.0;
-		for(unsigned e = 0; e < m_energyGroupsNumber; e++)
-			totalFission += ni(e) * fissionXS(e); 
-		
-		for(unsigned e = 0; e < m_energyGroupsNumber; e++)
-			result(e, m) = chi(e) * totalFission;
+		for(int i = 0; i < static_cast<int>(m_energyGroupsNumber); i++)
+		{
+			for(int j = 0; j < static_cast<int>(m_energyGroupsNumber); j++)
+			{
+				result(i, j, m) = chi(i) * ni(j) * fissionXS(j);
+			}
+		}
 	}
 
 	return result;

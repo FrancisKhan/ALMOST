@@ -5,33 +5,33 @@
 solvers ads
 
 geometry  slab
-mesh 45 0.45 M2 100 1.0 M1 45 0.45 M2
+mesh 25 0.25 M2 100 1.0 M1 25 0.25 M2
 
 material M1
 
-ni(1)         2.43812E+00
+ni(1)         2.43852e+00
 chi(1)        1.00000e+00
-total(1)      2.45994E-01
-fission(1)    2.96579E-04
-diffCoeff(1)  1.43687E+00
+total(1)      2.43541e-01
+fission(1)    2.68731e-04
+diffCoeff(1)  1.45296e+00
 
-scattMatrix(1, 1) 2.45212E-01
+scattMatrix(1, 1) 2.42770e-01
 
 material M2
 
 ni(1)         0.00000e+00
 chi(1)        0.00000e+00
-total(1)      2.52088E-01
+total(1)      2.47117e-01
 fission(1)    0.00000e+00
-diffCoeff(1)  1.39906E+00
+diffCoeff(1)  1.42958e+00
 
-scattMatrix(1, 1) 2.51962E-01
+scattMatrix(1, 1) 2.47014e-01
 
 solver ads
 accuracy 1.0E-8
 max_iteration_number 20
-albedo 0.0 0.0
+albedo 3.0 3.0
 energies  1
-ext_source 1.0 46 1
+ext_source 1.0 26 1
 
 plots neutronflux totalflux

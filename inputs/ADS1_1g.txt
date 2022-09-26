@@ -22,6 +22,6 @@ accuracy 1.0E-8
 max_iteration_number 20
 albedo 3.0 3.0
 energies 1
-ext_source 1.0 10 1
+ext_source 1.0 11 1
 
 plots totalflux

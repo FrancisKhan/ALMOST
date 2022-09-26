@@ -56,7 +56,7 @@ public:
 
 	void setExternaSourceDistribution(int cell);
 	Eigen::VectorXd getExternaSourceDistribution() {return m_extSourceDistribution;}
-	Eigen::MatrixXd getProductionOperator();
+	Numerics::Tensor3d getProductionOperator();
 
 	Eigen::MatrixXd getChis();
 	Eigen::MatrixXd getNis();

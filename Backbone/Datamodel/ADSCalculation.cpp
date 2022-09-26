@@ -54,16 +54,22 @@ void ADSCalculation::solve()
 
 	// Calculate <adjoint x P x forward>
 	Tensor3d forwardModes = m_reactor.getMesh().getNeutronFluxes();
-	
-	MatrixXd P = m_reactor.getMesh().getProductionOperator();
+	Tensor3d P = m_reactor.getMesh().getProductionOperator();
 
 	VectorXd adjoint_P_forward = VectorXd::Zero(forwardModes.dimension(2));
 
 	for(unsigned n = 0; n < forwardModes.dimension(2); n++)
-		for(unsigned m = 0; m < forwardModes.dimension(1); m++)
-			for(unsigned e = 0; e < forwardModes.dimension(0); e++)
-				adjoint_P_forward(n) += adjointModes(e, m, n) * P(e, m) * 
-				                        forwardModes(e, m, n) * volumes(m);
+		for(unsigned i = 0; i < forwardModes.dimension(0); i++)
+			for(unsigned j = 0; j < forwardModes.dimension(0); j++)
+				for(unsigned m = 0; m < forwardModes.dimension(1); m++)
+					adjoint_P_forward(n) += adjointModes(i, m, n) * P(i, j, m) * 
+				    	                    forwardModes(j, m, n) * volumes(m);
+
+	// for(unsigned n = 0; n < forwardModes.dimension(2); n++)
+	// 	for(unsigned m = 0; m < forwardModes.dimension(1); m++)
+	// 		for(unsigned e = 0; e < forwardModes.dimension(0); e++)
+	// 			adjoint_P_forward(n) += adjointModes(e, m, n) * P(e, m) * 
+	// 			                        forwardModes(e, m, n) * volumes(m);
 
 	out.print(TraceLevel::CRITICAL, "adjoint_P_forward:");
     printVector(adjoint_P_forward, out, TraceLevel::CRITICAL);
